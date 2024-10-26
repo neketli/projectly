@@ -1,0 +1,12 @@
+app:
+  name: 'task-tracker-server'
+  version: '1.0.0'
+
+http:
+  port: '8083'
+
+logger:
+  level: 'debug'
+
+pg:
+  pool_max: 2
