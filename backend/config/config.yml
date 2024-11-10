@@ -10,3 +10,7 @@ logger:
 
 pg:
   pool_max: 2
+
+auth: 
+  access_ttl: 2
+  refresh_ttl: 168

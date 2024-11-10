@@ -1,6 +1,6 @@
 -- +goose Up
 -- +goose StatementBegin
-CREATE INDEX "idx_user_email" ON "user"("email");
+CREATE INDEX "idx_user_email" ON "users"("email");
 CREATE INDEX "idx_task_project_id" ON "task"("status_id");
 -- +goose StatementEnd
 -- +goose Down

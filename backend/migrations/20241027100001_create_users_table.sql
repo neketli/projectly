@@ -1,6 +1,6 @@
 -- +goose Up
 -- +goose StatementBegin
-CREATE TABLE "user" (
+CREATE TABLE "users" (
 	"id" SERIAL PRIMARY KEY,
 	"name" VARCHAR(128) NOT NULL,
 	"surname" VARCHAR(128) NOT NULL,
@@ -11,5 +11,5 @@ CREATE TABLE "user" (
 -- +goose StatementEnd
 -- +goose Down
 -- +goose StatementBegin
-DROP TABLE IF EXISTS "user";
+DROP TABLE IF EXISTS "users";
 -- +goose StatementEnd

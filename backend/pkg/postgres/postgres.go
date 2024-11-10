@@ -1,4 +1,4 @@
-package pg
+package postgres
 
 import (
 	"context"
@@ -13,7 +13,7 @@ import (
 const (
 	_defaultMaxPoolSize  = 1
 	_defaultConnAttempts = 10
-	_defaultConnTimeout  = 5 * time.Second
+	_defaultConnTimeout  = 30 * time.Second
 )
 
 type Postgres struct {

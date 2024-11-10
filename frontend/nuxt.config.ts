@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-    modules : [
+    modules: [
         '@nuxt/devtools',
         '@nuxt/image',
         '@nuxt/icon',
@@ -14,56 +14,59 @@ export default defineNuxtConfig({
         '@nuxtjs/tailwindcss',
         '@formkit/auto-animate',
     ],
+    ssr: false,
 
-    components : {
-        global : true,
-        dirs   : ['~/components'],
+    components: {
+        global: true,
+        dirs: ['~/components'],
     },
 
-    imports : {
-        dirs : ['store'],
+    imports: {
+        dirs: ['store'],
     },
-    devtools : { enabled: true },
+    devtools: { enabled: process.env.NODE_ENV !== 'production' },
 
-    devtools : {
-        enabled : process.env.NODE_ENV !== 'production',
+    site: { indexable: false },
+
+    runtimeConfig: {
+        public: {
+            API_URL: process.env.VITE_API_URL,
+        },
     },
+    compatibilityDate: '2024-04-03',
 
-    site              : { indexable: false },
-    compatibilityDate : '2024-04-03',
-
-    vite : {
-        optimizeDeps : {
-            esbuildOptions : {
-                define : {
-                    global : 'globalThis',
+    vite: {
+        optimizeDeps: {
+            esbuildOptions: {
+                define: {
+                    global: 'globalThis',
                 },
             },
         },
     },
 
-    eslint : {
-        config : {
-            stylistic : {
-                indent : 2,
-                quotes : 'single',
-                semi   : false,
+    eslint: {
+        config: {
+            stylistic: {
+                indent: 2,
+                quotes: 'single',
+                semi: false,
             },
         },
     },
 
-    icon : {
-        localApiEndpoint : '/iconify_api',
+    icon: {
+        localApiEndpoint: '/iconify_api',
     },
 
-    pinia : {
-        autoImports : ['defineStore', 'acceptHMRUpdate'],
+    pinia: {
+        autoImports: ['defineStore', 'acceptHMRUpdate'],
     },
 
-    piniaPersistedstate : {
-        cookieOptions : {
-            sameSite : 'strict',
+    piniaPersistedstate: {
+        cookieOptions: {
+            sameSite: 'strict',
         },
-        storage : 'localStorage',
+        storage: 'localStorage',
     },
 })

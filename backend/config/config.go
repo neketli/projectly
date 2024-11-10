@@ -13,6 +13,7 @@ type (
 		HTTP `yaml:"http"`
 		PG   `yaml:"pg"`
 		Log  `yaml:"logger"`
+		Auth `yaml:"auth"`
 	}
 
 	App struct {
