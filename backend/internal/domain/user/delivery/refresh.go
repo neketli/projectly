@@ -3,7 +3,6 @@ package delivery
 import (
 	"fmt"
 	"net/http"
-	"task-tracker-server/internal/domain/user/entity"
 
 	"github.com/labstack/echo/v4"
 )
@@ -22,21 +21,33 @@ type requestRefresh struct {
 func (h *UserHandler) Refresh(c echo.Context) error {
 	var request requestRefresh
 	if err := c.Bind(&request); err != nil {
-		return c.JSON(http.StatusBadRequest, fmt.Sprintf("validation error: %s", err.Error()))
+		return &echo.HTTPError{
+			Code:    http.StatusBadRequest,
+			Message: fmt.Sprintf("validation error: %s", err.Error()),
+		}
 	}
 
 	user, err := h.UserUsecase.GetUserByRefreshToken(c.Request().Context(), request.RefreshToken)
 	if err != nil {
-		return c.JSON(http.StatusUnauthorized, entity.ErrNoUserFound)
+		return &echo.HTTPError{
+			Code:    http.StatusUnauthorized,
+			Message: fmt.Sprintf("can't find user with this refresh token: %s", err.Error()),
+		}
 	}
 
 	accessToken, err := h.UserUsecase.CreateAccess(&user)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, "Ошибка при создании JWT токена для пользователя")
+		return &echo.HTTPError{
+			Code:    http.StatusInternalServerError,
+			Message: "can't create access token",
+		}
 	}
 	refreshToken, err := h.UserUsecase.CreateRefresh(&user)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, "Ошибка при создании JWT токена для пользователя")
+		return &echo.HTTPError{
+			Code:    http.StatusInternalServerError,
+			Message: "can't create refresh token",
+		}
 	}
 	return c.JSON(http.StatusOK, map[string]string{
 		"access":  accessToken,

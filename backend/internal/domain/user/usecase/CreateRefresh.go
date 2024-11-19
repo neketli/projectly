@@ -6,7 +6,7 @@ import (
 	"task-tracker-server/internal/domain/user/entity"
 	"time"
 
-	jwt "github.com/golang-jwt/jwt/v4"
+	jwt "github.com/golang-jwt/jwt/v5"
 )
 
 type refreshCustomClaims struct {

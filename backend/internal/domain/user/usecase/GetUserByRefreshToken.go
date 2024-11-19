@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"task-tracker-server/internal/domain/user/entity"
 
-	"github.com/golang-jwt/jwt/v4"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 func (uc *userUseCase) GetUserByRefreshToken(ctx context.Context, requestToken string) (entity.User, error) {

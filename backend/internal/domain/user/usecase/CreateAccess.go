@@ -6,23 +6,18 @@ import (
 	"task-tracker-server/internal/domain/user/entity"
 	"time"
 
-	jwt "github.com/golang-jwt/jwt/v4"
+	jwt "github.com/golang-jwt/jwt/v5"
 )
 
-type customClaims struct {
-	ID      string `json:"id"`
-	Name    string `json:"name"`
-	Surname string `json:"surname"`
-	Email   string `json:"email"`
-	jwt.RegisteredClaims
-}
-
 func (uc *userUseCase) CreateAccess(user *entity.User) (string, error) {
-	claims := &customClaims{
+	claims := &entity.JWTClaims{
 		ID:      strconv.Itoa(user.ID),
 		Name:    user.Name,
 		Surname: user.Surname,
 		Email:   user.Email,
+		Meta: entity.UserMeta{
+			Avatar: user.Meta.Avatar,
+		},
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * time.Duration(uc.config.AccessTTL))),
 		},

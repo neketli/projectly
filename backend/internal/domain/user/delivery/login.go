@@ -1,6 +1,7 @@
 package delivery
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -21,25 +22,42 @@ type requestLogin struct {
 // @Router      /user/login [post]
 func (h *UserHandler) Login(c echo.Context) error {
 	var request requestLogin
-
 	if err := c.Bind(&request); err != nil {
-		return c.JSON(http.StatusBadRequest, err.Error())
+		return &echo.HTTPError{
+			Code:    http.StatusBadRequest,
+			Message: fmt.Sprintf("validation error: %s", err.Error()),
+		}
 	}
+
 	user, err := h.UserUsecase.GetUserByEmail(c.Request().Context(), request.Email)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err.Error())
+		return &echo.HTTPError{
+			Code:    http.StatusInternalServerError,
+			Message: err.Error(),
+		}
 	}
+
 	// Сравнение хэша и пароля
 	if bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(request.Password)) != nil {
-		return c.JSON(http.StatusUnauthorized, "incorrect email or password")
+		return &echo.HTTPError{
+			Code:    http.StatusUnauthorized,
+			Message: "incorrect email or password",
+		}
 	}
+
 	accessToken, err := h.UserUsecase.CreateAccess(&user)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, "login error")
+		return &echo.HTTPError{
+			Code:    http.StatusInternalServerError,
+			Message: "login error",
+		}
 	}
 	refreshToken, err := h.UserUsecase.CreateRefresh(&user)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, "login error")
+		return &echo.HTTPError{
+			Code:    http.StatusInternalServerError,
+			Message: "login error",
+		}
 	}
 	return c.JSON(http.StatusOK, map[string]string{
 		"access":  accessToken,

@@ -8,6 +8,10 @@ http:
 logger:
   level: 'debug'
 
+s3:
+  secure: false
+  bucket: 'media'
+
 pg:
   pool_max: 2
 

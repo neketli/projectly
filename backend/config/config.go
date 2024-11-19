@@ -12,6 +12,7 @@ type (
 		App  `yaml:"app"`
 		HTTP `yaml:"http"`
 		PG   `yaml:"pg"`
+		S3   `yaml:"s3"`
 		Log  `yaml:"logger"`
 		Auth `yaml:"auth"`
 	}
@@ -33,6 +34,14 @@ type (
 	PG struct {
 		PoolMax int    `env-required:"true" yaml:"pool_max"`
 		DSN     string `env-required:"true" env:"PG_DSN"`
+	}
+
+	S3 struct {
+		Secure    bool   `env-default:"false" yaml:"secure"`
+		Bucket    string `env-required:"true" yaml:"bucket"`
+		Host      string `env-required:"true" env:"S3_HOST"`
+		AccessKey string `env-required:"true" env:"S3_ACCESS"`
+		SecretKey string `env-required:"true" env:"S3_SECRET"`
 	}
 
 	Auth struct {

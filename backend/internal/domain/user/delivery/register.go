@@ -26,16 +26,26 @@ type requestRegister struct {
 func (h *UserHandler) Register(c echo.Context) error {
 	var request requestRegister
 	if err := c.Bind(&request); err != nil {
-		return c.JSON(http.StatusBadRequest, fmt.Sprintf("validation error: %s", err.Error()))
+		return &echo.HTTPError{
+			Code:    http.StatusBadRequest,
+			Message: fmt.Sprintf("validation error: %s", err.Error()),
+		}
 	}
 
 	user, err := h.UserUsecase.GetUserByEmail(c.Request().Context(), request.Email)
 	if err != nil && !errors.Is(err, entity.ErrNoUserFound) {
-		return c.JSON(http.StatusBadRequest, fmt.Sprintf("can't get users: %s", err.Error()))
+		return &echo.HTTPError{
+			Code:    http.StatusInternalServerError,
+			Message: fmt.Sprintf("can't get users: %s", err.Error()),
+		}
 	}
 	if user.ID != 0 {
-		return c.JSON(http.StatusBadRequest, "user already exists")
+		return &echo.HTTPError{
+			Code:    http.StatusBadRequest,
+			Message: "user already exists",
+		}
 	}
+
 	err = h.UserUsecase.CreateUser(c.Request().Context(), &entity.User{
 		ID:       0,
 		Name:     request.Name,
@@ -44,7 +54,10 @@ func (h *UserHandler) Register(c echo.Context) error {
 		Password: request.Password,
 	})
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, fmt.Sprintf("registration error: %s", err.Error()))
+		return &echo.HTTPError{
+			Code:    http.StatusInternalServerError,
+			Message: fmt.Sprintf("registration error: %s", err.Error()),
+		}
 	}
 	return c.NoContent(http.StatusCreated)
 }
