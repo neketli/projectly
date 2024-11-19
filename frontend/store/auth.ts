@@ -39,7 +39,7 @@ export const useAuthStore = defineStore('auth', {
 
             const { $api } = useNuxtApp()
             try {
-                const { data } = await $api.post<Tokens>('/user/login', {
+                const { data } = await $api.post<Tokens>('/auth/login', {
                     email,
                     password: SHA256(password).toString(),
                 })
@@ -47,8 +47,8 @@ export const useAuthStore = defineStore('auth', {
                 this.authSuccess(data)
             }
             catch (e) {
-                const error = e as AxiosError<string>
-                throw new Error(error.response?.data || error.message)
+                const error = e as AxiosError<{ message: string }>
+                throw new Error(error.response?.data?.message || error.message)
             }
         },
 
@@ -63,7 +63,7 @@ export const useAuthStore = defineStore('auth', {
             const { $api } = useNuxtApp()
             try {
                 await $api.post<{ data: Tokens }>(
-                    '/user/register',
+                    '/auth/register',
                     {
                         ...user,
                         password: SHA256(user.password).toString(),
@@ -71,8 +71,8 @@ export const useAuthStore = defineStore('auth', {
                 )
             }
             catch (e) {
-                const error = e as AxiosError<{ error: string }>
-                throw new Error(error.response?.data?.error || error.message)
+                const error = e as AxiosError<{ message: string }>
+                throw new Error(error.response?.data?.message || error.message)
             }
         },
 

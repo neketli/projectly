@@ -1,0 +1,36 @@
+common:
+  logout: "Logout"
+  theme:
+    light: "Change to light theme"
+    dark: "Change to dark theme"
+
+auth:
+  register:
+    title: "Registration"
+    form:
+      name: "Name"
+      surname: "Surname"
+      email: "Email"
+      password: "Password"
+      confirm_password: "Confirm password"
+      register: "Registration"
+      login: "Already have an account"
+
+  login:
+    title: "Authorization"
+    form:
+      email: "Email"
+      password: "Password"
+      login: "Login"
+      register: "Registration"
+
+profile:
+  title: "Profile"
+  image:
+    size_error: "Image weight should not be more than {x}MB"
+  form:
+    name: "Name"
+    surname: "Surname"
+    email: "Email"
+    password: "Password"
+    info: "Leave this field empty if you don't want to change password"

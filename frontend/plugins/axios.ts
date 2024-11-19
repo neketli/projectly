@@ -36,9 +36,11 @@ export default defineNuxtPlugin(({ $config }) => {
                 return config
             }
             catch (err: unknown) {
+                const error = err as Error
+
                 ElNotification({
                     title: 'Ошибка',
-                    message: err.message,
+                    message: error.message,
                     type: 'error',
                 })
                 return config

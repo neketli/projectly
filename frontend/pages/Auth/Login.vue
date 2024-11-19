@@ -1,19 +1,19 @@
 <template>
     <section
-        class="w-full min-h-screen flex flex-col gap-8 justify-center items-center bg-sky-50"
+        class="w-full min-h-[92vh] flex flex-col gap-8 justify-center bg-sky-50 dark:bg-slate-900 items-center "
     >
         <ElForm
             ref="formElement"
             :rules="rules"
             :model="authForm"
-            class="max-w-md w-full container bg-white p-8 shadow-lg rounded-lg"
+            class="max-w-md w-full container bg-white dark:bg-slate-800 dark:shadow-none dark:ring-2 dark:ring-slate-600 p-8 shadow-lg rounded-lg"
             label-position="top"
         >
             <h1 class="text-xl text-center font-medium mb-8">
-                Авторизация
+                {{ $t('auth.login.title') }}
             </h1>
             <ElFormItem
-                label="Адрес электронной почты"
+                :label="$t('auth.login.form.email')"
                 prop="email"
                 class="w-full"
             >
@@ -28,7 +28,7 @@
             </ElFormItem>
 
             <ElFormItem
-                label="Пароль"
+                :label="$t('auth.login.form.password')"
                 prop="password"
                 class="w-full"
             >
@@ -52,7 +52,7 @@
                     type="primary"
                     @click="check"
                 >
-                    Войти
+                    {{ $t('auth.login.form.login') }}
                     <Icon
                         class="ml-2"
                         name="mdi:login"
@@ -65,7 +65,7 @@
                     class="w-full"
                     @click="navigateTo('/auth/register')"
                 >
-                    Регистрация
+                    {{ $t('auth.login.form.register') }}
                     <Icon
                         class="ml-2"
                         name="mdi:account-plus"

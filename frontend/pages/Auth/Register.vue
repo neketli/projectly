@@ -1,19 +1,19 @@
 <template>
     <section
-        class="w-full min-h-screen flex flex-col gap-8 justify-center items-center bg-sky-50"
+        class="w-full min-h-[92vh] flex flex-col gap-8 justify-center items-center bg-sky-50 dark:bg-slate-900"
     >
         <ElForm
             ref="formElement"
             :rules="rules"
             :model="authForm"
-            class="max-w-md w-full container bg-white p-8 shadow-lg rounded-lg"
+            class="max-w-md w-full container bg-white dark:bg-slate-800 dark:shadow-none dark:ring-2 dark:ring-slate-600 p-8 shadow-lg rounded-lg"
             label-position="top"
         >
             <h1 class="text-xl text-center font-medium mb-8">
-                Регистрация
+                {{ $t('auth.register.title') }}
             </h1>
             <ElFormItem
-                label="Имя"
+                :label="$t('auth.register.form.name')"
                 prop="name"
                 class="w-full"
             >
@@ -27,7 +27,7 @@
             </ElFormItem>
 
             <ElFormItem
-                label="Фамилия"
+                :label="$t('auth.register.form.surname')"
                 prop="surname"
                 class="w-full"
             >
@@ -41,7 +41,7 @@
             </ElFormItem>
 
             <ElFormItem
-                label="Адрес электронной почты"
+                :label="$t('auth.register.form.email')"
                 prop="email"
                 class="w-full"
             >
@@ -56,7 +56,7 @@
             </ElFormItem>
 
             <ElFormItem
-                label="Пароль"
+                :label="$t('auth.register.form.password')"
                 prop="password"
                 class="w-full"
             >
@@ -72,7 +72,7 @@
             </ElFormItem>
 
             <ElFormItem
-                label="Повторите пароль"
+                :label="$t('auth.register.form.confirm_password')"
                 prop="confirmPassword"
                 class="w-full"
             >
@@ -96,7 +96,7 @@
                     type="primary"
                     @click="check"
                 >
-                    Зарегистрироваться
+                    {{ $t('auth.register.form.register') }}
                     <Icon
                         class="ml-2"
                         name="mdi:account-plus"
@@ -109,7 +109,8 @@
                     class="w-full"
                     @click="navigateTo('/auth/login')"
                 >
-                    Уже есть аккаунт
+                    {{ $t('auth.register.form.login') }}
+
                     <Icon
                         class="ml-2"
                         name="mdi:login"

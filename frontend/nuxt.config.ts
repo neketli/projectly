@@ -13,6 +13,7 @@ export default defineNuxtConfig({
         '@element-plus/nuxt',
         '@nuxtjs/tailwindcss',
         '@formkit/auto-animate',
+        '@nuxtjs/i18n',
     ],
     ssr: false,
 
@@ -27,6 +28,12 @@ export default defineNuxtConfig({
     devtools: { enabled: process.env.NODE_ENV !== 'production' },
 
     site: { indexable: false },
+
+    colorMode: {
+        preference: 'system',
+        fallback: 'light',
+        classSuffix: '',
+    },
 
     runtimeConfig: {
         public: {
@@ -45,6 +52,11 @@ export default defineNuxtConfig({
         },
     },
 
+    elementPlus: {
+        importStyle: 'css',
+        themes: ['dark'],
+    },
+
     eslint: {
         config: {
             stylistic: {
@@ -55,8 +67,35 @@ export default defineNuxtConfig({
         },
     },
 
+    i18n: {
+        locales: [
+            {
+                code: 'ru-RU',
+                label: 'Русский',
+                flag: 'ru',
+                file: 'ru-RU.yaml',
+            },
+            {
+                code: 'en-US',
+                label: 'English',
+                flag: 'us',
+                file: 'en-US.yaml',
+            },
+        ],
+        strategy: 'no_prefix',
+        lazy: true,
+        defaultLocale: 'en-US',
+        detectBrowserLanguage: {
+            useCookie: true,
+            cookieKey: 'i18n_redirected',
+            redirectOn: 'root',
+        },
+    },
+
     icon: {
-        localApiEndpoint: '/iconify_api',
+        serverBundle: {
+            collections: ['mdi'],
+        },
     },
 
     pinia: {
@@ -69,4 +108,5 @@ export default defineNuxtConfig({
         },
         storage: 'localStorage',
     },
+
 })

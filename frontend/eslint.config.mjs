@@ -55,7 +55,7 @@ export default withNuxt(
                     ignores: [],
                 },
             ],
-            'vue/multi-word-component-names': ['off'],
+            'vue/multi-word-component-names': 'off',
             'vue/max-attributes-per-line': [
                 'error',
                 {

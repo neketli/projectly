@@ -1,0 +1,39 @@
+common:
+  logout: "Выйти"
+  theme:
+    light: "Переключить на светлую тему"
+    dark: "Переключить на темную тему"
+
+auth:
+  register:
+    title: "Регистрация"
+    form:
+      name: "Имя"
+      surname: "Фамилия"
+      email: "Адрес электронной почты"
+      password: "Пароль"
+      confirm_password: "Повторите пароль"
+      register: "Зарегистрироваться"
+      login: "Уже есть аккаунт"
+      
+
+  login:
+    title: "Авторизация"
+    form:
+      email: "Адрес электронной почты"
+      password: "Пароль"
+      login: "Войти"
+      register: "Регистрация"
+
+
+profile:
+  title: "Профиль"
+  image:
+    size_error: "Вес картинки не должен быть больше {x}Мб"
+  form:
+    name: "Имя"
+    surname: "Фамилия"
+    email: "Адрес электронной почты"
+    password: "Пароль"
+    info: "Оставьте это поле пустым, если не хотите изменять пароль"
+  
