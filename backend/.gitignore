@@ -3,6 +3,5 @@ main
 .env.testing
 /.idea
 /.vscode
-docs
 *debug*
 /bin

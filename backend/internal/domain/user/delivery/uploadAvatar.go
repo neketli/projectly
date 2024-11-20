@@ -16,7 +16,7 @@ import (
 // @Tags  	    user
 // @Accept      json
 // @Produce     json
-// @Param		files image file true "file"
+// @Param		image formData file true "file"
 // @Router      /user/upload-avatar [post]
 func (h *UserHandler) UploadAvatar(c echo.Context) error {
 	form, err := c.MultipartForm()

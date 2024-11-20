@@ -1,0 +1,171 @@
+basePath: /api/v1
+definitions:
+  internal_domain_user_delivery.requestChangePassword:
+    properties:
+      password:
+        type: string
+    type: object
+  internal_domain_user_delivery.requestLogin:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  internal_domain_user_delivery.requestRefresh:
+    properties:
+      refreshToken:
+        type: string
+    type: object
+  internal_domain_user_delivery.requestRegister:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      surname:
+        type: string
+    type: object
+  internal_domain_user_delivery.requestUpdate:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      surname:
+        type: string
+    type: object
+info:
+  contact:
+    email: neketli.dev@gmail.com
+    name: neketli
+  description: Task tracker server app.
+  title: Task tracker server
+  version: "1.0"
+paths:
+  /user/change-password:
+    post:
+      consumes:
+      - application/json
+      operationId: user-change-password
+      parameters:
+      - description: update user json
+        in: body
+        name: requestChangePassword
+        required: true
+        schema:
+          $ref: '#/definitions/internal_domain_user_delivery.requestChangePassword'
+      produces:
+      - application/json
+      responses: {}
+      summary: Change user password
+      tags:
+      - user
+  /user/login:
+    post:
+      consumes:
+      - application/json
+      operationId: user-login
+      parameters:
+      - description: Login request body
+        in: body
+        name: requestLogin
+        required: true
+        schema:
+          $ref: '#/definitions/internal_domain_user_delivery.requestLogin'
+      produces:
+      - application/json
+      responses: {}
+      summary: Login user
+      tags:
+      - user
+  /user/refresh:
+    post:
+      consumes:
+      - application/json
+      operationId: user-refresh
+      parameters:
+      - description: Refresh token value
+        in: body
+        name: refreshToken
+        required: true
+        schema:
+          $ref: '#/definitions/internal_domain_user_delivery.requestRefresh'
+      produces:
+      - application/json
+      responses: {}
+      summary: Refresh user token
+      tags:
+      - user
+  /user/register:
+    post:
+      consumes:
+      - application/json
+      operationId: user-register
+      parameters:
+      - description: register user json
+        in: body
+        name: requestRegister
+        required: true
+        schema:
+          $ref: '#/definitions/internal_domain_user_delivery.requestRegister'
+      produces:
+      - application/json
+      responses: {}
+      summary: Register user
+      tags:
+      - user
+  /user/remove-avatar:
+    delete:
+      consumes:
+      - application/json
+      operationId: user-remove-avatar
+      produces:
+      - application/json
+      responses: {}
+      summary: remove user avatar
+      tags:
+      - user
+  /user/update:
+    post:
+      consumes:
+      - application/json
+      operationId: user-update
+      parameters:
+      - description: update user json
+        in: body
+        name: requestUpdate
+        required: true
+        schema:
+          $ref: '#/definitions/internal_domain_user_delivery.requestUpdate'
+      produces:
+      - application/json
+      responses: {}
+      summary: Update user
+      tags:
+      - user
+  /user/upload-avatar:
+    post:
+      consumes:
+      - application/json
+      operationId: user-upload-avatar
+      parameters:
+      - description: file
+        in: formData
+        name: image
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses: {}
+      summary: Upload user avatar
+      tags:
+      - user
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

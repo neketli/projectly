@@ -1,0 +1,258 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Task tracker server app.",
+        "title": "Task tracker server",
+        "contact": {
+            "name": "neketli",
+            "email": "neketli.dev@gmail.com"
+        },
+        "version": "1.0"
+    },
+    "basePath": "/api/v1",
+    "paths": {
+        "/user/change-password": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Change user password",
+                "operationId": "user-change-password",
+                "parameters": [
+                    {
+                        "description": "update user json",
+                        "name": "requestChangePassword",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/internal_domain_user_delivery.requestChangePassword"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/user/login": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Login user",
+                "operationId": "user-login",
+                "parameters": [
+                    {
+                        "description": "Login request body",
+                        "name": "requestLogin",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/internal_domain_user_delivery.requestLogin"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/user/refresh": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Refresh user token",
+                "operationId": "user-refresh",
+                "parameters": [
+                    {
+                        "description": "Refresh token value",
+                        "name": "refreshToken",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/internal_domain_user_delivery.requestRefresh"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/user/register": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Register user",
+                "operationId": "user-register",
+                "parameters": [
+                    {
+                        "description": "register user json",
+                        "name": "requestRegister",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/internal_domain_user_delivery.requestRegister"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/user/remove-avatar": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "remove user avatar",
+                "operationId": "user-remove-avatar",
+                "responses": {}
+            }
+        },
+        "/user/update": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Update user",
+                "operationId": "user-update",
+                "parameters": [
+                    {
+                        "description": "update user json",
+                        "name": "requestUpdate",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/internal_domain_user_delivery.requestUpdate"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/user/upload-avatar": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Upload user avatar",
+                "operationId": "user-upload-avatar",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "file",
+                        "name": "image",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        }
+    },
+    "definitions": {
+        "internal_domain_user_delivery.requestChangePassword": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "internal_domain_user_delivery.requestLogin": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "internal_domain_user_delivery.requestRefresh": {
+            "type": "object",
+            "properties": {
+                "refreshToken": {
+                    "type": "string"
+                }
+            }
+        },
+        "internal_domain_user_delivery.requestRegister": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "surname": {
+                    "type": "string"
+                }
+            }
+        },
+        "internal_domain_user_delivery.requestUpdate": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "surname": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}
