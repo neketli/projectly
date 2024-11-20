@@ -10,13 +10,17 @@ import (
 )
 
 func (uc *userUseCase) CreateAccess(user *entity.User) (string, error) {
+	avatar := ""
+	if user.Meta != nil {
+		avatar = user.Meta.Avatar
+	}
 	claims := &entity.JWTClaims{
 		ID:      strconv.Itoa(user.ID),
 		Name:    user.Name,
 		Surname: user.Surname,
 		Email:   user.Email,
 		Meta: entity.UserMeta{
-			Avatar: user.Meta.Avatar,
+			Avatar: avatar,
 		},
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * time.Duration(uc.config.AccessTTL))),

@@ -14,6 +14,7 @@ type UserRepository interface {
 	UpdateUser(ctx context.Context, user *entity.User) error
 	GetUserByEmail(ctx context.Context, email string) (entity.User, error)
 	UploadAvatar(ctx context.Context, user entity.User, reader io.Reader, filename string) error
+	RemoveAvatar(ctx context.Context, userID int, objectName string) error
 }
 
 const (

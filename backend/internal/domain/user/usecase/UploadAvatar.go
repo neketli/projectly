@@ -19,8 +19,15 @@ func (u *userUseCase) UploadAvatar(ctx context.Context, user entity.User, file *
 
 	defer src.Close()
 
-	filename := fmt.Sprintf("%s%s", uuid.New().String(), filepath.Ext(file.Filename))
+	if user.Meta != nil && user.Meta.Avatar != "" {
+		err = u.repo.RemoveAvatar(ctx, user.ID, user.Meta.Avatar)
+		if err != nil {
+			u.logger.Error("user - usecase - UploadAvatar - u.repo.RemoveAvatar: %s", err.Error())
+			return err
+		}
+	}
 
+	filename := fmt.Sprintf("%s%s", uuid.New().String(), filepath.Ext(file.Filename))
 	err = u.repo.UploadAvatar(ctx, user, src, filename)
 	if err != nil {
 		u.logger.Error("user - usecase - UploadAvatar - u.repo.UploadAvatar: %s", err.Error())
