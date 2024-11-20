@@ -80,8 +80,10 @@
 import type { FormRules, FormInstance } from 'element-plus'
 import { validators } from '~/utils/validators'
 
+const { t } = useI18n()
+
 useHead({
-    title: 'Авторизация',
+    title: t('auth.login.title'),
 })
 definePageMeta({
     isPublic: true,
@@ -120,12 +122,7 @@ const auth = async () => {
     }
     catch (err) {
         const error = err as Error
-
-        return ElNotification({
-            title: 'Ошибка',
-            message: error.message,
-            type: 'error',
-        })
+        ElMessage.error(error.message)
     }
     finally {
         state.isLoading = false

@@ -5,7 +5,7 @@
     >
         <Icon
             name="mdi:account"
-            class="text-4xl"
+            :size="size * 0.75"
         />
     </ElAvatar>
 </template>
@@ -20,5 +20,6 @@ defineProps({
     },
 })
 
-const avatarUrl = computed(() => `http://194.67.84.127/media/${getUserInfo.value.meta.avatar}`)
+// TODO: вынести обращения к S3
+const avatarUrl = computed(() => `http://194.67.84.127/media/${getUserInfo.value?.meta?.avatar}`)
 </script>

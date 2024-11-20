@@ -1,5 +1,6 @@
 common:
   logout: "Logout"
+  error: "Error"
   theme:
     light: "Change to light theme"
     dark: "Change to dark theme"
@@ -15,6 +16,8 @@ auth:
       confirm_password: "Confirm password"
       register: "Registration"
       login: "Already have an account"
+      error:
+        confirm_password: "Passwords do not match"
 
   login:
     title: "Authorization"
@@ -26,11 +29,20 @@ auth:
 
 profile:
   title: "Profile"
-  image:
-    size_error: "Image weight should not be more than {x}MB"
   form:
     name: "Name"
     surname: "Surname"
     email: "Email"
     password: "Password"
-    info: "Leave this field empty if you don't want to change password"
+    confirm_password: "Confirm password"
+    remove_avatar: "Remove avatar"
+    change_password: "Change password"
+    confirm: "Confirm"
+    cancel: "Cancel"
+    success:
+      profile: "Profile information has been successfully updated!"
+      password: "Password has been successfully updated!"
+      image: "Avatar has been successfully deleted!"
+    error:
+        confirm_password: "Passwords do not match"
+        image_size: "Image weight should not be more than {x}Mb"

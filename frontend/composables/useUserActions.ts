@@ -8,16 +8,21 @@ export const useUserActions = () => {
         name: string
         surname: string
         email: string
-        password?: string
     }) => {
         try {
-            await $api.patch(
-                '/user/update',
-                {
-                    ...user,
-                    password: user.password ? SHA256(user.password).toString() : null,
-                },
-            )
+            await $api.patch('/user/update', user)
+        }
+        catch (e) {
+            const error = e as AxiosError<{ message: string }>
+            throw new Error(error.response?.data?.message || error.message)
+        }
+    }
+
+    const changePassword = async (password: string) => {
+        try {
+            await $api.patch('/user/change-password', {
+                password: SHA256(password).toString(),
+            })
         }
         catch (e) {
             const error = e as AxiosError<{ message: string }>
@@ -31,15 +36,21 @@ export const useUserActions = () => {
         formData.append('image', avatar)
 
         try {
-            await $api.post(
-                '/user/upload-avatar',
-                formData,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
+            await $api.post('/user/upload-avatar', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
                 },
-            )
+            })
+        }
+        catch (e) {
+            const error = e as AxiosError<{ message: string }>
+            throw new Error(error.response?.data?.message || error.message)
+        }
+    }
+
+    const removeAvatar = async () => {
+        try {
+            await $api.delete('/user/remove-avatar')
         }
         catch (e) {
             const error = e as AxiosError<{ message: string }>
@@ -49,6 +60,8 @@ export const useUserActions = () => {
 
     return {
         updateUserInfo,
+        changePassword,
         uploadAvatar,
+        removeAvatar,
     }
 }

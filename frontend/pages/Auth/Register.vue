@@ -125,8 +125,10 @@
 import type { FormRules, FormInstance } from 'element-plus'
 import { validators } from '~/utils/validators'
 
+const { t } = useI18n()
+
 useHead({
-    title: 'Регистрация',
+    title: t('auth.register.title'),
 })
 definePageMeta({
     isPublic: true,
@@ -174,7 +176,7 @@ const rules = reactive<FormRules<typeof authForm.value>>({
                 callback: (error?: Error) => unknown,
             ) => {
                 if (value !== authForm.value.password) {
-                    callback(new Error('Пароли не совпадают'))
+                    callback(new Error(t('auth.register.form.error.confirm_password')))
                 }
                 else {
                     callback()
@@ -198,12 +200,7 @@ const register = async () => {
     }
     catch (err) {
         const error = err as Error
-
-        return ElNotification({
-            title: 'Ошибка',
-            message: error.message,
-            type: 'error',
-        })
+        ElMessage.error(error.message)
     }
     finally {
         state.isLoading = false

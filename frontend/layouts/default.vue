@@ -9,7 +9,7 @@
                 :ellipsis="false"
             >
                 <ElMenuItem
-                    index=""
+                    index="/"
                     class="!text-xl"
                 >
                     Task tracker

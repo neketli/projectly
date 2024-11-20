@@ -1,5 +1,6 @@
 common:
   logout: "Выйти"
+  error: "Ошибка"
   theme:
     light: "Переключить на светлую тему"
     dark: "Переключить на темную тему"
@@ -15,6 +16,8 @@ auth:
       confirm_password: "Повторите пароль"
       register: "Зарегистрироваться"
       login: "Уже есть аккаунт"
+      error:
+        confirm_password: "Пароли не совпадают"
       
 
   login:
@@ -28,12 +31,22 @@ auth:
 
 profile:
   title: "Профиль"
-  image:
-    size_error: "Вес картинки не должен быть больше {x}Мб"
   form:
     name: "Имя"
     surname: "Фамилия"
     email: "Адрес электронной почты"
     password: "Пароль"
-    info: "Оставьте это поле пустым, если не хотите изменять пароль"
+    confirm_password: "Подтвердите пароль"
+    remove_avatar: "Удалить аватар"
+    change_password: "Сменить пароль"
+    confirm: "Подтвердить"
+    cancel: "Отменить"
+    success:
+      profile: "Информация профиля успешно обновлена!"
+      password: "Пароль успешно обновлен!"
+      image: "Автар успешно удален!"
+    error:
+        confirm_password: "Пароли не совпадают"
+        image_size: "Вес картинки не должен быть больше {x}Мб"
+
   
