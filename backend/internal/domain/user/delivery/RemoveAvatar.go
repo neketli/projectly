@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-	"task-tracker-server/internal/domain/user/delivery/utils"
+	"task-tracker-server/internal/domain/user/delivery/token"
 	"task-tracker-server/internal/domain/user/entity"
 
 	"github.com/labstack/echo/v4"
@@ -20,7 +20,7 @@ import (
 // @Failure     500 {object} echo.HTTPError "Internal server error"
 // @Router      /user/remove-avatar [delete]
 func (h *UserHandler) RemoveAvatar(c echo.Context) error {
-	claims, err := utils.GetUserClaims(c)
+	claims, err := token.GetUserClaims(c)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusBadRequest,
@@ -28,7 +28,7 @@ func (h *UserHandler) RemoveAvatar(c echo.Context) error {
 		}
 	}
 
-	user, err := h.UserUsecase.GetUserByEmail(c.Request().Context(), claims.Email)
+	user, err := h.UserUseCase.GetUserByEmail(c.Request().Context(), claims.Email)
 	if err != nil && !errors.Is(err, entity.ErrNoUserFound) {
 		return &echo.HTTPError{
 			Code:    http.StatusInternalServerError,
@@ -48,7 +48,7 @@ func (h *UserHandler) RemoveAvatar(c echo.Context) error {
 		}
 	}
 
-	err = h.UserUsecase.RemoveAvatar(c.Request().Context(), user)
+	err = h.UserUseCase.RemoveAvatar(c.Request().Context(), user)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusInternalServerError,

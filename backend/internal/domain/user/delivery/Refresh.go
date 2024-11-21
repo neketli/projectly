@@ -32,7 +32,7 @@ func (h *UserHandler) Refresh(c echo.Context) error {
 		}
 	}
 
-	user, err := h.UserUsecase.GetUserByRefreshToken(c.Request().Context(), request.RefreshToken)
+	user, err := h.UserUseCase.GetUserByRefreshToken(c.Request().Context(), request.RefreshToken)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusUnauthorized,
@@ -40,14 +40,14 @@ func (h *UserHandler) Refresh(c echo.Context) error {
 		}
 	}
 
-	accessToken, err := h.UserUsecase.CreateAccess(&user)
+	accessToken, err := h.UserUseCase.CreateAccess(&user)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusInternalServerError,
 			Message: "can't create access token",
 		}
 	}
-	refreshToken, err := h.UserUsecase.CreateRefresh(&user)
+	refreshToken, err := h.UserUseCase.CreateRefresh(&user)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusInternalServerError,

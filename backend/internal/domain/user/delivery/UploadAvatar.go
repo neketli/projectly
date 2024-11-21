@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"path/filepath"
-	"task-tracker-server/internal/domain/user/delivery/utils"
+	"task-tracker-server/internal/domain/user/delivery/token"
 	"task-tracker-server/internal/domain/user/entity"
 
 	"github.com/labstack/echo/v4"
@@ -53,7 +53,7 @@ func (h *UserHandler) UploadAvatar(c echo.Context) error {
 		}
 	}
 
-	claims, err := utils.GetUserClaims(c)
+	claims, err := token.GetUserClaims(c)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusBadRequest,
@@ -61,7 +61,7 @@ func (h *UserHandler) UploadAvatar(c echo.Context) error {
 		}
 	}
 
-	user, err := h.UserUsecase.GetUserByEmail(c.Request().Context(), claims.Email)
+	user, err := h.UserUseCase.GetUserByEmail(c.Request().Context(), claims.Email)
 	if err != nil && !errors.Is(err, entity.ErrNoUserFound) {
 		return &echo.HTTPError{
 			Code:    http.StatusInternalServerError,
@@ -75,7 +75,7 @@ func (h *UserHandler) UploadAvatar(c echo.Context) error {
 		}
 	}
 
-	err = h.UserUsecase.UploadAvatar(c.Request().Context(), user, file)
+	err = h.UserUseCase.UploadAvatar(c.Request().Context(), user, file)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusInternalServerError,

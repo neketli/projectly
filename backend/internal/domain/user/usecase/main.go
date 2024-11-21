@@ -9,7 +9,7 @@ import (
 	"task-tracker-server/pkg/logger"
 )
 
-type UserUsecase interface {
+type UserUseCase interface {
 	CreateUser(ctx context.Context, user *entity.User) error
 	UpdateUser(ctx context.Context, user *entity.User) error
 	ChangePassword(ctx context.Context, user *entity.User) error
@@ -27,7 +27,7 @@ type userUseCase struct {
 	config config.Auth
 }
 
-func New(r repository.UserRepository, l *logger.Logger, c *config.Config) UserUsecase {
+func New(r repository.UserRepository, l *logger.Logger, c *config.Config) UserUseCase {
 	return &userUseCase{
 		repo:   r,
 		logger: l,

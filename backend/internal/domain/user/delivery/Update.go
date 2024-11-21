@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-	"task-tracker-server/internal/domain/user/delivery/utils"
+	"task-tracker-server/internal/domain/user/delivery/token"
 	"task-tracker-server/internal/domain/user/entity"
 
 	"github.com/labstack/echo/v4"
@@ -36,7 +36,7 @@ func (h *UserHandler) Update(c echo.Context) error {
 		}
 	}
 
-	claims, err := utils.GetUserClaims(c)
+	claims, err := token.GetUserClaims(c)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusBadRequest,
@@ -44,7 +44,7 @@ func (h *UserHandler) Update(c echo.Context) error {
 		}
 	}
 
-	user, err := h.UserUsecase.GetUserByEmail(c.Request().Context(), claims.Email)
+	user, err := h.UserUseCase.GetUserByEmail(c.Request().Context(), claims.Email)
 	if err != nil && !errors.Is(err, entity.ErrNoUserFound) {
 		return &echo.HTTPError{
 			Code:    http.StatusInternalServerError,
@@ -58,7 +58,7 @@ func (h *UserHandler) Update(c echo.Context) error {
 		}
 	}
 
-	targetUser, err := h.UserUsecase.GetUserByEmail(c.Request().Context(), request.Email)
+	targetUser, err := h.UserUseCase.GetUserByEmail(c.Request().Context(), request.Email)
 	if err != nil && !errors.Is(err, entity.ErrNoUserFound) {
 		return &echo.HTTPError{
 			Code:    http.StatusBadRequest,
@@ -72,7 +72,7 @@ func (h *UserHandler) Update(c echo.Context) error {
 		}
 	}
 
-	err = h.UserUsecase.UpdateUser(c.Request().Context(), &entity.User{
+	err = h.UserUseCase.UpdateUser(c.Request().Context(), &entity.User{
 		ID:       user.ID,
 		Name:     request.Name,
 		Surname:  request.Surname,

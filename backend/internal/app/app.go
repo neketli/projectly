@@ -51,19 +51,19 @@ func Run(cfg *config.Config) {
 		},
 	))
 
-	teamUsecase := team.New(team.Dependency{
-		Logger:   l,
-		Postgres: pg,
-	})
-	teamDelivery.New(api, teamUsecase)
-
-	userUsecase := user.New(user.Dependency{
+	userUseCase := user.New(user.Dependency{
 		Config:   cfg,
 		Logger:   l,
 		Postgres: pg,
 		S3:       m,
 	})
-	userDelivery.New(auth, api, userUsecase, teamUsecase)
+	userDelivery.New(auth, api, userUseCase)
+
+	teamUseCase := team.New(team.Dependency{
+		Logger:   l,
+		Postgres: pg,
+	})
+	teamDelivery.New(api, teamUseCase, userUseCase)
 
 	server := server.New(e, l)
 	server.Start(cfg.HTTP.Port)

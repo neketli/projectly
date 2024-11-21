@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"task-tracker-server/internal/domain/team/entity"
-	userUtils "task-tracker-server/internal/domain/user/delivery/utils"
+	"task-tracker-server/internal/domain/user/delivery/token"
 
 	"github.com/labstack/echo/v4"
 )
@@ -47,7 +47,7 @@ func (th *TeamHandler) CreateTeam(c echo.Context) error {
 		}
 	}
 
-	claims, err := userUtils.GetUserClaims(c)
+	claims, err := token.GetUserClaims(c)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusBadRequest,

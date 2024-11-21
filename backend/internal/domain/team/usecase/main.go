@@ -8,7 +8,7 @@ import (
 	"task-tracker-server/pkg/logger"
 )
 
-type TeamUsecase interface {
+type TeamUseCase interface {
 	CreateTeam(ctx context.Context, team *entity.Team) error
 	UpdateTeam(ctx context.Context, team *entity.Team) error
 	DeleteTeam(ctx context.Context, teamID int) error
@@ -23,7 +23,7 @@ type teamUseCase struct {
 	logger *logger.Logger
 }
 
-func New(r repository.TeamRepository, l *logger.Logger) TeamUsecase {
+func New(r repository.TeamRepository, l *logger.Logger) TeamUseCase {
 	return &teamUseCase{
 		repo:   r,
 		logger: l,

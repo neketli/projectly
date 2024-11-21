@@ -16,7 +16,7 @@ type Dependency struct {
 	Config   *config.Config
 }
 
-func New(dependency Dependency) usecase.UserUsecase {
+func New(dependency Dependency) usecase.UserUseCase {
 	repo := repository.New(dependency.Postgres, dependency.S3)
 
 	return usecase.New(repo, dependency.Logger, dependency.Config)

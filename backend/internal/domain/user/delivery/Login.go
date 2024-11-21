@@ -34,7 +34,7 @@ func (h *UserHandler) Login(c echo.Context) error {
 		}
 	}
 
-	user, err := h.UserUsecase.GetUserByEmail(c.Request().Context(), request.Email)
+	user, err := h.UserUseCase.GetUserByEmail(c.Request().Context(), request.Email)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusInternalServerError,
@@ -50,14 +50,14 @@ func (h *UserHandler) Login(c echo.Context) error {
 		}
 	}
 
-	accessToken, err := h.UserUsecase.CreateAccess(&user)
+	accessToken, err := h.UserUseCase.CreateAccess(&user)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusInternalServerError,
 			Message: "login error",
 		}
 	}
-	refreshToken, err := h.UserUsecase.CreateRefresh(&user)
+	refreshToken, err := h.UserUseCase.CreateRefresh(&user)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusInternalServerError,

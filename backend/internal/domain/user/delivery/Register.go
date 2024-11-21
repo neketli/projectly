@@ -35,7 +35,7 @@ func (h *UserHandler) Register(c echo.Context) error {
 		}
 	}
 
-	user, err := h.UserUsecase.GetUserByEmail(c.Request().Context(), request.Email)
+	user, err := h.UserUseCase.GetUserByEmail(c.Request().Context(), request.Email)
 	if err != nil && !errors.Is(err, entity.ErrNoUserFound) {
 		return &echo.HTTPError{
 			Code:    http.StatusInternalServerError,
@@ -49,7 +49,7 @@ func (h *UserHandler) Register(c echo.Context) error {
 		}
 	}
 
-	err = h.UserUsecase.CreateUser(c.Request().Context(), &entity.User{
+	err = h.UserUseCase.CreateUser(c.Request().Context(), &entity.User{
 		ID:       0,
 		Name:     request.Name,
 		Surname:  request.Surname,

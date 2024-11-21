@@ -6,7 +6,7 @@ definitions:
     type: object
   internal_domain_team_delivery.addUserRequest:
     properties:
-      user_id:
+      email:
         type: integer
     type: object
   internal_domain_team_delivery.createTeamRequest:
@@ -299,6 +299,32 @@ paths:
       summary: Update an existing team
       tags:
       - team
+  /team/user:
+    get:
+      consumes:
+      - application/json
+      description: Get teams list which user is a member
+      operationId: team-user-teams
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Teams
+          schema:
+            items:
+              $ref: '#/definitions/task-tracker-server_internal_domain_team_entity.Team'
+            type: array
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Get user teams
+      tags:
+      - team
   /user/change-password:
     post:
       consumes:
@@ -446,32 +472,6 @@ paths:
           schema:
             $ref: '#/definitions/echo.HTTPError'
       summary: Remove user avatar
-      tags:
-      - user
-  /user/team:
-    get:
-      consumes:
-      - application/json
-      description: Get teams list which user is a member
-      operationId: user-teams
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Teams
-          schema:
-            items:
-              $ref: '#/definitions/task-tracker-server_internal_domain_team_entity.Team'
-            type: array
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/echo.HTTPError'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/echo.HTTPError'
-      summary: Get user teams
       tags:
       - user
   /user/update:

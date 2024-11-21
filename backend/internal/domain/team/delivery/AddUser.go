@@ -4,12 +4,13 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"task-tracker-server/internal/domain/user/delivery/token"
 
 	"github.com/labstack/echo/v4"
 )
 
 type addUserRequest struct {
-	UserID int `json:"user_id"`
+	UserEmail int `json:"email"`
 }
 
 // @Summary     Add user to team
@@ -36,11 +37,27 @@ func (th *TeamHandler) AddUser(c echo.Context) error {
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusBadRequest,
-			Message: "invalid id",
+			Message: fmt.Sprintf("team id validation error: %s", err.Error()),
 		}
 	}
 
-	err = th.teamUseCase.AddUserToTeam(c.Request().Context(), teamID, request.UserID)
+	claims, err := token.GetUserClaims(c)
+	if err != nil {
+		return &echo.HTTPError{
+			Code:    http.StatusBadRequest,
+			Message: fmt.Sprintf("can't extract user from token: %s", err.Error()),
+		}
+	}
+
+	user, err := th.userUseCase.GetUserByEmail(c.Request().Context(), claims.Email)
+	if err != nil {
+		return &echo.HTTPError{
+			Code:    http.StatusBadRequest,
+			Message: fmt.Sprintf("can't get user: %s", err.Error()),
+		}
+	}
+
+	err = th.teamUseCase.AddUserToTeam(c.Request().Context(), teamID, user.ID)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusBadRequest,

@@ -110,6 +110,45 @@
                 }
             }
         },
+        "/team/user": {
+            "get": {
+                "description": "Get teams list which user is a member",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "team"
+                ],
+                "summary": "Get user teams",
+                "operationId": "team-user-teams",
+                "responses": {
+                    "200": {
+                        "description": "Teams",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/task-tracker-server_internal_domain_team_entity.Team"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
         "/team/{id}": {
             "delete": {
                 "consumes": [
@@ -528,45 +567,6 @@
                 }
             }
         },
-        "/user/team": {
-            "get": {
-                "description": "Get teams list which user is a member",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "user"
-                ],
-                "summary": "Get user teams",
-                "operationId": "user-teams",
-                "responses": {
-                    "200": {
-                        "description": "Teams",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/task-tracker-server_internal_domain_team_entity.Team"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "$ref": "#/definitions/echo.HTTPError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/echo.HTTPError"
-                        }
-                    }
-                }
-            }
-        },
         "/user/update": {
             "post": {
                 "description": "Update user",
@@ -667,7 +667,7 @@
         "internal_domain_team_delivery.addUserRequest": {
             "type": "object",
             "properties": {
-                "user_id": {
+                "email": {
                     "type": "integer"
                 }
             }

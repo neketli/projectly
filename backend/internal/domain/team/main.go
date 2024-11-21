@@ -12,7 +12,7 @@ type Dependency struct {
 	Postgres *postgres.Postgres
 }
 
-func New(dependency Dependency) usecase.TeamUsecase {
+func New(dependency Dependency) usecase.TeamUseCase {
 	repo := repository.New(dependency.Postgres)
 
 	return usecase.New(repo, dependency.Logger)
