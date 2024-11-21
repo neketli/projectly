@@ -160,6 +160,106 @@ const docTemplate = `{
                 }
             }
         },
+        "/team/{id}/add-user": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "team"
+                ],
+                "summary": "Add user to team",
+                "operationId": "team-add-user",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Team id to add user",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "User id to add",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/internal_domain_team_delivery.addUserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/team/{id}/remove-user": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "team"
+                ],
+                "summary": "Remove user from team",
+                "operationId": "team-remove-user",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Team id to remove user from",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "User id to remove",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/internal_domain_team_delivery.removeUserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
         "/team/{id}/users": {
             "get": {
                 "consumes": [
@@ -209,6 +309,7 @@ const docTemplate = `{
         },
         "/user/change-password": {
             "post": {
+                "description": "Change user password by old password",
                 "consumes": [
                     "application/json"
                 ],
@@ -222,7 +323,7 @@ const docTemplate = `{
                 "operationId": "user-change-password",
                 "parameters": [
                     {
-                        "description": "update user json",
+                        "description": "Change password request body",
                         "name": "requestChangePassword",
                         "in": "body",
                         "required": true,
@@ -231,7 +332,29 @@ const docTemplate = `{
                         }
                     }
                 ],
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    }
+                }
             }
         },
         "/user/login": {
@@ -452,6 +575,7 @@ const docTemplate = `{
         },
         "/user/update": {
             "post": {
+                "description": "Update user",
                 "consumes": [
                     "application/json"
                 ],
@@ -465,7 +589,7 @@ const docTemplate = `{
                 "operationId": "user-update",
                 "parameters": [
                     {
-                        "description": "update user json",
+                        "description": "Update user details",
                         "name": "requestUpdate",
                         "in": "body",
                         "required": true,
@@ -474,7 +598,26 @@ const docTemplate = `{
                         }
                     }
                 ],
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "Updated user",
+                        "schema": {
+                            "$ref": "#/definitions/task-tracker-server_internal_domain_user_entity.User"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    }
+                }
             }
         },
         "/user/upload-avatar": {
@@ -527,6 +670,14 @@ const docTemplate = `{
                 "message": {}
             }
         },
+        "internal_domain_team_delivery.addUserRequest": {
+            "type": "object",
+            "properties": {
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "internal_domain_team_delivery.createTeamRequest": {
             "type": "object",
             "properties": {
@@ -535,6 +686,14 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
+                }
+            }
+        },
+        "internal_domain_team_delivery.removeUserRequest": {
+            "type": "object",
+            "properties": {
+                "user_id": {
+                    "type": "integer"
                 }
             }
         },
@@ -600,13 +759,16 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "description": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "My team 1"
                 },
                 "id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "example team"
                 }
             }
         },
@@ -625,19 +787,23 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "john.doe@example.com"
                 },
                 "id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "meta": {
                     "$ref": "#/definitions/task-tracker-server_internal_domain_user_entity.UserMeta"
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "John"
                 },
                 "surname": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Doe"
                 }
             }
         },
@@ -645,13 +811,14 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "avatar": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "avatar.png"
                 }
             }
         }
     },
     "securityDefinitions": {
-        "ApiKeyAuth": {
+        "Bearer": {
             "type": "apiKey",
             "name": "Authorization",
             "in": "header"
@@ -662,7 +829,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "",
+	Host:             "localhost:8083",
 	BasePath:         "/api/v1",
 	Schemes:          []string{},
 	Title:            "Task tracker server",

@@ -4,12 +4,22 @@ definitions:
     properties:
       message: {}
     type: object
+  internal_domain_team_delivery.addUserRequest:
+    properties:
+      user_id:
+        type: integer
+    type: object
   internal_domain_team_delivery.createTeamRequest:
     properties:
       description:
         type: string
       name:
         type: string
+    type: object
+  internal_domain_team_delivery.removeUserRequest:
+    properties:
+      user_id:
+        type: integer
     type: object
   internal_domain_user_delivery.requestChangePassword:
     properties:
@@ -51,10 +61,13 @@ definitions:
   task-tracker-server_internal_domain_team_entity.Team:
     properties:
       description:
+        example: My team 1
         type: string
       id:
+        example: 1
         type: integer
       name:
+        example: example team
         type: string
     type: object
   task-tracker-server_internal_domain_user_entity.Tokens:
@@ -67,21 +80,27 @@ definitions:
   task-tracker-server_internal_domain_user_entity.User:
     properties:
       email:
+        example: john.doe@example.com
         type: string
       id:
+        example: 1
         type: integer
       meta:
         $ref: '#/definitions/task-tracker-server_internal_domain_user_entity.UserMeta'
       name:
+        example: John
         type: string
       surname:
+        example: Doe
         type: string
     type: object
   task-tracker-server_internal_domain_user_entity.UserMeta:
     properties:
       avatar:
+        example: avatar.png
         type: string
     type: object
+host: localhost:8083
 info:
   contact:
     email: neketli.dev@gmail.com
@@ -117,6 +136,72 @@ paths:
           schema:
             $ref: '#/definitions/echo.HTTPError'
       summary: Delete team
+      tags:
+      - team
+  /team/{id}/add-user:
+    post:
+      consumes:
+      - application/json
+      operationId: team-add-user
+      parameters:
+      - description: Team id to add user
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: User id to add
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_domain_team_delivery.addUserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Add user to team
+      tags:
+      - team
+  /team/{id}/remove-user:
+    delete:
+      consumes:
+      - application/json
+      operationId: team-remove-user
+      parameters:
+      - description: Team id to remove user from
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: User id to remove
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_domain_team_delivery.removeUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Remove user from team
       tags:
       - team
   /team/{id}/users:
@@ -218,9 +303,10 @@ paths:
     post:
       consumes:
       - application/json
+      description: Change user password by old password
       operationId: user-change-password
       parameters:
-      - description: update user json
+      - description: Change password request body
         in: body
         name: requestChangePassword
         required: true
@@ -228,7 +314,21 @@ paths:
           $ref: '#/definitions/internal_domain_user_delivery.requestChangePassword'
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
       summary: Change user password
       tags:
       - user
@@ -378,9 +478,10 @@ paths:
     post:
       consumes:
       - application/json
+      description: Update user
       operationId: user-update
       parameters:
-      - description: update user json
+      - description: Update user details
         in: body
         name: requestUpdate
         required: true
@@ -388,7 +489,19 @@ paths:
           $ref: '#/definitions/internal_domain_user_delivery.requestUpdate'
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: Updated user
+          schema:
+            $ref: '#/definitions/task-tracker-server_internal_domain_user_entity.User'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
       summary: Update user
       tags:
       - user
@@ -421,7 +534,7 @@ paths:
       tags:
       - user
 securityDefinitions:
-  ApiKeyAuth:
+  Bearer:
     in: header
     name: Authorization
     type: apiKey

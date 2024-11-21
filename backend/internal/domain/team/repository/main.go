@@ -14,6 +14,8 @@ type TeamRepository interface {
 	DeleteTeam(ctx context.Context, teamID int) error
 	GetTeamByUser(ctx context.Context, userID int) ([]entity.Team, error)
 	GetUsers(ctx context.Context, teamID int) ([]userEntity.User, error)
+	AddUserToTeam(ctx context.Context, teamID, userID int) error
+	RemoveUserFromTeam(ctx context.Context, teamID, userID int) error
 }
 
 const (

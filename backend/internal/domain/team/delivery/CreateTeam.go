@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"task-tracker-server/internal/domain/team/entity"
+	userUtils "task-tracker-server/internal/domain/user/delivery/utils"
 
 	"github.com/labstack/echo/v4"
 )
@@ -43,6 +44,22 @@ func (th *TeamHandler) CreateTeam(c echo.Context) error {
 		return &echo.HTTPError{
 			Code:    http.StatusBadRequest,
 			Message: fmt.Sprintf("can't create team: %s", err.Error()),
+		}
+	}
+
+	claims, err := userUtils.GetUserClaims(c)
+	if err != nil {
+		return &echo.HTTPError{
+			Code:    http.StatusBadRequest,
+			Message: fmt.Sprintf("can't extract user from token: %s", err.Error()),
+		}
+	}
+
+	err = th.teamUseCase.AddUserToTeam(c.Request().Context(), team.ID, claims.ID)
+	if err != nil {
+		return &echo.HTTPError{
+			Code:    http.StatusBadRequest,
+			Message: fmt.Sprintf("can't add user %s to team: %s", claims.Email, err.Error()),
 		}
 	}
 

@@ -18,6 +18,9 @@ func New(router *echo.Group, usecase usecase.TeamUsecase) {
 		team.POST("/create", handler.CreateTeam)
 		team.PUT("/update", handler.UpdateTeam)
 		team.DELETE("/delete", handler.DeleteTeam)
+
 		team.GET("/:id/users", handler.Users)
+		team.POST("/:id/add-user", handler.AddUser)
+		team.DELETE("/:id/remove-user", handler.RemoveUser)
 	}
 }
