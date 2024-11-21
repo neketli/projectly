@@ -3,6 +3,7 @@ package delivery
 import (
 	"fmt"
 	"net/http"
+	"task-tracker-server/internal/domain/user/entity"
 
 	"github.com/labstack/echo/v4"
 )
@@ -12,11 +13,15 @@ type requestRefresh struct {
 }
 
 // @Summary     Refresh user token
-// @ID          user-refresh
-// @Tags  	    user
+// @Description Refresh user token and return new access and refresh tokens
+// @Tags        user
 // @Accept      json
 // @Produce     json
-// @Param		refreshToken	body	requestRefresh	true	"Refresh token value"
+// @Param       refreshToken body requestRefresh true "Refresh token value"
+// @Success     200          {object} entity.Tokens
+// @Failure     400          {object} echo.HTTPError
+// @Failure     401          {object} echo.HTTPError
+// @Failure     500          {object} echo.HTTPError
 // @Router      /user/refresh [post]
 func (h *UserHandler) Refresh(c echo.Context) error {
 	var request requestRefresh
@@ -49,8 +54,8 @@ func (h *UserHandler) Refresh(c echo.Context) error {
 			Message: "can't create refresh token",
 		}
 	}
-	return c.JSON(http.StatusOK, map[string]string{
-		"access":  accessToken,
-		"refresh": refreshToken,
+	return c.JSON(http.StatusOK, &entity.Tokens{
+		Access:  accessToken,
+		Refresh: refreshToken,
 	})
 }

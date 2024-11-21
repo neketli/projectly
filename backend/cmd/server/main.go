@@ -12,11 +12,12 @@ import (
 //	@contact.name	neketli
 //	@contact.email	neketli.dev@gmail.com
 
-//	@securityDefinitions.apikey	ApiKeyAuth
+//	@securityDefinitions.apikey	Bearer
 //	@in							header
 //	@name						Authorization
 
 // @BasePath	/api/v1
+// @Host		localhost:8083
 func main() {
 	app.Run(config.New())
 }

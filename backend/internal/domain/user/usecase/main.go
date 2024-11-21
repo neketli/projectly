@@ -2,20 +2,12 @@ package usecase
 
 import (
 	"context"
-	"io"
 	"mime/multipart"
 	"task-tracker-server/config"
 	"task-tracker-server/internal/domain/user/entity"
+	"task-tracker-server/internal/domain/user/repository"
 	"task-tracker-server/pkg/logger"
 )
-
-type UserRepository interface {
-	CreateUser(ctx context.Context, user *entity.User) error
-	UpdateUser(ctx context.Context, user *entity.User) error
-	GetUserByEmail(ctx context.Context, email string) (entity.User, error)
-	UploadAvatar(ctx context.Context, user entity.User, reader io.Reader, filename string) error
-	RemoveAvatar(ctx context.Context, userID int, objectName string) error
-}
 
 type UserUsecase interface {
 	CreateUser(ctx context.Context, user *entity.User) error
@@ -30,12 +22,12 @@ type UserUsecase interface {
 }
 
 type userUseCase struct {
-	repo   UserRepository
+	repo   repository.UserRepository
 	logger *logger.Logger
 	config config.Auth
 }
 
-func New(r UserRepository, l *logger.Logger, c *config.Config) UserUsecase {
+func New(r repository.UserRepository, l *logger.Logger, c *config.Config) UserUsecase {
 	return &userUseCase{
 		repo:   r,
 		logger: l,

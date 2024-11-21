@@ -2,7 +2,6 @@ package usecase
 
 import (
 	"fmt"
-	"strconv"
 	"task-tracker-server/internal/domain/user/entity"
 	"time"
 
@@ -15,7 +14,7 @@ func (uc *userUseCase) CreateAccess(user *entity.User) (string, error) {
 		avatar = user.Meta.Avatar
 	}
 	claims := &entity.JWTClaims{
-		ID:      strconv.Itoa(user.ID),
+		ID:      user.ID,
 		Name:    user.Name,
 		Surname: user.Surname,
 		Email:   user.Email,

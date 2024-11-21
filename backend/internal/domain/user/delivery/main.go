@@ -3,6 +3,7 @@ package delivery
 import (
 	"context"
 	"mime/multipart"
+	teamEntity "task-tracker-server/internal/domain/team/entity"
 	"task-tracker-server/internal/domain/user/entity"
 
 	"github.com/labstack/echo/v4"
@@ -20,12 +21,17 @@ type UserUsecase interface {
 	RemoveAvatar(ctx context.Context, user entity.User) error
 }
 
-type UserHandler struct {
-	UserUsecase UserUsecase
+type TeamUsecase interface {
+	GetTeamByUser(ctx context.Context, userID int) ([]teamEntity.Team, error)
 }
 
-func New(authRouter *echo.Group, router *echo.Group, usecase UserUsecase) {
-	handler := &UserHandler{UserUsecase: usecase}
+type UserHandler struct {
+	UserUsecase UserUsecase
+	TeamUsecase TeamUsecase
+}
+
+func New(authRouter *echo.Group, router *echo.Group, usecase UserUsecase, teamUsecase TeamUsecase) {
+	handler := &UserHandler{UserUsecase: usecase, TeamUsecase: teamUsecase}
 
 	authRouter.POST("/register", handler.Register)
 	authRouter.POST("/login", handler.Login)
@@ -37,5 +43,7 @@ func New(authRouter *echo.Group, router *echo.Group, usecase UserUsecase) {
 		u.PATCH("/change-password", handler.ChangePassword)
 		u.POST("/upload-avatar", handler.UploadAvatar)
 		u.DELETE("/remove-avatar", handler.RemoveAvatar)
+
+		u.GET("/team", handler.Team)
 	}
 }

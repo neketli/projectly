@@ -1,5 +1,16 @@
 basePath: /api/v1
 definitions:
+  echo.HTTPError:
+    properties:
+      message: {}
+    type: object
+  internal_domain_team_delivery.createTeamRequest:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    type: object
   internal_domain_user_delivery.requestChangePassword:
     properties:
       password:
@@ -37,6 +48,40 @@ definitions:
       surname:
         type: string
     type: object
+  task-tracker-server_internal_domain_team_entity.Team:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  task-tracker-server_internal_domain_user_entity.Tokens:
+    properties:
+      access:
+        type: string
+      refresh:
+        type: string
+    type: object
+  task-tracker-server_internal_domain_user_entity.User:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      meta:
+        $ref: '#/definitions/task-tracker-server_internal_domain_user_entity.UserMeta'
+      name:
+        type: string
+      surname:
+        type: string
+    type: object
+  task-tracker-server_internal_domain_user_entity.UserMeta:
+    properties:
+      avatar:
+        type: string
+    type: object
 info:
   contact:
     email: neketli.dev@gmail.com
@@ -45,6 +90,130 @@ info:
   title: Task tracker server
   version: "1.0"
 paths:
+  /team/{id}:
+    delete:
+      consumes:
+      - application/json
+      operationId: team-delete
+      parameters:
+      - description: Team ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Delete team
+      tags:
+      - team
+  /team/{id}/users:
+    get:
+      consumes:
+      - application/json
+      operationId: team-users
+      parameters:
+      - description: Team id to fetch users
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/task-tracker-server_internal_domain_user_entity.User'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Get team users
+      tags:
+      - team
+  /team/create:
+    post:
+      consumes:
+      - application/json
+      operationId: create-team
+      parameters:
+      - description: New team details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_domain_team_delivery.createTeamRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created team
+          schema:
+            $ref: '#/definitions/task-tracker-server_internal_domain_team_entity.Team'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Create a new team
+      tags:
+      - team
+  /team/update:
+    put:
+      consumes:
+      - application/json
+      operationId: update-team
+      parameters:
+      - description: Team details to update
+        in: body
+        name: team
+        required: true
+        schema:
+          $ref: '#/definitions/task-tracker-server_internal_domain_team_entity.Team'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Updated team details
+          schema:
+            $ref: '#/definitions/task-tracker-server_internal_domain_team_entity.Team'
+        "400":
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "404":
+          description: Team not found
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Update an existing team
+      tags:
+      - team
   /user/change-password:
     post:
       consumes:
@@ -67,6 +236,7 @@ paths:
     post:
       consumes:
       - application/json
+      description: Login user
       operationId: user-login
       parameters:
       - description: Login request body
@@ -77,7 +247,19 @@ paths:
           $ref: '#/definitions/internal_domain_user_delivery.requestLogin'
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/task-tracker-server_internal_domain_user_entity.Tokens'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
       summary: Login user
       tags:
       - user
@@ -85,7 +267,7 @@ paths:
     post:
       consumes:
       - application/json
-      operationId: user-refresh
+      description: Refresh user token and return new access and refresh tokens
       parameters:
       - description: Refresh token value
         in: body
@@ -95,7 +277,23 @@ paths:
           $ref: '#/definitions/internal_domain_user_delivery.requestRefresh'
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/task-tracker-server_internal_domain_user_entity.Tokens'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
       summary: Refresh user token
       tags:
       - user
@@ -105,7 +303,7 @@ paths:
       - application/json
       operationId: user-register
       parameters:
-      - description: register user json
+      - description: register user details
         in: body
         name: requestRegister
         required: true
@@ -113,7 +311,19 @@ paths:
           $ref: '#/definitions/internal_domain_user_delivery.requestRegister'
       produces:
       - application/json
-      responses: {}
+      responses:
+        "201":
+          description: Created user
+          schema:
+            $ref: '#/definitions/task-tracker-server_internal_domain_user_entity.User'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
       summary: Register user
       tags:
       - user
@@ -121,11 +331,47 @@ paths:
     delete:
       consumes:
       - application/json
-      operationId: user-remove-avatar
+      description: Remove user avatar from storage
       produces:
       - application/json
-      responses: {}
-      summary: remove user avatar
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Remove user avatar
+      tags:
+      - user
+  /user/team:
+    get:
+      consumes:
+      - application/json
+      description: Get teams list which user is a member
+      operationId: user-teams
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Teams
+          schema:
+            items:
+              $ref: '#/definitions/task-tracker-server_internal_domain_team_entity.Team'
+            type: array
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Get user teams
       tags:
       - user
   /user/update:
@@ -150,6 +396,7 @@ paths:
     post:
       consumes:
       - application/json
+      description: Upload user file and save it in object storage
       operationId: user-upload-avatar
       parameters:
       - description: file
@@ -159,7 +406,17 @@ paths:
         type: file
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
       summary: Upload user avatar
       tags:
       - user

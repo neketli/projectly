@@ -18,10 +18,13 @@ type requestRegister struct {
 
 // @Summary     Register user
 // @ID          user-register
-// @Tags  	    user
+// @Tags        user
 // @Accept      json
 // @Produce     json
-// @Param		requestRegister	body	requestRegister	true	"register user json"
+// @Param       requestRegister body requestRegister true "register user details"
+// @Success     201            {object} entity.User "Created user"
+// @Failure     400            {object} echo.HTTPError "Bad request"
+// @Failure     500            {object} echo.HTTPError "Internal server error"
 // @Router      /user/register [post]
 func (h *UserHandler) Register(c echo.Context) error {
 	var request requestRegister

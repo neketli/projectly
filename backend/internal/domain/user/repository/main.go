@@ -18,7 +18,6 @@ type UserRepository interface {
 }
 
 const (
-	_defaultEntityCap   = 64
 	_defaultConnTimeout = 5 * time.Second
 )
 
