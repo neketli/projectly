@@ -28,7 +28,7 @@
                     {{ getUserInfo.name }}
                     {{ getUserInfo.surname }}
 
-                    <LayoutUserAvatar
+                    <UserAvatar
                         :size="32"
                         class="ml-2"
                     />

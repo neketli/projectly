@@ -1,6 +1,6 @@
 <template>
-    <div>
-        This is protected page
+    <div class="dashboard container mx-auto ">
+        <h1>{{ $t('dashboard.title') }}</h1>
     </div>
 </template>
 
