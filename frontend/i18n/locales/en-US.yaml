@@ -4,6 +4,15 @@ common:
   theme:
     light: "Change to light theme"
     dark: "Change to dark theme"
+  button:
+    create: "Create"
+    delete: "Delete"
+    confirm: "Confirm"
+    cancel: "Cancel"
+    save: "Save"
+    edit: "Edit"
+    yes: "Yes"
+    no: "No"
 
 auth:
   register:
@@ -37,8 +46,6 @@ profile:
     confirm_password: "Confirm password"
     remove_avatar: "Remove avatar"
     change_password: "Change password"
-    confirm: "Confirm"
-    cancel: "Cancel"
     success:
       profile: "Profile information has been successfully updated!"
       password: "Password has been successfully updated!"
@@ -46,3 +53,60 @@ profile:
     error:
         confirm_password: "Passwords do not match"
         image_size: "Image weight should not be more than {x}Mb"
+
+
+dashboard:
+  title: "Dashboard"
+
+user:
+  teams:
+    title: "Your teams"
+    dialog:
+      title: "Create a team"
+    table:
+      name: "Name"
+      search: "Search"
+      empty: "Teams not found"
+
+team:
+  title: "Team"
+  roles:
+    owner: "Owner"
+    editor: "Editor"
+    developer: "Developer"
+    user: "User"
+  users:
+    title: "Team Members"
+    table:
+      name: "Name"
+      surname: "Surname"
+      email: "Email Address"
+      actions: "Actions"
+      role: "Role"
+      confirm_delete: "Are you sure you want to remove the user from the team?"
+    dialog:
+      title: "Invite User to Team"
+      email: "Email Address"
+      invite: "Invite"
+  create:
+    title: "Create Team"
+  update:
+    title: "Edit Team"
+  delete:
+    title: "Delete Team"
+    confirm: "Are you sure you want to delete the team?"
+  leave:
+    title: "Leave Team"
+    confirm: "Are you sure you want to leave the team?"
+  form:
+    name: "Team Name"
+    description: "Description"
+  success:
+    delete: "Team successfully deleted!"
+    users:
+      invite: "User successfully added to the team!"
+      remove: "User successfully removed from the team!"
+  error:
+    delete: "An error occurred while trying to delete the team"
+    users:
+      invite: "An error occurred while trying to invite the user to the team, please check the email address entered"

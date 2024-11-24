@@ -1,6 +1,12 @@
 <template>
     <div class="dashboard container mx-auto ">
-        <h1>{{ $t('dashboard.title') }}</h1>
+        <h1 class="text-3xl font-semibold mb-8">
+            {{ $t('dashboard.title') }}
+        </h1>
+
+        <div class="grid grid-cols-3">
+            <UserTeams />
+        </div>
     </div>
 </template>
 

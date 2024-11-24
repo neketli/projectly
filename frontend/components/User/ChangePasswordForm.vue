@@ -50,7 +50,7 @@
                 plain
                 @click="handleSavePassword"
             >
-                {{ $t('profile.form.confirm') }}
+                {{ $t('common.button.confirm') }}
             </ElButton>
             <ElButton
                 type="danger"
@@ -58,7 +58,7 @@
                 class="max-w-56"
                 @click="emit('cancel')"
             >
-                {{ $t('profile.form.cancel') }}
+                {{ $t('common.button.cancel') }}
             </ElButton>
         </div>
     </ElForm>

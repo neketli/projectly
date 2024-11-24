@@ -43,7 +43,7 @@
                     </ElButton>
 
                     <ElButton
-                        v-if="getUserInfo.meta.avatar"
+                        v-if="getUserInfo?.meta?.avatar"
                         type="warning"
                         plain
                         @click="handleRemoveAvatar"
