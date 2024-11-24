@@ -5,7 +5,7 @@ CREATE TABLE "status" (
 	"board_id" INTEGER NOT NULL,
 	"title" VARCHAR(128) NOT NULL,
 	"order" INTEGER NOT NULL,
-	FOREIGN KEY ("board_id") REFERENCES "board"("id")
+	FOREIGN KEY ("board_id") REFERENCES "board"("id") ON DELETE CASCADE
 );
 -- +goose StatementEnd
 -- +goose Down

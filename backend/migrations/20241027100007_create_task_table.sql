@@ -12,9 +12,9 @@ CREATE TABLE "task" (
 	"status_id" INTEGER NOT NULL,
 	"created_user_id" INTEGER NOT NULL,
 	"assigned_user_id" INTEGER,
-	FOREIGN KEY ("status_id") REFERENCES "status"("id"),
-	FOREIGN KEY ("created_user_id") REFERENCES "users"("id"),
-	FOREIGN KEY ("assigned_user_id") REFERENCES "users"("id")
+	FOREIGN KEY ("status_id") REFERENCES "status"("id") ON DELETE CASCADE,
+	FOREIGN KEY ("created_user_id") REFERENCES "users"("id") ON DELETE CASCADE,
+	FOREIGN KEY ("assigned_user_id") REFERENCES "users"("id") ON DELETE CASCADE
 );
 -- +goose StatementEnd
 -- +goose Down

@@ -63,5 +63,13 @@ func (th *TeamHandler) CreateTeam(c echo.Context) error {
 		}
 	}
 
+	err = th.teamUseCase.SetRole(c.Request().Context(), team.ID, claims.ID, entity.RoleOwner.ID)
+	if err != nil {
+		return &echo.HTTPError{
+			Code:    http.StatusInternalServerError,
+			Message: fmt.Sprintf("can't set owner role: %s", err.Error()),
+		}
+	}
+
 	return c.JSON(http.StatusCreated, team)
 }

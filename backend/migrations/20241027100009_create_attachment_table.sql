@@ -4,7 +4,7 @@ CREATE TABLE "attachment" (
 	"id" SERIAL PRIMARY KEY,
 	"name" VARCHAR(128) NOT NULL,
 	"task_id" INTEGER NOT NULL,
-	FOREIGN KEY ("task_id") REFERENCES "task"("id")
+	FOREIGN KEY ("task_id") REFERENCES "task"("id") ON DELETE CASCADE
 );
 -- +goose StatementEnd
 -- +goose Down

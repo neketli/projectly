@@ -7,7 +7,7 @@ definitions:
   internal_domain_team_delivery.addUserRequest:
     properties:
       email:
-        type: integer
+        type: string
     type: object
   internal_domain_team_delivery.createTeamRequest:
     properties:
@@ -16,8 +16,10 @@ definitions:
       name:
         type: string
     type: object
-  internal_domain_team_delivery.removeUserRequest:
+  internal_domain_team_delivery.setRoleRequest:
     properties:
+      role_id:
+        type: integer
       user_id:
         type: integer
     type: object
@@ -58,6 +60,13 @@ definitions:
       surname:
         type: string
     type: object
+  task-tracker-server_internal_domain_team_entity.Role:
+    properties:
+      id:
+        type: integer
+      role_name:
+        type: string
+    type: object
   task-tracker-server_internal_domain_team_entity.Team:
     properties:
       description:
@@ -68,6 +77,19 @@ definitions:
         type: integer
       name:
         example: example team
+        type: string
+    type: object
+  task-tracker-server_internal_domain_team_entity.TeamUser:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      role:
+        $ref: '#/definitions/task-tracker-server_internal_domain_team_entity.Role'
+      surname:
         type: string
     type: object
   task-tracker-server_internal_domain_user_entity.Tokens:
@@ -109,6 +131,39 @@ info:
   title: Task tracker server
   version: "1.0"
 paths:
+  /team/:id/role:
+    post:
+      consumes:
+      - application/json
+      operationId: team-set-role
+      parameters:
+      - description: user id and role id
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_domain_team_delivery.setRoleRequest'
+      - description: Team ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Set user role in team
+      tags:
+      - team
   /team/{id}:
     delete:
       consumes:
@@ -138,6 +193,34 @@ paths:
       summary: Delete team
       tags:
       - team
+    get:
+      consumes:
+      - application/json
+      operationId: team-get
+      parameters:
+      - description: Team id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/task-tracker-server_internal_domain_team_entity.Team'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Get team
+      tags:
+      - team
   /team/{id}/add-user:
     post:
       consumes:
@@ -149,7 +232,7 @@ paths:
         name: id
         required: true
         type: integer
-      - description: User id to add
+      - description: User email to invite to team
         in: body
         name: request
         required: true
@@ -171,7 +254,7 @@ paths:
       summary: Add user to team
       tags:
       - team
-  /team/{id}/remove-user:
+  /team/{id}/remove-user/{user_id}:
     delete:
       consumes:
       - application/json
@@ -182,12 +265,11 @@ paths:
         name: id
         required: true
         type: integer
-      - description: User id to remove
-        in: body
-        name: request
+      - description: User id to kick from team
+        in: path
+        name: user_id
         required: true
-        schema:
-          $ref: '#/definitions/internal_domain_team_delivery.removeUserRequest'
+        type: integer
       produces:
       - application/json
       responses:
@@ -222,7 +304,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/task-tracker-server_internal_domain_user_entity.User'
+              $ref: '#/definitions/task-tracker-server_internal_domain_team_entity.TeamUser'
             type: array
         "400":
           description: Bad Request
@@ -263,6 +345,31 @@ paths:
           schema:
             $ref: '#/definitions/echo.HTTPError'
       summary: Create a new team
+      tags:
+      - team
+  /team/roles:
+    get:
+      consumes:
+      - application/json
+      operationId: team-roles
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/task-tracker-server_internal_domain_team_entity.Role'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Get team roles
       tags:
       - team
   /team/update:

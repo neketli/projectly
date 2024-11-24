@@ -18,6 +18,56 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/team/:id/role": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "team"
+                ],
+                "summary": "Set user role in team",
+                "operationId": "team-set-role",
+                "parameters": [
+                    {
+                        "description": "user id and role id",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/internal_domain_team_delivery.setRoleRequest"
+                        }
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Team ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
         "/team/create": {
             "post": {
                 "consumes": [
@@ -57,6 +107,44 @@ const docTemplate = `{
                     },
                     "500": {
                         "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/team/roles": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "team"
+                ],
+                "summary": "Get team roles",
+                "operationId": "team-roles",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/task-tracker-server_internal_domain_team_entity.Role"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/echo.HTTPError"
                         }
@@ -156,6 +244,48 @@ const docTemplate = `{
             }
         },
         "/team/{id}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "team"
+                ],
+                "summary": "Get team",
+                "operationId": "team-get",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Team id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/task-tracker-server_internal_domain_team_entity.Team"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    }
+                }
+            },
             "delete": {
                 "consumes": [
                     "application/json"
@@ -221,7 +351,7 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "User id to add",
+                        "description": "User email to invite to team",
                         "name": "request",
                         "in": "body",
                         "required": true,
@@ -249,7 +379,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/team/{id}/remove-user": {
+        "/team/{id}/remove-user/{user_id}": {
             "delete": {
                 "consumes": [
                     "application/json"
@@ -271,13 +401,11 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "User id to remove",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/internal_domain_team_delivery.removeUserRequest"
-                        }
+                        "type": "integer",
+                        "description": "User id to kick from team",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -327,7 +455,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/task-tracker-server_internal_domain_user_entity.User"
+                                "$ref": "#/definitions/task-tracker-server_internal_domain_team_entity.TeamUser"
                             }
                         }
                     },
@@ -674,7 +802,7 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "email": {
-                    "type": "integer"
+                    "type": "string"
                 }
             }
         },
@@ -689,9 +817,12 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_domain_team_delivery.removeUserRequest": {
+        "internal_domain_team_delivery.setRoleRequest": {
             "type": "object",
             "properties": {
+                "role_id": {
+                    "type": "integer"
+                },
                 "user_id": {
                     "type": "integer"
                 }
@@ -755,6 +886,17 @@ const docTemplate = `{
                 }
             }
         },
+        "task-tracker-server_internal_domain_team_entity.Role": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "role_name": {
+                    "type": "string"
+                }
+            }
+        },
         "task-tracker-server_internal_domain_team_entity.Team": {
             "type": "object",
             "properties": {
@@ -769,6 +911,26 @@ const docTemplate = `{
                 "name": {
                     "type": "string",
                     "example": "example team"
+                }
+            }
+        },
+        "task-tracker-server_internal_domain_team_entity.TeamUser": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "role": {
+                    "$ref": "#/definitions/task-tracker-server_internal_domain_team_entity.Role"
+                },
+                "surname": {
+                    "type": "string"
                 }
             }
         },

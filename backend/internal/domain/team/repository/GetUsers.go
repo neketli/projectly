@@ -4,13 +4,12 @@ import (
 	"context"
 	"fmt"
 
-	userEntity "task-tracker-server/internal/domain/user/entity"
+	"task-tracker-server/internal/domain/team/entity"
 
 	sq "github.com/Masterminds/squirrel"
-	"github.com/jackc/pgx/v5"
 )
 
-func (r teamRepo) GetUsers(ctx context.Context, teamID int) ([]userEntity.User, error) {
+func (r teamRepo) GetUsers(ctx context.Context, teamID int) ([]entity.TeamUser, error) {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()
 
@@ -20,10 +19,13 @@ func (r teamRepo) GetUsers(ctx context.Context, teamID int) ([]userEntity.User, 
 			"u.email",
 			"u.name",
 			"u.surname",
-			"u.meta",
+			"r.id",
+			"r.role_name",
 		).
-		From("team_users tu").
+		From("team_user tu").
 		Join("users u on u.id = tu.user_id").
+		LeftJoin("team_roles tr on tr.team_id = tu.team_id AND tr.user_id = tu.user_id").
+		LeftJoin("roles r on r.id = tr.role_id").
 		Where(sq.Eq{"tu.team_id": teamID}).
 		ToSql()
 	if err != nil {
@@ -36,9 +38,26 @@ func (r teamRepo) GetUsers(ctx context.Context, teamID int) ([]userEntity.User, 
 	}
 	defer rows.Close()
 
-	users, err := pgx.CollectRows(rows, pgx.RowToStructByName[userEntity.User])
-	if err != nil {
-		return nil, fmt.Errorf("team - repository - GetUsers - pgx.CollectRows: %w", err)
+	var users []entity.TeamUser
+	for rows.Next() {
+		var user entity.TeamUser
+		var role entity.Role
+		if err := rows.Scan(
+			&user.ID,
+			&user.Email,
+			&user.Name,
+			&user.Surname,
+			&role.ID,
+			&role.RoleName,
+		); err != nil {
+			return nil, fmt.Errorf("team - repository - GetUsers - rows.Scan: %w", err)
+		}
+		user.Role = role
+		users = append(users, user)
+	}
+
+	if len(users) == 0 {
+		return nil, fmt.Errorf("team - repository - GetUsers - no users found")
 	}
 
 	return users, nil

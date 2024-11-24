@@ -14,7 +14,7 @@ func (r teamRepo) UpdateTeam(ctx context.Context, team *entity.Team) error {
 	defer cancel()
 
 	sql, args, err := r.Builder.
-		Update("teams").
+		Update("team").
 		SetMap(sq.Eq{
 			"name":        team.Name,
 			"description": team.Description,

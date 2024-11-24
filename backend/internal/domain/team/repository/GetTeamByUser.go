@@ -15,9 +15,9 @@ func (r teamRepo) GetTeamByUser(ctx context.Context, userID int) ([]entity.Team,
 	defer cancel()
 
 	sql, args, err := r.Builder.
-		Select("*").
-		From("teams").
-		Join("team_users tu on tu.team_id = teams.id").
+		Select("team.id", "team.name", "team.description").
+		From("team").
+		Join("team_user tu on tu.team_id = team.id").
 		Where(sq.Eq{"tu.user_id": userID}).
 		ToSql()
 	if err != nil {

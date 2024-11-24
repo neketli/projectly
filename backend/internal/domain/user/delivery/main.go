@@ -29,10 +29,10 @@ func New(authRouter *echo.Group, router *echo.Group, usecase UserUseCase) {
 
 	authRouter.POST("/register", handler.Register)
 	authRouter.POST("/login", handler.Login)
+	authRouter.POST("/refresh", handler.Refresh)
 
 	u := router.Group("/user")
 	{
-		u.POST("/refresh", handler.Refresh)
 		u.PATCH("/update", handler.Update)
 		u.PATCH("/change-password", handler.ChangePassword)
 		u.POST("/upload-avatar", handler.UploadAvatar)

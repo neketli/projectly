@@ -12,7 +12,7 @@ func (r teamRepo) DeleteTeam(ctx context.Context, teamID int) error {
 	defer cancel()
 
 	sql, args, err := r.Builder.
-		Delete("teams").
+		Delete("team").
 		Where(sq.Eq{"id": teamID}).
 		ToSql()
 	if err != nil {

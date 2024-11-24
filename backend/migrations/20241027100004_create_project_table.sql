@@ -6,7 +6,7 @@ CREATE TABLE "project" (
 	"title" VARCHAR(128) NOT NULL,
 	"description" VARCHAR(128),
 	"code" VARCHAR(5),
-	FOREIGN KEY ("team_id") REFERENCES "team"("id")
+	FOREIGN KEY ("team_id") REFERENCES "team"("id") ON DELETE CASCADE
 );
 -- +goose StatementEnd
 -- +goose Down

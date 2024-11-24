@@ -12,7 +12,7 @@ func (r teamRepo) RemoveUserFromTeam(ctx context.Context, teamID, userID int) er
 	defer cancel()
 
 	sql, args, err := r.Builder.
-		Delete("team_users").
+		Delete("team_user").
 		Where(sq.Eq{
 			"team_id": teamID,
 			"user_id": userID,

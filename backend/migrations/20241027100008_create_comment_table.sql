@@ -5,7 +5,7 @@ CREATE TABLE "comment" (
 	"text" VARCHAR(1024) NOT NULL,
 	"created_at" TIMESTAMP NOT NULL DEFAULT NOW(),
 	"task_id" INTEGER NOT NULL,
-	FOREIGN KEY ("task_id") REFERENCES "task"("id")
+	FOREIGN KEY ("task_id") REFERENCES "task"("id") ON DELETE CASCADE
 );
 -- +goose StatementEnd
 -- +goose Down

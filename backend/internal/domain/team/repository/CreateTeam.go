@@ -12,7 +12,7 @@ func (r teamRepo) CreateTeam(ctx context.Context, team *entity.Team) error {
 	defer cancel()
 
 	sql, args, err := r.Builder.
-		Insert("teams").
+		Insert("team").
 		Columns(
 			"name",
 			"description",

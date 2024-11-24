@@ -10,7 +10,7 @@ func (r teamRepo) AddUserToTeam(ctx context.Context, teamID, userID int) error {
 	defer cancel()
 
 	sql, args, err := r.Builder.
-		Insert("team_users").
+		Insert("team_user").
 		Columns(
 			"team_id",
 			"user_id",
