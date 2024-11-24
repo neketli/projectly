@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios'
+import dayjs from 'dayjs'
 import { jwtDecode } from 'jwt-decode'
 import { useAuthStore } from '~/store/auth'
 
@@ -26,13 +27,12 @@ export default defineNuxtPlugin(({ $config }) => {
 
                 const expTime = Number(payload.exp || 0) * 1000
 
-                if (expTime - new Date().getTime() <= 0) {
+                if (dayjs(expTime).diff(dayjs()) <= 0) {
                     userStore.accessToken = ''
                     await userStore.refresh()
                 }
 
                 config.headers.Authorization = `Bearer ${userStore.accessToken}`
-
                 return config
             }
             catch (err: unknown) {

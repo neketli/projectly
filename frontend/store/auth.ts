@@ -86,7 +86,7 @@ export const useAuthStore = defineStore('task-tracker-auth', {
             try {
                 if (!this.refreshingRequest) {
                     this.refreshingRequest = $api.post<Tokens>(
-                        '/user/refresh',
+                        '/auth/refresh',
                         {
                             refreshToken: this.refreshToken,
                         },
