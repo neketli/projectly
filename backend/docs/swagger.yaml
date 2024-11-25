@@ -1,5 +1,23 @@
 basePath: /api/v1
 definitions:
+  delivery.createProjectRequest:
+    properties:
+      code:
+        type: string
+      description:
+        type: string
+      team_id:
+        type: integer
+      title:
+        type: string
+    type: object
+  delivery.updateProjectRequest:
+    properties:
+      description:
+        type: string
+      title:
+        type: string
+    type: object
   echo.HTTPError:
     properties:
       message: {}
@@ -58,6 +76,19 @@ definitions:
       name:
         type: string
       surname:
+        type: string
+    type: object
+  task-tracker-server_internal_domain_project_entity.Project:
+    properties:
+      code:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      team_id:
+        type: integer
+      title:
         type: string
     type: object
   task-tracker-server_internal_domain_team_entity.Role:
@@ -131,6 +162,187 @@ info:
   title: Task tracker server
   version: "1.0"
 paths:
+  /project:
+    get:
+      consumes:
+      - application/json
+      operationId: project-get-by-code
+      parameters:
+      - description: Team id
+        in: query
+        name: team_id
+        required: true
+        type: integer
+      - description: Project code name
+        in: query
+        name: code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/task-tracker-server_internal_domain_project_entity.Project'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Get project
+      tags:
+      - project
+  /project/{id}:
+    delete:
+      consumes:
+      - application/json
+      operationId: project-delete
+      parameters:
+      - description: Project ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Delete project
+      tags:
+      - project
+    get:
+      consumes:
+      - application/json
+      operationId: project-get
+      parameters:
+      - description: Project id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/task-tracker-server_internal_domain_project_entity.Project'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Get project
+      tags:
+      - project
+    patch:
+      consumes:
+      - application/json
+      operationId: project-update
+      parameters:
+      - description: Project details to update
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/delivery.updateProjectRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Update an existing project
+      tags:
+      - project
+  /project/create:
+    post:
+      consumes:
+      - application/json
+      operationId: project-create
+      parameters:
+      - description: New project details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/delivery.createProjectRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created project
+          schema:
+            $ref: '#/definitions/task-tracker-server_internal_domain_project_entity.Project'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Create a new project
+      tags:
+      - project
+  /project/list:
+    get:
+      consumes:
+      - application/json
+      description: Get projects list of team (with team_id) or user (with user_id)
+      operationId: project-get-list
+      parameters:
+      - description: Team id
+        in: query
+        name: team_id
+        type: integer
+      - description: User id
+        in: query
+        name: user_id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/task-tracker-server_internal_domain_project_entity.Project'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Get projects list
+      tags:
+      - project
   /team/:id/role:
     post:
       consumes:

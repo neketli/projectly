@@ -28,7 +28,7 @@ migrate-down: migrate-build
 	./bin/migrate --down
 
 swagger:
-	go run github.com/swaggo/swag/cmd/swag@latest init --parseDependency --parseInternal -g ./cmd/server/main.go 
+	go run github.com/swaggo/swag/cmd/swag@latest init --outputTypes yaml --parseDependency --parseInternal -g ./cmd/server/main.go 
 .PHONY: swagger
 
 .DEFAULT_GOAL = build
