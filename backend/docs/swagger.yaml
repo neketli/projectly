@@ -1,5 +1,17 @@
 basePath: /api/v1
 definitions:
+  delivery.createBoardRequest:
+    properties:
+      project_id:
+        type: integer
+      title:
+        type: string
+    type: object
+  delivery.updateBoardRequest:
+    properties:
+      title:
+        type: string
+    type: object
   echo.HTTPError:
     properties:
       message: {}
@@ -76,6 +88,15 @@ definitions:
       name:
         type: string
       surname:
+        type: string
+    type: object
+  task-tracker-server_internal_domain_board_entity.Board:
+    properties:
+      id:
+        type: integer
+      project_id:
+        type: integer
+      title:
         type: string
     type: object
   task-tracker-server_internal_domain_project_entity.Project:
@@ -162,6 +183,178 @@ info:
   title: Task tracker server
   version: "1.0"
 paths:
+  /board/{id}:
+    delete:
+      consumes:
+      - application/json
+      operationId: board-delete
+      parameters:
+      - description: Board ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Delete board
+      tags:
+      - board
+    get:
+      consumes:
+      - application/json
+      operationId: board-get
+      parameters:
+      - description: Board id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/task-tracker-server_internal_domain_board_entity.Board'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Get board
+      tags:
+      - board
+    patch:
+      consumes:
+      - application/json
+      operationId: board-update
+      parameters:
+      - description: Board details to update
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/delivery.updateBoardRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Update an existing board
+      tags:
+      - board
+  /board/create:
+    post:
+      consumes:
+      - application/json
+      operationId: board-create
+      parameters:
+      - description: New board details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/delivery.createBoardRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created board
+          schema:
+            $ref: '#/definitions/task-tracker-server_internal_domain_board_entity.Board'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Create a new board
+      tags:
+      - board
+  /board/list:
+    get:
+      consumes:
+      - application/json
+      description: Get boards list of project
+      operationId: board-get-list
+      parameters:
+      - description: Project id
+        in: query
+        name: project_id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/task-tracker-server_internal_domain_board_entity.Board'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Get boards list
+      tags:
+      - board
+  /board/list-user:
+    get:
+      consumes:
+      - application/json
+      operationId: board-user-get-list
+      parameters:
+      - description: User id
+        in: query
+        name: user_id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items: {}
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Get users boards list
+      tags:
+      - board
   /project:
     get:
       consumes:

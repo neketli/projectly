@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	"task-tracker-server/config"
+	"task-tracker-server/internal/domain/board"
+	boardDelivery "task-tracker-server/internal/domain/board/delivery"
 	"task-tracker-server/internal/domain/project"
 	projectDelivery "task-tracker-server/internal/domain/project/delivery"
 	"task-tracker-server/internal/domain/team"
@@ -72,6 +74,12 @@ func Run(cfg *config.Config) {
 		Postgres: pg,
 	})
 	projectDelivery.New(api, projectUseCase)
+
+	boardUseCase := board.New(board.Dependency{
+		Logger:   l,
+		Postgres: pg,
+	})
+	boardDelivery.New(api, boardUseCase)
 
 	server := server.New(e, l)
 	server.Start(cfg.HTTP.Port)

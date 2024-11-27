@@ -33,7 +33,7 @@ func (ph *ProjectHandler) GetProject(c echo.Context) error {
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("can't get users: %s", err.Error()),
+			Message: fmt.Sprintf("can't get project: %s", err.Error()),
 		}
 	}
 
