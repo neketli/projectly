@@ -25,14 +25,12 @@
                 :label="$t('user.teams.table.name')"
             />
 
-            <ElTableColumn
-                align="right"
-            >
+            <ElTableColumn align="right">
                 <template #header>
                     <ElInput
                         v-model="search"
                         size="small"
-                        :placeholder="$t('user.teams.table.search')"
+                        :placeholder="$t('common.search')"
                     />
                 </template>
             </ElTableColumn>

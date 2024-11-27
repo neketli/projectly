@@ -4,6 +4,8 @@ common:
   theme:
     light: "Change to light theme"
     dark: "Change to dark theme"
+  search: "Search"
+  no_data: "No data found"
   button:
     create: "Create"
     delete: "Delete"
@@ -65,7 +67,6 @@ user:
       title: "Create a team"
     table:
       name: "Name"
-      search: "Search"
       empty: "Teams not found"
 
 team:
@@ -88,6 +89,12 @@ team:
       title: "Invite User to Team"
       email: "Email Address"
       invite: "Invite"
+  projects:
+    title: "Projects"
+    table:
+      code: "Code"
+      title: "Title"
+      description: "Description"
   create:
     title: "Create Team"
   update:
@@ -110,3 +117,19 @@ team:
     delete: "An error occurred while trying to delete the team"
     users:
       invite: "An error occurred while trying to invite the user to the team, please check the email address entered"
+
+project:
+  title: "Projects"
+  form:
+    code: "Code"
+    title: "Title"
+    description: "Description"
+  create:
+    title: "Create Project"
+  update:
+    title: "Edit Project"
+  delete:
+    title: "Delete Project"
+    confirm: "Are you sure you want to delete the project?"
+  success:
+    delete: "Project successfully deleted!"

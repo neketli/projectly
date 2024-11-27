@@ -1,10 +1,22 @@
 <template>
-    <div class="team container mx-auto">
+    <div class="team">
         <ElPageHeader @back="navigateTo('/')">
             <template #content>
                 <h1 class="text-2xl">
                     {{ $t('team.title') }}
                 </h1>
+            </template>
+
+            <template #breadcrumb>
+                <ElBreadcrumb separator="/">
+                    <ElBreadcrumbItem :to="{ path: '/' }">
+                        {{ $t('dashboard.title') }}
+                    </ElBreadcrumbItem>
+
+                    <ElBreadcrumbItem :to="{ path: `/team/${team.id}` }">
+                        {{ $t('team.title') }}
+                    </ElBreadcrumbItem>
+                </ElBreadcrumb>
             </template>
 
             <template #title>
@@ -76,10 +88,19 @@
             {{ team.description }}
         </p>
 
-        <TeamUsers
+        <div
             v-if="team.id"
-            :team-id="team.id"
-        />
+            class="flex mt-8 gap-8"
+        >
+            <TeamUsers
+                :team-id="team.id"
+                class="w-2/3"
+            />
+
+            <TeamProjects
+                :team-id="team.id"
+            />
+        </div>
 
         <ElDialog
             v-model="dialog.team"
@@ -97,6 +118,7 @@
 </template>
 
 <script lang="ts" setup>
+import type { Project } from '~/types/project'
 import type { Team } from '~/types/team'
 
 const { params } = useRoute()
@@ -106,11 +128,15 @@ useHead({
     title: t('team.title'),
 })
 
-const { getTeam, deleteTeam, removeTeamUser } = useTeam()
 const { getUserInfo } = useAuthStore()
 const teamStore = useTeamStore()
 
+const { getTeam, deleteTeam, removeTeamUser } = useTeam()
+const { getProjectsList } = useProjects()
+
 const { team } = toRefs(teamStore)
+
+const projects = ref<Project[]>([])
 
 const dialog = reactive({
     team: false,
@@ -146,15 +172,12 @@ const handleTeamUpdated = (updated: Team) => {
 
 onMounted(async () => {
     try {
-        team.value = await getTeam(+params.id)
+        team.value = await getTeam(Number(params.teamId))
+        projects.value = await getProjectsList({ team_id: team.value.id })
     }
     catch (err) {
         const error = err as Error
         ElMessage.error(error.message)
     }
-})
-
-onUnmounted(() => {
-    teamStore.$reset()
 })
 </script>

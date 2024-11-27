@@ -14,4 +14,9 @@
 definePageMeta({
     layout: 'default',
 })
+
+onMounted(() => {
+    useTeamStore().$reset()
+    useProjectStore().$reset()
+})
 </script>

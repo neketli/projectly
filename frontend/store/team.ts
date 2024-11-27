@@ -1,11 +1,13 @@
 import { defineStore } from 'pinia'
 import { UserRole, type UserWithRoles } from '~/types/user'
 import type { Team } from '~/types/team'
+import type { Project } from '~/types/project'
 
 export const useTeamStore = defineStore('task-tracker-team', {
     state: () => ({
         team: {} as Team,
         users: [] as UserWithRoles[],
+        project: {} as Project,
     }),
     getters: {
         getUserRole(state): UserRole {

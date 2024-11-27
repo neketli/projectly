@@ -1,5 +1,5 @@
 <template>
-    <ElCard class="mt-4">
+    <ElCard>
         <template #header>
             <div class="flex justify-between">
                 <h3 class="text-xl">
@@ -15,7 +15,10 @@
             </div>
         </template>
 
-        <ElTable :data="users">
+        <ElTable
+            :data="users"
+            :loading="isLoading"
+        >
             <ElTableColumn
                 prop="name"
                 width="150"
@@ -195,6 +198,7 @@ const handleUpdateRole = async (userId: number, newRoleId: number) => {
 }
 
 onMounted(async () => {
+    isLoading.value = true
     try {
         users.value = await getTeamUsers(props.teamId)
         roles.value = await getRoles()
