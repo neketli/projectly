@@ -2,7 +2,6 @@ package repository
 
 import (
 	"context"
-	"errors"
 	"fmt"
 
 	"task-tracker-server/internal/domain/project/entity"
@@ -16,7 +15,7 @@ func (r projectRepo) GetProjectList(ctx context.Context, teamID int) ([]entity.P
 	defer cancel()
 
 	sql, args, err := r.Builder.
-		Select("id", "name", "description", "code", "team_id").
+		Select("id", "title", "description", "code", "team_id").
 		From("project").
 		Where(sq.Eq{"team_id": teamID}).
 		ToSql()
@@ -33,10 +32,6 @@ func (r projectRepo) GetProjectList(ctx context.Context, teamID int) ([]entity.P
 	projects, err := pgx.CollectRows(rows, pgx.RowToStructByName[entity.Project])
 	if err != nil {
 		return nil, fmt.Errorf("project - repository - GetProjectList - pgx.CollectRows: %w", err)
-	}
-
-	if len(projects) == 0 {
-		return nil, errors.New("no projects found")
 	}
 
 	return projects, nil

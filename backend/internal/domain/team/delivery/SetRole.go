@@ -23,7 +23,7 @@ type setRoleRequest struct {
 // @Success     200
 // @Failure     400  {object} echo.HTTPError
 // @Failure     500  {object} echo.HTTPError
-// @Router      /team/:id/role [post]
+// @Router      /team/{id}/role [post]
 func (th *TeamHandler) SetRole(c echo.Context) error {
 	teamID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

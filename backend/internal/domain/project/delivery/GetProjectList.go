@@ -22,19 +22,31 @@ import (
 // @Failure		500		{object}	echo.HTTPError
 // @Router			/project/list [get]
 func (ph *ProjectHandler) GetProjectList(c echo.Context) error {
-	teamID, err := strconv.Atoi(c.QueryParam("team_id"))
-	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "invalid team id",
+	param := c.QueryParam("team_id")
+	var (
+		teamID int
+		userID int
+		err    error
+	)
+
+	if param != "" {
+		teamID, err = strconv.Atoi(param)
+		if err != nil {
+			return &echo.HTTPError{
+				Code:    http.StatusBadRequest,
+				Message: "invalid team id",
+			}
 		}
 	}
 
-	userID, err := strconv.Atoi(c.QueryParam("user_id"))
-	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "invalid user id",
+	param = c.QueryParam("user_id")
+	if param != "" {
+		userID, err = strconv.Atoi(param)
+		if err != nil {
+			return &echo.HTTPError{
+				Code:    http.StatusBadRequest,
+				Message: "invalid user id",
+			}
 		}
 	}
 

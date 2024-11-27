@@ -1,6 +1,10 @@
 basePath: /api/v1
 definitions:
-  delivery.createProjectRequest:
+  echo.HTTPError:
+    properties:
+      message: {}
+    type: object
+  internal_domain_project_delivery.createProjectRequest:
     properties:
       code:
         type: string
@@ -11,16 +15,12 @@ definitions:
       title:
         type: string
     type: object
-  delivery.updateProjectRequest:
+  internal_domain_project_delivery.updateProjectRequest:
     properties:
       description:
         type: string
       title:
         type: string
-    type: object
-  echo.HTTPError:
-    properties:
-      message: {}
     type: object
   internal_domain_team_delivery.addUserRequest:
     properties:
@@ -261,7 +261,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/delivery.updateProjectRequest'
+          $ref: '#/definitions/internal_domain_project_delivery.updateProjectRequest'
       produces:
       - application/json
       responses:
@@ -289,7 +289,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/delivery.createProjectRequest'
+          $ref: '#/definitions/internal_domain_project_delivery.createProjectRequest'
       produces:
       - application/json
       responses:
@@ -343,39 +343,6 @@ paths:
       summary: Get projects list
       tags:
       - project
-  /team/:id/role:
-    post:
-      consumes:
-      - application/json
-      operationId: team-set-role
-      parameters:
-      - description: user id and role id
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/internal_domain_team_delivery.setRoleRequest'
-      - description: Team ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/echo.HTTPError'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/echo.HTTPError'
-      summary: Set user role in team
-      tags:
-      - team
   /team/{id}:
     delete:
       consumes:
@@ -496,6 +463,39 @@ paths:
           schema:
             $ref: '#/definitions/echo.HTTPError'
       summary: Remove user from team
+      tags:
+      - team
+  /team/{id}/role:
+    post:
+      consumes:
+      - application/json
+      operationId: team-set-role
+      parameters:
+      - description: user id and role id
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_domain_team_delivery.setRoleRequest'
+      - description: Team ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Set user role in team
       tags:
       - team
   /team/{id}/users:
