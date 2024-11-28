@@ -4,12 +4,12 @@
             <template #header>
                 <div class="flex justify-between">
                     <h3 class="text-xl">
-                        {{ $t('team.projects.title') }}
+                        {{ $t('board.table.title') }}
                     </h3>
 
                     <ElButton
-                        v-if="teamStore.isEditAvailable"
-                        @click="dialog.project = true"
+                        v-if="projectStore.isEditAvailable"
+                        @click="dialog.board = true"
                     >
                         <Icon name="mdi:plus" />
                     </ElButton>
@@ -17,22 +17,17 @@
             </template>
 
             <ElTable
-                :data="projectItems"
+                :data="boardItems"
                 :loading="isLoading"
                 height="250"
                 row-class-name="cursor-pointer"
+                class="w-full"
                 :empty-text="$t('common.no_data')"
-                @row-click="handleProjectClick"
+                @row-click="handleBoardClick"
             >
                 <ElTableColumn
-                    prop="code"
-                    width="100"
-                    :label="$t('team.projects.table.code')"
-                />
-                <ElTableColumn
                     prop="title"
-                    width="150"
-                    :label="$t('team.projects.table.title')"
+                    :label="$t('board.form.title')"
                 />
 
                 <ElTableColumn
@@ -51,59 +46,60 @@
         </ElCard>
 
         <ElDialog
-            v-model="dialog.project"
-            :title="$t('project.create.title')"
+            v-model="dialog.board"
+            :title="$t('board.create.title')"
             align-center
             destroy-on-close
         >
-            <ProjectForm
-                :team-id="teamId"
-                @cancel="dialog.project = false"
-                @success="handleProjectCreated"
+            <BoardForm
+                :project-id="projectId"
+                @cancel="dialog.board = false"
+                @success="handleBoardCreated"
             />
         </ElDialog>
     </div>
 </template>
 
 <script lang="ts" setup>
-import type { Project } from '~/types/project'
+import type { Board } from '~/types/board'
 
-const props = defineProps<{ teamId: number }>()
+const props = defineProps<{ projectId: number }>()
 
-const teamStore = useTeamStore()
-const { getProjectsList } = useProjects()
+const route = useRoute()
 
-const projects: Ref<Project[]> = ref([])
+const projectStore = useProjectStore()
+const { getBoardsList } = useBoard()
+
+const boards: Ref<Board[]> = ref([])
 const search = ref('')
 
 const isLoading = ref(false)
 
 const dialog = reactive({
-    project: false,
+    board: false,
 })
 
-const projectItems = computed(() =>
+const boardItems = computed(() =>
     !search.value
-        ? projects.value
-        : projects.value.filter(item =>
-            item.title.toLowerCase().includes(search.value.toLowerCase())
-            || item.code.toLowerCase().includes(search.value.toLowerCase()),
+        ? boards.value
+        : boards.value.filter(item =>
+            item.title.toLowerCase().includes(search.value.toLowerCase()),
         ),
 )
 
-const handleProjectClick = async (project: Project) => {
-    navigateTo(`/team/${props.teamId}/project/${project.code}`)
+const handleBoardClick = async (board: Board) => {
+    navigateTo(`${route.path}/${board.id}`)
 }
 
-const handleProjectCreated = (project: Project) => {
-    projects.value.push(project)
-    dialog.project = false
+const handleBoardCreated = (board: Board) => {
+    boards.value.push(board)
+    dialog.board = false
 }
 
 onMounted(async () => {
     isLoading.value = true
     try {
-        projects.value = await getProjectsList({ team_id: props.teamId })
+        boards.value = await getBoardsList(props.projectId)
     }
     catch (err) {
         const error = err as Error

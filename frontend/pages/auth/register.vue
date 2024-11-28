@@ -8,6 +8,7 @@
             :model="authForm"
             class="max-w-md w-full container bg-white dark:bg-slate-800 dark:shadow-none dark:ring-2 dark:ring-slate-600 p-8 shadow-lg rounded-lg"
             label-position="top"
+            @submit.prevent
         >
             <h1 class="text-xl text-center font-medium mb-8">
                 {{ $t('auth.register.title') }}

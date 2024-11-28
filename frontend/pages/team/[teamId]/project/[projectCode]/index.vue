@@ -7,22 +7,6 @@
                 </h1>
             </template>
 
-            <template #breadcrumb>
-                <ElBreadcrumb separator="/">
-                    <ElBreadcrumbItem :to="{ path: '/' }">
-                        {{ $t('dashboard.title') }}
-                    </ElBreadcrumbItem>
-
-                    <ElBreadcrumbItem :to="{ path: `/team/${teamId}` }">
-                        {{ $t('team.title') }}
-                    </ElBreadcrumbItem>
-
-                    <ElBreadcrumbItem :to="{ path: `/team/${teamId}/project/${projectCode}` }">
-                        {{ $t('project.title') }}
-                    </ElBreadcrumbItem>
-                </ElBreadcrumb>
-            </template>
-
             <template #title>
                 <h3>
                     {{ $t('team.title') }}
@@ -64,12 +48,18 @@
         </ElPageHeader>
 
         <h3 class="text-4xl mt-2">
-            {{ $t('project.title') }} - {{ project.title }}
+            {{ project.title }}
         </h3>
 
         <p class="mt-2">
             {{ project.description }}
         </p>
+
+        <BoardTable
+            v-if="project.id"
+            :project-id="project.id"
+            class="mt-8 max-w-md mx-auto"
+        />
 
         <ElDialog
             v-model="dialog.project"
@@ -95,6 +85,10 @@ const { t } = useI18n()
 
 useHead({
     title: t('project.title'),
+})
+
+definePageMeta({
+    layout: 'team',
 })
 
 const projectStore = useProjectStore()

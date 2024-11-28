@@ -54,6 +54,7 @@
             class="pt-4"
             autocomplete="off"
             label-position="top"
+            @submit.prevent
         >
             <ElFormItem
                 :label="$t('profile.form.name')"

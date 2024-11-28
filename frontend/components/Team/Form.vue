@@ -7,6 +7,7 @@
         class="pt-4"
         autocomplete="off"
         label-position="top"
+        @submit.prevent
     >
         <ElFormItem
             v-for="item in items"

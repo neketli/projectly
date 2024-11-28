@@ -6,6 +6,7 @@
         :loading="isLoading"
         autocomplete="off"
         label-position="top"
+        @submit.prevent
     >
         <ElFormItem
             :label="$t('profile.form.password')"

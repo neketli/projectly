@@ -89,12 +89,6 @@ team:
       title: "Invite User to Team"
       email: "Email Address"
       invite: "Invite"
-  projects:
-    title: "Projects"
-    table:
-      code: "Code"
-      title: "Title"
-      description: "Description"
   create:
     title: "Create Team"
   update:
@@ -133,3 +127,18 @@ project:
     confirm: "Are you sure you want to delete the project?"
   success:
     delete: "Project successfully deleted!"
+board:
+  title: "Board"
+  table:
+    title: "Board List"
+  form:
+    title: "Title"
+  create:
+    title: "Create Board"
+  update:
+    title: "Edit Board"
+  delete:
+    title: "Delete Board"
+    confirm: "Are you sure you want to delete this board and all associated tasks?"
+  success:
+    delete: "Board successfully deleted!"

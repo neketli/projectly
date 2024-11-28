@@ -7,18 +7,6 @@
                 </h1>
             </template>
 
-            <template #breadcrumb>
-                <ElBreadcrumb separator="/">
-                    <ElBreadcrumbItem :to="{ path: '/' }">
-                        {{ $t('dashboard.title') }}
-                    </ElBreadcrumbItem>
-
-                    <ElBreadcrumbItem :to="{ path: `/team/${team.id}` }">
-                        {{ $t('team.title') }}
-                    </ElBreadcrumbItem>
-                </ElBreadcrumb>
-            </template>
-
             <template #title>
                 <h3>
                     {{ $t('dashboard.title') }}
@@ -81,7 +69,7 @@
         </ElPageHeader>
 
         <h3 class="text-4xl mt-2">
-            {{ $t('team.title') }} - {{ team.name }}
+            {{ team.name }}
         </h3>
 
         <p class="mt-2">
@@ -97,8 +85,9 @@
                 class="w-2/3"
             />
 
-            <TeamProjects
+            <ProjectTable
                 :team-id="team.id"
+                class="w-1/3"
             />
         </div>
 
@@ -126,6 +115,10 @@ const { t } = useI18n()
 
 useHead({
     title: t('team.title'),
+})
+
+definePageMeta({
+    layout: 'team',
 })
 
 const { getUserInfo } = useAuthStore()
