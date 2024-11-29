@@ -16,6 +16,12 @@ common:
     yes: "Да"
     no: "Нет"
 
+error:
+  page:
+    title: "Ошибка"
+    not_found: "Страница не найдена"
+    back: "Вернуться на главную страницу"
+
 auth:
   register:
     title: "Регистрация"

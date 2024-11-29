@@ -16,6 +16,13 @@ common:
     yes: "Yes"
     no: "No"
 
+error:
+  page:
+    title: "Error"
+    not_found: "Page not found"
+    back: "Return to the main page"
+
+
 auth:
   register:
     title: "Registration"
