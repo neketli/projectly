@@ -10,10 +10,10 @@ import (
 )
 
 type requestRegister struct {
-	Name     string `json:"name"`
-	Surname  string `json:"surname"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
+	Name     string `json:"name" validate:"required,min=2,max=128"`
+	Surname  string `json:"surname" validate:"required,min=2,max=128"`
+	Email    string `json:"email" validate:"required,email"`
+	Password string `json:"password" validate:"required"`
 }
 
 // @Summary	Register user
@@ -29,6 +29,13 @@ type requestRegister struct {
 func (h *UserHandler) Register(c echo.Context) error {
 	var request requestRegister
 	if err := c.Bind(&request); err != nil {
+		return &echo.HTTPError{
+			Code:    http.StatusBadRequest,
+			Message: fmt.Sprintf("validation error: %s", err.Error()),
+		}
+	}
+
+	if err := c.Validate(request); err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusBadRequest,
 			Message: fmt.Sprintf("validation error: %s", err.Error()),

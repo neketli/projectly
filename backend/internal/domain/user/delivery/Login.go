@@ -10,8 +10,8 @@ import (
 )
 
 type requestLogin struct {
-	Email    string `json:"email"`
-	Password string `json:"password"`
+	Email    string `json:"email" validate:"required,email"`
+	Password string `json:"password" validate:"required"`
 }
 
 // @Summary		Login user
@@ -19,7 +19,7 @@ type requestLogin struct {
 // @ID				user-login
 // @Tags			user
 // @Accept			application/json
-// @Produce		application/json
+// @Produce			application/json
 // @Param			requestLogin	body		requestLogin	true	"Login request body"
 // @Success		200				{object}	entity.Tokens
 // @Failure		400				{object}	echo.HTTPError
@@ -34,6 +34,13 @@ func (h *UserHandler) Login(c echo.Context) error {
 		}
 	}
 
+	if err := c.Validate(request); err != nil {
+		return &echo.HTTPError{
+			Code:    http.StatusBadRequest,
+			Message: fmt.Sprintf("validation error: %s", err.Error()),
+		}
+	}
+
 	user, err := h.UserUseCase.GetUserByEmail(c.Request().Context(), request.Email)
 	if err != nil {
 		return &echo.HTTPError{
@@ -42,7 +49,6 @@ func (h *UserHandler) Login(c echo.Context) error {
 		}
 	}
 
-	// Сравнение хэша и пароля
 	if bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(request.Password)) != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusUnauthorized,

@@ -16,7 +16,7 @@ import (
 // @ID				user-upload-avatar
 // @Tags			user
 // @Accept			application/json
-// @Produce		application/json
+// @Produce			application/json
 // @Param			image	formData	file	true	"file"
 // @Success		200
 // @Failure		400	{object}	echo.HTTPError	"Bad request"

@@ -14,6 +14,7 @@ import (
 	"task-tracker-server/pkg/minio"
 	"task-tracker-server/pkg/postgres"
 	"task-tracker-server/pkg/server"
+	"task-tracker-server/pkg/validator"
 
 	"github.com/golang-jwt/jwt/v5"
 	echojwt "github.com/labstack/echo-jwt/v4"
@@ -38,6 +39,8 @@ func Run(cfg *config.Config) {
 	l.Info("Minio connection is ok!")
 
 	e := echo.New()
+	e.Validator = validator.New()
+
 	api := e.Group("/api/v1")
 	auth := api.Group("/auth")
 

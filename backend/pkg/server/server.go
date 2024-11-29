@@ -11,6 +11,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"golang.org/x/time/rate"
 )
 
 type Server struct {
@@ -22,6 +23,8 @@ func New(engine *echo.Echo, logger logger.Interface) *Server {
 	engine.Use(middleware.Logger())
 	engine.Use(middleware.Recover())
 	engine.Use(middleware.CORS())
+	engine.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(rate.Limit(20))))
+	engine.HideBanner = true
 
 	engine.GET("/health", func(c echo.Context) error {
 		return c.String(http.StatusOK, "OK")
