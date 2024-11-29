@@ -34,6 +34,20 @@ definitions:
       title:
         type: string
     type: object
+  internal_domain_status_delivery.createStatusRequest:
+    properties:
+      board_id:
+        type: integer
+      order:
+        type: integer
+      title:
+        type: string
+    type: object
+  internal_domain_status_delivery.updateStatusRequest:
+    properties:
+      title:
+        type: string
+    type: object
   internal_domain_team_delivery.addUserRequest:
     properties:
       email:
@@ -115,6 +129,17 @@ definitions:
       id:
         type: integer
       team_id:
+        type: integer
+      title:
+        type: string
+    type: object
+  task-tracker-server_internal_domain_status_entity.Status:
+    properties:
+      board_id:
+        type: integer
+      id:
+        type: integer
+      order:
         type: integer
       title:
         type: string
@@ -544,6 +569,121 @@ paths:
       summary: Get projects list
       tags:
       - project
+  /status/{id}:
+    delete:
+      consumes:
+      - application/json
+      operationId: status-delete
+      parameters:
+      - description: Status ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Delete status
+      tags:
+      - status
+    patch:
+      consumes:
+      - application/json
+      operationId: status-update
+      parameters:
+      - description: Status details to update
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_domain_status_delivery.updateStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Update an existing status
+      tags:
+      - status
+  /status/create:
+    post:
+      consumes:
+      - application/json
+      operationId: status-create
+      parameters:
+      - description: New status details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_domain_status_delivery.createStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created status
+          schema:
+            $ref: '#/definitions/task-tracker-server_internal_domain_status_entity.Status'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Create a new status
+      tags:
+      - status
+  /status/list:
+    get:
+      consumes:
+      - application/json
+      description: Get status list of project
+      operationId: status-list
+      parameters:
+      - description: Project id
+        in: query
+        name: board_id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/task-tracker-server_internal_domain_status_entity.Status'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Get status list
+      tags:
+      - status
   /team/{id}:
     delete:
       consumes:

@@ -10,8 +10,8 @@ type BoardHandler struct {
 	boardUseCase usecase.BoardUseCase
 }
 
-func New(router *echo.Group, pu usecase.BoardUseCase) {
-	handler := &BoardHandler{boardUseCase: pu}
+func New(router *echo.Group, b usecase.BoardUseCase) {
+	handler := &BoardHandler{boardUseCase: b}
 
 	board := router.Group("/board")
 	{
