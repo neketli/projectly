@@ -17,8 +17,8 @@ type updateProjectRequest struct {
 // @Summary	Update an existing project
 // @ID			project-update
 // @Tags		project
-// @Accept		json
-// @Produce	json
+// @Accept		application/json
+// @Produce	application/json
 // @Param		request	body	updateProjectRequest	true	"Project details to update"
 // @Success	200
 // @Failure	400	{object}	echo.HTTPError	"Invalid input"

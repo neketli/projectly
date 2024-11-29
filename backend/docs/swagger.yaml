@@ -1,20 +1,20 @@
 basePath: /api/v1
 definitions:
-  delivery.createBoardRequest:
+  echo.HTTPError:
+    properties:
+      message: {}
+    type: object
+  internal_domain_board_delivery.createBoardRequest:
     properties:
       project_id:
         type: integer
       title:
         type: string
     type: object
-  delivery.updateBoardRequest:
+  internal_domain_board_delivery.updateBoardRequest:
     properties:
       title:
         type: string
-    type: object
-  echo.HTTPError:
-    properties:
-      message: {}
     type: object
   internal_domain_project_delivery.createProjectRequest:
     properties:
@@ -98,6 +98,13 @@ definitions:
         type: integer
       title:
         type: string
+    type: object
+  task-tracker-server_internal_domain_board_entity.BoardTeam:
+    properties:
+      board:
+        $ref: '#/definitions/task-tracker-server_internal_domain_board_entity.Board'
+      team_id:
+        type: integer
     type: object
   task-tracker-server_internal_domain_project_entity.Project:
     properties:
@@ -248,7 +255,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/delivery.updateBoardRequest'
+          $ref: '#/definitions/internal_domain_board_delivery.updateBoardRequest'
       produces:
       - application/json
       responses:
@@ -276,7 +283,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/delivery.createBoardRequest'
+          $ref: '#/definitions/internal_domain_board_delivery.createBoardRequest'
       produces:
       - application/json
       responses:
@@ -342,7 +349,8 @@ paths:
         "200":
           description: OK
           schema:
-            items: {}
+            items:
+              $ref: '#/definitions/task-tracker-server_internal_domain_board_entity.BoardTeam'
             type: array
         "400":
           description: Bad Request

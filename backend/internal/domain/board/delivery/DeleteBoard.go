@@ -11,14 +11,14 @@ import (
 // @Summary	Delete board
 // @ID			board-delete
 // @Tags		board
-// @Accept		json
-// @Produce	json
+// @Accept		application/json
+// @Produce	application/json
 // @Param		id	path	int	true	"Board ID"
 // @Success	200
 // @Failure	400	{object}	echo.HTTPError
 // @Failure	500	{object}	echo.HTTPError
 // @Router		/board/{id} [delete]
-func (ph *BoardHandler) DeleteBoard(c echo.Context) error {
+func (h *BoardHandler) DeleteBoard(c echo.Context) error {
 	boardID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		return &echo.HTTPError{
@@ -27,7 +27,7 @@ func (ph *BoardHandler) DeleteBoard(c echo.Context) error {
 		}
 	}
 
-	err = ph.boardUseCase.DeleteBoard(c.Request().Context(), boardID)
+	err = h.boardUseCase.DeleteBoard(c.Request().Context(), boardID)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusInternalServerError,

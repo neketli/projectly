@@ -8,16 +8,16 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary     Delete team
-// @ID          team-delete
-// @Tags        team
-// @Accept      json
-// @Produce     json
-// @Param       id   path     int     true        "Team ID"
-// @Success     200  {object}  echo.HTTPError
-// @Failure     400  {object}  echo.HTTPError
-// @Failure     500  {object}  echo.HTTPError
-// @Router      /team/{id} [delete]
+// @Summary	Delete team
+// @ID			team-delete
+// @Tags		team
+// @Accept		application/json
+// @Produce	application/json
+// @Param		id	path		int	true	"Team ID"
+// @Success	200	{object}	echo.HTTPError
+// @Failure	400	{object}	echo.HTTPError
+// @Failure	500	{object}	echo.HTTPError
+// @Router		/team/{id} [delete]
 func (th *TeamHandler) DeleteTeam(c echo.Context) error {
 	teamID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

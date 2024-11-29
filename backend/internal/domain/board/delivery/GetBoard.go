@@ -12,14 +12,14 @@ import (
 // @Summary	Get board
 // @ID			board-get
 // @Tags		board
-// @Accept		json
-// @Produce		json
+// @Accept		application/json
+// @Produce	application/json
 // @Param		id	path		int	true	"Board id"
 // @Success	200	{object}	boardEntity.Board
 // @Failure	400	{object}	echo.HTTPError
 // @Failure	500	{object}	echo.HTTPError
 // @Router		/board/{id} [get]
-func (ph *BoardHandler) GetBoard(c echo.Context) error {
+func (h *BoardHandler) GetBoard(c echo.Context) error {
 	boardID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		return &echo.HTTPError{
@@ -29,7 +29,7 @@ func (ph *BoardHandler) GetBoard(c echo.Context) error {
 	}
 
 	var board boardEntity.Board
-	board, err = ph.boardUseCase.GetBoard(c.Request().Context(), boardID)
+	board, err = h.boardUseCase.GetBoard(c.Request().Context(), boardID)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusInternalServerError,

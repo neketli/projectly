@@ -8,11 +8,11 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary	Delete project
+// @Summary		Delete project
 // @ID			project-delete
 // @Tags		project
-// @Accept		json
-// @Produce	json
+// @Accept		application/json
+// @Produce		application/json
 // @Param		id	path	int	true	"Project ID"
 // @Success	200
 // @Failure	400	{object}	echo.HTTPError

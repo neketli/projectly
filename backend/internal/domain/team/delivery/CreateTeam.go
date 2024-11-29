@@ -14,16 +14,16 @@ type createTeamRequest struct {
 	Description string `json:"description"`
 }
 
-// @Summary     Create a new team
-// @ID          create-team
-// @Tags        team
-// @Accept      application/json
-// @Produce     application/json
-// @Param       request body createTeamRequest true "New team details"
-// @Success     201  {object}  entity.Team "Created team"
-// @Failure     400  {object}  echo.HTTPError "Bad request"
-// @Failure     500  {object}  echo.HTTPError "Internal server error"
-// @Router      /team/create [post]
+// @Summary	Create a new team
+// @ID			create-team
+// @Tags		team
+// @Accept		application/json
+// @Produce	application/json
+// @Param		request	body		createTeamRequest	true	"New team details"
+// @Success	201		{object}	entity.Team			"Created team"
+// @Failure	400		{object}	echo.HTTPError		"Bad request"
+// @Failure	500		{object}	echo.HTTPError		"Internal server error"
+// @Router		/team/create [post]
 func (th *TeamHandler) CreateTeam(c echo.Context) error {
 	var request createTeamRequest
 	if err := c.Bind(&request); err != nil {

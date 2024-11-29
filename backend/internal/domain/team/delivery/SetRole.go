@@ -13,17 +13,17 @@ type setRoleRequest struct {
 	RoleID int `json:"role_id"`
 }
 
-// @Summary     Set user role in team
-// @ID          team-set-role
-// @Tags        team
-// @Accept      json
-// @Produce     json
-// @Param       request body setRoleRequest true "user id and role id"
-// @Param       id   path     int     true        "Team ID"
-// @Success     200
-// @Failure     400  {object} echo.HTTPError
-// @Failure     500  {object} echo.HTTPError
-// @Router      /team/{id}/role [post]
+// @Summary	Set user role in team
+// @ID			team-set-role
+// @Tags		team
+// @Accept		application/json
+// @Produce	application/json
+// @Param		request	body	setRoleRequest	true	"user id and role id"
+// @Param		id		path	int				true	"Team ID"
+// @Success	200
+// @Failure	400	{object}	echo.HTTPError
+// @Failure	500	{object}	echo.HTTPError
+// @Router		/team/{id}/role [post]
 func (th *TeamHandler) SetRole(c echo.Context) error {
 	teamID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

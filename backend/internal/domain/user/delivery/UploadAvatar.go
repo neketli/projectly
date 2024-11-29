@@ -11,17 +11,17 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary     Upload user avatar
-// @Description Upload user file and save it in object storage
-// @ID          user-upload-avatar
-// @Tags  	    user
-// @Accept      json
-// @Produce     json
-// @Param		image formData file true "file"
-// @Success     200
-// @Failure     400 {object} echo.HTTPError "Bad request"
-// @Failure     500 {object} echo.HTTPError "Internal server error"
-// @Router      /user/upload-avatar [post]
+// @Summary		Upload user avatar
+// @Description	Upload user file and save it in object storage
+// @ID				user-upload-avatar
+// @Tags			user
+// @Accept			application/json
+// @Produce		application/json
+// @Param			image	formData	file	true	"file"
+// @Success		200
+// @Failure		400	{object}	echo.HTTPError	"Bad request"
+// @Failure		500	{object}	echo.HTTPError	"Internal server error"
+// @Router			/user/upload-avatar [post]
 func (h *UserHandler) UploadAvatar(c echo.Context) error {
 	form, err := c.MultipartForm()
 	if err != nil {

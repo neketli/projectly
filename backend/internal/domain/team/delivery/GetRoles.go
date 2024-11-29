@@ -8,15 +8,15 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary     Get team roles
-// @ID          team-roles
-// @Tags        team
-// @Accept      json
-// @Produce     json
-// @Success     200  {array}  entity.Role
-// @Failure     400  {object} echo.HTTPError
-// @Failure     500  {object} echo.HTTPError
-// @Router      /team/roles [get]
+// @Summary	Get team roles
+// @ID			team-roles
+// @Tags		team
+// @Accept		application/json
+// @Produce	application/json
+// @Success	200	{array}		entity.Role
+// @Failure	400	{object}	echo.HTTPError
+// @Failure	500	{object}	echo.HTTPError
+// @Router		/team/roles [get]
 func (th *TeamHandler) GetRoles(c echo.Context) error {
 	var roles []entity.Role
 	roles, err := th.teamUseCase.GetRoles(c.Request().Context())

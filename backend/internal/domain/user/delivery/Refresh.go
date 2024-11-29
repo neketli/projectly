@@ -12,17 +12,17 @@ type requestRefresh struct {
 	RefreshToken string `json:"refreshToken"`
 }
 
-// @Summary     Refresh user token
-// @Description Refresh user token and return new access and refresh tokens
-// @Tags        user
-// @Accept      json
-// @Produce     json
-// @Param       refreshToken body requestRefresh true "Refresh token value"
-// @Success     200          {object} entity.Tokens
-// @Failure     400          {object} echo.HTTPError
-// @Failure     401          {object} echo.HTTPError
-// @Failure     500          {object} echo.HTTPError
-// @Router      /user/refresh [post]
+// @Summary		Refresh user token
+// @Description	Refresh user token and return new access and refresh tokens
+// @Tags			user
+// @Accept			application/json
+// @Produce		application/json
+// @Param			refreshToken	body		requestRefresh	true	"Refresh token value"
+// @Success		200				{object}	entity.Tokens
+// @Failure		400				{object}	echo.HTTPError
+// @Failure		401				{object}	echo.HTTPError
+// @Failure		500				{object}	echo.HTTPError
+// @Router			/user/refresh [post]
 func (h *UserHandler) Refresh(c echo.Context) error {
 	var request requestRefresh
 	if err := c.Bind(&request); err != nil {

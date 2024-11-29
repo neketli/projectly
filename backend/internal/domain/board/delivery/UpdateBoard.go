@@ -16,14 +16,14 @@ type updateBoardRequest struct {
 // @Summary	Update an existing board
 // @ID			board-update
 // @Tags		board
-// @Accept		json
-// @Produce	json
+// @Accept		application/json
+// @Produce	application/json
 // @Param		request	body	updateBoardRequest	true	"Board details to update"
 // @Success	200
 // @Failure	400	{object}	echo.HTTPError	"Invalid input"
 // @Failure	500	{object}	echo.HTTPError	"Internal server error"
 // @Router		/board/{id} [patch]
-func (ph *BoardHandler) UpdateBoard(c echo.Context) error {
+func (h *BoardHandler) UpdateBoard(c echo.Context) error {
 	boardID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		return &echo.HTTPError{
@@ -40,7 +40,7 @@ func (ph *BoardHandler) UpdateBoard(c echo.Context) error {
 		}
 	}
 
-	err = ph.boardUseCase.UpdateBoard(c.Request().Context(), &entity.Board{
+	err = h.boardUseCase.UpdateBoard(c.Request().Context(), &entity.Board{
 		ID:    boardID,
 		Title: request.Title,
 	})

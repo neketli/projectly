@@ -9,17 +9,17 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary     Update an existing team
-// @ID          update-team
-// @Tags        team
-// @Accept      json
-// @Produce     json
-// @Param       team body entity.Team true "Team details to update"
-// @Success     200 {object} entity.Team "Updated team details"
-// @Failure     400 {object} echo.HTTPError "Invalid input"
-// @Failure     404 {object} echo.HTTPError "Team not found"
-// @Failure     500 {object} echo.HTTPError "Internal server error"
-// @Router      /team/update [put]
+// @Summary	Update an existing team
+// @ID			update-team
+// @Tags		team
+// @Accept		application/json
+// @Produce	application/json
+// @Param		team	body		entity.Team		true	"Team details to update"
+// @Success	200		{object}	entity.Team		"Updated team details"
+// @Failure	400		{object}	echo.HTTPError	"Invalid input"
+// @Failure	404		{object}	echo.HTTPError	"Team not found"
+// @Failure	500		{object}	echo.HTTPError	"Internal server error"
+// @Router		/team/update [put]
 func (th *TeamHandler) UpdateTeam(c echo.Context) error {
 	var team entity.Team
 	err := c.Bind(&team)

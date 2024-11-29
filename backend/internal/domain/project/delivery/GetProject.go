@@ -9,11 +9,11 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary	Get project
+// @Summary		Get project
 // @ID			project-get
 // @Tags		project
-// @Accept		json
-// @Produce	json
+// @Accept		application/json
+// @Produce		application/json
 // @Param		id	path		int	true	"Project id"
 // @Success	200	{object}	projectEntity.Project
 // @Failure	400	{object}	echo.HTTPError

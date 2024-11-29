@@ -9,11 +9,11 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary	Get project
+// @Summary		Get project
 // @ID			project-get-by-code
 // @Tags		project
-// @Accept		json
-// @Produce	json
+// @Accept		application/json
+// @Produce		application/json
 // @Param		team_id	query		int		true	"Team id"
 // @Param		code	query		string	true	"Project code name"
 // @Success	200		{object}	projectEntity.Project

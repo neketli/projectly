@@ -13,8 +13,8 @@ import (
 // @Description	Get projects list of team (with team_id) or user (with user_id)
 // @ID				project-get-list
 // @Tags			project
-// @Accept			json
-// @Produce		json
+// @Accept			application/json
+// @Produce		application/json
 // @Param			team_id	query		int	false	"Team id"
 // @Param			user_id	query		int	false	"User id"
 // @Success		200		{array}		projectEntity.Project

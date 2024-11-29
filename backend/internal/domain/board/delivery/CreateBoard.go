@@ -13,17 +13,17 @@ type createBoardRequest struct {
 	ProjectID int    `json:"project_id"`
 }
 
-// @Summary Create a new board
+// @Summary	Create a new board
 // @ID			board-create
 // @Tags		board
 // @Accept		application/json
-// @Produce		application/json
+// @Produce	application/json
 // @Param		request	body		createBoardRequest	true	"New board details"
-// @Success	201		{object}	entity.Board			"Created board"
-// @Failure	400		{object}	echo.HTTPError			"Bad request"
-// @Failure	500		{object}	echo.HTTPError			"Internal server error"
+// @Success	201		{object}	entity.Board		"Created board"
+// @Failure	400		{object}	echo.HTTPError		"Bad request"
+// @Failure	500		{object}	echo.HTTPError		"Internal server error"
 // @Router		/board/create [post]
-func (ph *BoardHandler) CreateBoard(c echo.Context) error {
+func (h *BoardHandler) CreateBoard(c echo.Context) error {
 	var request createBoardRequest
 	if err := c.Bind(&request); err != nil {
 		return &echo.HTTPError{
@@ -38,7 +38,7 @@ func (ph *BoardHandler) CreateBoard(c echo.Context) error {
 		ProjectID: request.ProjectID,
 	}
 
-	err := ph.boardUseCase.CreateBoard(c.Request().Context(), board)
+	err := h.boardUseCase.CreateBoard(c.Request().Context(), board)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusBadRequest,

@@ -9,16 +9,16 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary     Get team
-// @ID          team-get
-// @Tags        team
-// @Accept      json
-// @Produce     json
-// @Param       id   path     int     true  "Team id"
-// @Success     200  {object}  entity.Team
-// @Failure     400  {object} echo.HTTPError
-// @Failure     500  {object} echo.HTTPError
-// @Router      /team/{id} [get]
+// @Summary	Get team
+// @ID			team-get
+// @Tags		team
+// @Accept		application/json
+// @Produce	application/json
+// @Param		id	path		int	true	"Team id"
+// @Success	200	{object}	entity.Team
+// @Failure	400	{object}	echo.HTTPError
+// @Failure	500	{object}	echo.HTTPError
+// @Router		/team/{id} [get]
 func (th *TeamHandler) GetTeam(c echo.Context) error {
 	teamID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

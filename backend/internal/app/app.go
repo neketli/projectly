@@ -5,13 +5,9 @@ import (
 	"fmt"
 	"task-tracker-server/config"
 	"task-tracker-server/internal/domain/board"
-	boardDelivery "task-tracker-server/internal/domain/board/delivery"
 	"task-tracker-server/internal/domain/project"
-	projectDelivery "task-tracker-server/internal/domain/project/delivery"
 	"task-tracker-server/internal/domain/team"
-	teamDelivery "task-tracker-server/internal/domain/team/delivery"
 	"task-tracker-server/internal/domain/user"
-	userDelivery "task-tracker-server/internal/domain/user/delivery"
 	userEntity "task-tracker-server/internal/domain/user/entity"
 	"task-tracker-server/pkg/logger"
 	"task-tracker-server/pkg/minio"
@@ -42,7 +38,6 @@ func Run(cfg *config.Config) {
 
 	e := echo.New()
 	api := e.Group("/api/v1")
-
 	auth := api.Group("/auth")
 
 	api.Use(echojwt.WithConfig(
@@ -56,30 +51,32 @@ func Run(cfg *config.Config) {
 	))
 
 	userUseCase := user.New(user.Dependency{
-		Config:   cfg,
-		Logger:   l,
-		Postgres: pg,
-		S3:       m,
+		Config:     cfg,
+		Logger:     l,
+		Postgres:   pg,
+		S3:         m,
+		Router:     api,
+		AuthRouter: auth,
 	})
-	userDelivery.New(auth, api, userUseCase)
 
-	teamUseCase := team.New(team.Dependency{
-		Logger:   l,
-		Postgres: pg,
+	team.New(team.Dependency{
+		Logger:      l,
+		Postgres:    pg,
+		Router:      api,
+		UserUseCase: userUseCase,
 	})
-	teamDelivery.New(api, teamUseCase, userUseCase)
 
-	projectUseCase := project.New(project.Dependency{
+	project.New(project.Dependency{
 		Logger:   l,
 		Postgres: pg,
+		Router:   api,
 	})
-	projectDelivery.New(api, projectUseCase)
 
-	boardUseCase := board.New(board.Dependency{
+	board.New(board.Dependency{
 		Logger:   l,
 		Postgres: pg,
+		Router:   api,
 	})
-	boardDelivery.New(api, boardUseCase)
 
 	server := server.New(e, l)
 	server.Start(cfg.HTTP.Port)
