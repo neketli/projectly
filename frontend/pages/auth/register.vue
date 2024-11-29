@@ -124,7 +124,6 @@
 
 <script setup lang="ts">
 import type { FormRules, FormInstance } from 'element-plus'
-import { validators } from '~/utils/validators'
 
 const { t } = useI18n()
 
@@ -138,6 +137,7 @@ definePageMeta({
 })
 
 const authStore = useAuthStore()
+const validators = useValidator()
 
 const state = reactive({
     isLoading: false,

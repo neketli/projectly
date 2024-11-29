@@ -107,9 +107,11 @@ import type { FormInstance, FormRules, UploadProps, UploadUserFile } from 'eleme
 
 const emit = defineEmits(['success', 'cancel'])
 
+const { t } = useI18n()
 const { getUserInfo } = toRefs(useAuthStore())
 const { updateUserInfo, uploadAvatar } = useUserActions()
-const { t } = useI18n()
+
+const validators = useValidator()
 
 const files: Ref<UploadUserFile[]> = ref([])
 const imageUrl = ref('')

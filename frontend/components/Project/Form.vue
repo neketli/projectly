@@ -62,6 +62,7 @@ const emit = defineEmits(['success', 'cancel'])
 
 const { t } = useI18n()
 const { createProject, updateProject } = useProjects()
+const validators = useValidator()
 
 const isLoading = ref(false)
 

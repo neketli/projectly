@@ -68,8 +68,10 @@
 <script lang="ts" setup>
 import type { FormInstance, FormRules } from 'element-plus'
 
-const { changePassword } = useUserActions()
 const { t } = useI18n()
+
+const { changePassword } = useUserActions()
+const validators = useValidator()
 
 const emit = defineEmits(['success', 'cancel'])
 

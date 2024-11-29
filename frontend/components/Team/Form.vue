@@ -57,6 +57,7 @@ const emit = defineEmits(['success', 'cancel'])
 
 const { t } = useI18n()
 const { createTeam, updateTeam } = useTeam()
+const validators = useValidator()
 
 const isLoading = ref(false)
 

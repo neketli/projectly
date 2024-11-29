@@ -62,6 +62,7 @@ const emit = defineEmits(['success', 'cancel'])
 
 const { t } = useI18n()
 const { createBoard, updateBoard } = useBoard()
+const validators = useValidator()
 
 const isLoading = ref(false)
 
