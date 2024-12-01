@@ -139,8 +139,10 @@ project:
     confirm: "Are you sure you want to delete the project?"
   success:
     delete: "Project successfully deleted!"
+
 board:
   title: "Board"
+  empty: "No current statuses"
   table:
     title: "Board List"
   form:
@@ -154,3 +156,19 @@ board:
     confirm: "Are you sure you want to delete this board and all associated tasks?"
   success:
     delete: "Board successfully deleted!"
+
+status:
+  form:
+    title: "Status Name"
+    left: "Move left"
+    right: "Move right"
+  create:
+    task: "Create Task"
+    title: "Create Status"
+    default: "New Status"
+  delete:
+    confirm: "Are you sure you want to delete this status?"
+  success:
+    create: "Status has been successfully created!"
+    update: "Status has been successfully updated!"
+    delete: "Status has been successfully deleted!"

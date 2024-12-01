@@ -44,12 +44,25 @@
                 >
                     <Icon name="mdi:pencil" />
                 </ElButton>
+
+                <ElButton
+                    v-if="projectStore.isEditAvailable"
+                    :title="$t('status.create.title')"
+                    type="primary"
+                    circle
+                    plain
+                    @click="handleAddStatus"
+                >
+                    <Icon name="mdi:file-plus" />
+                </ElButton>
             </template>
         </ElPageHeader>
 
         <h3 class="text-4xl mt-2">
             {{ board.title }}
         </h3>
+
+        <BoardMain />
 
         <ElDialog
             v-model="dialog.board"
@@ -82,9 +95,10 @@ definePageMeta({
 })
 
 const projectStore = useProjectStore()
-const { getBoard, deleteBoard } = useBoard()
+const { board, statusList } = toRefs(useBoardStore())
 
-const board = ref({} as Board)
+const { getBoard, deleteBoard } = useBoard()
+const { getStatusList } = useStatus()
 
 const dialog = reactive({
     board: false,
@@ -107,9 +121,20 @@ const handleDeleteBoard = async () => {
     }
 }
 
+const handleAddStatus = () => {
+    statusList.value.push({
+        id: 0,
+        title: t('status.create.default'),
+        order: statusList.value.length,
+        board_id: Number(boardId),
+        hex_color: '#409EFF',
+    })
+}
+
 onMounted(async () => {
     try {
         board.value = await getBoard(Number(boardId))
+        statusList.value = await getStatusList(Number(boardId))
     }
     catch (err) {
         const error = err as Error
