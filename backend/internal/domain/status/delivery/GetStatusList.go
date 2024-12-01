@@ -10,12 +10,12 @@ import (
 )
 
 // @Summary		Get status list
-// @Description	Get status list of project
+// @Description	Get status list of project board
 // @ID				status-list
 // @Tags			status
 // @Accept			application/json
 // @Produce			application/json
-// @Param			board_id	query		int	false	"Project id"
+// @Param			board_id	query		int	false	"Board id"
 // @Success		200			{array}		entity.Status
 // @Failure		400			{object}	echo.HTTPError
 // @Failure		500			{object}	echo.HTTPError

@@ -17,6 +17,7 @@ func New(router *echo.Group, uc usecase.StatusUseCase) {
 	{
 		status.POST("/create", handler.CreateStatus)
 		status.PATCH("/:id", handler.UpdateStatus)
-		status.DELETE("/:id", handler.DeleteStatus)
+		status.DELETE("/delete", handler.DeleteStatus)
+		status.GET("/list", handler.GetStatusList)
 	}
 }

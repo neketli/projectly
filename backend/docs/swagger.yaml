@@ -1,6 +1,6 @@
 basePath: /api/v1
 definitions:
-  echo.HTTPError:
+  github_com_labstack_echo_v4.HTTPError:
     properties:
       message: {}
     type: object
@@ -38,6 +38,8 @@ definitions:
     properties:
       board_id:
         type: integer
+      hex_color:
+        type: string
       order:
         type: integer
       title:
@@ -45,6 +47,10 @@ definitions:
     type: object
   internal_domain_status_delivery.updateStatusRequest:
     properties:
+      hex_color:
+        type: string
+      order:
+        type: integer
       title:
         type: string
     type: object
@@ -78,6 +84,9 @@ definitions:
         type: string
       password:
         type: string
+    required:
+    - email
+    - password
     type: object
   internal_domain_user_delivery.requestRefresh:
     properties:
@@ -89,11 +98,20 @@ definitions:
       email:
         type: string
       name:
+        maxLength: 128
+        minLength: 2
         type: string
       password:
         type: string
       surname:
+        maxLength: 128
+        minLength: 2
         type: string
+    required:
+    - email
+    - name
+    - password
+    - surname
     type: object
   internal_domain_user_delivery.requestUpdate:
     properties:
@@ -137,6 +155,8 @@ definitions:
     properties:
       board_id:
         type: integer
+      hex_color:
+        type: string
       id:
         type: integer
       order:
@@ -234,11 +254,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Delete board
       tags:
       - board
@@ -262,11 +282,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Get board
       tags:
       - board
@@ -289,11 +309,11 @@ paths:
         "400":
           description: Invalid input
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Update an existing board
       tags:
       - board
@@ -319,11 +339,11 @@ paths:
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Create a new board
       tags:
       - board
@@ -350,11 +370,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Get boards list
       tags:
       - board
@@ -380,11 +400,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Get users boards list
       tags:
       - board
@@ -414,11 +434,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Get project
       tags:
       - project
@@ -441,11 +461,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Delete project
       tags:
       - project
@@ -469,11 +489,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Get project
       tags:
       - project
@@ -496,11 +516,11 @@ paths:
         "400":
           description: Invalid input
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Update an existing project
       tags:
       - project
@@ -526,11 +546,11 @@ paths:
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Create a new project
       tags:
       - project
@@ -561,41 +581,15 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Get projects list
       tags:
       - project
   /status/{id}:
-    delete:
-      consumes:
-      - application/json
-      operationId: status-delete
-      parameters:
-      - description: Status ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/echo.HTTPError'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/echo.HTTPError'
-      summary: Delete status
-      tags:
-      - status
     patch:
       consumes:
       - application/json
@@ -615,11 +609,11 @@ paths:
         "400":
           description: Invalid input
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Update an existing status
       tags:
       - status
@@ -645,22 +639,54 @@ paths:
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Create a new status
+      tags:
+      - status
+  /status/delete:
+    delete:
+      consumes:
+      - application/json
+      operationId: status-delete
+      parameters:
+      - description: Status id
+        in: query
+        name: id
+        required: true
+        type: integer
+      - description: Status order
+        in: query
+        name: order
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+      summary: Delete status
       tags:
       - status
   /status/list:
     get:
       consumes:
       - application/json
-      description: Get status list of project
+      description: Get status list of project board
       operationId: status-list
       parameters:
-      - description: Project id
+      - description: Board id
         in: query
         name: board_id
         type: integer
@@ -676,11 +702,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Get status list
       tags:
       - status
@@ -701,15 +727,15 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Delete team
       tags:
       - team
@@ -733,11 +759,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Get team
       tags:
       - team
@@ -766,11 +792,11 @@ paths:
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Add user to team
       tags:
       - team
@@ -798,11 +824,11 @@ paths:
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Remove user from team
       tags:
       - team
@@ -831,11 +857,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Set user role in team
       tags:
       - team
@@ -862,11 +888,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Get team users
       tags:
       - team
@@ -892,11 +918,11 @@ paths:
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Create a new team
       tags:
       - team
@@ -917,11 +943,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Get team roles
       tags:
       - team
@@ -947,15 +973,15 @@ paths:
         "400":
           description: Invalid input
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "404":
           description: Team not found
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Update an existing team
       tags:
       - team
@@ -977,11 +1003,11 @@ paths:
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Get user teams
       tags:
       - team
@@ -1006,15 +1032,15 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Change user password
       tags:
       - user
@@ -1041,11 +1067,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Login user
       tags:
       - user
@@ -1071,15 +1097,15 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Refresh user token
       tags:
       - user
@@ -1105,11 +1131,11 @@ paths:
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Register user
       tags:
       - user
@@ -1126,11 +1152,11 @@ paths:
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Remove user avatar
       tags:
       - user
@@ -1157,11 +1183,11 @@ paths:
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Update user
       tags:
       - user
@@ -1185,11 +1211,11 @@ paths:
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Upload user avatar
       tags:
       - user

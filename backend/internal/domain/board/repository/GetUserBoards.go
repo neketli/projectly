@@ -30,7 +30,7 @@ func (r boardRepo) GetUserBoards(ctx context.Context, userID int) ([]entity.Boar
 	}
 	defer rows.Close()
 
-	boards := make([]entity.BoardTeam, 4)
+	boards := make([]entity.BoardTeam, 0, 4)
 	for rows.Next() {
 		board := entity.Board{}
 		var teamID int

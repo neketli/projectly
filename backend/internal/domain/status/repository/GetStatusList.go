@@ -7,7 +7,6 @@ import (
 	"task-tracker-server/internal/domain/status/entity"
 
 	sq "github.com/Masterminds/squirrel"
-	"github.com/jackc/pgx/v5"
 )
 
 func (r statusRepo) GetStatusList(ctx context.Context, boardID int) ([]entity.Status, error) {
@@ -15,7 +14,7 @@ func (r statusRepo) GetStatusList(ctx context.Context, boardID int) ([]entity.St
 	defer cancel()
 
 	sql, args, err := r.Builder.
-		Select("id", "board_id", "title", "order").
+		Select("id", "board_id", "title", "status_order", "hex_color").
 		From("status").
 		Where(sq.Eq{"board_id": boardID}).
 		ToSql()
@@ -29,9 +28,23 @@ func (r statusRepo) GetStatusList(ctx context.Context, boardID int) ([]entity.St
 	}
 	defer rows.Close()
 
-	statuses, err := pgx.CollectRows(rows, pgx.RowToStructByName[entity.Status])
-	if err != nil {
-		return nil, fmt.Errorf("status - repository - GetStatusList - pgx.CollectRows: %w", err)
+	if err = rows.Err(); err != nil {
+		return nil, fmt.Errorf("status - repository - GetStatusList - rows.Err: %w", err)
+	}
+
+	statuses := make([]entity.Status, 0, 3)
+	for rows.Next() {
+		var status entity.Status
+		if err := rows.Scan(
+			&status.ID,
+			&status.BoardID,
+			&status.Title,
+			&status.Order,
+			&status.HexColor,
+		); err != nil {
+			return nil, fmt.Errorf("status - repository - GetStatusList - rows.Scan: %w", err)
+		}
+		statuses = append(statuses, status)
 	}
 
 	return statuses, nil

@@ -9,9 +9,10 @@ import (
 )
 
 type createStatusRequest struct {
-	BoardID int    `json:"board_id"`
-	Title   string `json:"title"`
-	Order   int    `json:"order"`
+	BoardID  int    `json:"board_id"`
+	Title    string `json:"title"`
+	Order    int    `json:"order"`
+	HexColor string `json:"hex_color"`
 }
 
 // @Summary	Create a new status
@@ -34,10 +35,11 @@ func (h *StatusHandler) CreateStatus(c echo.Context) error {
 	}
 
 	status := &entity.Status{
-		ID:      0,
-		BoardID: request.BoardID,
-		Title:   request.Title,
-		Order:   request.Order,
+		ID:       0,
+		BoardID:  request.BoardID,
+		Title:    request.Title,
+		Order:    request.Order,
+		HexColor: request.HexColor,
 	}
 
 	err := h.statusUseCase.CreateStatus(c.Request().Context(), status)

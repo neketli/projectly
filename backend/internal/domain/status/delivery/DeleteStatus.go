@@ -13,21 +13,30 @@ import (
 // @Tags		status
 // @Accept		application/json
 // @Produce		application/json
-// @Param		id	path	int	true	"Status ID"
-// @Success	200
+// @Param		id		query		int	true	"Status id"
+// @Param		order	query		int	true	"Status order"
+// @Success	204
 // @Failure	400	{object}	echo.HTTPError
 // @Failure	500	{object}	echo.HTTPError
-// @Router		/status/{id} [delete]
+// @Router		/status/delete [delete]
 func (h *StatusHandler) DeleteStatus(c echo.Context) error {
-	statusID, err := strconv.Atoi(c.Param("id"))
+	statusID, err := strconv.Atoi(c.QueryParam("id"))
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusBadRequest,
-			Message: "invalid id",
+			Message: "invalid status id",
 		}
 	}
 
-	err = h.statusUseCase.DeleteStatus(c.Request().Context(), statusID)
+	order, err := strconv.Atoi(c.QueryParam("order"))
+	if err != nil {
+		return &echo.HTTPError{
+			Code:    http.StatusBadRequest,
+			Message: "invalid status order",
+		}
+	}
+
+	err = h.statusUseCase.DeleteStatus(c.Request().Context(), statusID, order)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusInternalServerError,
@@ -35,5 +44,5 @@ func (h *StatusHandler) DeleteStatus(c echo.Context) error {
 		}
 	}
 
-	return c.NoContent(http.StatusOK)
+	return c.NoContent(http.StatusNoContent)
 }

@@ -10,7 +10,9 @@ import (
 )
 
 type updateStatusRequest struct {
-	Title string `json:"title"`
+	Title    string `json:"title"`
+	Order    int    `json:"order"`
+	HexColor string `json:"hex_color"`
 }
 
 // @Summary	Update an existing status
@@ -41,8 +43,10 @@ func (h *StatusHandler) UpdateStatus(c echo.Context) error {
 	}
 
 	err = h.statusUseCase.UpdateStatus(c.Request().Context(), &entity.Status{
-		ID:    statusID,
-		Title: request.Title,
+		ID:       statusID,
+		Title:    request.Title,
+		Order:    request.Order,
+		HexColor: request.HexColor,
 	})
 	if err != nil {
 		return &echo.HTTPError{

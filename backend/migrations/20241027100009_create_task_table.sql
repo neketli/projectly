@@ -2,6 +2,7 @@
 -- +goose StatementBegin
 CREATE TABLE "task" (
 	"id" SERIAL PRIMARY KEY,
+	"project_index" INTEGER NOT NULL,
 	"title" VARCHAR(128) NOT NULL,
 	"description" VARCHAR(4096),
 	"priority" INTEGER,
@@ -9,7 +10,7 @@ CREATE TABLE "task" (
 	"tracked_time" INTEGER,
 	"deadline" TIMESTAMP,
 	"created_at" TIMESTAMP NOT NULL DEFAULT NOW(),
-	"updated_at" TIMESTAMP,
+	"updated_at" TIMESTAMP NOT NULL DEFAULT NOW(),
 	"finished_at" TIMESTAMP,
 	"status_id" INTEGER NOT NULL,
 	"created_user_id" INTEGER NOT NULL,
