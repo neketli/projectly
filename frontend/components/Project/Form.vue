@@ -4,7 +4,6 @@
         :rules="rules"
         :model="form"
         :loading="isLoading"
-        class="pt-4"
         autocomplete="off"
         label-position="top"
         @submit.prevent

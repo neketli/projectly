@@ -81,7 +81,7 @@
                         />
                         <ElColorPicker
                             v-model="color"
-                            :predefine="predefineColors"
+                            :predefine="defaultStatusColors"
                         />
                     </div>
                 </div>
@@ -132,7 +132,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { Status } from '~/types/board'
+import { defaultStatusColors, type Status } from '~/types/board'
 
 const props = defineProps<{ status: Status }>()
 const emit = defineEmits(['create', 'update', 'delete'])
@@ -144,13 +144,7 @@ const dialog = reactive({
     delete: false,
 })
 const title = ref('')
-const color = ref('#409EFF')
-const predefineColors = [
-    '#409EFF',
-    '#F56C6C',
-    '#E6A23C',
-    '#67C23A',
-]
+const color = ref(defaultStatusColors[0])
 
 const handleEditStatus = () => {
     isEdit.value = true

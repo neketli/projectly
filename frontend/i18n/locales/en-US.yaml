@@ -147,6 +147,7 @@ board:
     title: "Board List"
   form:
     title: "Title"
+    setup: "Add default statuses to the board"
   create:
     title: "Create Board"
   update:
@@ -172,3 +173,7 @@ status:
     create: "Status has been successfully created!"
     update: "Status has been successfully updated!"
     delete: "Status has been successfully deleted!"
+  default:
+    todo: "To do 🎯"
+    in_progress: "In progress 📝"
+    done: "Done ✅"

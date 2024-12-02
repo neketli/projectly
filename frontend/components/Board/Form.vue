@@ -4,7 +4,6 @@
         :rules="rules"
         :model="form"
         :loading="isLoading"
-        class="pt-4"
         autocomplete="off"
         label-position="top"
         @submit.prevent
@@ -26,6 +25,13 @@
                 </template>
             </ElInput>
         </ElFormItem>
+
+        <ElCheckbox
+            v-if="!board?.id"
+            v-model="isSetup"
+            :label="$t('board.form.setup')"
+            class="mb-4"
+        />
 
         <div>
             <ElButton
@@ -61,10 +67,11 @@ const props = defineProps<{
 const emit = defineEmits(['success', 'cancel'])
 
 const { t } = useI18n()
-const { createBoard, updateBoard } = useBoard()
+const { createBoard, updateBoard, setupDefaultBoard } = useBoard()
 const validators = useValidator()
 
 const isLoading = ref(false)
+const isSetup = ref(true)
 
 const formElement = ref<FormInstance>()
 const form = ref({
@@ -113,6 +120,9 @@ const saveBoard = async () => {
         }
         else {
             board = await createBoard({ ...form.value, project_id: props.projectId })
+            if (isSetup.value) {
+                await setupDefaultBoard(board.id)
+            }
         }
 
         emit('success', board)

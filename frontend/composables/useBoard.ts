@@ -1,8 +1,10 @@
 import type { AxiosError } from 'axios'
-import type { Board } from '~/types/board'
+import { defaultStatusColors, type Board } from '~/types/board'
 
 export const useBoard = () => {
     const { $api } = useNuxtApp()
+    const { t } = useI18n()
+
     const getBoard = async (id: number): Promise<Board> => {
         try {
             const { data } = await $api.get(`/board/${id}`)
@@ -37,6 +39,35 @@ export const useBoard = () => {
         catch (error) {
             const axiosError = error as AxiosError<{ message: string }>
             throw new Error(axiosError.response?.data?.message || 'Failed to create board')
+        }
+    }
+
+    const setupDefaultBoard = async (board_id: number): Promise<void> => {
+        const { createStatus } = useStatus()
+
+        const statuses = [
+            {
+                title: t('status.default.todo'),
+                order: 0,
+                hex_color: defaultStatusColors[0],
+                board_id,
+            },
+            {
+                title: t('status.default.in_progress'),
+                order: 1,
+                hex_color: defaultStatusColors[1],
+                board_id,
+            },
+            {
+                title: t('status.default.done'),
+                order: 2,
+                hex_color: defaultStatusColors[2],
+                board_id,
+            },
+        ]
+
+        for (const status of statuses) {
+            await createStatus(status)
         }
     }
 
@@ -78,5 +109,5 @@ export const useBoard = () => {
         }
     }
 
-    return { getBoard, getUserBoards, getBoardsList, createBoard, updateBoard, deleteBoard }
+    return { getBoard, getUserBoards, getBoardsList, createBoard, setupDefaultBoard, updateBoard, deleteBoard }
 }
