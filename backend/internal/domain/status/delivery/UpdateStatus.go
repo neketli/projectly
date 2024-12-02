@@ -12,7 +12,9 @@ import (
 type updateStatusRequest struct {
 	Title    string `json:"title"`
 	Order    int    `json:"order"`
+	OldOrder *int   `json:"old_order"`
 	HexColor string `json:"hex_color"`
+	BoardID  int    `json:"board_id"`
 }
 
 // @Summary	Update an existing status
@@ -47,7 +49,8 @@ func (h *StatusHandler) UpdateStatus(c echo.Context) error {
 		Title:    request.Title,
 		Order:    request.Order,
 		HexColor: request.HexColor,
-	})
+		BoardID:  request.BoardID,
+	}, request.OldOrder)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusInternalServerError,

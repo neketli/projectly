@@ -12,6 +12,7 @@ type StatusRepository interface {
 	UpdateStatus(ctx context.Context, status *entity.Status) error
 	DeleteStatus(ctx context.Context, statusID int, order int) error
 	GetStatusList(ctx context.Context, boardID int) ([]entity.Status, error)
+	UpdateOrders(ctx context.Context, boardID int, oldOrder, newOrder int) error
 }
 
 const (

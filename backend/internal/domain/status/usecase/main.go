@@ -9,7 +9,7 @@ import (
 
 type StatusUseCase interface {
 	CreateStatus(ctx context.Context, status *entity.Status) error
-	UpdateStatus(ctx context.Context, status *entity.Status) error
+	UpdateStatus(ctx context.Context, status *entity.Status, oldOrder *int) error
 	DeleteStatus(ctx context.Context, statusID, order int) error
 	GetStatusList(ctx context.Context, boardID int) ([]entity.Status, error)
 }

@@ -47,8 +47,12 @@ definitions:
     type: object
   internal_domain_status_delivery.updateStatusRequest:
     properties:
+      board_id:
+        type: integer
       hex_color:
         type: string
+      old_order:
+        type: integer
       order:
         type: integer
       title:
