@@ -1,7 +1,10 @@
 <template>
     <section class="main-board w-full h-full p-4">
         <ElScrollbar v-if="sortedStatusList.length">
-            <div class="flex h-[72vh] py-1 mx-4 gap-4">
+            <div
+                ref="parent"
+                class="flex h-[72vh] py-1 mx-4 gap-4"
+            >
                 <StatusItem
                     v-for="status in sortedStatusList"
                     :key="status.id+status.order"
@@ -24,11 +27,12 @@
 import type { Status } from '~/types/board'
 
 const { t } = useI18n()
+const [parent] = useAutoAnimate()
 
 const boardStore = useBoardStore()
 
-const { sortedStatusList } = toRefs(boardStore)
-const { createStatus, updateStatus, deleteStatus } = useStatus()
+const { statusList, sortedStatusList } = toRefs(boardStore)
+const { getStatusList, createStatus, updateStatus, deleteStatus } = useStatus()
 
 const handleCreateStatus = async (status: Status) => {
     try {
@@ -44,8 +48,8 @@ const handleCreateStatus = async (status: Status) => {
 
 const handleUpdateStatus = async (status: Status) => {
     try {
-        await updateStatus(status)
-        boardStore.updateStatus(status)
+        await updateStatus(status, statusList.value.find(s => s.id === status.id)?.order)
+        statusList.value = await getStatusList(boardStore.board.id)
         ElMessage.success(t('status.success.update'))
     }
     catch (err) {

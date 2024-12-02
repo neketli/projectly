@@ -36,8 +36,10 @@
                                 {{ $t('common.button.delete') }}
                             </ElDropdownItem>
 
-                            <!-- TODO: Добавить возможность двигать колонки -->
-                            <!-- <ElDropdownItem @click="handleMove('right')">
+                            <ElDropdownItem
+                                :disabled="status.order === statusCount - 1"
+                                @click="handleMove('right')"
+                            >
                                 <Icon
                                     name="mdi:arrow-right"
                                     class="mr-2"
@@ -45,13 +47,16 @@
                                 {{ $t('status.form.right') }}
                             </ElDropdownItem>
 
-                            <ElDropdownItem @click="handleMove('left')">
+                            <ElDropdownItem
+                                :disabled="status.order === 0"
+                                @click="handleMove('left')"
+                            >
                                 <Icon
                                     name="mdi:arrow-left"
                                     class="mr-2"
                                 />
                                 {{ $t('status.form.left') }}
-                            </ElDropdownItem> -->
+                            </ElDropdownItem>
                         </template>
                     </ElDropdown>
 
@@ -132,6 +137,8 @@ import type { Status } from '~/types/board'
 const props = defineProps<{ status: Status }>()
 const emit = defineEmits(['create', 'update', 'delete'])
 
+const { statusCount } = useBoardStore()
+
 const isEdit = ref(false)
 const dialog = reactive({
     delete: false,
@@ -168,6 +175,18 @@ const handleSaveStatus = () => {
     })
 
     title.value = ''
+}
+
+const handleMove = (direction: 'left' | 'right') => {
+    if ((direction === 'left' && props.status.order === 0)
+      || (direction === 'right' && props.status.order === statusCount - 1)) return
+
+    emit('update', {
+        ...props.status,
+        order: direction === 'left'
+            ? props.status.order - 1
+            : props.status.order + 1,
+    })
 }
 
 onMounted(() => {

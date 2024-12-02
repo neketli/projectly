@@ -11,13 +11,12 @@ export const useBoardStore = defineStore('task-tracker-board', {
         sortedStatusList: (state) => {
             return state.statusList.sort((a, b) => a.order - b.order)
         },
+        statusCount: (state) => {
+            return state.statusList.length
+        },
     },
 
     actions: {
-
-        updateStatus(status: Status) {
-            this.statusList = this.statusList.map(s => (s.id === status.id ? status : s))
-        },
         replaceStatus(status: Status) {
             this.statusList.splice(status.order, 1, status)
         },

@@ -15,12 +15,14 @@ export const useStatus = () => {
         }
     }
 
-    const updateStatus = async (updatedStatus: Status): Promise<Status> => {
+    const updateStatus = async (updatedStatus: Status, oldStatusOrder?: number): Promise<Status> => {
         try {
             await $api.patch(`/status/${updatedStatus.id}`, {
                 title: updatedStatus.title,
                 order: updatedStatus.order,
+                old_order: oldStatusOrder,
                 hex_color: updatedStatus.hex_color,
+                board_id: updatedStatus.board_id,
             })
             return updatedStatus
         }
