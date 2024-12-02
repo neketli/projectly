@@ -144,7 +144,7 @@ const dialog = reactive({
     delete: false,
 })
 const title = ref('')
-const color = ref(defaultStatusColors[0])
+const color = ref(props.status.hex_color || defaultStatusColors[0])
 
 const handleEditStatus = () => {
     isEdit.value = true

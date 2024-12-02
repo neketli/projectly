@@ -14,9 +14,9 @@ export type Status = {
 
 export const defaultStatusColors = [
     '#007BFF', //  Blue
-    '#FFC107', //  Yellow
+    '#FD7E14', //  Orange
     '#28A745', //  Green
     '#DC3545', //  Red
     '#6F42C1', //  Purple
-    '#FD7E14', //  Orange
+    '#FFC107', //  Yellow
 ]
