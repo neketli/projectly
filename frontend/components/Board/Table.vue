@@ -97,8 +97,8 @@ const handleBoardCreated = (board: Board) => {
 }
 
 onMounted(async () => {
-    isLoading.value = true
     try {
+        isLoading.value = true
         boards.value = await getBoardsList(props.projectId)
     }
     catch (err) {

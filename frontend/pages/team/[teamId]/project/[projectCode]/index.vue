@@ -99,6 +99,8 @@ const dialog = reactive({
     project: false,
 })
 
+const isLoading = ref(false)
+
 const handleProjectUpdated = (updated: Project) => {
     project.value = updated
     dialog.project = false
@@ -118,11 +120,15 @@ const handleDeleteProject = async () => {
 
 onMounted(async () => {
     try {
+        isLoading.value = true
         project.value = await getTeamProject(Number(teamId), `${projectCode}`)
     }
     catch (err) {
         const error = err as Error
         ElMessage.error(error.message)
+    }
+    finally {
+        isLoading.value = false
     }
 })
 </script>

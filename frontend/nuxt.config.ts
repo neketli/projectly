@@ -25,7 +25,7 @@ export default defineNuxtConfig({
     imports: {
         dirs: ['store'],
     },
-    devtools: { enabled: process.env.NODE_ENV !== 'production' },
+    devtools: { enabled: false }, // process.env.NODE_ENV !== 'production'
 
     site: { indexable: false },
 

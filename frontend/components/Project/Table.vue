@@ -103,8 +103,8 @@ const handleProjectCreated = (project: Project) => {
 }
 
 onMounted(async () => {
-    isLoading.value = true
     try {
+        isLoading.value = true
         projects.value = await getProjectsList({ team_id: props.teamId })
     }
     catch (err) {

@@ -62,7 +62,7 @@
             {{ board.title }}
         </h3>
 
-        <BoardMain />
+        <BoardMain v-loading="isLoading" />
 
         <ElDialog
             v-model="dialog.board"
@@ -104,6 +104,8 @@ const dialog = reactive({
     board: false,
 })
 
+const isLoading = ref(false)
+
 const handleBoardUpdated = (updated: Board) => {
     board.value = updated
     dialog.board = false
@@ -127,18 +129,22 @@ const handleAddStatus = () => {
         title: t('status.create.default'),
         order: statusList.value.length,
         board_id: Number(boardId),
-        hex_color: '#409EFF',
+        hex_color: '',
     })
 }
 
 onMounted(async () => {
     try {
+        isLoading.value = true
         board.value = await getBoard(Number(boardId))
         statusList.value = await getStatusList(Number(boardId))
     }
     catch (err) {
         const error = err as Error
         ElMessage.error(error.message)
+    }
+    finally {
+        isLoading.value = false
     }
 })
 </script>
