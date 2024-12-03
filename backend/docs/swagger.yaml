@@ -1,5 +1,47 @@
 basePath: /api/v1
 definitions:
+  delivery.createTaskRequest:
+    properties:
+      assigned_user_id:
+        type: integer
+      deadline:
+        type: string
+      description:
+        type: string
+      finished_at:
+        type: string
+      priority:
+        type: integer
+      status_id:
+        type: integer
+      story_points:
+        type: integer
+      title:
+        type: string
+      tracked_time:
+        type: integer
+    type: object
+  delivery.updateTaskRequest:
+    properties:
+      assigned_user_id:
+        type: integer
+      deadline:
+        type: string
+      description:
+        type: string
+      finished_at:
+        type: string
+      priority:
+        type: integer
+      status_id:
+        type: integer
+      story_points:
+        type: integer
+      title:
+        type: string
+      tracked_time:
+        type: integer
+    type: object
   github_com_labstack_echo_v4.HTTPError:
     properties:
       message: {}
@@ -164,6 +206,68 @@ definitions:
       id:
         type: integer
       order:
+        type: integer
+      title:
+        type: string
+    type: object
+  task-tracker-server_internal_domain_task_entity.Task:
+    properties:
+      assigned_user_id:
+        type: integer
+      created_at:
+        type: string
+      created_user_id:
+        type: integer
+      deadline:
+        type: string
+      description:
+        type: string
+      finished_at:
+        type: string
+      id:
+        type: integer
+      priority:
+        type: integer
+      project_index:
+        type: integer
+      status_id:
+        type: integer
+      story_points:
+        type: integer
+      title:
+        type: string
+      tracked_time:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  task-tracker-server_internal_domain_task_entity.TaskCard:
+    properties:
+      assigned_user:
+        properties:
+          avatar:
+            type: string
+          name:
+            type: string
+          surname:
+            type: string
+        type: object
+      deadline:
+        type: string
+      priority:
+        type: integer
+      project_code:
+        type: string
+      project_index:
+        type: integer
+      status:
+        properties:
+          hex_color:
+            type: string
+          title:
+            type: string
+        type: object
+      story_points:
         type: integer
       title:
         type: string
@@ -714,6 +818,189 @@ paths:
       summary: Get status list
       tags:
       - status
+  /task/{id}:
+    delete:
+      consumes:
+      - application/json
+      operationId: task-delete
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+      summary: Delete task
+      tags:
+      - task
+    get:
+      consumes:
+      - application/json
+      operationId: task-get
+      parameters:
+      - description: Task id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/task-tracker-server_internal_domain_task_entity.Task'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+      summary: Get task
+      tags:
+      - task
+    patch:
+      consumes:
+      - application/json
+      operationId: task-update
+      parameters:
+      - description: Task details to update
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/delivery.updateTaskRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+      summary: Update an existing task
+      tags:
+      - task
+  /task/create:
+    post:
+      consumes:
+      - application/json
+      operationId: task-create
+      parameters:
+      - description: New task details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/delivery.createTaskRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created task
+          schema:
+            $ref: '#/definitions/task-tracker-server_internal_domain_task_entity.Task'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+      summary: Create a new task
+      tags:
+      - task
+  /task/list:
+    get:
+      consumes:
+      - application/json
+      description: Get tasks list of board
+      operationId: task-get-list
+      parameters:
+      - description: Task limits
+        in: query
+        name: limit
+        type: integer
+      - description: Board id
+        in: query
+        name: board_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/task-tracker-server_internal_domain_task_entity.Task'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+      summary: Get tasks list
+      tags:
+      - task
+  /task/list-user:
+    get:
+      consumes:
+      - application/json
+      operationId: task-user-get-list
+      parameters:
+      - description: Task limits
+        in: query
+        name: limit
+        type: integer
+      - description: User id
+        in: query
+        name: user_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/task-tracker-server_internal_domain_task_entity.TaskCard'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+      summary: Get users tasks list
+      tags:
+      - task
   /team/{id}:
     delete:
       consumes:
