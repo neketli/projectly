@@ -30,7 +30,17 @@ export const useTask = () => {
         }
     }
 
-    const createTask = async (data: Omit<Task, 'id'>): Promise<Task> => {
+    const createTask = async (data: {
+        title: string
+        description?: string
+        priority: number
+        story_points?: number
+        deadline?: number
+        tracked_time?: number
+        status_id: number
+        assigned_user_id?: number | string
+        finished_at?: number
+    }): Promise<Task> => {
         try {
             const { data: task } = await $api.post('/task/create', data)
             return task

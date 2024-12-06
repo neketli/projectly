@@ -191,7 +191,11 @@ const dialog = reactive({
 const title = ref('')
 const color = ref(props.status.hex_color || defaultStatusColors[0])
 
-const taskList = computed(() => tasks.value[props.status.id])
+const taskList = computed(() => {
+    const arr = tasks.value[props.status.id]
+    arr.sort((a, b) => a.updated_at - b.updated_at)
+    return arr
+})
 
 const handleEditStatus = () => {
     isEdit.value = true
