@@ -1,33 +1,29 @@
 package entity
 
-import (
-	"time"
-)
-
 type Task struct {
-	ID             int        `json:"id"`
-	ProjectIndex   int        `json:"project_index"`
-	Title          string     `json:"title"`
-	Description    *string    `json:"description"`
-	Priority       *int       `json:"priority"`
-	StoryPoints    *int       `json:"story_points"`
-	TrackedTime    *int       `json:"tracked_time"`
-	Deadline       *time.Time `json:"deadline"`
-	CreatedAt      time.Time  `json:"created_at"`
-	UpdatedAt      time.Time  `json:"updated_at"`
-	FinishedAt     *time.Time `json:"finished_at"`
-	StatusID       int        `json:"status_id"`
-	CreatedUserID  int        `json:"created_user_id"`
-	AssignedUserID *int       `json:"assigned_user_id"`
+	ID             int    `json:"id"`
+	ProjectIndex   int    `json:"project_index"`
+	Title          string `json:"title"`
+	Description    string `json:"description,omitempty"`
+	Priority       int    `json:"priority,omitempty"`
+	StoryPoints    int    `json:"story_points,omitempty"`
+	TrackedTime    int    `json:"tracked_time,omitempty"`
+	Deadline       int64  `json:"deadline,omitempty"`
+	CreatedAt      int64  `json:"created_at"`
+	UpdatedAt      int64  `json:"updated_at"`
+	FinishedAt     int64  `json:"finished_at,omitempty"`
+	StatusID       int    `json:"status_id"`
+	CreatedUserID  int    `json:"created_user_id"`
+	AssignedUserID int    `json:"assigned_user_id,omitempty"`
 }
 
 type TaskCard struct {
-	ProjectCode  string     `json:"project_code"`
-	ProjectIndex int        `json:"project_index"`
-	Title        string     `json:"title"`
-	Priority     *int       `json:"priority"`
-	StoryPoints  *int       `json:"story_points"`
-	Deadline     *time.Time `json:"deadline"`
+	ProjectCode  string `json:"project_code"`
+	ProjectIndex int    `json:"project_index"`
+	Title        string `json:"title"`
+	Priority     int    `json:"priority"`
+	StoryPoints  int    `json:"story_points"`
+	Deadline     int    `json:"deadline"`
 	Status       struct {
 		Title    string `json:"title"`
 		HexColor string `json:"hex_color"`

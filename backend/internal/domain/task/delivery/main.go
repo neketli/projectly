@@ -16,9 +16,10 @@ func New(router *echo.Group, b usecase.TaskUseCase) {
 	task := router.Group("/task")
 	{
 		task.POST("/create", handler.CreateTask)
-		task.PATCH("/:id", handler.UpdateTask)
+		task.PUT("/:id", handler.UpdateTask)
 		task.DELETE("/:id", handler.DeleteTask)
 		task.GET("/:id", handler.GetTask)
+		task.PATCH("/:id/change-status", handler.UpdateTaskStatus)
 
 		task.GET("/list", handler.GetTaskList)
 		task.GET("/list-user", handler.GetUserTaskList)

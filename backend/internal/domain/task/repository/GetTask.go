@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	"task-tracker-server/internal/domain/task/entity"
+	"task-tracker-server/internal/domain/task/repository/model"
 
 	sq "github.com/Masterminds/squirrel"
 	"github.com/jackc/pgx/v5"
@@ -30,7 +31,7 @@ func (r taskRepo) GetTask(ctx context.Context, taskID int) (entity.Task, error) 
 	}
 	defer rows.Close()
 
-	tasks, err := pgx.CollectRows(rows, pgx.RowToStructByName[entity.Task])
+	tasks, err := pgx.CollectRows(rows, pgx.RowToStructByName[model.Task])
 	if err != nil {
 		return entity.Task{}, fmt.Errorf("task - repository - GetTask - pgx.CollectRows: %w", err)
 	}
@@ -39,5 +40,5 @@ func (r taskRepo) GetTask(ctx context.Context, taskID int) (entity.Task, error) 
 		return entity.Task{}, errors.New("no task found")
 	}
 
-	return tasks[0], nil
+	return tasks[0].ToEntity(), nil
 }

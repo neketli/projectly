@@ -5,21 +5,20 @@ import (
 	"net/http"
 	"task-tracker-server/internal/domain/task/entity"
 	"task-tracker-server/internal/domain/user/delivery/token"
-	"time"
 
 	"github.com/labstack/echo/v4"
 )
 
 type createTaskRequest struct {
-	Title          string     `json:"title"`
-	Description    *string    `json:"description"`
-	Priority       *int       `json:"priority"`
-	StoryPoints    *int       `json:"story_points"`
-	TrackedTime    *int       `json:"tracked_time"`
-	Deadline       *time.Time `json:"deadline"`
-	FinishedAt     *time.Time `json:"finished_at"`
-	StatusID       int        `json:"status_id"`
-	AssignedUserID *int       `json:"assigned_user_id"`
+	Title          string  `json:"title"`
+	Description    *string `json:"description"`
+	Priority       *int    `json:"priority"`
+	StoryPoints    *int    `json:"story_points"`
+	TrackedTime    *int    `json:"tracked_time"`
+	Deadline       *int64  `json:"deadline"`
+	FinishedAt     *int64  `json:"finished_at"`
+	StatusID       int     `json:"status_id"`
+	AssignedUserID *int    `json:"assigned_user_id"`
 }
 
 // @Summary	Create a new task
@@ -49,18 +48,34 @@ func (h *TaskHandler) CreateTask(c echo.Context) error {
 		}
 	}
 
-	task, err := h.taskUseCase.CreateTask(c.Request().Context(), entity.Task{
-		Title:          request.Title,
-		Description:    request.Description,
-		Priority:       request.Priority,
-		StoryPoints:    request.StoryPoints,
-		TrackedTime:    request.TrackedTime,
-		Deadline:       request.Deadline,
-		FinishedAt:     request.FinishedAt,
-		StatusID:       request.StatusID,
-		CreatedUserID:  claims.ID,
-		AssignedUserID: request.AssignedUserID,
-	})
+	newTask := entity.Task{
+		Title:         request.Title,
+		StatusID:      request.StatusID,
+		CreatedUserID: claims.ID,
+	}
+	if request.Description != nil {
+		newTask.Description = *request.Description
+	}
+	if request.Priority != nil {
+		newTask.Priority = *request.Priority
+	}
+	if request.StoryPoints != nil {
+		newTask.StoryPoints = *request.StoryPoints
+	}
+	if request.TrackedTime != nil {
+		newTask.TrackedTime = *request.TrackedTime
+	}
+	if request.Deadline != nil {
+		newTask.Deadline = *request.Deadline
+	}
+	if request.FinishedAt != nil {
+		newTask.FinishedAt = *request.FinishedAt
+	}
+	if request.AssignedUserID != nil {
+		newTask.AssignedUserID = *request.AssignedUserID
+	}
+
+	task, err := h.taskUseCase.CreateTask(c.Request().Context(), newTask)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusBadRequest,

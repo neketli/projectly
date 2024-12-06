@@ -13,7 +13,7 @@ import (
 // @ID			team-users
 // @Tags		team
 // @Accept		application/json
-// @Produce	application/json
+// @Produce		application/json
 // @Param		id	path		int	true	"Team id to fetch users"
 // @Success	200	{array}		entity.TeamUser
 // @Failure	400	{object}	echo.HTTPError

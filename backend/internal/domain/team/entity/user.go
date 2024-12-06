@@ -1,9 +1,8 @@
 package entity
 
+import "task-tracker-server/internal/domain/user/entity"
+
 type TeamUser struct {
-	ID      int64  `json:"id"`
-	Name    string `json:"name"`
-	Surname string `json:"surname"`
-	Email   string `json:"email"`
-	Role    Role   `json:"role"`
+	entity.User
+	Role Role `json:"role"`
 }

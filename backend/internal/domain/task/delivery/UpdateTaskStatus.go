@@ -9,17 +9,21 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary	Update an existing task
-// @ID			task-update
+type requestUpdateTaskStatus struct {
+	StatusID int `json:"status_id"`
+}
+
+// @Summary	Update an existing task status
+// @ID			task-update-status
 // @Tags		task
 // @Accept		application/json
 // @Produce		application/json
-// @Param		request	body	entity.Task	true	"Task details to update"
+// @Param		request	body	requestUpdateTaskStatus	true	"New task status"
 // @Success	200
 // @Failure	400	{object}	echo.HTTPError	"Invalid input"
 // @Failure	500	{object}	echo.HTTPError	"Internal server error"
-// @Router		/task/{id} [put]
-func (h *TaskHandler) UpdateTask(c echo.Context) error {
+// @Router		/task/{id}/change-status [patch]
+func (h *TaskHandler) UpdateTaskStatus(c echo.Context) error {
 	taskID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		return &echo.HTTPError{
@@ -28,7 +32,7 @@ func (h *TaskHandler) UpdateTask(c echo.Context) error {
 		}
 	}
 
-	var request entity.Task
+	var request requestUpdateTaskStatus
 	if err := c.Bind(&request); err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusBadRequest,
@@ -36,17 +40,9 @@ func (h *TaskHandler) UpdateTask(c echo.Context) error {
 		}
 	}
 
-	err = h.taskUseCase.UpdateTask(c.Request().Context(), &entity.Task{
-		ID:             taskID,
-		Title:          request.Title,
-		Description:    request.Description,
-		Priority:       request.Priority,
-		StoryPoints:    request.StoryPoints,
-		TrackedTime:    request.TrackedTime,
-		Deadline:       request.Deadline,
-		AssignedUserID: request.AssignedUserID,
-		FinishedAt:     request.FinishedAt,
-		StatusID:       request.StatusID,
+	err = h.taskUseCase.UpdateTaskStatus(c.Request().Context(), &entity.Task{
+		ID:       taskID,
+		StatusID: request.StatusID,
 	})
 	if err != nil {
 		return &echo.HTTPError{

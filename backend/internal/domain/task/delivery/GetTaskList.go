@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
-	entityTask "task-tracker-server/internal/domain/task/entity"
+	"task-tracker-server/internal/domain/task/entity"
 
 	"github.com/labstack/echo/v4"
 )
@@ -14,10 +14,10 @@ import (
 // @ID				task-get-list
 // @Tags			task
 // @Accept			application/json
-// @Produce		application/json
+// @Produce			application/json
 // @Param			limit	query		int	false	"Task limits"
 // @Param			board_id	query		int	true	"Board id"
-// @Success		200			{array}		entityTask.Task
+// @Success		200			{object}	map[int][]entity.Task
 // @Failure		400			{object}	echo.HTTPError
 // @Failure		500			{object}	echo.HTTPError
 // @Router			/task/list [get]
@@ -37,13 +37,13 @@ func (h *TaskHandler) GetTaskList(c echo.Context) error {
 		if err != nil {
 			return &echo.HTTPError{
 				Code:    http.StatusBadRequest,
-				Message: "invalid board id",
+				Message: "invalid limit id",
 			}
 		}
 		limit = uint64(l)
 	}
 
-	var tasks []entityTask.Task
+	var tasks map[int][]entity.Task
 	tasks, err = h.taskUseCase.GetTaskList(c.Request().Context(), boardID, limit)
 	if err != nil {
 		return &echo.HTTPError{

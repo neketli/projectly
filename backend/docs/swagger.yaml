@@ -1,47 +1,5 @@
 basePath: /api/v1
 definitions:
-  delivery.createTaskRequest:
-    properties:
-      assigned_user_id:
-        type: integer
-      deadline:
-        type: string
-      description:
-        type: string
-      finished_at:
-        type: string
-      priority:
-        type: integer
-      status_id:
-        type: integer
-      story_points:
-        type: integer
-      title:
-        type: string
-      tracked_time:
-        type: integer
-    type: object
-  delivery.updateTaskRequest:
-    properties:
-      assigned_user_id:
-        type: integer
-      deadline:
-        type: string
-      description:
-        type: string
-      finished_at:
-        type: string
-      priority:
-        type: integer
-      status_id:
-        type: integer
-      story_points:
-        type: integer
-      title:
-        type: string
-      tracked_time:
-        type: integer
-    type: object
   github_com_labstack_echo_v4.HTTPError:
     properties:
       message: {}
@@ -99,6 +57,32 @@ definitions:
         type: integer
       title:
         type: string
+    type: object
+  internal_domain_task_delivery.createTaskRequest:
+    properties:
+      assigned_user_id:
+        type: integer
+      deadline:
+        type: integer
+      description:
+        type: string
+      finished_at:
+        type: integer
+      priority:
+        type: integer
+      status_id:
+        type: integer
+      story_points:
+        type: integer
+      title:
+        type: string
+      tracked_time:
+        type: integer
+    type: object
+  internal_domain_task_delivery.requestUpdateTaskStatus:
+    properties:
+      status_id:
+        type: integer
     type: object
   internal_domain_team_delivery.addUserRequest:
     properties:
@@ -215,15 +199,15 @@ definitions:
       assigned_user_id:
         type: integer
       created_at:
-        type: string
+        type: integer
       created_user_id:
         type: integer
       deadline:
-        type: string
+        type: integer
       description:
         type: string
       finished_at:
-        type: string
+        type: integer
       id:
         type: integer
       priority:
@@ -239,7 +223,7 @@ definitions:
       tracked_time:
         type: integer
       updated_at:
-        type: string
+        type: integer
     type: object
   task-tracker-server_internal_domain_task_entity.TaskCard:
     properties:
@@ -253,7 +237,7 @@ definitions:
             type: string
         type: object
       deadline:
-        type: string
+        type: integer
       priority:
         type: integer
       project_code:
@@ -294,14 +278,20 @@ definitions:
   task-tracker-server_internal_domain_team_entity.TeamUser:
     properties:
       email:
+        example: john.doe@example.com
         type: string
       id:
+        example: 1
         type: integer
+      meta:
+        $ref: '#/definitions/task-tracker-server_internal_domain_user_entity.UserMeta'
       name:
+        example: John
         type: string
       role:
         $ref: '#/definitions/task-tracker-server_internal_domain_team_entity.Role'
       surname:
+        example: Doe
         type: string
     type: object
   task-tracker-server_internal_domain_user_entity.Tokens:
@@ -873,7 +863,7 @@ paths:
       summary: Get task
       tags:
       - task
-    patch:
+    put:
       consumes:
       - application/json
       operationId: task-update
@@ -883,7 +873,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/delivery.updateTaskRequest'
+          $ref: '#/definitions/task-tracker-server_internal_domain_task_entity.Task'
       produces:
       - application/json
       responses:
@@ -900,6 +890,34 @@ paths:
       summary: Update an existing task
       tags:
       - task
+  /task/{id}/change-status:
+    patch:
+      consumes:
+      - application/json
+      operationId: task-update-status
+      parameters:
+      - description: New task status
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_domain_task_delivery.requestUpdateTaskStatus'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+      summary: Update an existing task status
+      tags:
+      - task
   /task/create:
     post:
       consumes:
@@ -911,7 +929,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/delivery.createTaskRequest'
+          $ref: '#/definitions/internal_domain_task_delivery.createTaskRequest'
       produces:
       - application/json
       responses:
@@ -952,9 +970,11 @@ paths:
         "200":
           description: OK
           schema:
-            items:
-              $ref: '#/definitions/task-tracker-server_internal_domain_task_entity.Task'
-            type: array
+            additionalProperties:
+              items:
+                $ref: '#/definitions/task-tracker-server_internal_domain_task_entity.Task'
+              type: array
+            type: object
         "400":
           description: Bad Request
           schema:

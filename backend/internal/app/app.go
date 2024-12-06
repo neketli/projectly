@@ -7,6 +7,7 @@ import (
 	"task-tracker-server/internal/domain/board"
 	"task-tracker-server/internal/domain/project"
 	"task-tracker-server/internal/domain/status"
+	"task-tracker-server/internal/domain/task"
 	"task-tracker-server/internal/domain/team"
 	"task-tracker-server/internal/domain/user"
 	userEntity "task-tracker-server/internal/domain/user/entity"
@@ -83,6 +84,12 @@ func Run(cfg *config.Config) {
 	})
 
 	status.New(status.Dependency{
+		Logger:   l,
+		Postgres: pg,
+		Router:   api,
+	})
+
+	task.New(task.Dependency{
 		Logger:   l,
 		Postgres: pg,
 		Router:   api,

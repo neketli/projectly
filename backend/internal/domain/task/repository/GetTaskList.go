@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"task-tracker-server/internal/domain/task/entity"
+	"task-tracker-server/internal/domain/task/repository/model"
 
 	sq "github.com/Masterminds/squirrel"
 )
@@ -17,24 +18,26 @@ func (r taskRepo) GetTaskList(ctx context.Context, boardID int, limit uint64) ([
 		limit = _defaultLimit
 	}
 
-	sql, args, err := r.Builder.
+	query, args, err := r.Builder.
 		Select(
-			"id",
-			"project_index",
-			"title",
-			"description",
-			"priority",
-			"story_points",
-			"tracked_time",
-			"deadline",
-			"created_at",
-			"updated_at",
-			"finished_at",
-			"status_id",
-			"created_user_id",
-			"assigned_user_id",
+			"t.id",
+			"t.project_index",
+			"t.title",
+			"t.description",
+			"t.priority",
+			"t.story_points",
+			"t.tracked_time",
+			"t.deadline",
+			"t.created_at",
+			"t.updated_at",
+			"t.finished_at",
+			"t.status_id",
+			"t.created_user_id",
+			"t.assigned_user_id",
 		).
-		From("task").
+		From("task t").
+		Join("status s ON t.status_id = s.id").
+		Join("board b ON s.board_id = b.id").
 		Where(sq.Eq{"board_id": boardID}).
 		OrderBy("updated_at ASC").
 		Limit(limit).
@@ -43,7 +46,7 @@ func (r taskRepo) GetTaskList(ctx context.Context, boardID int, limit uint64) ([
 		return nil, fmt.Errorf("task - repository - GetTaskList - r.Builder: %w", err)
 	}
 
-	rows, err := r.Pool.Query(ctx, sql, args...)
+	rows, err := r.Pool.Query(ctx, query, args...)
 	if err != nil {
 		return nil, fmt.Errorf("task - repository - GetTaskList - r.Pool.Query: %w", err)
 	}
@@ -51,7 +54,7 @@ func (r taskRepo) GetTaskList(ctx context.Context, boardID int, limit uint64) ([
 
 	tasks := make([]entity.Task, 0)
 	for rows.Next() {
-		var task entity.Task
+		var task model.Task
 		if err := rows.Scan(
 			&task.ID,
 			&task.ProjectIndex,
@@ -70,7 +73,8 @@ func (r taskRepo) GetTaskList(ctx context.Context, boardID int, limit uint64) ([
 		); err != nil {
 			return nil, fmt.Errorf("task - repository - GetTaskList - rows.Scan: %w", err)
 		}
-		tasks = append(tasks, task)
+
+		tasks = append(tasks, task.ToEntity())
 	}
 	if err := rows.Err(); err != nil {
 		return nil, fmt.Errorf("task - repository - GetTaskList - rows.Err: %w", err)
