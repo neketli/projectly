@@ -10,7 +10,7 @@
     </ElAvatar>
 </template>
 
-<script setup lang="ts">
+<script setup>
 const { getUserInfo } = toRefs(useAuthStore())
 
 defineProps({

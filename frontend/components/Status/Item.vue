@@ -1,16 +1,16 @@
 <template>
-    <div class="bg-neutral-100 dark:bg-neutral-900 dark:ring-2 dark:ring-neutral-700 min-w-[22vw] rounded-md p-2 relative">
-        <div class="flex justify-between items-center gap-4 p-2 sticky top-0">
+    <div
+        class="bg-neutral-100 dark:bg-neutral-900 dark:ring-2 dark:ring-neutral-700 min-w-[20vw] rounded-md p-2 relative overflow-hidden min-h-full"
+    >
+        <div class="flex justify-between items-center gap-4 p-2 sticky z-10 bg-neutral-100 dark:bg-neutral-900 top-0">
             <template v-if="!isEdit">
-                <div
-                    class="flex items-center gap-4"
-                >
+                <div class="flex items-center gap-4">
                     <StatusTag :color="status.hex_color">
                         {{ status.title }}
                     </StatusTag>
 
                     <p class="text-gray-600 dark:text-gray-500 text-sm">
-                        <!-- TODO: task counter -->
+                        {{ taskList?.length }}
                     </p>
                 </div>
 
@@ -64,6 +64,7 @@
                         :title="$t('status.create.task')"
                         type="primary"
                         circle
+                        @click="dialog.task = true"
                     >
                         <Icon name="mdi:plus" />
                     </ElButton>
@@ -105,9 +106,32 @@
             </template>
         </div>
 
-        <!-- <ElScrollbar
-            class="w-full"
-        /> -->
+        <ElScrollbar
+            height="58vh"
+            class="w-full px-2 py-2"
+        >
+            <Draggable
+                :id="`status-${status.id}`"
+                v-model="taskList"
+                class="flex flex-col gap-4 w-full min-h-[58vh] overflow-hidden"
+                group="tasks"
+                :sort="false"
+                :animation="200"
+                item-key="id"
+                @end="handleChangeTaskStatus"
+            >
+                <template #item="{ element }">
+                    <TaskCard
+                        :id="`task-${element.id}`"
+                        :key="element.id"
+                        :task="element"
+                        class="cursor-grab"
+                        @update="handleUpdateTask"
+                        @delete="handleDeleteTask"
+                    />
+                </template>
+            </Draggable>
+        </ElScrollbar>
 
         <ElDialog
             v-model="dialog.delete"
@@ -128,23 +152,46 @@
                 {{ $t('common.button.confirm') }}
             </ElButton>
         </ElDialog>
+
+        <ElDialog
+            v-model="dialog.task"
+            :title="$t('task.create.title')"
+            align-center
+            destroy-on-close
+        >
+            <TaskForm
+                :status-id="status.id"
+                @cancel="dialog.task = false"
+                @success="handleCreateTask"
+            />
+        </ElDialog>
     </div>
 </template>
 
 <script lang="ts" setup>
+import Draggable from 'vuedraggable'
 import { defaultStatusColors, type Status } from '~/types/board'
+import type { Task } from '~/types/task'
 
 const props = defineProps<{ status: Status }>()
 const emit = defineEmits(['create', 'update', 'delete'])
 
-const { statusCount } = useBoardStore()
+const { t } = useI18n()
+
+const boardStore = useBoardStore()
+const { statusCount, tasks } = toRefs(boardStore)
+const { updateTaskStatus, deleteTask } = useTask()
 
 const isEdit = ref(false)
+const isLoading = ref(false)
 const dialog = reactive({
     delete: false,
+    task: false,
 })
 const title = ref('')
 const color = ref(props.status.hex_color || defaultStatusColors[0])
+
+const taskList = computed(() => tasks.value[props.status.id])
 
 const handleEditStatus = () => {
     isEdit.value = true
@@ -173,7 +220,7 @@ const handleSaveStatus = () => {
 
 const handleMove = (direction: 'left' | 'right') => {
     if ((direction === 'left' && props.status.order === 0)
-      || (direction === 'right' && props.status.order === statusCount - 1)) return
+      || (direction === 'right' && props.status.order === statusCount.value - 1)) return
 
     emit('update', {
         ...props.status,
@@ -183,6 +230,59 @@ const handleMove = (direction: 'left' | 'right') => {
     })
 }
 
+const handleCreateTask = (task: Task) => {
+    tasks.value[task.status_id].push(task)
+    dialog.task = false
+    ElMessage.success(t('task.success.create'))
+}
+
+const handleDeleteTask = async (task: Task) => {
+    try {
+        if (task.id) {
+            isLoading.value = true
+            await deleteTask(task.id)
+            tasks.value[task.status_id] = tasks.value[task.status_id].filter(item => item.id !== task.id)
+            ElMessage.success(t('task.success.delete'))
+        }
+    }
+    catch (err) {
+        const error = err as Error
+        ElMessage.error(error.message)
+    }
+    finally {
+        isLoading.value = false
+    }
+}
+
+const handleUpdateTask = (task: Task) => {
+    tasks.value[task.status_id] = tasks.value[task.status_id].map(item => item.id === task.id ? task : item)
+    ElMessage.success(t('task.success.update'))
+}
+const handleChangeTaskStatus = async (params: {
+    item: { id: string }
+    from: { id: string }
+    to: { id: string }
+}) => {
+    try {
+        const taskId = Number(params.item.id.split('-')[1])
+        const fromStatusId = Number(params.from.id.split('-')[1])
+        const toStatusId = Number(params.to.id.split('-')[1])
+        if (fromStatusId === toStatusId) return
+
+        isLoading.value = true
+        await updateTaskStatus(taskId, toStatusId)
+        boardStore.changeTaskStatus(fromStatusId, toStatusId, taskId)
+        ElMessage.success(t('task.success.update'))
+    }
+    catch (err) {
+        const error = err as Error
+        ElMessage.error(error.message)
+    }
+    finally {
+        isLoading.value = false
+    }
+}
+
 onMounted(() => {
     if (props.status.id === 0) {
         isEdit.value = true
@@ -190,3 +290,16 @@ onMounted(() => {
     }
 })
 </script>
+
+<style>
+.task-transition-enter-active,
+.task-transition-leave-active {
+  transition: all 0.5s;
+}
+
+.task-transition-enter-from,
+.task-transition-leave-to {
+  opacity: 0;
+  transform: scale(0.5);
+}
+</style>

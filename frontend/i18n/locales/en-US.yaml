@@ -177,3 +177,28 @@ status:
     todo: "To do 🎯"
     in_progress: "In progress 📝"
     done: "Done ✅"
+
+
+task:
+  form:
+    title: "Title"
+    status: "Status"
+    description: "Description"
+    priority: 
+      label: "Priority"
+      none: "None"
+    assigned_user: "Assigned user"
+    story_point: "Story point"
+    tracked_time: "Tracked time"
+    deadline: "Deadline"   
+  create:
+    title: "Create Task"
+  update:
+    title: "Edit Task"
+  delete:
+    title: "Delete Task"
+    confirm: "Are you sure you want to delete this task?"
+  success:
+    create: "Task has been successfully created!"
+    update: "Task has been successfully updated!"
+    delete: "Task has been successfully deleted!"

@@ -95,10 +95,12 @@ definePageMeta({
 })
 
 const projectStore = useProjectStore()
-const { board, statusList } = toRefs(useBoardStore())
+const boardStore = useBoardStore()
+const { board, statusList } = toRefs(boardStore)
 
 const { getBoard, deleteBoard } = useBoard()
 const { getStatusList } = useStatus()
+const { getTasksList } = useTask()
 
 const dialog = reactive({
     board: false,
@@ -137,7 +139,9 @@ onMounted(async () => {
     try {
         isLoading.value = true
         board.value = await getBoard(Number(boardId))
-        statusList.value = await getStatusList(Number(boardId))
+        const statuses = await getStatusList(Number(boardId))
+        boardStore.setStatusList(statuses)
+        boardStore.setTaskList(await getTasksList(Number(boardId)))
     }
     catch (err) {
         const error = err as Error

@@ -1,9 +1,13 @@
 <template>
-    <section class="main-board w-full h-full p-4">
-        <ElScrollbar v-if="sortedStatusList.length">
+    <section class="main-board w-full h-full py-4">
+        <ElScrollbar
+            v-if="sortedStatusList.length"
+            height="72vh"
+            view-class="p-2"
+        >
             <div
                 ref="parent"
-                class="flex h-[72vh] py-1 mx-4 gap-4"
+                class="!w-full max-h-[70vh] flex gap-4"
             >
                 <StatusItem
                     v-for="status in sortedStatusList"
@@ -13,6 +17,8 @@
                     @update="handleUpdateStatus"
                     @delete="handleDeleteStatus"
                 />
+                <!-- TODO: fix without hint -->
+                <div class="min-w-1" />
             </div>
         </ElScrollbar>
 
@@ -49,7 +55,8 @@ const handleCreateStatus = async (status: Status) => {
 const handleUpdateStatus = async (status: Status) => {
     try {
         await updateStatus(status, statusList.value.find(s => s.id === status.id)?.order)
-        statusList.value = await getStatusList(boardStore.board.id)
+        const statuses = await getStatusList(boardStore.board.id)
+        boardStore.setStatusList(statuses)
         ElMessage.success(t('status.success.update'))
     }
     catch (err) {
@@ -62,9 +69,9 @@ const handleDeleteStatus = async (status: Status) => {
     try {
         if (status.id !== 0) {
             await deleteStatus(status)
+            boardStore.deleteStatus(status)
             ElMessage.success(t('status.success.delete'))
         }
-        boardStore.deleteStatus(status)
     }
     catch (err) {
         const error = err as Error
