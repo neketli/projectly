@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 	"fmt"
-	"task-tracker-server/internal/domain/user/entity"
+	"projectly-server/internal/domain/user/entity"
 
 	sq "github.com/Masterminds/squirrel"
 	"github.com/minio/minio-go/v7"

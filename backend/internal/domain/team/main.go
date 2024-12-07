@@ -1,12 +1,12 @@
 package team
 
 import (
-	"task-tracker-server/internal/domain/team/delivery"
-	"task-tracker-server/internal/domain/team/repository"
-	"task-tracker-server/internal/domain/team/usecase"
-	userUseCase "task-tracker-server/internal/domain/user/usecase"
-	"task-tracker-server/pkg/logger"
-	"task-tracker-server/pkg/postgres"
+	"projectly-server/internal/domain/team/delivery"
+	"projectly-server/internal/domain/team/repository"
+	"projectly-server/internal/domain/team/usecase"
+	userUseCase "projectly-server/internal/domain/user/usecase"
+	"projectly-server/pkg/logger"
+	"projectly-server/pkg/postgres"
 
 	"github.com/labstack/echo/v4"
 )

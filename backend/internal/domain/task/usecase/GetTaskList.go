@@ -2,7 +2,7 @@ package usecase
 
 import (
 	"context"
-	"task-tracker-server/internal/domain/task/entity"
+	"projectly-server/internal/domain/task/entity"
 )
 
 func (u *taskUseCase) GetTaskList(ctx context.Context, boardID int, limit uint64) (map[int][]entity.Task, error) {

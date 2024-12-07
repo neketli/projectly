@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import type { Board, Status } from '~/types/board'
 import type { Task } from '~/types/task'
 
-export const useBoardStore = defineStore('task-tracker-board', {
+export const useBoardStore = defineStore('projectly-board', {
     state: () => ({
         board: {} as Board,
         statusList: [] as Status[],

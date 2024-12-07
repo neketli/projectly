@@ -1,11 +1,11 @@
 package board
 
 import (
-	"task-tracker-server/internal/domain/board/delivery"
-	"task-tracker-server/internal/domain/board/repository"
-	"task-tracker-server/internal/domain/board/usecase"
-	"task-tracker-server/pkg/logger"
-	"task-tracker-server/pkg/postgres"
+	"projectly-server/internal/domain/board/delivery"
+	"projectly-server/internal/domain/board/repository"
+	"projectly-server/internal/domain/board/usecase"
+	"projectly-server/pkg/logger"
+	"projectly-server/pkg/postgres"
 
 	"github.com/labstack/echo/v4"
 )

@@ -2,7 +2,7 @@ package model
 
 import (
 	"database/sql"
-	"task-tracker-server/internal/domain/task/entity"
+	"projectly-server/internal/domain/task/entity"
 )
 
 type Task struct {

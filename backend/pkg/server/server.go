@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
-	"task-tracker-server/pkg/logger"
+	"projectly-server/pkg/logger"
 	"time"
 
 	"github.com/labstack/echo/v4"

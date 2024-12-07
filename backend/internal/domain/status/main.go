@@ -1,11 +1,11 @@
 package status
 
 import (
-	"task-tracker-server/internal/domain/status/delivery"
-	"task-tracker-server/internal/domain/status/repository"
-	"task-tracker-server/internal/domain/status/usecase"
-	"task-tracker-server/pkg/logger"
-	"task-tracker-server/pkg/postgres"
+	"projectly-server/internal/domain/status/delivery"
+	"projectly-server/internal/domain/status/repository"
+	"projectly-server/internal/domain/status/usecase"
+	"projectly-server/pkg/logger"
+	"projectly-server/pkg/postgres"
 
 	"github.com/labstack/echo/v4"
 )

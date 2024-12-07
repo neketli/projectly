@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"task-tracker-server/internal/domain/project/entity"
+	"projectly-server/internal/domain/project/entity"
 )
 
 func (r projectRepo) CreateProject(ctx context.Context, project *entity.Project) error {

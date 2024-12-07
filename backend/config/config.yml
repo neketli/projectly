@@ -1,5 +1,5 @@
 app:
-  name: 'task-tracker-server'
+  name: 'projectly-server'
   version: '1.0.0'
 
 http:

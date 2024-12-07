@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 
-	"task-tracker-server/internal/domain/project/entity"
+	"projectly-server/internal/domain/project/entity"
 
 	sq "github.com/Masterminds/squirrel"
 	"github.com/jackc/pgx/v5"

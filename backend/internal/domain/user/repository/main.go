@@ -3,9 +3,9 @@ package repository
 import (
 	"context"
 	"io"
-	"task-tracker-server/internal/domain/user/entity"
-	"task-tracker-server/pkg/minio"
-	"task-tracker-server/pkg/postgres"
+	"projectly-server/internal/domain/user/entity"
+	"projectly-server/pkg/minio"
+	"projectly-server/pkg/postgres"
 	"time"
 )
 

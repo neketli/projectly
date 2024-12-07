@@ -2,7 +2,7 @@ package usecase
 
 import (
 	"context"
-	"task-tracker-server/internal/domain/task/entity"
+	"projectly-server/internal/domain/task/entity"
 )
 
 func (u *taskUseCase) UpdateTaskStatus(ctx context.Context, task *entity.Task) error {

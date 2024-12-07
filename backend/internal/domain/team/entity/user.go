@@ -1,6 +1,6 @@
 package entity
 
-import "task-tracker-server/internal/domain/user/entity"
+import "projectly-server/internal/domain/user/entity"
 
 type TeamUser struct {
 	entity.User

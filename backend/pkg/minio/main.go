@@ -2,7 +2,7 @@ package minio
 
 import (
 	"fmt"
-	"task-tracker-server/config"
+	"projectly-server/config"
 
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"

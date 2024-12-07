@@ -1,4 +1,4 @@
-module task-tracker-server
+module projectly-server
 
 go 1.22
 

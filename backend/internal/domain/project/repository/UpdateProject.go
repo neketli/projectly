@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"task-tracker-server/internal/domain/project/entity"
+	"projectly-server/internal/domain/project/entity"
 
 	sq "github.com/Masterminds/squirrel"
 )

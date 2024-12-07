@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"mime/multipart"
 	"path/filepath"
-	"task-tracker-server/internal/domain/user/entity"
+	"projectly-server/internal/domain/user/entity"
 
 	"github.com/google/uuid"
 )

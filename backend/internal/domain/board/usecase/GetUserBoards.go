@@ -2,7 +2,7 @@ package usecase
 
 import (
 	"context"
-	"task-tracker-server/internal/domain/board/entity"
+	"projectly-server/internal/domain/board/entity"
 )
 
 // GetUserBoards implements usecase.BoardUseCase

@@ -2,8 +2,8 @@ package usecase
 
 import (
 	"fmt"
+	"projectly-server/internal/domain/user/entity"
 	"strconv"
-	"task-tracker-server/internal/domain/user/entity"
 	"time"
 
 	jwt "github.com/golang-jwt/jwt/v5"

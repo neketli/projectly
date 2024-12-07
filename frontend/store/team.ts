@@ -3,7 +3,7 @@ import { UserRole, type UserWithRoles } from '~/types/user'
 import type { Team } from '~/types/team'
 import type { Project } from '~/types/project'
 
-export const useTeamStore = defineStore('task-tracker-team', {
+export const useTeamStore = defineStore('projectly-team', {
     state: () => ({
         team: {} as Team,
         users: [] as UserWithRoles[],

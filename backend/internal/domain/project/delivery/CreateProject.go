@@ -3,7 +3,7 @@ package delivery
 import (
 	"fmt"
 	"net/http"
-	"task-tracker-server/internal/domain/project/entity"
+	"projectly-server/internal/domain/project/entity"
 
 	"github.com/labstack/echo/v4"
 )

@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"net/http"
 	"path/filepath"
-	"task-tracker-server/internal/domain/user/delivery/token"
-	"task-tracker-server/internal/domain/user/entity"
+	"projectly-server/internal/domain/user/delivery/token"
+	"projectly-server/internal/domain/user/entity"
 
 	"github.com/labstack/echo/v4"
 )

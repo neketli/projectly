@@ -1,13 +1,13 @@
 package user
 
 import (
-	"task-tracker-server/config"
-	"task-tracker-server/internal/domain/user/delivery"
-	"task-tracker-server/internal/domain/user/repository"
-	"task-tracker-server/internal/domain/user/usecase"
-	"task-tracker-server/pkg/logger"
-	"task-tracker-server/pkg/minio"
-	"task-tracker-server/pkg/postgres"
+	"projectly-server/config"
+	"projectly-server/internal/domain/user/delivery"
+	"projectly-server/internal/domain/user/repository"
+	"projectly-server/internal/domain/user/usecase"
+	"projectly-server/pkg/logger"
+	"projectly-server/pkg/minio"
+	"projectly-server/pkg/postgres"
 
 	"github.com/labstack/echo/v4"
 )

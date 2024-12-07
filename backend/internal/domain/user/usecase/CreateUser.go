@@ -2,7 +2,7 @@ package usecase
 
 import (
 	"context"
-	"task-tracker-server/internal/domain/user/entity"
+	"projectly-server/internal/domain/user/entity"
 
 	"golang.org/x/crypto/bcrypt"
 )

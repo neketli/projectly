@@ -3,8 +3,8 @@ package main
 import (
 	"errors"
 	"flag"
-	"task-tracker-server/config"
-	"task-tracker-server/migrations"
+	"projectly-server/config"
+	"projectly-server/migrations"
 )
 
 var (

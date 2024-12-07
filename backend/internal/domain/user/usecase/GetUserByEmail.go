@@ -3,7 +3,7 @@ package usecase
 import (
 	"context"
 	"fmt"
-	"task-tracker-server/internal/domain/user/entity"
+	"projectly-server/internal/domain/user/entity"
 )
 
 // Получение юзера по email

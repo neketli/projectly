@@ -2,9 +2,9 @@ package usecase
 
 import (
 	"context"
-	"task-tracker-server/internal/domain/status/entity"
-	"task-tracker-server/internal/domain/status/repository"
-	"task-tracker-server/pkg/logger"
+	"projectly-server/internal/domain/status/entity"
+	"projectly-server/internal/domain/status/repository"
+	"projectly-server/pkg/logger"
 )
 
 type StatusUseCase interface {

@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"task-tracker-server/internal/domain/team/entity"
+	"projectly-server/internal/domain/team/entity"
 
 	"github.com/jackc/pgx/v5"
 )

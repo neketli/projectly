@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
-	"task-tracker-server/internal/domain/task/entity"
+	"projectly-server/internal/domain/task/entity"
 
 	"github.com/labstack/echo/v4"
 )

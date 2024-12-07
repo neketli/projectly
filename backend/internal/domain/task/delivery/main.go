@@ -1,7 +1,7 @@
 package delivery
 
 import (
-	"task-tracker-server/internal/domain/task/usecase"
+	"projectly-server/internal/domain/task/usecase"
 
 	"github.com/labstack/echo/v4"
 )

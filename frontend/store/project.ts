@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import type { Project } from '~/types/project'
 import { UserRole } from '~/types/user'
 
-export const useProjectStore = defineStore('task-tracker-project', {
+export const useProjectStore = defineStore('projectly-project', {
     state: () => ({
         project: {} as Project,
     }),

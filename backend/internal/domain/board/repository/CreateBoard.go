@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"task-tracker-server/internal/domain/board/entity"
+	"projectly-server/internal/domain/board/entity"
 )
 
 func (r boardRepo) CreateBoard(ctx context.Context, board *entity.Board) error {

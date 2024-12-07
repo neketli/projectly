@@ -2,8 +2,8 @@ package repository
 
 import (
 	"context"
-	"task-tracker-server/internal/domain/board/entity"
-	"task-tracker-server/pkg/postgres"
+	"projectly-server/internal/domain/board/entity"
+	"projectly-server/pkg/postgres"
 	"time"
 )
 

@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 	"fmt"
-	"task-tracker-server/internal/domain/user/entity"
+	"projectly-server/internal/domain/user/entity"
 )
 
 func (r userRepo) CreateUser(ctx context.Context, user *entity.User) error {

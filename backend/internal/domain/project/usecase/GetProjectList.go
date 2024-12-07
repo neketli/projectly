@@ -2,7 +2,7 @@ package usecase
 
 import (
 	"context"
-	"task-tracker-server/internal/domain/project/entity"
+	"projectly-server/internal/domain/project/entity"
 )
 
 func (u *projectUseCase) GetProjectList(ctx context.Context, teamID int) ([]entity.Project, error) {

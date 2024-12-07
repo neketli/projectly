@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"task-tracker-server/internal/domain/board/entity"
+	"projectly-server/internal/domain/board/entity"
 
 	"github.com/labstack/echo/v4"
 )

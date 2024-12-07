@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"task-tracker-server/internal/domain/task/entity"
-	userEntity "task-tracker-server/internal/domain/user/entity"
+	"projectly-server/internal/domain/task/entity"
+	userEntity "projectly-server/internal/domain/user/entity"
 
 	sq "github.com/Masterminds/squirrel"
 )

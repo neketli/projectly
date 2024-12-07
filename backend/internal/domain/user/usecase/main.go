@@ -3,10 +3,10 @@ package usecase
 import (
 	"context"
 	"mime/multipart"
-	"task-tracker-server/config"
-	"task-tracker-server/internal/domain/user/entity"
-	"task-tracker-server/internal/domain/user/repository"
-	"task-tracker-server/pkg/logger"
+	"projectly-server/config"
+	"projectly-server/internal/domain/user/entity"
+	"projectly-server/internal/domain/user/repository"
+	"projectly-server/pkg/logger"
 )
 
 type UserUseCase interface {

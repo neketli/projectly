@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
-	entityTask "task-tracker-server/internal/domain/task/entity"
+	entityTask "projectly-server/internal/domain/task/entity"
 
 	"github.com/labstack/echo/v4"
 )

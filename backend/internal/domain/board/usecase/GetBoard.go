@@ -2,7 +2,7 @@ package usecase
 
 import (
 	"context"
-	"task-tracker-server/internal/domain/board/entity"
+	"projectly-server/internal/domain/board/entity"
 )
 
 func (u *boardUseCase) GetBoard(ctx context.Context, boardID int) (entity.Board, error) {

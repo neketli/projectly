@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"time"
 
-	"task-tracker-server/internal/domain/task/entity"
-	"task-tracker-server/internal/domain/task/repository/model"
+	"projectly-server/internal/domain/task/entity"
+	"projectly-server/internal/domain/task/repository/model"
 
 	sq "github.com/Masterminds/squirrel"
 )

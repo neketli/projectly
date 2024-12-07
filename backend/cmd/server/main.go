@@ -1,8 +1,8 @@
 package main
 
 import (
-	"task-tracker-server/config"
-	"task-tracker-server/internal/app"
+	"projectly-server/config"
+	"projectly-server/internal/app"
 )
 
 //	@title			Task tracker server

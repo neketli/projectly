@@ -7,7 +7,7 @@ import type { User } from '~/types/user'
 type AuthData = { email: string, password: string }
 type Tokens = { access: string, refresh: string }
 
-export const useAuthStore = defineStore('task-tracker-auth', {
+export const useAuthStore = defineStore('projectly-auth', {
     persist: {
         storage: persistedState.localStorage,
     },

@@ -1,10 +1,10 @@
 version: '3.8'
-name: task-tracker_infrastructure
+name: projectly_infrastructure
 
 services:
   postgres:
     image: postgres:latest
-    container_name: task-tracker_postgres
+    container_name: projectly_postgres
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -17,7 +17,7 @@ services:
 
   minio:
     image: minio/minio:latest
-    container_name: task-tracker_minio
+    container_name: projectly_minio
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
@@ -31,7 +31,7 @@ services:
 
   nginx:
     image: nginx:latest
-    container_name: task-tracker_nginx
+    container_name: projectly_nginx
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     ports:

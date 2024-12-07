@@ -2,7 +2,7 @@ package usecase
 
 import (
 	"fmt"
-	"task-tracker-server/internal/domain/user/entity"
+	"projectly-server/internal/domain/user/entity"
 	"time"
 
 	jwt "github.com/golang-jwt/jwt/v5"

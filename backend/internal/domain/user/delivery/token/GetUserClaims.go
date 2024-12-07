@@ -2,7 +2,7 @@ package token
 
 import (
 	"errors"
-	"task-tracker-server/internal/domain/user/entity"
+	"projectly-server/internal/domain/user/entity"
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"

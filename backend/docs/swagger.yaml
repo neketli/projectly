@@ -152,7 +152,7 @@ definitions:
       surname:
         type: string
     type: object
-  task-tracker-server_internal_domain_board_entity.Board:
+  projectly-server_internal_domain_board_entity.Board:
     properties:
       id:
         type: integer
@@ -161,14 +161,14 @@ definitions:
       title:
         type: string
     type: object
-  task-tracker-server_internal_domain_board_entity.BoardTeam:
+  projectly-server_internal_domain_board_entity.BoardTeam:
     properties:
       board:
-        $ref: '#/definitions/task-tracker-server_internal_domain_board_entity.Board'
+        $ref: '#/definitions/projectly-server_internal_domain_board_entity.Board'
       team_id:
         type: integer
     type: object
-  task-tracker-server_internal_domain_project_entity.Project:
+  projectly-server_internal_domain_project_entity.Project:
     properties:
       code:
         type: string
@@ -181,7 +181,7 @@ definitions:
       title:
         type: string
     type: object
-  task-tracker-server_internal_domain_status_entity.Status:
+  projectly-server_internal_domain_status_entity.Status:
     properties:
       board_id:
         type: integer
@@ -194,7 +194,7 @@ definitions:
       title:
         type: string
     type: object
-  task-tracker-server_internal_domain_task_entity.Task:
+  projectly-server_internal_domain_task_entity.Task:
     properties:
       assigned_user_id:
         type: integer
@@ -225,7 +225,7 @@ definitions:
       updated_at:
         type: integer
     type: object
-  task-tracker-server_internal_domain_task_entity.TaskCard:
+  projectly-server_internal_domain_task_entity.TaskCard:
     properties:
       assigned_user:
         properties:
@@ -256,14 +256,14 @@ definitions:
       title:
         type: string
     type: object
-  task-tracker-server_internal_domain_team_entity.Role:
+  projectly-server_internal_domain_team_entity.Role:
     properties:
       id:
         type: integer
       role_name:
         type: string
     type: object
-  task-tracker-server_internal_domain_team_entity.Team:
+  projectly-server_internal_domain_team_entity.Team:
     properties:
       description:
         example: My team 1
@@ -275,7 +275,7 @@ definitions:
         example: example team
         type: string
     type: object
-  task-tracker-server_internal_domain_team_entity.TeamUser:
+  projectly-server_internal_domain_team_entity.TeamUser:
     properties:
       email:
         example: john.doe@example.com
@@ -284,24 +284,24 @@ definitions:
         example: 1
         type: integer
       meta:
-        $ref: '#/definitions/task-tracker-server_internal_domain_user_entity.UserMeta'
+        $ref: '#/definitions/projectly-server_internal_domain_user_entity.UserMeta'
       name:
         example: John
         type: string
       role:
-        $ref: '#/definitions/task-tracker-server_internal_domain_team_entity.Role'
+        $ref: '#/definitions/projectly-server_internal_domain_team_entity.Role'
       surname:
         example: Doe
         type: string
     type: object
-  task-tracker-server_internal_domain_user_entity.Tokens:
+  projectly-server_internal_domain_user_entity.Tokens:
     properties:
       access:
         type: string
       refresh:
         type: string
     type: object
-  task-tracker-server_internal_domain_user_entity.User:
+  projectly-server_internal_domain_user_entity.User:
     properties:
       email:
         example: john.doe@example.com
@@ -310,7 +310,7 @@ definitions:
         example: 1
         type: integer
       meta:
-        $ref: '#/definitions/task-tracker-server_internal_domain_user_entity.UserMeta'
+        $ref: '#/definitions/projectly-server_internal_domain_user_entity.UserMeta'
       name:
         example: John
         type: string
@@ -318,7 +318,7 @@ definitions:
         example: Doe
         type: string
     type: object
-  task-tracker-server_internal_domain_user_entity.UserMeta:
+  projectly-server_internal_domain_user_entity.UserMeta:
     properties:
       avatar:
         example: avatar.png
@@ -376,7 +376,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/task-tracker-server_internal_domain_board_entity.Board'
+            $ref: '#/definitions/projectly-server_internal_domain_board_entity.Board'
         "400":
           description: Bad Request
           schema:
@@ -433,7 +433,7 @@ paths:
         "201":
           description: Created board
           schema:
-            $ref: '#/definitions/task-tracker-server_internal_domain_board_entity.Board'
+            $ref: '#/definitions/projectly-server_internal_domain_board_entity.Board'
         "400":
           description: Bad request
           schema:
@@ -463,7 +463,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/task-tracker-server_internal_domain_board_entity.Board'
+              $ref: '#/definitions/projectly-server_internal_domain_board_entity.Board'
             type: array
         "400":
           description: Bad Request
@@ -493,7 +493,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/task-tracker-server_internal_domain_board_entity.BoardTeam'
+              $ref: '#/definitions/projectly-server_internal_domain_board_entity.BoardTeam'
             type: array
         "400":
           description: Bad Request
@@ -528,7 +528,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/task-tracker-server_internal_domain_project_entity.Project'
+            $ref: '#/definitions/projectly-server_internal_domain_project_entity.Project'
         "400":
           description: Bad Request
           schema:
@@ -583,7 +583,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/task-tracker-server_internal_domain_project_entity.Project'
+            $ref: '#/definitions/projectly-server_internal_domain_project_entity.Project'
         "400":
           description: Bad Request
           schema:
@@ -640,7 +640,7 @@ paths:
         "201":
           description: Created project
           schema:
-            $ref: '#/definitions/task-tracker-server_internal_domain_project_entity.Project'
+            $ref: '#/definitions/projectly-server_internal_domain_project_entity.Project'
         "400":
           description: Bad request
           schema:
@@ -674,7 +674,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/task-tracker-server_internal_domain_project_entity.Project'
+              $ref: '#/definitions/projectly-server_internal_domain_project_entity.Project'
             type: array
         "400":
           description: Bad Request
@@ -733,7 +733,7 @@ paths:
         "201":
           description: Created status
           schema:
-            $ref: '#/definitions/task-tracker-server_internal_domain_status_entity.Status'
+            $ref: '#/definitions/projectly-server_internal_domain_status_entity.Status'
         "400":
           description: Bad request
           schema:
@@ -795,7 +795,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/task-tracker-server_internal_domain_status_entity.Status'
+              $ref: '#/definitions/projectly-server_internal_domain_status_entity.Status'
             type: array
         "400":
           description: Bad Request
@@ -851,7 +851,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/task-tracker-server_internal_domain_task_entity.Task'
+            $ref: '#/definitions/projectly-server_internal_domain_task_entity.Task'
         "400":
           description: Bad Request
           schema:
@@ -873,7 +873,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/task-tracker-server_internal_domain_task_entity.Task'
+          $ref: '#/definitions/projectly-server_internal_domain_task_entity.Task'
       produces:
       - application/json
       responses:
@@ -936,7 +936,7 @@ paths:
         "201":
           description: Created task
           schema:
-            $ref: '#/definitions/task-tracker-server_internal_domain_task_entity.Task'
+            $ref: '#/definitions/projectly-server_internal_domain_task_entity.Task'
         "400":
           description: Bad request
           schema:
@@ -972,7 +972,7 @@ paths:
           schema:
             additionalProperties:
               items:
-                $ref: '#/definitions/task-tracker-server_internal_domain_task_entity.Task'
+                $ref: '#/definitions/projectly-server_internal_domain_task_entity.Task'
               type: array
             type: object
         "400":
@@ -1008,7 +1008,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/task-tracker-server_internal_domain_task_entity.TaskCard'
+              $ref: '#/definitions/projectly-server_internal_domain_task_entity.TaskCard'
             type: array
         "400":
           description: Bad Request
@@ -1066,7 +1066,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/task-tracker-server_internal_domain_team_entity.Team'
+            $ref: '#/definitions/projectly-server_internal_domain_team_entity.Team'
         "400":
           description: Bad Request
           schema:
@@ -1194,7 +1194,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/task-tracker-server_internal_domain_team_entity.TeamUser'
+              $ref: '#/definitions/projectly-server_internal_domain_team_entity.TeamUser'
             type: array
         "400":
           description: Bad Request
@@ -1225,7 +1225,7 @@ paths:
         "201":
           description: Created team
           schema:
-            $ref: '#/definitions/task-tracker-server_internal_domain_team_entity.Team'
+            $ref: '#/definitions/projectly-server_internal_domain_team_entity.Team'
         "400":
           description: Bad request
           schema:
@@ -1249,7 +1249,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/task-tracker-server_internal_domain_team_entity.Role'
+              $ref: '#/definitions/projectly-server_internal_domain_team_entity.Role'
             type: array
         "400":
           description: Bad Request
@@ -1273,14 +1273,14 @@ paths:
         name: team
         required: true
         schema:
-          $ref: '#/definitions/task-tracker-server_internal_domain_team_entity.Team'
+          $ref: '#/definitions/projectly-server_internal_domain_team_entity.Team'
       produces:
       - application/json
       responses:
         "200":
           description: Updated team details
           schema:
-            $ref: '#/definitions/task-tracker-server_internal_domain_team_entity.Team'
+            $ref: '#/definitions/projectly-server_internal_domain_team_entity.Team'
         "400":
           description: Invalid input
           schema:
@@ -1309,7 +1309,7 @@ paths:
           description: Teams
           schema:
             items:
-              $ref: '#/definitions/task-tracker-server_internal_domain_team_entity.Team'
+              $ref: '#/definitions/projectly-server_internal_domain_team_entity.Team'
             type: array
         "400":
           description: Bad request
@@ -1374,7 +1374,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/task-tracker-server_internal_domain_user_entity.Tokens'
+            $ref: '#/definitions/projectly-server_internal_domain_user_entity.Tokens'
         "400":
           description: Bad Request
           schema:
@@ -1404,7 +1404,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/task-tracker-server_internal_domain_user_entity.Tokens'
+            $ref: '#/definitions/projectly-server_internal_domain_user_entity.Tokens'
         "400":
           description: Bad Request
           schema:
@@ -1438,7 +1438,7 @@ paths:
         "201":
           description: Created user
           schema:
-            $ref: '#/definitions/task-tracker-server_internal_domain_user_entity.User'
+            $ref: '#/definitions/projectly-server_internal_domain_user_entity.User'
         "400":
           description: Bad request
           schema:
@@ -1490,7 +1490,7 @@ paths:
         "200":
           description: Updated user
           schema:
-            $ref: '#/definitions/task-tracker-server_internal_domain_user_entity.User'
+            $ref: '#/definitions/projectly-server_internal_domain_user_entity.User'
         "400":
           description: Bad request
           schema:
