@@ -16,11 +16,18 @@ export const useBoardStore = defineStore('projectly-board', {
         statusCount: (state) => {
             return state.statusList.length
         },
+        finishStatus: (state) => {
+            return state.statusList.slice(-1)[0]
+        },
     },
 
     actions: {
-        changeTaskStatus(oldStatusId: number, newStatusId: number, taskId: number) {
-            this.tasks[newStatusId].push(this.tasks[oldStatusId].find(t => t.id === taskId) as Task)
+        changeTaskStatus(oldStatusId: number, newStatusId: number, taskId: number, finishedAt: number | null) {
+            const task = {
+                ...this.tasks[oldStatusId].find(t => t.id === taskId) as Task,
+                finished_at: finishedAt || 0,
+            }
+            this.tasks[newStatusId].push(task)
             this.tasks[oldStatusId] = this.tasks[oldStatusId].filter(t => t.id !== taskId)
         },
 

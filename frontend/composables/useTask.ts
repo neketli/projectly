@@ -62,10 +62,11 @@ export const useTask = () => {
         }
     }
 
-    const updateTaskStatus = async (taskId: number, newStatusId: number): Promise<void> => {
+    const updateTaskStatus = async (taskId: number, newStatusId: number, finishedAt: number | null): Promise<void> => {
         try {
             await $api.patch(`/task/${taskId}/change-status`, {
                 status_id: newStatusId,
+                finished_at: finishedAt,
             })
         }
         catch (error) {

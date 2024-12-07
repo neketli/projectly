@@ -163,6 +163,15 @@ status:
     title: "Status Name"
     left: "Move left"
     right: "Move right"
+    sort: "Sorting"
+  sort:
+    asc: "asc"
+    desc: "desc"
+    created_at: "By creation date"
+    updated_at: "By update date"
+    deadline: "By deadline"
+    priority: "By priority"
+    story_point: "By story point"
   create:
     task: "Create Task"
     title: "Create Status"

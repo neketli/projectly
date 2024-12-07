@@ -28,6 +28,7 @@
                                 />
                                 {{ $t('common.button.edit') }}
                             </ElDropdownItem>
+
                             <ElDropdownItem @click="dialog.delete = true">
                                 <Icon
                                     name="mdi:delete"
@@ -57,6 +58,22 @@
                                 />
                                 {{ $t('status.form.left') }}
                             </ElDropdownItem>
+
+                            <ElDropdownItem @click="handleChangeSort">
+                                <Icon
+                                    :name="sortDirection === 'asc' ? 'mdi:sort-ascending' : 'mdi:sort-descending'"
+                                    class="mr-2"
+                                />
+                                {{ $t('status.form.sort') }} -
+                                {{ sortDirection === 'asc' ? $t('status.sort.asc') : $t('status.sort.desc') }}
+                            </ElDropdownItem>
+
+                            <ElSelectV2
+                                v-model="statusSort"
+                                class="min-w-40"
+                                :label="$t('status.form.sort')"
+                                :options="statusSortOptions"
+                            />
                         </template>
                     </ElDropdown>
 
@@ -169,6 +186,7 @@
 </template>
 
 <script lang="ts" setup>
+import dayjs from 'dayjs'
 import Draggable from 'vuedraggable'
 import { defaultStatusColors, type Status } from '~/types/board'
 import type { Task } from '~/types/task'
@@ -179,7 +197,7 @@ const emit = defineEmits(['create', 'update', 'delete'])
 const { t } = useI18n()
 
 const boardStore = useBoardStore()
-const { statusCount, tasks } = toRefs(boardStore)
+const { statusCount, finishStatus, tasks } = toRefs(boardStore)
 const { updateTaskStatus, deleteTask } = useTask()
 
 const isEdit = ref(false)
@@ -191,9 +209,44 @@ const dialog = reactive({
 const title = ref('')
 const color = ref(props.status.hex_color || defaultStatusColors[0])
 
+const sortDirection = ref<'asc' | 'desc'>('desc')
+const statusSort: Ref<keyof Task> = ref('updated_at')
+const statusSortOptions = [
+    {
+        label: t('status.sort.updated_at'),
+        value: 'updated_at',
+    },
+    {
+        label: t('status.sort.created_at'),
+        value: 'created_at',
+    },
+    {
+        label: t('status.sort.deadline'),
+        value: 'deadline',
+    },
+    {
+        label: t('status.sort.priority'),
+        value: 'priority',
+    },
+    {
+        label: t('status.sort.story_point'),
+        value: 'story_points',
+    },
+]
+
 const taskList = computed(() => {
     const arr = tasks.value[props.status.id]
-    arr.sort((a, b) => a.updated_at - b.updated_at)
+    arr.sort((a: Task, b: Task) => {
+        if (a[statusSort.value] === undefined && b[statusSort.value] !== undefined) return 1
+        if (a[statusSort.value] !== undefined && b[statusSort.value] === undefined) return -1
+
+        if (sortDirection.value === 'asc') {
+            // @ts-expect-error
+            return a[statusSort.value] > b[statusSort.value] ? 1 : -1
+        }
+        // @ts-expect-error
+        return a[statusSort.value] < b[statusSort.value] ? 1 : -1
+    })
     return arr
 })
 
@@ -208,6 +261,10 @@ const handleCancel = () => {
     if (props.status.id === 0) {
         emit('delete', props.status)
     }
+}
+
+const handleChangeSort = () => {
+    sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc'
 }
 
 const handleSaveStatus = () => {
@@ -274,8 +331,10 @@ const handleChangeTaskStatus = async (params: {
         if (fromStatusId === toStatusId) return
 
         isLoading.value = true
-        await updateTaskStatus(taskId, toStatusId)
-        boardStore.changeTaskStatus(fromStatusId, toStatusId, taskId)
+        const finishedAt = finishStatus.value.id === toStatusId ? dayjs().unix() : null
+        await updateTaskStatus(taskId, toStatusId, finishedAt)
+        boardStore.changeTaskStatus(fromStatusId, toStatusId, taskId, finishedAt)
+
         ElMessage.success(t('task.success.update'))
     }
     catch (err) {
@@ -294,16 +353,3 @@ onMounted(() => {
     }
 })
 </script>
-
-<style>
-.task-transition-enter-active,
-.task-transition-leave-active {
-  transition: all 0.5s;
-}
-
-.task-transition-enter-from,
-.task-transition-leave-to {
-  opacity: 0;
-  transform: scale(0.5);
-}
-</style>
