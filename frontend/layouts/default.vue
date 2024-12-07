@@ -8,22 +8,15 @@
                 class="flew items-center w-full"
                 :ellipsis="false"
             >
-                <ElMenuItem
-                    index="/"
-                    class="!text-xl"
-                >
-                    Task tracker
-                    <Icon
-                        name="mdi:list-box"
-                        class="ml-2"
-                    />
+                <ElMenuItem index="/">
+                    <LayoutIcon />
                 </ElMenuItem>
 
                 <LayoutLangSwitcher class="ml-auto mr-2" />
                 <LayoutThemeSwitcher class="mr-2" />
 
                 <ElMenuItem
-                    index="profile"
+                    index="/profile"
                 >
                     {{ getUserInfo.name }}
                     {{ getUserInfo.surname }}

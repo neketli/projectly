@@ -4,16 +4,25 @@
             {{ $t('dashboard.title') }}
         </h1>
 
-        <div class="grid grid-cols-3">
-            <UserTeams />
+        <div class="grid grid-cols-3 gap-4">
+            <UserTeams class="h-fit" />
+
+            <ElCalendar
+                v-model="date"
+                class="col-start-2 col-end-4"
+            />
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
+import dayjs from 'dayjs'
+
 definePageMeta({
     layout: 'default',
 })
+
+const date = ref(dayjs().toDate())
 
 onMounted(() => {
     useTeamStore().$reset()

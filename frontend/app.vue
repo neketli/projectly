@@ -1,7 +1,3 @@
-<script setup lang="ts">
-import 'element-plus/theme-chalk/dark/css-vars.css'
-</script>
-
 <template>
     <div>
         <NuxtLayout>
@@ -9,6 +5,16 @@ import 'element-plus/theme-chalk/dark/css-vars.css'
         </NuxtLayout>
     </div>
 </template>
+
+<script setup lang="ts">
+import 'element-plus/theme-chalk/dark/css-vars.css'
+
+useHead({
+    titleTemplate: (title) => {
+        return title ? `${title} | Projectly` : 'Projectly'
+    },
+})
+</script>
 
 <style>
 .slide-enter-active,

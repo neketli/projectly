@@ -72,6 +72,10 @@
 <script setup lang="ts">
 const { t } = useI18n()
 
+useHead({
+    title: t('profile.title'),
+})
+
 const authStore = useAuthStore()
 
 const { getUserInfo } = toRefs(authStore)

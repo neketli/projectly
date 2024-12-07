@@ -14,6 +14,7 @@ export default defineNuxtConfig({
         '@nuxtjs/tailwindcss',
         '@formkit/auto-animate',
         '@nuxtjs/i18n',
+        'nuxt-svgo',
     ],
     ssr: false,
 
