@@ -2,7 +2,9 @@ package repository
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
+	"time"
 
 	"projectly-server/internal/domain/task/entity"
 
@@ -16,7 +18,8 @@ func (r taskRepo) UpdateTaskStatus(ctx context.Context, task *entity.Task) error
 	query, args, err := r.Builder.
 		Update("task").
 		SetMap(sq.Eq{
-			"status_id": task.StatusID,
+			"status_id":   task.StatusID,
+			"finished_at": sql.NullTime{Time: time.Unix(task.FinishedAt, 0).UTC(), Valid: task.FinishedAt != 0},
 		}).
 		Where(sq.Eq{"id": task.ID}).
 		ToSql()

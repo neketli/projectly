@@ -3,14 +3,15 @@ package delivery
 import (
 	"fmt"
 	"net/http"
-	"strconv"
 	"projectly-server/internal/domain/task/entity"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
 
 type requestUpdateTaskStatus struct {
-	StatusID int `json:"status_id"`
+	StatusID   int    `json:"status_id"`
+	FinishedAt *int64 `json:"finished_at"`
 }
 
 // @Summary	Update an existing task status
@@ -40,10 +41,16 @@ func (h *TaskHandler) UpdateTaskStatus(c echo.Context) error {
 		}
 	}
 
-	err = h.taskUseCase.UpdateTaskStatus(c.Request().Context(), &entity.Task{
+	task := entity.Task{
 		ID:       taskID,
 		StatusID: request.StatusID,
-	})
+	}
+
+	if request.FinishedAt != nil {
+		task.FinishedAt = *request.FinishedAt
+	}
+
+	err = h.taskUseCase.UpdateTaskStatus(c.Request().Context(), &task)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusInternalServerError,

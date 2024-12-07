@@ -81,6 +81,8 @@ definitions:
     type: object
   internal_domain_task_delivery.requestUpdateTaskStatus:
     properties:
+      finished_at:
+        type: integer
       status_id:
         type: integer
     type: object
@@ -955,10 +957,6 @@ paths:
       description: Get tasks list of board
       operationId: task-get-list
       parameters:
-      - description: Task limits
-        in: query
-        name: limit
-        type: integer
       - description: Board id
         in: query
         name: board_id
