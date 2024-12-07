@@ -13,7 +13,7 @@ type TaskRepository interface {
 	UpdateTaskStatus(ctx context.Context, task *entity.Task) error
 	DeleteTask(ctx context.Context, taskID int) error
 	GetTask(ctx context.Context, taskID int) (entity.Task, error)
-	GetTaskList(ctx context.Context, boardID int, limit uint64) ([]entity.Task, error)
+	GetTaskList(ctx context.Context, boardID int) ([]entity.Task, error)
 	GetUserTasks(ctx context.Context, userID int, limit uint64) ([]entity.TaskCard, error)
 }
 

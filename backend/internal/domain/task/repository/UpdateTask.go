@@ -19,13 +19,13 @@ func (r taskRepo) UpdateTask(ctx context.Context, task *entity.Task) error {
 	taskModel := model.Task{
 		Title:          task.Title,
 		Description:    sql.NullString{String: task.Description, Valid: true},
-		Priority:       sql.NullInt64{Int64: int64(task.Priority), Valid: true},
-		StoryPoints:    sql.NullInt64{Int64: int64(task.StoryPoints), Valid: true},
-		TrackedTime:    sql.NullInt64{Int64: int64(task.TrackedTime), Valid: true},
+		Priority:       sql.NullInt64{Int64: int64(task.Priority), Valid: task.Priority > 0},
+		StoryPoints:    sql.NullInt64{Int64: int64(task.StoryPoints), Valid: task.StoryPoints > 0},
+		TrackedTime:    sql.NullInt64{Int64: int64(task.TrackedTime), Valid: task.TrackedTime > 0},
 		StatusID:       task.StatusID,
 		UpdatedAt:      sql.NullTime{Time: time.Now().UTC(), Valid: true},
-		Deadline:       sql.NullTime{Time: time.Unix(task.FinishedAt, 0).UTC(), Valid: task.Deadline != 0},
-		FinishedAt:     sql.NullTime{Time: time.Unix(task.Deadline, 0).UTC(), Valid: task.FinishedAt != 0},
+		Deadline:       sql.NullTime{Time: time.Unix(task.Deadline, 0).UTC(), Valid: task.Deadline != 0},
+		FinishedAt:     sql.NullTime{Time: time.Unix(task.FinishedAt, 0).UTC(), Valid: task.FinishedAt != 0},
 		AssignedUserID: sql.NullInt64{Int64: int64(task.AssignedUserID), Valid: task.AssignedUserID != 0},
 	}
 

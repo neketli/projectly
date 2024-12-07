@@ -10,13 +10,9 @@ import (
 	sq "github.com/Masterminds/squirrel"
 )
 
-func (r taskRepo) GetTaskList(ctx context.Context, boardID int, limit uint64) ([]entity.Task, error) {
+func (r taskRepo) GetTaskList(ctx context.Context, boardID int) ([]entity.Task, error) {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()
-
-	if limit <= 0 {
-		limit = _defaultLimit
-	}
 
 	query, args, err := r.Builder.
 		Select(
@@ -40,7 +36,6 @@ func (r taskRepo) GetTaskList(ctx context.Context, boardID int, limit uint64) ([
 		Join("board b ON s.board_id = b.id").
 		Where(sq.Eq{"board_id": boardID}).
 		OrderBy("updated_at ASC").
-		Limit(limit).
 		ToSql()
 	if err != nil {
 		return nil, fmt.Errorf("task - repository - GetTaskList - r.Builder: %w", err)

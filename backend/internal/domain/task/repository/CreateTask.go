@@ -24,16 +24,6 @@ func (r taskRepo) CreateTask(ctx context.Context, task entity.Task) (entity.Task
 		return entity.Task{}, fmt.Errorf("task - repository - CreateTask - r.GetProjectTaskIndex: %w", err)
 	}
 
-	assigned := sql.NullInt64{Int64: 0, Valid: false}
-	if task.AssignedUserID == 0 {
-		assigned = sql.NullInt64{Int64: int64(task.AssignedUserID), Valid: false}
-	}
-
-	finishedAt := sql.NullTime{Time: time.Time{}, Valid: false}
-	if task.FinishedAt != 0 {
-		finishedAt = sql.NullTime{Time: time.Unix(task.FinishedAt, 0).UTC(), Valid: true}
-	}
-
 	query, args, err := r.Builder.
 		Insert("task").
 		Columns(
@@ -52,15 +42,15 @@ func (r taskRepo) CreateTask(ctx context.Context, task entity.Task) (entity.Task
 		Values(
 			projectTaskIndex+1,
 			task.Title,
-			task.Description,
-			task.Priority,
-			task.StoryPoints,
-			task.TrackedTime,
-			time.Unix(task.Deadline, 0).UTC(),
+			sql.NullString{String: task.Description, Valid: true},
+			sql.NullInt64{Int64: int64(task.Priority), Valid: task.Priority > 0},
+			sql.NullInt64{Int64: int64(task.StoryPoints), Valid: task.StoryPoints > 0},
+			sql.NullInt64{Int64: int64(task.TrackedTime), Valid: task.TrackedTime > 0},
+			sql.NullTime{Time: time.Unix(task.Deadline, 0).UTC(), Valid: task.FinishedAt != 0},
 			task.StatusID,
 			task.CreatedUserID,
-			assigned,
-			finishedAt,
+			sql.NullInt64{Int64: int64(task.AssignedUserID), Valid: task.AssignedUserID != 0},
+			sql.NullTime{Time: time.Unix(task.FinishedAt, 0).UTC(), Valid: task.FinishedAt != 0},
 		).
 		Suffix("RETURNING *").
 		ToSql()

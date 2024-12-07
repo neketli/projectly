@@ -3,8 +3,8 @@ package delivery
 import (
 	"fmt"
 	"net/http"
-	"strconv"
 	"projectly-server/internal/domain/task/entity"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -15,7 +15,6 @@ import (
 // @Tags			task
 // @Accept			application/json
 // @Produce			application/json
-// @Param			limit	query		int	false	"Task limits"
 // @Param			board_id	query		int	true	"Board id"
 // @Success		200			{object}	map[int][]entity.Task
 // @Failure		400			{object}	echo.HTTPError
@@ -30,21 +29,8 @@ func (h *TaskHandler) GetTaskList(c echo.Context) error {
 		}
 	}
 
-	var limit uint64
-	queryLimit := c.QueryParam("limit")
-	if queryLimit != "" {
-		l, err := strconv.Atoi(queryLimit)
-		if err != nil {
-			return &echo.HTTPError{
-				Code:    http.StatusBadRequest,
-				Message: "invalid limit id",
-			}
-		}
-		limit = uint64(l)
-	}
-
 	var tasks map[int][]entity.Task
-	tasks, err = h.taskUseCase.GetTaskList(c.Request().Context(), boardID, limit)
+	tasks, err = h.taskUseCase.GetTaskList(c.Request().Context(), boardID)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusInternalServerError,
