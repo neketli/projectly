@@ -18,6 +18,7 @@ type TeamUseCase interface {
 	GetUsers(ctx context.Context, teamID int) ([]entity.TeamUser, error)
 	AddUserToTeam(ctx context.Context, teamID, userID int) error
 	RemoveUserFromTeam(ctx context.Context, teamID, userID int) error
+	GetStatisticData(ctx context.Context, teamID int) ([]entity.StatisticData, error)
 }
 
 type teamUseCase struct {

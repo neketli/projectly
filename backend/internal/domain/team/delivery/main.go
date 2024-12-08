@@ -22,6 +22,8 @@ func New(router *echo.Group, tu usecase.TeamUseCase, u userUseCase.UserUseCase) 
 		team.DELETE("/:id", handler.DeleteTeam)
 		team.GET("/:id", handler.GetTeam)
 
+		team.GET("/:id/statistic", handler.GetStatistics)
+
 		team.GET("/user", handler.UserTeams)
 		team.GET("/:id/users", handler.Users)
 		team.POST("/:id/add-user", handler.AddUser)

@@ -265,6 +265,27 @@ definitions:
       role_name:
         type: string
     type: object
+  projectly-server_internal_domain_team_entity.StatisticData:
+    properties:
+      avg_task_duration:
+        example: 2.5
+        type: number
+      cluster:
+        example: 1
+        type: integer
+      code:
+        example: proj1
+        type: string
+      completed_tasks_count:
+        example: 5
+        type: integer
+      id:
+        example: 1
+        type: integer
+      total_tasks_count:
+        example: 10
+        type: integer
+    type: object
   projectly-server_internal_domain_team_entity.Team:
     properties:
       description:
@@ -1172,6 +1193,36 @@ paths:
           schema:
             $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Set user role in team
+      tags:
+      - team
+  /team/{id}/statistic:
+    get:
+      consumes:
+      - application/json
+      description: Get teams projects statistic
+      operationId: team-get-statistic
+      parameters:
+      - description: Team id
+        in: query
+        name: team_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/projectly-server_internal_domain_team_entity.StatisticData'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+      summary: Get team projects statistic
       tags:
       - team
   /team/{id}/users:
