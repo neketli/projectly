@@ -91,6 +91,23 @@
             />
         </div>
 
+        <ElCollapse
+            v-if="team.id"
+            v-model="collapse"
+            accordion
+            class="mt-8"
+            @change="hasStatistic = true"
+        >
+            <ElCollapseItem
+                :title="$t('team.statistic.title')"
+                name="statistic"
+            >
+                <KeepAlive>
+                    <TeamStatistic v-if="hasStatistic" />
+                </KeepAlive>
+            </ElCollapseItem>
+        </ElCollapse>
+
         <ElDialog
             v-model="dialog.team"
             :title="$t('team.update.title')"
@@ -131,6 +148,8 @@ const { team } = toRefs(teamStore)
 
 const projects = ref<Project[]>([])
 
+const collapse = ref('')
+const hasStatistic = ref(false)
 const dialog = reactive({
     team: false,
 })

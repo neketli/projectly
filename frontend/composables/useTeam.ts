@@ -1,5 +1,5 @@
 import type { AxiosError } from 'axios'
-import type { Team } from '~/types/team'
+import type { Team, TeamProject } from '~/types/team'
 import type { Role, UserWithRoles } from '~/types/user'
 
 export const useTeam = () => {
@@ -115,6 +115,17 @@ export const useTeam = () => {
         }
     }
 
+    const getProjectsStatistic = async (team_id: number): Promise<TeamProject[]> => {
+        try {
+            const { data: statistic } = await $api.get(`/team/${team_id}/statistic`)
+            return statistic
+        }
+        catch (error) {
+            const axiosError = error as AxiosError<{ message: string }>
+            throw new Error(axiosError.response?.data?.message || 'Failed to get team statistic')
+        }
+    }
+
     return {
         getTeam,
         createTeam,
@@ -126,5 +137,6 @@ export const useTeam = () => {
         removeTeamUser,
         getRoles,
         setRole,
+        getProjectsStatistic,
     }
 }

@@ -101,6 +101,17 @@ team:
       title: "Invite User to Team"
       email: "Email Address"
       invite: "Invite"
+  statistic:
+    title: "Statistics"
+    clusters: "Project clustering by complete time"
+    volume: "Project volume by task quantity"
+    id: "Project id"
+    code: "Project Code"
+    total: "Total tasks"
+    completed: "Completed tasks"
+    duration: "Average task duration (h)"
+    cluster: "Cluster"
+    percent: "Percent of completed tasks"
   create:
     title: "Create Team"
   update:

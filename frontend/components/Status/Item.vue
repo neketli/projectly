@@ -209,8 +209,8 @@ const dialog = reactive({
 const title = ref('')
 const color = ref(props.status.hex_color || defaultStatusColors[0])
 
-const sortDirection = ref<'asc' | 'desc'>('desc')
-const statusSort: Ref<keyof Task> = ref('updated_at')
+const sortDirection = ref<'asc' | 'desc'>('asc')
+const statusSort: Ref<keyof Task> = ref('created_at')
 const statusSortOptions = [
     {
         label: t('status.sort.updated_at'),
@@ -236,6 +236,7 @@ const statusSortOptions = [
 
 const taskList = computed(() => {
     const arr = tasks.value[props.status.id]
+    if (!arr) return []
     arr.sort((a: Task, b: Task) => {
         if (a[statusSort.value] === undefined && b[statusSort.value] !== undefined) return 1
         if (a[statusSort.value] !== undefined && b[statusSort.value] === undefined) return -1

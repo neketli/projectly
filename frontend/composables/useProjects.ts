@@ -3,6 +3,7 @@ import type { Project } from '~/types/project'
 
 export const useProjects = () => {
     const { $api } = useNuxtApp()
+
     const getProject = async (id: number): Promise<Project> => {
         try {
             const { data } = await $api.get(`/project/${id}`)
@@ -79,5 +80,12 @@ export const useProjects = () => {
         }
     }
 
-    return { getProject, getTeamProject, getProjectsList, createProject, updateProject, deleteProject }
+    return {
+        getProject,
+        getTeamProject,
+        getProjectsList,
+        createProject,
+        updateProject,
+        deleteProject,
+    }
 }

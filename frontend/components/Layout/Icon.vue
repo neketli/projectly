@@ -1,5 +1,5 @@
 <template>
-    <div class="!text-2xl flex items-center gap-2">
+    <div class="!text-2xl flex items-center gap-2 font-['Helvetica']">
         Projectly
 
         <Logo />
