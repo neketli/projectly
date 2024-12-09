@@ -4,7 +4,7 @@
             {{ project.code }}-{{ task.project_index }}
         </span>
 
-        <h3 class="text-xl font-bold">
+        <h3 class="mt-1 text-xl font-bold">
             {{ task.title }}
         </h3>
 

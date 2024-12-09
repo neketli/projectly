@@ -55,10 +55,10 @@
             {{ project.description }}
         </p>
 
-        <BoardTable
+        <BoardList
             v-if="project.id"
             :project-id="project.id"
-            class="mt-8 max-w-md mx-auto"
+            class="mt-8 max-w-lg mx-auto"
         />
 
         <ElDialog

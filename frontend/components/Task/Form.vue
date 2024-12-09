@@ -220,6 +220,7 @@ const handleSaveProject = async () => {
 
 const saveTask = async () => {
     isLoading.value = true
+
     try {
         const details = {
             ...form.value,
@@ -227,6 +228,7 @@ const saveTask = async () => {
             deadline: Number(form.value.deadline) || 0,
             status_id: props.statusId,
         }
+
         const task = props.task?.id
             ? await updateTask({
                 ...props.task,

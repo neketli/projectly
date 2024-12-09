@@ -8,6 +8,9 @@
             <div
                 ref="parent"
                 class="!w-full max-h-[70vh] flex gap-4"
+                :class="{
+                    'justify-center': sortedStatusList.length <= 4,
+                }"
             >
                 <StatusItem
                     v-for="status in sortedStatusList"
@@ -17,7 +20,7 @@
                     @update="handleUpdateStatus"
                     @delete="handleDeleteStatus"
                 />
-                <!-- TODO: fix without hint -->
+                <!-- TODO: fix without tricks -->
                 <div class="min-w-1" />
             </div>
         </ElScrollbar>
@@ -69,9 +72,9 @@ const handleDeleteStatus = async (status: Status) => {
     try {
         if (status.id !== 0) {
             await deleteStatus(status)
-            boardStore.deleteStatus(status)
             ElMessage.success(t('status.success.delete'))
         }
+        boardStore.deleteStatus(status)
     }
     catch (err) {
         const error = err as Error
