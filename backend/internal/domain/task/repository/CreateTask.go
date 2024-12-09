@@ -46,7 +46,7 @@ func (r taskRepo) CreateTask(ctx context.Context, task entity.Task) (entity.Task
 			sql.NullInt64{Int64: int64(task.Priority), Valid: task.Priority > 0},
 			sql.NullInt64{Int64: int64(task.StoryPoints), Valid: task.StoryPoints > 0},
 			sql.NullInt64{Int64: int64(task.TrackedTime), Valid: task.TrackedTime > 0},
-			sql.NullTime{Time: time.Unix(task.Deadline, 0).UTC(), Valid: task.FinishedAt != 0},
+			sql.NullTime{Time: time.Unix(task.Deadline, 0).UTC(), Valid: task.Deadline != 0},
 			task.StatusID,
 			task.CreatedUserID,
 			sql.NullInt64{Int64: int64(task.AssignedUserID), Valid: task.AssignedUserID != 0},
