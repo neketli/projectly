@@ -1,5 +1,7 @@
 # Projectly
 
+![preview](https://github.com/user-attachments/assets/c19fb3a0-86e8-449f-9a13-190676e22817)
+
 Projectly is an open source project management system. It helps teams to organize tasks, track progress, share files and collaborate on projects. Ease of use and effective UI/UX make projectly a good tool for any team!
 
 ## Features 🚀
