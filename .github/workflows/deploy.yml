@@ -22,7 +22,7 @@ jobs:
           VITE_API_URL: http://projectly.ru
           NUXT_PUBLIC_SITE_URL: projectly.ru
         with:
-          name: neketli/projectly/frontend
+          name: neketli/projectly-frontend
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
@@ -39,7 +39,7 @@ jobs:
       - name: Build and Publish to Github Container Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
         with:
-          name: neketli/projectly/backend
+          name: neketli/projectly-backend
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
@@ -48,6 +48,7 @@ jobs:
           tags: latest
 
   deploy:
+    needs: [build_frontend, build_backend]
     runs-on: ubuntu-latest
     steps:
       - name: Deploy on VPS
