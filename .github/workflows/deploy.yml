@@ -19,8 +19,8 @@ jobs:
       - name: Build and Publish to Github Container Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
         env:
-          VITE_API_URL=https://projectly.ru
-          NUXT_PUBLIC_SITE_URL=projectly.ru
+          VITE_API_URL: http://projectly.ru
+          NUXT_PUBLIC_SITE_URL: projectly.ru
         with:
           name: neketli/projectly/frontend
           registry: ghcr.io
@@ -31,7 +31,7 @@ jobs:
           tags: latest
           build_args: VITE_API_URL,NUXT_PUBLIC_SITE_URL
 
-  build_frontend:
+  build_backend:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
