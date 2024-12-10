@@ -61,7 +61,7 @@ jobs:
           password: ${{ secrets.HOST_PASSWORD }}
           key: ${{ secrets.HOST_KEY }}
           envs: GITHUB_TOKEN
-          script: /
+          script: |
             docker compose down
             docker compose pull
             docker compose up -d
