@@ -1,0 +1,68 @@
+name: Build and Deploy to production server
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+
+jobs:
+  build_frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build and Publish to Github Container Registry
+        uses: elgohr/Publish-Docker-Github-Action@v5
+        env:
+          VITE_API_URL=https://projectly.ru
+          NUXT_PUBLIC_SITE_URL=projectly.ru
+        with:
+          name: neketli/projectly/frontend
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          dockerfile: ./frontend/Dockerfile
+          context: ./frontend
+          tags: latest
+          build_args: VITE_API_URL,NUXT_PUBLIC_SITE_URL
+
+  build_frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build and Publish to Github Container Registry
+        uses: elgohr/Publish-Docker-Github-Action@v5
+        with:
+          name: neketli/projectly/backend
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          dockerfile: ./backend/Dockerfile
+          context: ./backend
+          tags: latest
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy on VPS
+        uses: appleboy/ssh-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          host: ${{ secrets.HOST_NAME }}
+          username: ${{ secrets.HOST_USER }}
+          password: ${{ secrets.HOST_PASSWORD }}
+          key: ${{ secrets.HOST_KEY }}
+          envs: GITHUB_TOKEN
+          command_timeout: 30m
+          script: /
+            docker compose down
+            docker compose pull
+            docker compose up -d
+            docker system prune -f
