@@ -1,6 +1,6 @@
 <template>
     <section
-        class="w-full min-h-[92vh] flex flex-col gap-8 justify-center items-center bg-sky-50 dark:bg-slate-900"
+        class="w-full min-h-[92vh] flex flex-col gap-8 justify-center items-center bg-sky-50 dark:bg-slate-900 px-4"
     >
         <ElForm
             ref="formElement"
@@ -89,7 +89,7 @@
                 </ElInput>
             </ElFormItem>
 
-            <div class="flex mt-2">
+            <div class="flex flex-col sm:flex-row gap-4 mt-2">
                 <ElButton
                     :disabled="state.isLoading"
                     :loading="state.isLoading"
@@ -107,7 +107,7 @@
                 <ElButton
                     :disabled="state.isLoading"
                     :loading="state.isLoading"
-                    class="w-full"
+                    class="w-full !ml-0"
                     @click="navigateTo('/auth/login')"
                 >
                     {{ $t('auth.register.form.login') }}

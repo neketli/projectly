@@ -37,7 +37,7 @@ Thank you for considering contributing to Projectly! Here are some steps to get 
 3. **Setup infra**: For development you will need infrastructure and setup configs (.env)
 
     ```bash
-    cd <project_location>/projectly/infrastructure && docker compose up
+    cd <project_location>/projectly && docker compose up postgres minio nginx
     ```
 
 4. **Run project**: Now you available to run project
