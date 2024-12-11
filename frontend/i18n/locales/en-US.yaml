@@ -1,4 +1,5 @@
 common:
+  beta: "The service is currently in beta"
   logout: "Logout"
   error: "Error"
   theme:

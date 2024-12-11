@@ -3,6 +3,15 @@
         Projectly
 
         <Logo />
+
+        <ElTooltip :content="$t('common.beta')">
+            <ElTag
+                round
+                effect="plain"
+            >
+                <Icon name="mdi:beta" />
+            </ElTag>
+        </ElTooltip>
     </div>
 </template>
 

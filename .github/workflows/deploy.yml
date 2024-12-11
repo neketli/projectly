@@ -62,7 +62,6 @@ jobs:
           key: ${{ secrets.HOST_KEY }}
           envs: GITHUB_TOKEN
           script: |
-            docker compose down
-            docker compose pull
-            docker compose up -d
+            cd /opt/projectly
+            docker compose up --pull=always --build --force-recreate -d
             docker system prune -f

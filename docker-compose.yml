@@ -1,5 +1,4 @@
-version: '3.8'
-name: projectly_infrastructure
+name: projectly_app
 
 services:
   postgres:
@@ -37,6 +36,30 @@ services:
     ports:
       - "80:80"
     restart: always
+
+  backend:
+    image: ghcr.io/neketli/projectly-backend:latest
+    container_name: projectly_backend
+    hostname: projectly_backend
+    env_file: .env.backend
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - postgres
+      - minio
+      - nginx
+  
+  frontend:
+    image: ghcr.io/neketli/projectly-frontend:latest
+    container_name: projectly_frontend
+    hostname: projectly_frontend
+    expose:
+      - "80"
+    restart: always
+    depends_on:
+      - backend
+      - nginx
 
 volumes:
   postgres_data:
