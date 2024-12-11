@@ -63,5 +63,6 @@ jobs:
           envs: GITHUB_TOKEN
           script: |
             cd /opt/projectly
+            git pull origin main
             docker compose up --pull=always --quiet-pull --build --force-recreate -d
             docker system prune -f
