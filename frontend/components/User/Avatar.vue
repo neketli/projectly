@@ -24,5 +24,5 @@ const props = defineProps({
     },
 })
 
-const avatarUrl = computed(() => props.fileName ? `${config.public.S3_URL}/${props.fileName}` : '')
+const avatarUrl = computed(() => props.fileName ? `${config.public.S3_HOST}/media/${props.fileName}` : '')
 </script>
