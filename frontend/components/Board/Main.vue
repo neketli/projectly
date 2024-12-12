@@ -7,9 +7,9 @@
         >
             <div
                 ref="parent"
-                class="!w-full max-h-[70vh] flex gap-4"
+                class="!w-full max-h-[70vh] flex flex-col md:flex-row gap-4"
                 :class="{
-                    'justify-center': sortedStatusList.length <= 4,
+                    'md:justify-center': sortedStatusList.length <= 4,
                 }"
             >
                 <StatusItem

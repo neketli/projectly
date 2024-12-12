@@ -37,8 +37,12 @@
                     </div>
                 </div>
 
-                <div v-if="!isChangePassword && !isEdit">
+                <div
+                    v-if="!isChangePassword && !isEdit"
+                    class="flex flex-col sm:flex-row gap-2"
+                >
                     <ElButton
+                        class="w-full sm:w-fit"
                         plain
                         @click="handleChangePassword"
                     >
@@ -47,6 +51,7 @@
 
                     <ElButton
                         v-if="getUserInfo?.meta?.avatar"
+                        class="w-full !ml-0 sm:w-fit"
                         type="warning"
                         plain
                         @click="handleRemoveAvatar"

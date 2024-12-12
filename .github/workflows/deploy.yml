@@ -68,7 +68,7 @@ jobs:
           dockerfile: ./frontend/Dockerfile
           context: ./frontend
           tags: latest
-          buildargs: VITE_API_URL,NUXT_PUBLIC_SITE_URL
+          buildargs: NUXT_PUBLIC_API_HOST,NUXT_PUBLIC_S3_HOST,NUXT_PUBLIC_SITE_URL
 
   build_backend:
     needs: [lint_backend]

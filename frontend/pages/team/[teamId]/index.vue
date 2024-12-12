@@ -78,16 +78,16 @@
 
         <div
             v-if="team.id"
-            class="flex mt-8 gap-8"
+            class="flex flex-col lg:flex-row mt-8 gap-8"
         >
             <TeamUsers
                 :team-id="team.id"
-                class="w-2/3"
+                class="lg:w-2/3"
             />
 
             <ProjectTable
                 :team-id="team.id"
-                class="w-1/3"
+                class="lg:w-1/3"
             />
         </div>
 
