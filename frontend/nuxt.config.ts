@@ -94,8 +94,14 @@ export default defineNuxtConfig({
     },
 
     icon: {
-        serverBundle: {
-            collections: ['mdi'],
+        serverBundle: false,
+        clientBundle: {
+            icons: [
+                'flag:ru-4x3',
+                'flag:us-4x3',
+            ],
+            scan: true,
+            sizeLimitKb: 256,
         },
     },
 
