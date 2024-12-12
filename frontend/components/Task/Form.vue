@@ -33,9 +33,9 @@
                     :label="item.label"
                     class="w-full flex gap-2 items-center"
                 >
-                    <ElAvatar
+                    <UserAvatar
                         :size="24"
-                        :src="`http://194.67.84.127/media/${item.avatar}`"
+                        :file-name="item.avatar"
                     />
                     {{ item.label }}
                 </ElOption>
@@ -62,9 +62,9 @@
             >
                 <template #label="{ item }">
                     <div style="display: flex; align-items: center">
-                        <ElAvatar
+                        <UserAvatar
                             :size="24"
-                            :src="`http://194.67.84.127/media/${item.avatar}`"
+                            :file-name="item.avatar"
                         />
                         <span style="margin-left: 6px">{{ item.label }}</span>
                     </div>

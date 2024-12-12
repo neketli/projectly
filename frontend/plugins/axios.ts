@@ -6,7 +6,7 @@ import { useAuthStore } from '~/store/auth'
 
 export default defineNuxtPlugin(({ $config }) => {
     const api = axios.create({
-        baseURL: `${$config.public.API_URL}/api/v1`,
+        baseURL: `${$config.public.API_HOST}/api/v1`,
         headers: {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Credentials': true,

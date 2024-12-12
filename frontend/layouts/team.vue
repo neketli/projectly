@@ -1,41 +1,6 @@
 <template>
     <div class="min-h-screen">
-        <header>
-            <ElMenu
-                mode="horizontal"
-                :default-active="route.path"
-                router
-                class="flew items-center w-full"
-                :ellipsis="false"
-            >
-                <ElMenuItem index="/">
-                    <LayoutIcon />
-                </ElMenuItem>
-
-                <LayoutLangSwitcher class="ml-auto mr-2" />
-                <LayoutThemeSwitcher class="mr-2" />
-
-                <ElMenuItem
-                    index="/profile"
-                >
-                    {{ getUserInfo.name }}
-                    {{ getUserInfo.surname }}
-
-                    <UserAvatar
-                        :size="32"
-                        class="ml-2"
-                    />
-                </ElMenuItem>
-
-                <ElMenuItem @click="exit">
-                    {{ $t('common.logout') }}
-                    <Icon
-                        class="ml-2"
-                        name="mdi:logout"
-                    />
-                </ElMenuItem>
-            </ElMenu>
-        </header>
+        <LayoutHeader />
 
         <div class="h-full text-grey-400 ">
             <div class="h-full w-full flex gap-4">
@@ -87,18 +52,12 @@
 
 <script setup lang="ts">
 const route = useRoute()
-const { getUserInfo, logout } = useAuthStore()
 
 const teamStore = useTeamStore()
 const projectStore = useProjectStore()
 
 const { getTeamUsers, getTeam } = useTeam()
 const { getTeamProject } = useProjects()
-
-const exit = () => {
-    logout()
-    navigateTo('/auth/login')
-}
 
 const updateStore = async () => {
     if (route.params.teamId) {

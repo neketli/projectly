@@ -11,15 +11,18 @@
 </template>
 
 <script setup>
-const { getUserInfo } = toRefs(useAuthStore())
+const config = useRuntimeConfig()
 
-defineProps({
+const props = defineProps({
+    fileName: {
+        type: String,
+        default: '',
+    },
     size: {
         type: Number,
         default: 64,
     },
 })
 
-// TODO: вынести обращения к S3
-const avatarUrl = computed(() => `http://194.67.84.127/media/${getUserInfo.value?.meta?.avatar}`)
+const avatarUrl = computed(() => props.fileName ? `${config.public.S3_URL}/${props.fileName}` : '')
 </script>

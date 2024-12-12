@@ -4,12 +4,12 @@
             {{ $t('dashboard.title') }}
         </h1>
 
-        <div class="grid grid-cols-3 gap-4">
-            <UserTeams class="h-fit" />
+        <div class="flex flex-wrap gap-4">
+            <UserTeams class="h-fit w-full max-w-md" />
 
             <ElCalendar
                 v-model="date"
-                class="col-start-2 col-end-4"
+                class="max-w-2xl"
             />
         </div>
     </div>

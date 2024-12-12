@@ -1,6 +1,9 @@
 common:
   beta: "The service is currently in beta"
-  logout: "Logout"
+  header:
+    theme: "Switch theme"
+    lang: "Language"
+    logout: "Logout"
   error: "Error"
   theme:
     light: "Change to light theme"

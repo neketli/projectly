@@ -20,7 +20,10 @@
                 class="flex flex-col gap-4"
             >
                 <div class="flex gap-4 items-center">
-                    <UserAvatar :size="64" />
+                    <UserAvatar
+                        :file-name="getUserInfo.meta?.avatar"
+                        :size="64"
+                    />
 
                     <div>
                         <p class="text-2xl font-medium">

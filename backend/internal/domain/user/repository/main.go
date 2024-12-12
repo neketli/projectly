@@ -18,7 +18,7 @@ type UserRepository interface {
 }
 
 const (
-	_defaultConnTimeout = 5 * time.Second
+	_defaultConnTimeout = 30 * time.Second
 )
 
 type userRepo struct {

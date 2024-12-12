@@ -38,7 +38,8 @@ export default defineNuxtConfig({
 
     runtimeConfig: {
         public: {
-            API_URL: process.env.VITE_API_URL,
+            API_HOST: process.env.NUXT_PUBLIC_API_HOST,
+            S3_URL: `${process.env.NUXT_PUBLIC_S3_HOST}/media`,
         },
     },
     compatibilityDate: '2024-04-03',
