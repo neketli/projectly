@@ -1,8 +1,9 @@
 name: Build and Deploy to production server
 
 permissions:
-  contents: write
+  contents: read
   checks: write
+  packages: write
 
 on:
   push:
