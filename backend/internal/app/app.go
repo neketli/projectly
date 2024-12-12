@@ -36,8 +36,12 @@ func Run(cfg *config.Config) {
 	if err != nil {
 		l.Fatal(fmt.Errorf("app - Run - minio.New: %w", err))
 	}
-	m.Client.BucketExists(context.Background(), m.Bucket)
-	l.Info("Minio connection is ok!")
+	exists, err := m.Client.BucketExists(context.Background(), m.Bucket)
+	if !exists || err != nil {
+		l.Error(fmt.Errorf("app - Run - m.Client.BucketExists: %w", err))
+	} else {
+		l.Info("Minio connection is ok!")
+	}
 
 	e := echo.New()
 	e.Validator = validator.New()

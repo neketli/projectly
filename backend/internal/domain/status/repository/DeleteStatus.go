@@ -15,7 +15,9 @@ func (r statusRepo) DeleteStatus(ctx context.Context, statusID, order int) error
 	if err != nil {
 		return fmt.Errorf("status - repository - DeleteStatus - r.Pool.Begin: %w", err)
 	}
-	defer tx.Rollback(ctx)
+	defer func() {
+		_ = tx.Rollback(ctx)
+	}()
 
 	// Delete status
 	sql, args, err := r.Builder.

@@ -15,7 +15,9 @@ func (r statusRepo) UpdateOrders(ctx context.Context, boardID int, oldOrder, new
 	if err != nil {
 		return fmt.Errorf("status - repository - UpdateOrders - r.Pool.Begin: %w", err)
 	}
-	defer tx.Rollback(ctx)
+	defer func() {
+		_ = tx.Rollback(ctx)
+	}()
 
 	if newOrder > oldOrder {
 		sql, args, err := r.Builder.

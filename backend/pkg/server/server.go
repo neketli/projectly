@@ -36,10 +36,10 @@ func New(engine *echo.Echo, logger logger.Interface) *Server {
 	}
 }
 
-func (s *Server) Start(port string) error {
+func (s *Server) Start(port string) {
 	go func() {
 		if err := s.echo.Start(net.JoinHostPort("", port)); err != nil && err != http.ErrServerClosed {
-			s.logger.Fatal("shutting down the server")
+			s.logger.Fatal("shutting down the server", err)
 		}
 	}()
 
@@ -49,5 +49,5 @@ func (s *Server) Start(port string) error {
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	return s.echo.Shutdown(ctx)
+	s.echo.Shutdown(ctx)
 }
