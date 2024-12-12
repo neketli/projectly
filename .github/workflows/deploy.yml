@@ -17,8 +17,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          path: backend
       - name: Setup Go
         uses: actions/setup-go@v4
         with:
@@ -27,7 +25,7 @@ jobs:
       - name: Lint code
         uses: golangci/golangci-lint-action@v3
         with:
-          working-directory: ./backend
+          working-directory: backend
           version: v1.54
           args: --timeout=5m
 
@@ -36,17 +34,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          path: frontend
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '20'
       - name: Install dependencies
-        working-directory: ./frontend
+        working-directory: frontend
         run: npm install
       - name: Lint code
-        working-directory: ./frontend
+        working-directory: frontend
         run: npm run lint
 
   build_frontend:
