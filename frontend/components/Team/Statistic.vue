@@ -146,7 +146,7 @@ const volumeChartOption = computed(() => ({
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const handleSelectChanged = ({ selected }: any) => {
-    if (!data.value.length) return
+    if (!data.value.length || data.value.length === 1) return
     if (!selected.length) {
         selectedProject.value = {
             percent: 0,

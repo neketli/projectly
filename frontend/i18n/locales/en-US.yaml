@@ -187,7 +187,7 @@ status:
     updated_at: "By update date"
     deadline: "By deadline"
     priority: "By priority"
-    story_point: "By story point"
+    story_point: "By planned time"
   create:
     task: "Create Task"
     title: "Create Status"
@@ -213,7 +213,7 @@ task:
       label: "Priority"
       none: "None"
     assigned_user: "Assigned user"
-    story_point: "Story point"
+    story_point: "Planned time (h.)"
     tracked_time: "Tracked time (h.)"
     deadline: "Deadline"   
   create:

@@ -72,16 +72,31 @@
             </ElMention>
         </ElFormItem>
 
-        <ElFormItem
-            :label="$t('task.form.story_point')"
-            prop="story_points"
-            class="w-full"
-        >
-            <ElInputNumber
-                v-model="form.story_points"
-                :min="0"
-            />
-        </ElFormItem>
+        <div class="w-full flex flex-wrap gap-8">
+            <ElFormItem
+                :label="$t('task.form.story_point')"
+                prop="story_points"
+            >
+                <ElInputNumber
+                    v-model="form.story_points"
+                    :min="0"
+                    :step="1"
+                    step-strictly
+                />
+            </ElFormItem>
+
+            <ElFormItem
+                :label="$t('task.form.tracked_time')"
+                prop="tracked_time"
+            >
+                <ElInputNumber
+                    v-model="form.tracked_time"
+                    :min="0"
+                    :step="1"
+                    step-strictly
+                />
+            </ElFormItem>
+        </div>
 
         <ElFormItem
             :label="$t('task.form.priority.label')"
@@ -98,19 +113,6 @@
                     {{ item }}
                 </ElOption>
             </ElSelect>
-        </ElFormItem>
-
-        <ElFormItem
-            :label="$t('task.form.tracked_time')"
-            prop="story_points"
-            class="w-full"
-        >
-            <ElInputNumber
-                v-model="form.tracked_time"
-                :min="0"
-                :step="1"
-                step-strictly
-            />
         </ElFormItem>
 
         <ElFormItem

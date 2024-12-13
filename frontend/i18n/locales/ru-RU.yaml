@@ -187,7 +187,7 @@ status:
     updated_at: "По дате обновления"
     deadline: "По сроку выполнения"
     priority: "По приоритету"
-    story_point: "По стоимости"
+    story_point: "По запланированному времени"
   create:
     task: "Создать задачу"
     title: "Создать статус"
@@ -212,7 +212,7 @@ task:
       label: "Приоритет"
       none: "Без оценки"
     assigned_user: "Назначенный пользователь"
-    story_point: "Стоимость задачи (story point)"
+    story_point: "Запланированное время (ч.)"
     tracked_time: "Отслеживаемое время (ч.)"
     deadline: "Срок выполнения"   
   create:
