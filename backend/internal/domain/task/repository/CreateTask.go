@@ -53,8 +53,8 @@ func (r taskRepo) CreateTask(ctx context.Context, task entity.Task) (entity.Task
 			task.CreatedUserID,
 			sql.NullInt64{Int64: int64(task.AssignedUserID), Valid: task.AssignedUserID != 0},
 			sql.NullTime{Time: time.Unix(task.FinishedAt, 0).UTC(), Valid: task.FinishedAt != 0},
-			sql.NullTime{Time: time.Unix(task.FinishedAt, 0).UTC(), Valid: task.FinishedAt != 0},
-			sql.NullTime{Time: time.Unix(task.FinishedAt, 0).UTC(), Valid: task.FinishedAt != 0},
+			sql.NullTime{Time: time.Now().UTC(), Valid: true},
+			sql.NullTime{Time: time.Now().UTC(), Valid: true},
 		).
 		Suffix("RETURNING *").
 		ToSql()
