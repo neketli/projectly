@@ -6,5 +6,6 @@ type StatisticData struct {
 	TotalTasksCount     int     `json:"total_tasks_count" example:"10"`
 	CompletedTasksCount int     `json:"completed_tasks_count" example:"5"`
 	AvgTaskDuration     float64 `json:"avg_task_duration" example:"2.5"`
+	AvgTaskLifeDuration float64 `json:"avg_task_life_duration" example:"2.5"`
 	Cluster             int     `json:"cluster" example:"1"`
 }

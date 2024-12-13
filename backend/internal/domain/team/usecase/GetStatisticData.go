@@ -17,7 +17,10 @@ func (u *teamUseCase) GetStatisticData(ctx context.Context, teamID int) ([]entit
 		return nil, err
 	}
 
-	if len(projects) < 3 {
+	if len(projects) <= 3 {
+		for i := range projects {
+			projects[i].Cluster = i
+		}
 		return projects, nil
 	}
 

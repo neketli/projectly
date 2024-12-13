@@ -18,7 +18,8 @@ func (r teamRepo) GetStatisticData(ctx context.Context, teamID int) ([]entity.St
 			"p.code",
 			"COUNT(t.id) AS total_tasks_count",
 			"COUNT(t.finished_at) AS completed_tasks_count",
-			"AVG(EXTRACT(EPOCH FROM (t.finished_at - t.created_at))/3600) AS avg_task_duration").
+			"COALESCE(AVG(t.tracked_time), 0) AS avg_task_duration",
+			"COALESCE(AVG(EXTRACT(EPOCH FROM (t.finished_at - t.created_at))/3600), 0) AS avg_task_life_duration").
 		From("project p").
 		Join("board b ON p.id = b.project_id").
 		Join("status s ON b.id = s.board_id").
@@ -45,6 +46,7 @@ func (r teamRepo) GetStatisticData(ctx context.Context, teamID int) ([]entity.St
 			&row.TotalTasksCount,
 			&row.CompletedTasksCount,
 			&row.AvgTaskDuration,
+			&row.AvgTaskLifeDuration,
 		); err != nil {
 			return nil, fmt.Errorf("team - repository - GetStatisticData - rows.Scan: %w", err)
 		}

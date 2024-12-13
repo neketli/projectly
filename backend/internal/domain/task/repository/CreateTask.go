@@ -38,6 +38,8 @@ func (r taskRepo) CreateTask(ctx context.Context, task entity.Task) (entity.Task
 			"created_user_id",
 			"assigned_user_id",
 			"finished_at",
+			"created_at",
+			"updated_at",
 		).
 		Values(
 			projectTaskIndex+1,
@@ -50,6 +52,8 @@ func (r taskRepo) CreateTask(ctx context.Context, task entity.Task) (entity.Task
 			task.StatusID,
 			task.CreatedUserID,
 			sql.NullInt64{Int64: int64(task.AssignedUserID), Valid: task.AssignedUserID != 0},
+			sql.NullTime{Time: time.Unix(task.FinishedAt, 0).UTC(), Valid: task.FinishedAt != 0},
+			sql.NullTime{Time: time.Unix(task.FinishedAt, 0).UTC(), Valid: task.FinishedAt != 0},
 			sql.NullTime{Time: time.Unix(task.FinishedAt, 0).UTC(), Valid: task.FinishedAt != 0},
 		).
 		Suffix("RETURNING *").
