@@ -1,6 +1,6 @@
 <template>
     <ElSelect
-        v-model="lang"
+        :model-value="lang"
         value-key="code"
         class="!w-28"
         @change="handleSwitchLang"
@@ -20,9 +20,9 @@
 <script setup lang="ts">
 const { locale, locales, setLocale } = useI18n()
 
-const lang = ref(locales.value.find(item => item.code === locale.value))
+const lang = computed(() => locales.value.find(item => item.code === locale.value))
 
-const handleSwitchLang = () => {
-    setLocale(lang.value.code)
+const handleSwitchLang = ({ code }: { code: 'ru-RU' | 'en-US' }) => {
+    setLocale(code)
 }
 </script>

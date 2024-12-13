@@ -146,12 +146,14 @@
 </template>
 
 <script lang="ts" setup>
+import dayjs from 'dayjs'
 import type { FormInstance, FormRules } from 'element-plus'
 import type { Task } from '~/types/task'
 
 const props = defineProps<{
     task?: Task
     statusId: number
+    isFinished: boolean
 }>()
 
 const emit = defineEmits(['success', 'cancel'])
@@ -222,11 +224,14 @@ const saveTask = async () => {
     isLoading.value = true
 
     try {
+        const finishedAt = props.isFinished ? dayjs().unix() : null
+
         const details = {
             ...form.value,
             assigned_user_id: Number(form.value.assigned_user_id) || 0,
             deadline: Number(form.value.deadline) || 0,
             status_id: props.statusId,
+            finishedAt,
         }
 
         const task = props.task?.id

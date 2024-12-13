@@ -30,13 +30,15 @@ export const useBoardStore = defineStore('projectly-board', {
             this.tasks[newStatusId].push(task)
             this.tasks[oldStatusId] = this.tasks[oldStatusId].filter(t => t.id !== taskId)
         },
-
-        setStatusList(statusList: Status[]) {
-            this.statusList = statusList
-            this.tasks = statusList.reduce((acc, status) => ({
+        updateTasksStatusMap() {
+            this.tasks = this.statusList.reduce((acc, status) => ({
                 ...acc,
                 [status.id]: this.tasks[status.id] || [],
             }), {})
+        },
+        setStatusList(statusList: Status[]) {
+            this.statusList = statusList
+            this.updateTasksStatusMap()
         },
         setTaskList(taskMap: { [status_id: number]: Task[] }) {
             Object.entries(taskMap).forEach(([status_id, tasks]) => {
@@ -45,10 +47,12 @@ export const useBoardStore = defineStore('projectly-board', {
         },
         replaceStatus(status: Status) {
             this.statusList.splice(status.order, 1, status)
+            this.updateTasksStatusMap()
         },
         deleteStatus(status: Status) {
             this.statusList.splice(this.statusList.indexOf(status), 1)
             this.statusList = this.statusList.map(s => (s.order > status.order ? { ...s, order: s.order - 1 } : s))
+            this.updateTasksStatusMap()
         },
     },
 })

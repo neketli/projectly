@@ -213,7 +213,7 @@ task:
       none: "None"
     assigned_user: "Assigned user"
     story_point: "Story point"
-    tracked_time: "Tracked time"
+    tracked_time: "Tracked time (h.)"
     deadline: "Deadline"   
   create:
     title: "Create Task"
@@ -226,3 +226,5 @@ task:
     create: "Task has been successfully created!"
     update: "Task has been successfully updated!"
     delete: "Task has been successfully deleted!"
+  error:
+    status_undefined: "Before adding a task, you need to save a status"

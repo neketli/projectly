@@ -2,10 +2,13 @@
     <div
         class="bg-neutral-100 dark:bg-neutral-900 dark:ring-2 dark:ring-neutral-700 min-w-[20vw] rounded-md p-2 relative overflow-hidden min-h-full"
     >
-        <div class="flex justify-between items-center gap-4 p-2 sticky z-10 bg-neutral-100 dark:bg-neutral-900 top-0">
+        <div class="w-full flex justify-between items-center gap-2 p-2 sticky z-10 bg-neutral-100 dark:bg-neutral-900 top-0">
             <template v-if="!isEdit">
-                <div class="flex items-center gap-4">
-                    <StatusTag :color="status.hex_color">
+                <div class="w-full flex items-center gap-2">
+                    <StatusTag
+                        class="w-full"
+                        :color="status.hex_color"
+                    >
                         {{ status.title }}
                     </StatusTag>
 
@@ -95,6 +98,7 @@
                     <div class="w-full flex gap-2">
                         <ElInput
                             v-model="title"
+                            class="max-w-32"
                             @keyup.enter="handleSaveStatus"
                         />
                         <ElColorPicker
@@ -123,14 +127,11 @@
             </template>
         </div>
 
-        <ElScrollbar
-            height="58vh"
-            class="w-full px-2 py-2"
-        >
+        <ElScrollbar class="w-full md:!h-[58vh] !h-fit px-2 py-2">
             <Draggable
                 :id="`status-${status.id}`"
                 v-model="taskList"
-                class="flex flex-col gap-4 w-full min-h-[58vh] overflow-hidden"
+                class="flex flex-col gap-4 w-full min-h-[20vh] md:min-h-[58vh] overflow-hidden"
                 group="tasks"
                 :sort="false"
                 :animation="200"
@@ -155,7 +156,7 @@
             :title="$t('status.delete.confirm')"
             align-center
             destroy-on-close
-            class="!w-1/3"
+            class="!w-1/2 md:!w-1/3"
         >
             <ElButton
                 @click="dialog.delete = false"
@@ -178,6 +179,7 @@
         >
             <TaskForm
                 :status-id="status.id"
+                :is-finished="finishStatus.id === status.id"
                 @cancel="dialog.task = false"
                 @success="handleCreateTask"
             />
@@ -293,6 +295,7 @@ const handleMove = (direction: 'left' | 'right') => {
 }
 
 const handleCreateTask = (task: Task) => {
+    if (tasks.value[task.status_id] === undefined) tasks.value[task.status_id] = []
     tasks.value[task.status_id].push(task)
     dialog.task = false
     ElMessage.success(t('task.success.create'))
@@ -320,6 +323,7 @@ const handleUpdateTask = (task: Task) => {
     tasks.value[task.status_id] = tasks.value[task.status_id].map(item => item.id === task.id ? task : item)
     ElMessage.success(t('task.success.update'))
 }
+
 const handleChangeTaskStatus = async (params: {
     item: { id: string }
     from: { id: string }
@@ -330,6 +334,10 @@ const handleChangeTaskStatus = async (params: {
         const fromStatusId = Number(params.from.id.split('-')[1])
         const toStatusId = Number(params.to.id.split('-')[1])
         if (fromStatusId === toStatusId) return
+        if (toStatusId === 0) {
+            ElMessage.error(t('task.error.status_undefined'))
+            return
+        }
 
         isLoading.value = true
         const finishedAt = finishStatus.value.id === toStatusId ? dayjs().unix() : null
