@@ -15,6 +15,7 @@ common:
     length: "Field must contain from {min} to {max} symbols"
     range: "Field must be a number from {min} to {max}"
     email: "Field must contain a valid email address"
+    alpha: "Field must contain only letters"
   button:
     create: "Create"
     delete: "Delete"

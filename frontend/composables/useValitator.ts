@@ -34,5 +34,10 @@ export const useValidator = () => {
             message: t('common.validation.email'),
             trigger: 'blur',
         },
+        alpha: {
+            pattern: /^[A-Za-zА-Яа-яёЁ]+$/,
+            message: t('common.validation.alpha'),
+            trigger: 'blur',
+        },
     }
 }

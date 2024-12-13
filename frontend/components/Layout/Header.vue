@@ -89,12 +89,14 @@
 
 <script setup lang="ts">
 const route = useRoute()
-const { getUserInfo, logout } = useAuthStore()
+
+const authStore = useAuthStore()
+const { getUserInfo } = toRefs(authStore)
 
 const isMenuOpen = ref(false)
 
 const exit = () => {
-    logout()
+    authStore.logout()
     navigateTo('/auth/login')
 }
 </script>

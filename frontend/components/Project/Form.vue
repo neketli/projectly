@@ -13,7 +13,6 @@
             :key="item.value"
             :label="item.label"
             :prop="item.value"
-
             class="w-full"
         >
             <ElInput
@@ -82,6 +81,7 @@ const rules = reactive<FormRules<typeof form.value>>({
     code: [
         validators.required,
         validators.len(1, 5),
+        validators.alpha,
     ],
 })
 
