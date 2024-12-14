@@ -17,11 +17,9 @@ func (u *teamUseCase) GetStatisticData(ctx context.Context, teamID int) ([]entit
 		return nil, err
 	}
 
-	if len(projects) <= 3 {
-		for i := range projects {
-			projects[i].Cluster = i
-		}
-		return projects, nil
+	maxK := len(projects)
+	if maxK > 8 {
+		maxK = 8
 	}
 
 	matrix := mat.NewDense(len(projects), 2, nil)
@@ -31,7 +29,8 @@ func (u *teamUseCase) GetStatisticData(ctx context.Context, teamID int) ([]entit
 	}
 
 	normalizedMatrix := normalize(matrix)
-	clusters := kMeans(normalizedMatrix, 3, 100)
+	k := findOptimalK(normalizedMatrix, maxK, 100)
+	clusters, _ := kMeans(normalizedMatrix, k, 100)
 
 	for i, cluster := range clusters {
 		projects[i].Cluster = cluster
@@ -41,11 +40,11 @@ func (u *teamUseCase) GetStatisticData(ctx context.Context, teamID int) ([]entit
 }
 
 // kMeans performs k-means clustering on the given data.
-func kMeans(data *mat.Dense, k, maxIter int) []int {
+func kMeans(data *mat.Dense, k, maxIter int) ([]int, *mat.Dense) {
 	// Get the dimensions of the data.
 	rows, cols := data.Dims()
 	if rows == 0 || cols == 0 {
-		return nil
+		return nil, nil
 	}
 
 	// Initialize clusters and centroids.
@@ -100,7 +99,7 @@ func kMeans(data *mat.Dense, k, maxIter int) []int {
 			}
 		}
 	}
-	return clusters
+	return clusters, centroids
 }
 
 // normalize data in the given matrix.
@@ -130,4 +129,39 @@ func normalize(data *mat.Dense) *mat.Dense {
 	}
 
 	return normalized
+}
+
+// Calculate the Sum of Squared Errors for the given clusters and centroids.
+func calculateSSE(data *mat.Dense, clusters []int, centroids *mat.Dense) float64 {
+	rows, _ := data.Dims()
+	var sse float64
+	for i := 0; i < rows; i++ {
+		cluster := clusters[i]
+		dist := floats.Distance(mat.Row(nil, i, data), mat.Row(nil, cluster, centroids), 2)
+		sse += dist * dist
+	}
+	return sse
+}
+
+// Find the optimal k using the "elbow" method.
+func findOptimalK(data *mat.Dense, maxK int, maxIter int) int {
+	sseValues := make([]float64, maxK)
+	for k := 1; k <= maxK; k++ {
+		clusters, centroids := kMeans(data, k, maxIter)
+		sseValues[k-1] = calculateSSE(data, clusters, centroids)
+	}
+
+	diff := make([]float64, maxK-1)
+	for i := range diff {
+		diff[i] = sseValues[i] - sseValues[i+1]
+	}
+
+	optimalK := 1
+	for i := 1; i < len(diff); i++ {
+		if diff[i] < diff[optimalK-1] {
+			optimalK = i + 1
+		}
+	}
+
+	return optimalK
 }

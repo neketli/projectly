@@ -53,6 +53,8 @@ const volumeData = computed(() => data.value.map(item => ({
     completed_tasks_count: item.completed_tasks_count,
 })))
 
+const maxCluster = computed(() => Math.max(...data.value.map(item => item.cluster)))
+
 const clustersChartOption = computed(() => ({
     title: { text: t('team.statistic.clusters'), left: 'center' },
     visualMap: {
@@ -60,10 +62,14 @@ const clustersChartOption = computed(() => ({
         showLabel: false,
         top: 'middle',
         min: 0,
-        max: 2,
+        max: maxCluster.value,
         left: 10,
-        splitNumber: 3,
-        color: ['#FFEA00', '#FF8800', '#E53E3E'],
+        splitNumber: maxCluster.value + 1,
+        inRange: {
+            color: ['lightgreen', 'blue', 'yellow', 'red'],
+            symbolSize: [20, 20],
+            colorAlpha: [0.3, 0.5],
+        },
     },
     grid: {
         left: 90,
