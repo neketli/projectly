@@ -17,20 +17,53 @@ type Task struct {
 	AssignedUserID int    `json:"assigned_user_id,omitempty"`
 }
 
-type TaskCard struct {
-	ProjectCode  string `json:"project_code"`
-	ProjectIndex int    `json:"project_index"`
-	Title        string `json:"title"`
-	Priority     int    `json:"priority"`
-	StoryPoints  int    `json:"story_points"`
-	Deadline     int    `json:"deadline"`
-	Status       struct {
+type TaskDetailedParams struct {
+	TaskID       *int    `json:"task_id" query:"task_id"`
+	UserID       *int    `json:"user_id" query:"user_id"`
+	BoardID      *int    `json:"board_id" query:"board_id"`
+	ProjectCode  *string `json:"project_code" query:"project_code"`
+	ProjectIndex *int    `json:"project_index" query:"project_index"`
+	Limit        *uint64 `json:"limit" query:"limit"`
+}
+
+type TaskDetailed struct {
+	ID             int    `json:"id"`
+	ProjectCode    string `json:"project_code"`
+	ProjectIndex   int    `json:"project_index"`
+	Title          string `json:"title"`
+	Description    string `json:"description,omitempty"`
+	Priority       int    `json:"priority"`
+	TrackedTime    int    `json:"tracked_time,omitempty"`
+	StoryPoints    int    `json:"story_points"`
+	Deadline       int64  `json:"deadline"`
+	CreatedAt      int64  `json:"created_at"`
+	UpdatedAt      int64  `json:"updated_at"`
+	FinishedAt     int64  `json:"finished_at,omitempty"`
+	StatusID       int    `json:"status_id"`
+	CreatedUserID  int    `json:"created_user_id"`
+	AssignedUserID int    `json:"assigned_user_id"`
+	Status         struct {
+		ID       int    `json:"id"`
 		Title    string `json:"title"`
 		HexColor string `json:"hex_color"`
 	} `json:"status"`
-	AssignedUser struct {
+	CreatedUser struct {
+		ID      int    `json:"id"`
 		Name    string `json:"name"`
 		Surname string `json:"surname"`
+		Email   string `json:"email"`
 		Avatar  string `json:"avatar"`
-	} `json:"assigned_user"`
+	} `json:"created_user"`
+	AssignedUser struct {
+		ID      int    `json:"id,omitempty"`
+		Name    string `json:"name,omitempty"`
+		Surname string `json:"surname,omitempty"`
+		Email   string `json:"email,omitempty"`
+		Avatar  string `json:"avatar,omitempty"`
+	} `json:"assigned_user,omitempty"`
+	Meta struct {
+		TeamID    int `json:"team_id"`
+		ProjectID int `json:"project_id"`
+		BoardID   int `json:"board_id"`
+	} `json:"meta"`
 }

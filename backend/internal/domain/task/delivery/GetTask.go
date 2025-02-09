@@ -3,8 +3,8 @@ package delivery
 import (
 	"fmt"
 	"net/http"
-	"strconv"
 	entityTask "projectly-server/internal/domain/task/entity"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -15,7 +15,7 @@ import (
 // @Accept		application/json
 // @Produce		application/json
 // @Param		id	path		int	true	"Task id"
-// @Success	200	{object}	entityTask.Task
+// @Success	200	{object}	entityTask.TaskDetailed
 // @Failure	400	{object}	echo.HTTPError
 // @Failure	500	{object}	echo.HTTPError
 // @Router		/task/{id} [get]
@@ -28,14 +28,16 @@ func (h *TaskHandler) GetTask(c echo.Context) error {
 		}
 	}
 
-	var task entityTask.Task
-	task, err = h.taskUseCase.GetTask(c.Request().Context(), taskID)
-	if err != nil {
+	var tasks []entityTask.TaskDetailed
+	tasks, err = h.taskUseCase.GetTasks(c.Request().Context(), &entityTask.TaskDetailedParams{
+		TaskID: &taskID,
+	})
+	if err != nil || tasks == nil || len(tasks) == 0 {
 		return &echo.HTTPError{
 			Code:    http.StatusInternalServerError,
 			Message: fmt.Sprintf("can't get task: %s", err.Error()),
 		}
 	}
 
-	return c.JSON(http.StatusOK, task)
+	return c.JSON(http.StatusOK, tasks[0])
 }

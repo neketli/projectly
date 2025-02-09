@@ -227,19 +227,57 @@ definitions:
       updated_at:
         type: integer
     type: object
-  projectly-server_internal_domain_task_entity.TaskCard:
+  projectly-server_internal_domain_task_entity.TaskDetailed:
     properties:
       assigned_user:
         properties:
           avatar:
             type: string
+          email:
+            type: string
+          id:
+            type: integer
           name:
             type: string
           surname:
             type: string
         type: object
+      assigned_user_id:
+        type: integer
+      created_at:
+        type: integer
+      created_user:
+        properties:
+          avatar:
+            type: string
+          email:
+            type: string
+          id:
+            type: integer
+          name:
+            type: string
+          surname:
+            type: string
+        type: object
+      created_user_id:
+        type: integer
       deadline:
         type: integer
+      description:
+        type: string
+      finished_at:
+        type: integer
+      id:
+        type: integer
+      meta:
+        properties:
+          board_id:
+            type: integer
+          project_id:
+            type: integer
+          team_id:
+            type: integer
+        type: object
       priority:
         type: integer
       project_code:
@@ -250,13 +288,21 @@ definitions:
         properties:
           hex_color:
             type: string
+          id:
+            type: integer
           title:
             type: string
         type: object
+      status_id:
+        type: integer
       story_points:
         type: integer
       title:
         type: string
+      tracked_time:
+        type: integer
+      updated_at:
+        type: integer
     type: object
   projectly-server_internal_domain_team_entity.Role:
     properties:
@@ -268,6 +314,9 @@ definitions:
   projectly-server_internal_domain_team_entity.StatisticData:
     properties:
       avg_task_duration:
+        example: 2.5
+        type: number
+      avg_task_life_duration:
         example: 2.5
         type: number
       cluster:
@@ -831,6 +880,56 @@ paths:
       summary: Get status list
       tags:
       - status
+  /task/:
+    get:
+      consumes:
+      - application/json
+      operationId: task-get-detailed
+      parameters:
+      - description: Task limits
+        in: query
+        name: limit
+        type: integer
+      - description: User id
+        in: query
+        name: user_id
+        type: integer
+      - description: User id
+        in: query
+        name: task_id
+        type: integer
+      - description: Board id
+        in: query
+        name: board_id
+        type: integer
+      - description: Project code
+        in: query
+        name: project_code
+        type: integer
+      - description: Task index in project
+        in: query
+        name: project_index
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/projectly-server_internal_domain_task_entity.TaskDetailed'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+      summary: Get detailed tasks list
+      tags:
+      - task
   /task/{id}:
     delete:
       consumes:
@@ -874,7 +973,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/projectly-server_internal_domain_task_entity.Task'
+            $ref: '#/definitions/projectly-server_internal_domain_task_entity.TaskDetailed'
         "400":
           description: Bad Request
           schema:
@@ -902,6 +1001,8 @@ paths:
       responses:
         "200":
           description: OK
+          schema:
+            $ref: '#/definitions/projectly-server_internal_domain_task_entity.Task'
         "400":
           description: Invalid input
           schema:
@@ -1003,41 +1104,6 @@ paths:
           schema:
             $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Get tasks list
-      tags:
-      - task
-  /task/list-user:
-    get:
-      consumes:
-      - application/json
-      operationId: task-user-get-list
-      parameters:
-      - description: Task limits
-        in: query
-        name: limit
-        type: integer
-      - description: User id
-        in: query
-        name: user_id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/projectly-server_internal_domain_task_entity.TaskCard'
-            type: array
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
-      summary: Get users tasks list
       tags:
       - task
   /team/{id}:

@@ -12,13 +12,12 @@ type TaskRepository interface {
 	UpdateTask(ctx context.Context, task *entity.Task) error
 	UpdateTaskStatus(ctx context.Context, task *entity.Task) error
 	DeleteTask(ctx context.Context, taskID int) error
-	GetTask(ctx context.Context, taskID int) (entity.Task, error)
 	GetTaskList(ctx context.Context, boardID int) ([]entity.Task, error)
-	GetUserTasks(ctx context.Context, userID int, limit uint64) ([]entity.TaskCard, error)
+	GetTasks(ctx context.Context, params *entity.TaskDetailedParams) ([]entity.TaskDetailed, error)
 }
 
 const (
-	_defaultConnTimeout = 5 * time.Second
+	_defaultConnTimeout = 30 * time.Second
 	_defaultLimit       = 10
 )
 

@@ -22,6 +22,6 @@ func New(router *echo.Group, b usecase.TaskUseCase) {
 		task.PATCH("/:id/change-status", handler.UpdateTaskStatus)
 
 		task.GET("/list", handler.GetTaskList)
-		task.GET("/list-user", handler.GetUserTaskList)
+		task.GET("/", handler.GetTasks)
 	}
 }

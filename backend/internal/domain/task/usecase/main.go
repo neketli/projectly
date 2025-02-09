@@ -8,13 +8,12 @@ import (
 )
 
 type TaskUseCase interface {
-	CreateTask(ctx context.Context, task entity.Task) (entity.Task, error)
-	UpdateTask(ctx context.Context, task *entity.Task) error
+	CreateTask(ctx context.Context, task entity.Task) (entity.TaskDetailed, error)
+	UpdateTask(ctx context.Context, task *entity.Task) (entity.TaskDetailed, error)
 	UpdateTaskStatus(ctx context.Context, task *entity.Task) error
 	DeleteTask(ctx context.Context, taskID int) error
-	GetTask(ctx context.Context, taskID int) (entity.Task, error)
 	GetTaskList(ctx context.Context, boardID int) (map[int][]entity.Task, error)
-	GetUserTasks(ctx context.Context, userID int, limit uint64) ([]entity.TaskCard, error)
+	GetTasks(ctx context.Context, params *entity.TaskDetailedParams) ([]entity.TaskDetailed, error)
 }
 
 type taskUseCase struct {

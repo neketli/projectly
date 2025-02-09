@@ -3,8 +3,8 @@ package delivery
 import (
 	"fmt"
 	"net/http"
-	"strconv"
 	"projectly-server/internal/domain/task/entity"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -15,7 +15,7 @@ import (
 // @Accept		application/json
 // @Produce		application/json
 // @Param		request	body	entity.Task	true	"Task details to update"
-// @Success	200
+// @Success	200	{object}	entity.Task
 // @Failure	400	{object}	echo.HTTPError	"Invalid input"
 // @Failure	500	{object}	echo.HTTPError	"Internal server error"
 // @Router		/task/{id} [put]
@@ -36,7 +36,7 @@ func (h *TaskHandler) UpdateTask(c echo.Context) error {
 		}
 	}
 
-	err = h.taskUseCase.UpdateTask(c.Request().Context(), &entity.Task{
+	task, err := h.taskUseCase.UpdateTask(c.Request().Context(), &entity.Task{
 		ID:             taskID,
 		Title:          request.Title,
 		Description:    request.Description,
@@ -55,5 +55,5 @@ func (h *TaskHandler) UpdateTask(c echo.Context) error {
 		}
 	}
 
-	return c.NoContent(http.StatusOK)
+	return c.JSON(http.StatusOK, task)
 }
