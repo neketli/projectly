@@ -1,12 +1,15 @@
 <template>
     <div class="relative bg-white dark:bg-slate-800 dark:shadow-none rounded-lg shadow-md py-2 px-4">
-        <span class="text-lg">
+        <a
+            class="hover:underline hover:text-blue-500 hover:cursor-pointer transition-all text-lg"
+            @click="handleTaskClick"
+        >
             {{ project.code }}-{{ task.project_index }}
-        </span>
+        </a>
 
-        <h3 class="mt-1 text-xl font-bold max-w-48">
+        <h4 class="mt-1 text-xl font-bold max-w-48 line-clamp-3 text-ellipsis">
             {{ task.title }}
-        </h3>
+        </h4>
 
         <div class="absolute top-2 right-2">
             <ElPopconfirm
@@ -37,6 +40,17 @@
             >
                 <Icon name="mdi:pencil" />
             </ElButton>
+        </div>
+
+        <div
+            v-if="task.assigned_user?.avatar"
+            class="absolute bottom-2 right-2"
+        >
+            <UserAvatar
+                :size="20"
+                :file-name="task.assigned_user?.avatar"
+                :title="task.assigned_user?.email"
+            />
         </div>
 
         <div class="mt-2 flex flex-wrap gap-2">
@@ -77,11 +91,12 @@
 
 <script lang="ts" setup>
 import dayjs from 'dayjs'
-import type { Task } from '~/types/task'
+import type { DetailedTask } from '~/types/task'
 
-const props = defineProps<{ task: Task }>()
+const props = defineProps<{ task: DetailedTask }>()
 const emit = defineEmits(['delete', 'update'])
 
+const route = useRoute()
 const { project } = toRefs(useProjectStore())
 
 const dialog = reactive({
@@ -90,8 +105,12 @@ const dialog = reactive({
 
 const priority = computed(() => '⚡'.repeat(props.task.priority || 0))
 
-const handleUpdateTask = (task: Task) => {
+const handleUpdateTask = (task: DetailedTask) => {
     emit('update', task)
     dialog.task = false
+}
+
+const handleTaskClick = () => {
+    navigateTo(`${route.path}/task/${project.value.code}-${props.task.project_index}`)
 }
 </script>

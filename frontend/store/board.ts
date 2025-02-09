@@ -1,12 +1,12 @@
 import { defineStore } from 'pinia'
 import type { Board, Status } from '~/types/board'
-import type { Task } from '~/types/task'
+import type { DetailedTask } from '~/types/task'
 
 export const useBoardStore = defineStore('projectly-board', {
     state: () => ({
         board: {} as Board,
         statusList: [] as Status[],
-        tasks: [] as { [status_id: number]: Task[] },
+        tasks: [] as { [status_id: number]: DetailedTask[] },
     }),
 
     getters: {
@@ -24,7 +24,7 @@ export const useBoardStore = defineStore('projectly-board', {
     actions: {
         changeTaskStatus(oldStatusId: number, newStatusId: number, taskId: number, finishedAt: number | null) {
             const task = {
-                ...this.tasks[oldStatusId].find(t => t.id === taskId) as Task,
+                ...this.tasks[oldStatusId].find(t => t.id === taskId) as DetailedTask,
                 finished_at: finishedAt || 0,
             }
             this.tasks[newStatusId].push(task)
@@ -40,7 +40,7 @@ export const useBoardStore = defineStore('projectly-board', {
             this.statusList = statusList
             this.updateTasksStatusMap()
         },
-        setTaskList(taskMap: { [status_id: number]: Task[] }) {
+        setTaskList(taskMap: { [status_id: number]: DetailedTask[] }) {
             Object.entries(taskMap).forEach(([status_id, tasks]) => {
                 this.tasks[Number(status_id)] = tasks
             })

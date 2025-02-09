@@ -14,3 +14,31 @@ export type Task = {
     created_at: number
     finished_at?: number
 }
+
+export type DetailedTask = Task & {
+    project_code: string
+    status: {
+        id: number
+        title: string
+        hex_color: string
+    }
+    created_user: {
+        id: number
+        name: string
+        surname: string
+        email: string
+        avatar: string
+    }
+    assigned_user: {
+        id: number
+        name: string
+        surname: string
+        email: string
+        avatar: string
+    }
+    meta: {
+        team_id: number
+        project_id: number
+        board_id: number
+    }
+}

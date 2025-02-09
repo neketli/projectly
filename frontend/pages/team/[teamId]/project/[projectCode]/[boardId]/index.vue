@@ -141,7 +141,8 @@ onMounted(async () => {
         board.value = await getBoard(Number(boardId))
         const statuses = await getStatusList(Number(boardId))
         boardStore.setStatusList(statuses)
-        boardStore.setTaskList(await getTasksList(Number(boardId)))
+        const tasks = await getTasksList(Number(boardId))
+        boardStore.setTaskList(tasks)
     }
     catch (err) {
         const error = err as Error

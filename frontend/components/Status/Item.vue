@@ -191,7 +191,7 @@
 import dayjs from 'dayjs'
 import Draggable from 'vuedraggable'
 import { defaultStatusColors, type Status } from '~/types/board'
-import type { Task } from '~/types/task'
+import type { DetailedTask } from '~/types/task'
 
 const props = defineProps<{ status: Status }>()
 const emit = defineEmits(['create', 'update', 'delete'])
@@ -212,7 +212,7 @@ const title = ref('')
 const color = ref(props.status.hex_color || defaultStatusColors[0])
 
 const sortDirection = ref<'asc' | 'desc'>('asc')
-const statusSort: Ref<keyof Task> = ref('created_at')
+const statusSort: Ref<keyof DetailedTask> = ref('created_at')
 const statusSortOptions = [
     {
         label: t('status.sort.updated_at'),
@@ -239,7 +239,7 @@ const statusSortOptions = [
 const taskList = computed(() => {
     const arr = tasks.value[props.status.id]
     if (!arr) return []
-    arr.sort((a: Task, b: Task) => {
+    arr.sort((a: DetailedTask, b: DetailedTask) => {
         if (a[statusSort.value] === undefined && b[statusSort.value] !== undefined) return 1
         if (a[statusSort.value] !== undefined && b[statusSort.value] === undefined) return -1
 
@@ -294,14 +294,14 @@ const handleMove = (direction: 'left' | 'right') => {
     })
 }
 
-const handleCreateTask = (task: Task) => {
+const handleCreateTask = (task: DetailedTask) => {
     if (tasks.value[task.status_id] === undefined) tasks.value[task.status_id] = []
     tasks.value[task.status_id].push(task)
     dialog.task = false
     ElMessage.success(t('task.success.create'))
 }
 
-const handleDeleteTask = async (task: Task) => {
+const handleDeleteTask = async (task: DetailedTask) => {
     try {
         if (task.id) {
             isLoading.value = true
@@ -319,7 +319,7 @@ const handleDeleteTask = async (task: Task) => {
     }
 }
 
-const handleUpdateTask = (task: Task) => {
+const handleUpdateTask = (task: DetailedTask) => {
     tasks.value[task.status_id] = tasks.value[task.status_id].map(item => item.id === task.id ? task : item)
     ElMessage.success(t('task.success.update'))
 }

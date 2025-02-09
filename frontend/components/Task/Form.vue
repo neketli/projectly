@@ -28,8 +28,8 @@
             >
                 <ElOption
                     v-for="item in usersOptions"
-                    :key="item.value"
-                    :value="item.value"
+                    :key="item.id"
+                    :value="item.id"
                     :label="item.label"
                     class="w-full flex gap-2 items-center"
                 >
@@ -152,10 +152,10 @@
 <script lang="ts" setup>
 import dayjs from 'dayjs'
 import type { FormInstance, FormRules } from 'element-plus'
-import type { Task } from '~/types/task'
+import type { DetailedTask } from '~/types/task'
 
 const props = defineProps<{
-    task?: Task
+    task?: DetailedTask
     statusId: number
     isFinished?: boolean
 }>()
@@ -198,6 +198,7 @@ const rules = reactive<FormRules<typeof form.value>>({
 
 const usersOptions = computed(() => {
     return users.map(user => ({
+        id: user.id,
         value: `${user.email}`,
         label: `${user.name} ${user.surname} (${user.email})`,
         avatar: user?.meta?.avatar,

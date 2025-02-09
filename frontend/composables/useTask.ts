@@ -1,10 +1,10 @@
 import type { AxiosError } from 'axios'
-import type { Task } from '~/types/task'
+import type { DetailedTask, Task } from '~/types/task'
 
 export const useTask = () => {
     const { $api } = useNuxtApp()
 
-    const getTask = async (id: number): Promise<Task> => {
+    const getTask = async (id: number): Promise<DetailedTask> => {
         try {
             const { data } = await $api.get(`/task/${id}`)
             return data
@@ -40,7 +40,7 @@ export const useTask = () => {
         status_id: number
         assigned_user_id?: number | string
         finished_at?: number
-    }): Promise<Task> => {
+    }): Promise<DetailedTask> => {
         try {
             const { data: task } = await $api.post('/task/create', data)
             return task
@@ -51,10 +51,10 @@ export const useTask = () => {
         }
     }
 
-    const updateTask = async (updatedTask: Task): Promise<Task> => {
+    const updateTask = async (updatedTask: Task): Promise<DetailedTask> => {
         try {
-            await $api.put(`/task/${updatedTask.id}`, updatedTask)
-            return updatedTask
+            const { data } = await $api.put(`/task/${updatedTask.id}`, updatedTask)
+            return data
         }
         catch (error) {
             const axiosError = error as AxiosError<{ message: string }>
@@ -85,14 +85,22 @@ export const useTask = () => {
         }
     }
 
-    const getTasksList = async (board_id: number): Promise<Record<number, Task[]>> => {
+    const getTasksList = async (board_id: number): Promise<Record<number, DetailedTask[]>> => {
         try {
-            const { data: tasks } = await $api.get(`/task/list`, {
+            const { data: tasks } = await $api.get<DetailedTask[]>(`/task/`, {
                 params: {
                     board_id,
                 },
             })
-            return tasks
+
+            return tasks.reduce((acc, curr) => {
+                if (!acc[curr.status.id]) {
+                    acc[curr.status.id] = []
+                }
+
+                acc[curr.status.id].push(curr)
+                return acc
+            }, {} as Record<number, DetailedTask[]>)
         }
         catch (error) {
             const axiosError = error as AxiosError<{ message: string }>
@@ -100,5 +108,22 @@ export const useTask = () => {
         }
     }
 
-    return { getTask, getUserTasks, getTasksList, createTask, updateTask, updateTaskStatus, deleteTask }
+    const getTaskDetail = async (project_code: string, project_index: number): Promise<DetailedTask> => {
+        try {
+            const { data: task } = await $api.get<DetailedTask[]>(`/task/`, {
+                params: {
+                    project_code,
+                    project_index,
+                },
+            })
+
+            return task[0]
+        }
+        catch (error) {
+            const axiosError = error as AxiosError<{ message: string }>
+            throw new Error(axiosError.response?.data?.message || 'Failed to get task')
+        }
+    }
+
+    return { getTask, getUserTasks, getTasksList, createTask, updateTask, updateTaskStatus, deleteTask, getTaskDetail }
 }

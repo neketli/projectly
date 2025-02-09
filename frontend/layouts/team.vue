@@ -40,6 +40,16 @@
                             >
                                 <span class="text-blue-500">{{ $t('board.title') }} {{ route.params.boardId }}</span>
                             </ElBreadcrumbItem>
+
+                            <ElBreadcrumbItem
+                                v-if="route.params.projectIndex"
+                                :to="{
+                                    // eslint-disable-next-line @stylistic/max-len
+                                    path: `/team/${teamStore.team.id}/project/${projectStore.project.code}/${route.params.boardId}/task/${route.params.projectCode}-${route.params.projectIndex}`,
+                                }"
+                            >
+                                <span class="text-blue-500">{{ route.params.projectCode }}-{{ route.params.projectIndex }}</span>
+                            </ElBreadcrumbItem>
                         </ElBreadcrumb>
 
                         <slot />
