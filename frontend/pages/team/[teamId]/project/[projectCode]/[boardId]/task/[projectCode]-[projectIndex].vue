@@ -55,12 +55,30 @@
                 {{ task.title }}
             </h1>
 
-            <TaskDetail :task="task" />
+            <TaskDetail
+                :task="task"
+                @update-status="handleStatusChange"
+            />
 
             <div
                 class="prose dark:prose-invert my-4"
                 v-html="taskDescriptionMd"
             />
+
+            <h4 class="text-2xl border-t pt-2">
+                {{ t('task.form.attachment.title') }}
+            </h4>
+            <ElUpload
+                v-loading="isLoading"
+                :auto-upload="false"
+                drag
+                multiple
+                class="my-2"
+                :on-change="handleAddAttachment"
+            >
+                <Icon name="mdi:cloud-upload-outline" />
+                {{ $t('task.form.attachment.add') }}
+            </ElUpload>
         </div>
 
         <ElDialog
@@ -81,6 +99,8 @@
 
 <script lang="ts" setup>
 import markdownit from 'markdown-it'
+import type { UploadProps } from 'element-plus'
+import dayjs from 'dayjs'
 import type { DetailedTask } from '~/types/task'
 
 const { teamId, projectCode, boardId, projectIndex } = useRoute().params
@@ -98,7 +118,7 @@ definePageMeta({
 const projectStore = useProjectStore()
 const boardStore = useBoardStore()
 
-const { getTaskDetail, deleteTask } = useTask()
+const { getTaskDetail, deleteTask, updateTaskStatus } = useTask()
 const { getStatusList } = useStatus()
 
 const dialog = reactive({
@@ -106,6 +126,7 @@ const dialog = reactive({
 })
 
 const task = ref({} as DetailedTask)
+const files = ref([] as File[])
 const isLoading = ref(false)
 
 const taskDescriptionMd = computed(() => task.value.description ? md.render(task.value.description) : t('task.form.placeholder.description'))
@@ -124,6 +145,45 @@ const handleDeleteTask = async () => {
     catch (err) {
         const error = err as Error
         ElMessage.error(error.message)
+    }
+}
+
+const handleAddAttachment: UploadProps['onChange'] = (uploadFile) => {
+    const MAX_SIZE_MB = 30
+    if (uploadFile.size && (uploadFile.size / 1024 / 1024 > MAX_SIZE_MB)) {
+        ElMessage.error(t('task.error.file_size', { x: MAX_SIZE_MB }))
+        return false
+    }
+    files.value.push(uploadFile.raw as File)
+    return true
+}
+
+const handleStatusChange = async (statusId: number) => {
+    try {
+        if (task.value.status_id === statusId) return
+        if (!statusId) {
+            ElMessage.error(t('task.error.status_undefined'))
+            return
+        }
+
+        isLoading.value = true
+        const finishedAt = boardStore.finishStatus.id === statusId ? dayjs().unix() : null
+
+        isLoading.value = true
+        await updateTaskStatus(task.value.id, statusId, finishedAt)
+        task.value.status_id = statusId
+        task.value.status = boardStore.statusList.find(item => item.id === statusId) || task.value.status
+        if (finishedAt) {
+            task.value.finished_at = finishedAt
+        }
+        ElMessage.success(t('task.success.update'))
+    }
+    catch (err) {
+        const error = err as Error
+        ElMessage.error(error.message)
+    }
+    finally {
+        isLoading.value = false
     }
 }
 

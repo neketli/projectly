@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="task-detail">
         <ElDescriptions
             :column="2"
             border
@@ -77,12 +77,33 @@
                     </div>
                 </template>
 
-                <StatusTag
-                    :color="task.status?.hex_color"
-                    class="!p-1"
+                <ElSelect
+                    :value="task?.status?.id"
+                    multiple
+                    placeholder=""
+                    @change="handleStatusChange"
                 >
-                    {{ task.status?.title }}
-                </StatusTag>
+                    <ElOption
+                        v-for="item in boardStore.statusList"
+                        :key="item.id"
+                        :value="item.id"
+                    >
+                        <StatusTag
+                            :color="item.hex_color"
+                            class="!py-0"
+                        >
+                            {{ item.title }}
+                        </StatusTag>
+                    </ElOption>
+                    <template #tag>
+                        <StatusTag
+                            :color="task.status?.hex_color"
+                            class="!p-1 mx-auto"
+                        >
+                            {{ task.status?.title }}
+                        </StatusTag>
+                    </template>
+                </ElSelect>
             </ElDescriptionsItem>
 
             <ElDescriptionsItem>
@@ -204,8 +225,11 @@ import dayjs from 'dayjs'
 import type { DetailedTask } from '~/types/task'
 
 defineProps<{ task: DetailedTask }>()
+const emit = defineEmits(['update-status'])
 
 const { t } = useI18n()
+
+const boardStore = useBoardStore()
 
 const priorityOptions = computed(() => {
     return [
@@ -215,4 +239,8 @@ const priorityOptions = computed(() => {
         '⚡⚡⚡',
     ]
 })
+
+const handleStatusChange = ([taskId]: number[]) => {
+    emit('update-status', taskId)
+}
 </script>

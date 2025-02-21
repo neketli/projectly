@@ -63,6 +63,7 @@ profile:
     surname: "Фамилия"
     email: "Адрес электронной почты"
     password: "Пароль"
+    avatar: "Загрузить аватар"
     confirm_password: "Подтвердите пароль"
     remove_avatar: "Удалить аватар"
     change_password: "Сменить пароль"
@@ -218,6 +219,9 @@ task:
     created_at: "Дата создания"
     updated_at: "Дата обновления"
     finished_at: "Дата завершения"
+    attachment: 
+      title: "Прикреплённые файлы"
+      add: "Прикрепить файл"
     help:
       description: "Доступно форматирование markdown и функция упоминания пользователей в виде `:(имя)`"
     placeholder:
@@ -239,3 +243,4 @@ task:
     delete: "Задача успешно удалена!"
   error:
     status_undefined: "Прежде чем добавлять задачу, необходимо сохранить статус"
+    file_size: "Размер файла не должен превышать {x} МБ"

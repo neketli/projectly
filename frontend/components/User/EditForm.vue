@@ -25,7 +25,7 @@
                 drag
                 :show-file-list="false"
                 class="w-16 avatar-uploader"
-                :on-change="handleChange"
+                :on-change="handleAvatarUpload"
             >
                 <img
                     v-if="imageUrl"
@@ -42,7 +42,7 @@
             </ElUpload>
 
             <span>
-                Загрузите аватар
+                {{ $t('profile.form.avatar') }}
             </span>
         </div>
 
@@ -150,7 +150,7 @@ const handleSave = async () => {
     })
 }
 
-const handleChange: UploadProps['onChange'] = (uploadFile) => {
+const handleAvatarUpload: UploadProps['onChange'] = (uploadFile) => {
     const MAX_SIZE_MB = 2
     if (uploadFile.size && (uploadFile.size / 1024 / 1024 > MAX_SIZE_MB)) {
         ElMessage.error(t('profile.form.error.image_size', { x: MAX_SIZE_MB }))
