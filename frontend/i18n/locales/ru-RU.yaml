@@ -204,17 +204,28 @@ status:
     done: "Выполнено ✅"
 
 task:
+  title: "Задача"
   form:
     title: "Название"
     status: "Статус"
     description: "Описание"
-    priority:
-      label: "Приоритет"
-      none: "Без оценки"
+    priority: "Приоритет"
     assigned_user: "Назначенный пользователь"
+    created_user: "Задача создана"
     story_point: "Запланированное время (ч.)"
     tracked_time: "Отслеживаемое время (ч.)"
-    deadline: "Срок выполнения"   
+    deadline: "Срок выполнения"
+    created_at: "Дата создания"
+    updated_at: "Дата обновления"
+    finished_at: "Дата завершения"
+    help:
+      description: "Доступно форматирование markdown и функция упоминания пользователей в виде `:(имя)`"
+    placeholder:
+      deadline: "Не назначен"
+      description: "Нет описания"
+      user: "Пользователь не назначен"
+      priority: "Приоритет не задан"
+      time: "Отсутствует"
   create:
     title: "Создание задачи"
   update:

@@ -47,12 +47,24 @@
             prop="description"
             class="task-description w-full"
         >
+            <template #label>
+                <div class="flex gap-1 items-center">
+                    {{ $t('task.form.description') }}
+                    <ElTooltip placement="top">
+                        <template #content>
+                            {{ t('task.form.help.description') }}
+                        </template>
+                        <Icon name="mdi:help-circle-outline" />
+                    </ElTooltip>
+                </div>
+            </template>
             <ElMention
                 v-model="form.description"
                 :options="usersOptions"
                 type="textarea"
                 maxlength="4096"
                 resize="none"
+                prefix=":"
                 show-word-limit
                 :autosize="{
                     minRows: 3,
@@ -99,7 +111,7 @@
         </div>
 
         <ElFormItem
-            :label="$t('task.form.priority.label')"
+            :label="$t('task.form.priority')"
             prop="priority"
             class="w-full"
         >
@@ -207,7 +219,7 @@ const usersOptions = computed(() => {
 
 const priorityOptions = computed(() => {
     return [
-        t('task.form.priority.none'),
+        t('task.form.placeholder.priority'),
         '⚡',
         '⚡⚡',
         '⚡⚡⚡',

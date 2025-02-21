@@ -205,17 +205,28 @@ status:
 
 
 task:
+  title: "Task"
   form:
     title: "Title"
     status: "Status"
     description: "Description"
-    priority: 
-      label: "Priority"
-      none: "None"
+    priority: "Priority"
     assigned_user: "Assigned user"
+    created_user: "Created user"
     story_point: "Planned time (h.)"
     tracked_time: "Tracked time (h.)"
-    deadline: "Deadline"   
+    deadline: "Deadline"
+    created_at: "Creation date"
+    updated_at: "Update date"
+    finished_at: "Completion date"
+    help:
+      description: "Markdown formatting is available and user mentions can be used in the form of `:(name)`"
+    placeholder:
+      deadline: "Not set"
+      description: "No description"
+      user: "No user assigned"
+      priority: "Priority not set"
+      time: "Not set"
   create:
     title: "Create Task"
   update:

@@ -2,9 +2,9 @@
     <div class="task">
         <ElPageHeader @back="navigateTo(`/team/${teamId}/project/${projectCode}/${boardId}`)">
             <template #content>
-                <h1 class="text-2xl">
+                <h2 class="text-2xl">
                     {{ task.project_code }}-{{ task.project_index }}
-                </h1>
+                </h2>
             </template>
 
             <template #title>
@@ -47,16 +47,21 @@
             </template>
         </ElPageHeader>
 
-        <h3 class="text-4xl mt-2">
-            {{ task.title }}
-        </h3>
+        <div
+            v-loading="isLoading"
+            class="container mx-auto"
+        >
+            <h1 class="text-4xl my-4">
+                {{ task.title }}
+            </h1>
 
-        <TaskForm
-            :task="task"
-            :status-id="task.status_id"
-            @success="handleTaskUpdated"
-            @cancel="dialog.task = false"
-        />
+            <TaskDetail :task="task" />
+
+            <div
+                class="prose dark:prose-invert my-4"
+                v-html="taskDescriptionMd"
+            />
+        </div>
 
         <ElDialog
             v-model="dialog.task"
@@ -75,10 +80,12 @@
 </template>
 
 <script lang="ts" setup>
+import markdownit from 'markdown-it'
 import type { DetailedTask } from '~/types/task'
 
 const { teamId, projectCode, boardId, projectIndex } = useRoute().params
 const { t } = useI18n()
+const md = markdownit()
 
 useHead({
     title: t('task.title'),
@@ -99,8 +106,9 @@ const dialog = reactive({
 })
 
 const task = ref({} as DetailedTask)
-
 const isLoading = ref(false)
+
+const taskDescriptionMd = computed(() => task.value.description ? md.render(task.value.description) : t('task.form.placeholder.description'))
 
 const handleTaskUpdated = (updated: DetailedTask) => {
     task.value = updated

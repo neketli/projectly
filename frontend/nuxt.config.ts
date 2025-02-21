@@ -104,7 +104,11 @@ export default defineNuxtConfig({
             scan: true,
             sizeLimitKb: 256,
         },
-    },
+	},
+	
+	tailwindcss: {
+		
+	},
 
     pinia: {
         autoImports: ['defineStore', 'acceptHMRUpdate'],
