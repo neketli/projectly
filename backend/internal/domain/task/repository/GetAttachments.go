@@ -32,7 +32,7 @@ func (r taskRepo) GetAttachments(ctx context.Context, taskId int) ([]entity.Atta
 	}
 	defer rows.Close()
 
-	var attachments []entity.Attachment
+	attachments := make([]entity.Attachment, 0)
 
 	for rows.Next() {
 		var attachment entity.Attachment
