@@ -2,7 +2,9 @@ package repository
 
 import (
 	"context"
+	"io"
 	"projectly-server/internal/domain/task/entity"
+	"projectly-server/pkg/minio"
 	"projectly-server/pkg/postgres"
 	"time"
 )
@@ -14,6 +16,10 @@ type TaskRepository interface {
 	DeleteTask(ctx context.Context, taskID int) error
 	GetTaskList(ctx context.Context, boardID int) ([]entity.Task, error)
 	GetTasks(ctx context.Context, params *entity.TaskDetailedParams) ([]entity.TaskDetailed, error)
+
+	CreateAttachment(ctx context.Context, reader io.Reader, filename string, taskId int) (string, error)
+	GetAttachments(ctx context.Context, taskId int) ([]entity.Attachment, error)
+	DeleteAttachment(ctx context.Context, objectName string) error
 }
 
 const (
@@ -23,8 +29,9 @@ const (
 
 type taskRepo struct {
 	*postgres.Postgres
+	*minio.Minio
 }
 
-func New(pg *postgres.Postgres) TaskRepository {
-	return taskRepo{pg}
+func New(pg *postgres.Postgres, s3 *minio.Minio) TaskRepository {
+	return taskRepo{pg, s3}
 }

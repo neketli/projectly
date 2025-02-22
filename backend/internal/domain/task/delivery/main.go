@@ -23,5 +23,9 @@ func New(router *echo.Group, b usecase.TaskUseCase) {
 
 		task.GET("/list", handler.GetTaskList)
 		task.GET("/", handler.GetTasks)
+
+		task.GET("/:id/attachments", handler.GetAttachments)
+		task.POST("/:id/create-attachments", handler.CreateAttachment)
+		task.DELETE("/delete-attachment", handler.DeleteAttachment)
 	}
 }

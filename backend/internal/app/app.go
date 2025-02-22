@@ -96,6 +96,7 @@ func Run(cfg *config.Config) {
 	task.New(task.Dependency{
 		Logger:   l,
 		Postgres: pg,
+		S3:       m,
 		Router:   api,
 	})
 

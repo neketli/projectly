@@ -1014,6 +1014,38 @@ paths:
       summary: Update an existing task
       tags:
       - task
+  /task/{id}/attachments:
+    get:
+      consumes:
+      - application/json
+      description: Get task attachments
+      operationId: get-task-attachments
+      parameters:
+      - description: task_id to get attachments
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: File names
+          schema:
+            items:
+              type: string
+            type: array
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+      summary: Get task attachments
+      tags:
+      - task
   /task/{id}/change-status:
     patch:
       consumes:
@@ -1040,6 +1072,38 @@ paths:
           schema:
             $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Update an existing task status
+      tags:
+      - task
+  /task/{id}/create-attachments:
+    post:
+      consumes:
+      - application/json
+      description: Upload task files and save it in object storage
+      operationId: task-create-attachment
+      parameters:
+      - description: files
+        in: formData
+        name: files
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: File names
+          schema:
+            items:
+              type: string
+            type: array
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+      summary: Upload task attachments
       tags:
       - task
   /task/create:
@@ -1070,6 +1134,33 @@ paths:
           schema:
             $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Create a new task
+      tags:
+      - task
+  /task/delete-attachment:
+    delete:
+      consumes:
+      - application/json
+      operationId: task-attachment-delete
+      parameters:
+      - description: filename
+        in: query
+        name: filename
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+      summary: Delete attachment
       tags:
       - task
   /task/list:
