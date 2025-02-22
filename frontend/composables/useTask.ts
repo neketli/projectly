@@ -125,5 +125,65 @@ export const useTask = () => {
         }
     }
 
-    return { getTask, getUserTasks, getTasksList, createTask, updateTask, updateTaskStatus, deleteTask, getTaskDetail }
+    const getAttachments = async (task_id: number): Promise<string[]> => {
+        try {
+            const { data: attachments } = await $api.get<{ id: number, name: string }[]>(`/task/${task_id}/attachments`)
+
+            return attachments.map(item => item.name)
+        }
+        catch (error) {
+            const axiosError = error as AxiosError<{ message: string }>
+            throw new Error(axiosError.response?.data?.message || 'Failed to get task attachments')
+        }
+    }
+
+    const createAttachments = async (task_id: number, file: File): Promise<string[]> => {
+        const formData = new FormData()
+
+        formData.append('files', file)
+
+        try {
+            const { data: attachments } = await $api.post(`/task/${task_id}/create-attachments`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            })
+
+            return attachments
+        }
+        catch (error) {
+            const axiosError = error as AxiosError<{ message: string }>
+            throw new Error(axiosError.response?.data?.message || 'Failed to create task attachments')
+        }
+    }
+
+    const deleteAttachment = async (filename: string): Promise<void> => {
+        try {
+            await $api.delete(`/task/delete-attachment`, {
+                params: {
+                    filename,
+                },
+            })
+        }
+        catch (error) {
+            const axiosError = error as AxiosError<{ message: string }>
+            throw new Error(axiosError.response?.data?.message || 'Failed to delete task attachment')
+        }
+    }
+
+    return {
+        getTask,
+        getUserTasks,
+        getTasksList,
+        createTask,
+        updateTask,
+        updateTaskStatus,
+        deleteTask,
+        getTaskDetail,
+
+        getAttachments,
+        createAttachments,
+        deleteAttachment,
+
+    }
 }
