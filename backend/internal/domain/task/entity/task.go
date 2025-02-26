@@ -47,21 +47,9 @@ type TaskDetailed struct {
 		Title    string `json:"title"`
 		HexColor string `json:"hex_color"`
 	} `json:"status"`
-	CreatedUser struct {
-		ID      int    `json:"id"`
-		Name    string `json:"name"`
-		Surname string `json:"surname"`
-		Email   string `json:"email"`
-		Avatar  string `json:"avatar"`
-	} `json:"created_user"`
-	AssignedUser struct {
-		ID      int    `json:"id,omitempty"`
-		Name    string `json:"name,omitempty"`
-		Surname string `json:"surname,omitempty"`
-		Email   string `json:"email,omitempty"`
-		Avatar  string `json:"avatar,omitempty"`
-	} `json:"assigned_user,omitempty"`
-	Meta struct {
+	CreatedUser  User `json:"created_user"`
+	AssignedUser User `json:"assigned_user,omitempty"`
+	Meta         struct {
 		TeamID    int `json:"team_id"`
 		ProjectID int `json:"project_id"`
 		BoardID   int `json:"board_id"`

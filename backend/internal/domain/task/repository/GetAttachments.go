@@ -23,12 +23,12 @@ func (r taskRepo) GetAttachments(ctx context.Context, taskId int) ([]entity.Atta
 		ToSql()
 
 	if err != nil {
-		return nil, fmt.Errorf("task - repository - CreateAttachment - r.Builder: %w", err)
+		return nil, fmt.Errorf("task - repository - GetAttachments - r.Builder: %w", err)
 	}
 
 	rows, err := r.Pool.Query(ctx, sql, args...)
 	if err != nil {
-		return nil, fmt.Errorf("task - repository - CreateAttachment - r.Pool.Query: %w", err)
+		return nil, fmt.Errorf("task - repository - GetAttachments - r.Pool.Query: %w", err)
 	}
 	defer rows.Close()
 
@@ -37,7 +37,7 @@ func (r taskRepo) GetAttachments(ctx context.Context, taskId int) ([]entity.Atta
 	for rows.Next() {
 		var attachment entity.Attachment
 		if err = rows.Scan(&attachment.ID, &attachment.Name, &attachment.TaskID); err != nil {
-			return nil, fmt.Errorf("task - repository - CreateAttachment - rows.Scan: %w", err)
+			return nil, fmt.Errorf("task - repository - GetAttachments - rows.Scan: %w", err)
 		}
 
 		attachments = append(attachments, attachment)

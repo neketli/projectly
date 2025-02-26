@@ -10,7 +10,7 @@ import (
 
 // @Summary		Get task attachments
 // @Description	Get task attachments
-// @ID				get-task-attachments
+// @ID				task-get-attachments
 // @Tags			task
 // @Accept			application/json
 // @Produce			application/json

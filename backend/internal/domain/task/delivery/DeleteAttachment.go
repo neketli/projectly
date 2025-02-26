@@ -8,7 +8,7 @@ import (
 )
 
 // @Summary	Delete attachment
-// @ID			task-attachment-delete
+// @ID			task-delete-attachment
 // @Tags		task
 // @Accept		application/json
 // @Produce		application/json

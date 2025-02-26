@@ -134,7 +134,6 @@ func (r taskRepo) GetTasks(ctx context.Context, params *entity.TaskDetailedParam
 		}
 
 		if assignedUserMeta.Valid {
-
 			if err = json.Unmarshal([]byte(assignedUserMeta.String), &UserMetaJSON); err != nil {
 				return nil, fmt.Errorf("task - repository - GetUserTasks - json.Unmarshal(assignedUserMeta): %w", err)
 			}

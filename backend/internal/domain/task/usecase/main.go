@@ -16,9 +16,13 @@ type TaskUseCase interface {
 	GetTaskList(ctx context.Context, boardID int) (map[int][]entity.Task, error)
 	GetTasks(ctx context.Context, params *entity.TaskDetailedParams) ([]entity.TaskDetailed, error)
 
-	CreateAttachment(ctx context.Context, taskId int, file *multipart.FileHeader) (string, error)
-	GetAttachments(ctx context.Context, taskId int) ([]entity.Attachment, error)
+	CreateAttachment(ctx context.Context, taskID int, file *multipart.FileHeader) (string, error)
+	GetAttachments(ctx context.Context, taskID int) ([]entity.Attachment, error)
 	DeleteAttachment(ctx context.Context, objectName string) error
+
+	CreateComment(ctx context.Context, taskID, userID int, text string) error
+	GetComments(ctx context.Context, taskID, lastCommentID int) ([]entity.Comment, error)
+	DeleteComment(ctx context.Context, taskID, commentID int) error
 }
 
 type taskUseCase struct {

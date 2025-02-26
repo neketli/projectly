@@ -17,9 +17,13 @@ type TaskRepository interface {
 	GetTaskList(ctx context.Context, boardID int) ([]entity.Task, error)
 	GetTasks(ctx context.Context, params *entity.TaskDetailedParams) ([]entity.TaskDetailed, error)
 
-	CreateAttachment(ctx context.Context, reader io.Reader, filename string, taskId int) (string, error)
-	GetAttachments(ctx context.Context, taskId int) ([]entity.Attachment, error)
+	CreateAttachment(ctx context.Context, reader io.Reader, filename string, taskID int) (string, error)
+	GetAttachments(ctx context.Context, taskID int) ([]entity.Attachment, error)
 	DeleteAttachment(ctx context.Context, objectName string) error
+
+	CreateComment(ctx context.Context, taskID, userID int, text string) error
+	GetComments(ctx context.Context, taskID, lastCommentID int) ([]entity.Comment, error)
+	DeleteComment(ctx context.Context, taskID, commentID int) error
 }
 
 const (
