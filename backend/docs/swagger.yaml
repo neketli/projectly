@@ -196,6 +196,21 @@ definitions:
       title:
         type: string
     type: object
+  projectly-server_internal_domain_task_entity.Comment:
+    properties:
+      created_at:
+        type: integer
+      id:
+        type: integer
+      task_id:
+        type: integer
+      text:
+        type: string
+      updated_at:
+        type: integer
+      user:
+        $ref: '#/definitions/projectly-server_internal_domain_task_entity.User'
+    type: object
   projectly-server_internal_domain_task_entity.Task:
     properties:
       assigned_user_id:
@@ -230,35 +245,13 @@ definitions:
   projectly-server_internal_domain_task_entity.TaskDetailed:
     properties:
       assigned_user:
-        properties:
-          avatar:
-            type: string
-          email:
-            type: string
-          id:
-            type: integer
-          name:
-            type: string
-          surname:
-            type: string
-        type: object
+        $ref: '#/definitions/projectly-server_internal_domain_task_entity.User'
       assigned_user_id:
         type: integer
       created_at:
         type: integer
       created_user:
-        properties:
-          avatar:
-            type: string
-          email:
-            type: string
-          id:
-            type: integer
-          name:
-            type: string
-          surname:
-            type: string
-        type: object
+        $ref: '#/definitions/projectly-server_internal_domain_task_entity.User'
       created_user_id:
         type: integer
       deadline:
@@ -303,6 +296,19 @@ definitions:
         type: integer
       updated_at:
         type: integer
+    type: object
+  projectly-server_internal_domain_task_entity.User:
+    properties:
+      avatar:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      surname:
+        type: string
     type: object
   projectly-server_internal_domain_team_entity.Role:
     properties:
@@ -1019,7 +1025,7 @@ paths:
       consumes:
       - application/json
       description: Get task attachments
-      operationId: get-task-attachments
+      operationId: task-get-attachments
       parameters:
       - description: task_id to get attachments
         in: path
@@ -1074,6 +1080,43 @@ paths:
       summary: Update an existing task status
       tags:
       - task
+  /task/{id}/comments:
+    get:
+      consumes:
+      - application/json
+      description: Get task comments
+      operationId: task-get-comments
+      parameters:
+      - description: task_id to get comments
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: id of last comment
+        in: query
+        name: last_comment_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Array of task comments
+          schema:
+            items:
+              $ref: '#/definitions/projectly-server_internal_domain_task_entity.Comment'
+            type: array
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+      summary: Get task comments
+      tags:
+      - task
   /task/{id}/create-attachments:
     post:
       consumes:
@@ -1104,6 +1147,60 @@ paths:
           schema:
             $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Upload task attachments
+      tags:
+      - task
+  /task/{id}/create-comment:
+    post:
+      consumes:
+      - application/json
+      description: Creates comment in task
+      operationId: task-create-comment
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+      summary: Create comment in task
+      tags:
+      - task
+  /task/{id}/delete-comment:
+    delete:
+      consumes:
+      - application/json
+      operationId: task-delete-comment
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Comment ID
+        in: query
+        name: comment_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+      summary: Delete task
       tags:
       - task
   /task/create:
@@ -1140,7 +1237,7 @@ paths:
     delete:
       consumes:
       - application/json
-      operationId: task-attachment-delete
+      operationId: task-delete-attachment
       parameters:
       - description: filename
         in: query
