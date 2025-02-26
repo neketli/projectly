@@ -70,6 +70,7 @@ export default withNuxt(
 
             '@typescript-eslint/ban-ts-comment': 'off',
             '@typescript-eslint/no-explicit-any': 'error',
+            '@typescript-eslint/unified-signatures': 'off',
             '@typescript-eslint/naming-convention': [
                 'error',
                 {

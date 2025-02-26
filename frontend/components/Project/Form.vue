@@ -55,8 +55,10 @@ const props = defineProps<{
     project?: Project
     teamId: number
 }>()
-
-const emit = defineEmits(['success', 'cancel'])
+const emit = defineEmits<{
+    (event: 'success', project: Project): void
+    (event: 'cancel'): void
+}>()
 
 const { t } = useI18n()
 const { createProject, updateProject } = useProjects()

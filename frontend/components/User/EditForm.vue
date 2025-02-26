@@ -105,13 +105,16 @@
 <script  setup lang="ts">
 import type { FormInstance, FormRules, UploadProps, UploadUserFile } from 'element-plus'
 
-const emit = defineEmits(['success', 'cancel'])
+const emit = defineEmits<{
+    (event: 'success'): void
+    (event: 'cancel'): void
+}>()
 
 const { t } = useI18n()
+const validators = useValidator()
+
 const { getUserInfo } = toRefs(useAuthStore())
 const { updateUserInfo, uploadAvatar } = useUserActions()
-
-const validators = useValidator()
 
 const files: Ref<UploadUserFile[]> = ref([])
 const imageUrl = ref('')

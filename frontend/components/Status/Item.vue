@@ -193,8 +193,14 @@ import Draggable from 'vuedraggable'
 import { defaultStatusColors, type Status } from '~/types/board'
 import type { DetailedTask } from '~/types/task'
 
-const props = defineProps<{ status: Status }>()
-const emit = defineEmits(['create', 'update', 'delete'])
+const props = defineProps<{
+    status: Status
+}>()
+const emit = defineEmits<{
+    (event: 'create', status: Status): void
+    (event: 'update', status: Status): void
+    (event: 'delete', status: Status): void
+}>()
 
 const { t } = useI18n()
 
@@ -273,18 +279,26 @@ const handleChangeSort = () => {
 const handleSaveStatus = () => {
     isEdit.value = false
 
-    emit(props.status.id === 0 ? 'create' : 'update', {
+    const status = {
         ...props.status,
         title: title.value,
         hex_color: color.value,
-    })
+    }
 
     title.value = ''
+
+    if (props.status.id === 0) {
+        emit('create', status)
+        return
+    }
+    emit('update', status)
 }
 
 const handleMove = (direction: 'left' | 'right') => {
-    if ((direction === 'left' && props.status.order === 0)
-      || (direction === 'right' && props.status.order === statusCount.value - 1)) return
+    if (
+        (direction === 'left' && props.status.order === 0)
+        || (direction === 'right' && props.status.order === statusCount.value - 1)
+    ) return
 
     emit('update', {
         ...props.status,

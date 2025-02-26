@@ -172,7 +172,10 @@ const props = defineProps<{
     isFinished?: boolean
 }>()
 
-const emit = defineEmits(['success', 'cancel'])
+const emit = defineEmits<{
+    (event: 'success', task: DetailedTask): void
+    (event: 'cancel'): void
+}>()
 
 const { t } = useI18n()
 const validators = useValidator()

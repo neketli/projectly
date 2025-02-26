@@ -93,8 +93,13 @@
 import dayjs from 'dayjs'
 import type { DetailedTask } from '~/types/task'
 
-const props = defineProps<{ task: DetailedTask }>()
-const emit = defineEmits(['delete', 'update'])
+const props = defineProps<{
+    task: DetailedTask
+}>()
+const emit = defineEmits <{
+    (event: 'update', task: DetailedTask): void
+    (event: 'delete', task: DetailedTask): void
+}>()
 
 const route = useRoute()
 const { project } = toRefs(useProjectStore())

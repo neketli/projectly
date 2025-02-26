@@ -225,7 +225,9 @@ import dayjs from 'dayjs'
 import type { DetailedTask } from '~/types/task'
 
 defineProps<{ task: DetailedTask }>()
-const emit = defineEmits(['update-status'])
+const emit = defineEmits<{
+    (event: 'update-status', taskId: number): void
+}>()
 
 const { t } = useI18n()
 

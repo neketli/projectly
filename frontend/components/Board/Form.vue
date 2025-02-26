@@ -63,8 +63,10 @@ const props = defineProps<{
     board?: Board
     projectId: number
 }>()
-
-const emit = defineEmits(['success', 'cancel'])
+const emit = defineEmits<{
+    (event: 'success', board: Board): void
+    (event: 'cancel'): void
+}>()
 
 const { t } = useI18n()
 const { createBoard, updateBoard, setupDefaultBoard } = useBoard()

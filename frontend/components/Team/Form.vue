@@ -51,12 +51,15 @@ import type { Team } from '~/types/team'
 const props = defineProps<{
     team?: Team
 }>()
-
-const emit = defineEmits(['success', 'cancel'])
+const emit = defineEmits<{
+    (event: 'success', team: Team): void
+    (event: 'cancel'): void
+}>()
 
 const { t } = useI18n()
-const { createTeam, updateTeam } = useTeam()
 const validators = useValidator()
+
+const { createTeam, updateTeam } = useTeam()
 
 const isLoading = ref(false)
 

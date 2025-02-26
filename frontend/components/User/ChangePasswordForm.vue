@@ -68,12 +68,15 @@
 <script lang="ts" setup>
 import type { FormInstance, FormRules } from 'element-plus'
 
-const { t } = useI18n()
+const emit = defineEmits<{
+    (event: 'success'): void
+    (event: 'cancel'): void
+}>()
 
-const { changePassword } = useUserActions()
+const { t } = useI18n()
 const validators = useValidator()
 
-const emit = defineEmits(['success', 'cancel'])
+const { changePassword } = useUserActions()
 
 const isLoading = ref(false)
 
