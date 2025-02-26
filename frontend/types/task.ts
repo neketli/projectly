@@ -1,3 +1,5 @@
+import type { PlainUser } from './user'
+
 export type Task = {
     id: number
     project_index: number
@@ -22,23 +24,20 @@ export type DetailedTask = Task & {
         title: string
         hex_color: string
     }
-    created_user: {
-        id: number
-        name: string
-        surname: string
-        email: string
-        avatar: string
-    }
-    assigned_user: {
-        id: number
-        name: string
-        surname: string
-        email: string
-        avatar: string
-    }
+    created_user: PlainUser
+    assigned_user: PlainUser
     meta: {
         team_id: number
         project_id: number
         board_id: number
     }
+}
+
+export type TaskComment = {
+    id: number
+    task_id: number
+    text: string
+    user: PlainUser
+    created_at: number
+    updated_at: number
 }

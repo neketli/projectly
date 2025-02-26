@@ -1,5 +1,5 @@
 import type { AxiosError } from 'axios'
-import type { DetailedTask, Task } from '~/types/task'
+import type { DetailedTask, Task, TaskComment } from '~/types/task'
 
 export const useTask = () => {
     const { $api } = useNuxtApp()
@@ -171,6 +171,45 @@ export const useTask = () => {
         }
     }
 
+    const getComments = async (task_id: number, last_comment_id?: number): Promise<TaskComment[]> => {
+        try {
+            const { data: comments } = await $api.get<TaskComment[]>(`/task/${task_id}/comments`, {
+                params: {
+                    last_comment_id,
+                },
+            })
+            return comments
+        }
+        catch (error) {
+            const axiosError = error as AxiosError<{ message: string }>
+            throw new Error(axiosError.response?.data?.message || 'Failed to get comments')
+        }
+    }
+
+    const createComment = async (task_id: number, text: string): Promise<void> => {
+        try {
+            await $api.post<TaskComment>(`/task/${task_id}/create-comment`, { text })
+        }
+        catch (error) {
+            const axiosError = error as AxiosError<{ message: string }>
+            throw new Error(axiosError.response?.data?.message || 'Failed to create comment')
+        }
+    }
+
+    const deleteComment = async (task_id: number, comment_id: number): Promise<void> => {
+        try {
+            await $api.delete(`/task/${task_id}/delete-comment`, {
+                params: {
+                    comment_id,
+                },
+            })
+        }
+        catch (error) {
+            const axiosError = error as AxiosError<{ message: string }>
+            throw new Error(axiosError.response?.data?.message || 'Failed to delete comment')
+        }
+    }
+
     return {
         getTask,
         getUserTasks,
@@ -185,5 +224,8 @@ export const useTask = () => {
         createAttachments,
         deleteAttachment,
 
+        getComments,
+        createComment,
+        deleteComment,
     }
 }

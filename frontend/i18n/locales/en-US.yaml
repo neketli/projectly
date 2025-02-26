@@ -231,6 +231,10 @@ task:
       user: "No user assigned"
       priority: "Priority not set"
       time: "Not set"
+  comments:
+    title: "Comments"
+    empty: "No comments"
+    placeholder: "Markdown formatting is available and user mentions can be used in the form of `:(name)`"
   create:
     title: "Create Task"
   update:
@@ -242,6 +246,7 @@ task:
     create: "Task has been successfully created!"
     update: "Task has been successfully updated!"
     delete: "Task has been successfully deleted!"
+    comment_delete: "Comment has been successfully deleted!"
   error:
     status_undefined: "Before adding a task, you need to save a status"
     file_size: "File size must not exceed {x} MB"

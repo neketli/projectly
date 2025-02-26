@@ -65,9 +65,14 @@
                 v-html="taskDescriptionMd"
             />
 
-            <h4 class="text-2xl border-t pt-2">
-                {{ t('task.form.attachment.title') }}
-            </h4>
+            <ElDivider
+                content-position="left"
+            >
+                <h4 class="text-xl">
+                    {{ t('task.form.attachment.title') }}
+                </h4>
+            </ElDivider>
+
             <ElUpload
                 v-loading="isLoading"
                 :auto-upload="false"
@@ -81,7 +86,10 @@
                 {{ $t('task.form.attachment.add') }}
             </ElUpload>
 
-            <div class="flex flex-wrap gap-4">
+            <div
+                ref="attachmentsParent"
+                class="flex flex-wrap gap-4"
+            >
                 <ElPopover
                     v-for="(attachment, index) in attachments"
                     :key="attachment"
@@ -94,7 +102,7 @@
                             :preview-src-list="[attachment]"
                             :initial-index="0"
                             hide-on-click-modal
-                            class="w-24 h-24 border border-gray-100 dark:border-gray-800 p-1 rounded"
+                            class="w-24 h-24 !flex items-center justify-center  border border-gray-100 dark:border-gray-800 p-1 rounded"
                             fit="cover"
                         >
                             <template #error>
@@ -142,6 +150,65 @@
                     </div>
                 </ElPopover>
             </div>
+
+            <ElDivider content-position="left">
+                <h4 class="text-xl">
+                    {{ t('task.comments.title') }}
+                </h4>
+            </ElDivider>
+            <div
+                ref="commentsParent"
+                v-loading="isCommentsLoading"
+                class="flex flex-col gap-2"
+            >
+                <ElAlert
+                    v-if="comments.length === 0"
+                    :closable="false"
+                    :title="$t('task.comments.empty')"
+                />
+
+                <TaskComment
+                    v-for="item in comments"
+                    :key="item.id"
+                    :comment="item"
+                    @delete="handleDeleteComment"
+                />
+
+                <div class="flex gap-2">
+                    <ElMention
+                        v-model="comment"
+                        :options="usersOptions"
+                        type="textarea"
+                        maxlength="1024"
+                        resize="none"
+                        :placeholder="t('task.comments.placeholder')"
+                        prefix=":"
+                        show-word-limit
+                        :autosize="{
+                            minRows: 2,
+                            maxRows: 6,
+                        }"
+                        class="!w-full"
+                    >
+                        <template #label="{ item }">
+                            <div style="display: flex; align-items: center">
+                                <UserAvatar
+                                    :size="24"
+                                    :file-name="item.avatar"
+                                />
+                                <span style="margin-left: 6px">{{ item.label }}</span>
+                            </div>
+                        </template>
+                    </ElMention>
+
+                    <ElButton
+                        circle
+                        @click="handleCreateComment"
+                    >
+                        <Icon name="mdi:send" />
+                    </ElButton>
+                </div>
+            </div>
         </div>
 
         <ElDialog
@@ -164,11 +231,12 @@
 import markdownit from 'markdown-it'
 import type { UploadProps } from 'element-plus'
 import dayjs from 'dayjs'
-import type { DetailedTask } from '~/types/task'
+import type { DetailedTask, TaskComment } from '~/types/task'
 
 const config = useRuntimeConfig()
 const { teamId, projectCode, boardId, projectIndex } = useRoute().params
 const { t } = useI18n()
+const [attachmentsParent, commentsParent] = useAutoAnimate()
 const md = markdownit()
 
 useHead({
@@ -179,15 +247,28 @@ definePageMeta({
     layout: 'team',
 })
 
+const teamStore = useTeamStore()
 const projectStore = useProjectStore()
 const boardStore = useBoardStore()
 
-const { getTaskDetail, deleteTask, updateTaskStatus, createAttachments, deleteAttachment, getAttachments } = useTask()
+const {
+    getTaskDetail,
+    deleteTask,
+    updateTaskStatus,
+    createAttachments,
+    deleteAttachment,
+    getAttachments,
+    getComments,
+    createComment,
+    deleteComment,
+} = useTask()
 const { getStatusList } = useStatus()
 
 const dialog = reactive({
     task: false,
 })
+
+const comment = ref('')
 
 const extMdiMap: Record<string, string> = {
     'doc': 'mdi:file-document-outline',
@@ -222,11 +303,23 @@ const isImageFile = (fileName: string) => {
 
 const task = ref({} as DetailedTask)
 const files = ref([] as string[])
+const comments = ref([] as TaskComment[])
 const isLoading = ref(false)
+const isCommentsLoading = ref(false)
+let commentsIntervalId = 0
 
 const taskDescriptionMd = computed(() => task.value.description ? md.render(task.value.description) : t('task.form.placeholder.description'))
 
 const attachments = computed(() => files.value.map(item => `${config.public.S3_HOST}/media/${item}`))
+
+const usersOptions = computed(() => {
+    return teamStore.users.map(user => ({
+        id: user.id,
+        value: `${user.email}`,
+        label: `${user.name} ${user.surname} (${user.email})`,
+        avatar: user?.meta?.avatar,
+    }))
+})
 
 const handleTaskUpdated = (updated: DetailedTask) => {
     task.value = updated
@@ -298,6 +391,48 @@ const handleStatusChange = async (statusId: number) => {
     }
 }
 
+const handleCreateComment = async () => {
+    try {
+        await createComment(task.value.id, comment.value)
+        comment.value = ''
+        updateComments()
+    }
+    catch (err) {
+        const error = err as Error
+        ElMessage.error(error.message)
+    }
+}
+
+const handleDeleteComment = async (commentId: number) => {
+    try {
+        await deleteComment(task.value.id, commentId)
+        comments.value = comments.value.filter(item => item.id !== commentId)
+        await updateComments()
+        ElMessage.success(t('task.success.comment_delete'))
+    }
+    catch (err) {
+        const error = err as Error
+        ElMessage.error(error.message)
+    }
+}
+
+const updateComments = async () => {
+    try {
+        isCommentsLoading.value = true
+        const lastCommentId = comments.value.at(-1)?.id || 0
+        const newComments = await getComments(task.value.id, lastCommentId)
+        comments.value = [...comments.value, ...newComments]
+    }
+    catch (err) {
+        const error = err as Error
+        ElMessage.error(error.message)
+        clearInterval(commentsIntervalId)
+    }
+    finally {
+        isCommentsLoading.value = false
+    }
+}
+
 onMounted(async () => {
     try {
         isLoading.value = true
@@ -307,6 +442,9 @@ onMounted(async () => {
 
         const taskAttachments = await getAttachments(task.value.id)
         files.value = taskAttachments
+
+        updateComments()
+        commentsIntervalId = window.setInterval(updateComments, 15000)
     }
     catch (err) {
         const error = err as Error
@@ -315,5 +453,9 @@ onMounted(async () => {
     finally {
         isLoading.value = false
     }
+})
+
+onBeforeUnmount(() => {
+    clearInterval(commentsIntervalId)
 })
 </script>

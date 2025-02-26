@@ -8,6 +8,14 @@ export type User = {
     }
 }
 
+export type PlainUser = {
+    id: number
+    name: string
+    surname: string
+    email: string
+    avatar: string
+}
+
 export type UserWithRoles = User & {
     role: Role
 }
