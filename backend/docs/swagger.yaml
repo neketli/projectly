@@ -417,35 +417,30 @@ info:
   title: Task tracker server
   version: "1.0"
 paths:
-  /auth/google-callback:
+  /auth/{provider}:
     get:
       consumes:
       - application/json
-      description: Google user auth callback and redirect with access and refresh
-        tokens
-      operationId: user-google-login-callback
+      description: Oauth user auth login
+      operationId: user-oauth-login
       produces:
       - application/json
       responses:
         "307":
           description: Temporary Redirect
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
         "500":
           description: Internal Server Error
           schema:
             $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
-      summary: Google user auth callback
+      summary: Oauth user auth
       tags:
       - user
-  /auth/google-login:
+  /auth/{provider}/callback:
     get:
       consumes:
       - application/json
-      description: Google user auth login
-      operationId: user-google-login
+      description: Oauth user auth callback and redirect with access and refresh tokens
+      operationId: user-oauth-callback
       produces:
       - application/json
       responses:
@@ -459,7 +454,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
-      summary: Google user auth
+      summary: Oauth user auth callback
       tags:
       - user
   /auth/login:

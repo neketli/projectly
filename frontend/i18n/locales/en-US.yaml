@@ -34,6 +34,7 @@ error:
 
 
 auth:
+  title: "User authentication"
   register:
     title: "Registration"
     form:

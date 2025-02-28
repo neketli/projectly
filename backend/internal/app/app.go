@@ -20,6 +20,8 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
+	"github.com/markbates/goth"
+	"github.com/markbates/goth/providers/google"
 )
 
 func Run(cfg *config.Config) {
@@ -48,6 +50,15 @@ func Run(cfg *config.Config) {
 
 	api := e.Group("/api/v1")
 	auth := api.Group("/auth")
+
+	goth.UseProviders(
+		google.New(
+			cfg.Auth.GoogleAuthProvider.ClientID,
+			cfg.Auth.GoogleAuthProvider.ClientSecret,
+			cfg.Auth.GoogleAuthProvider.CallbackUrl,
+			"email", "profile",
+		),
+	)
 
 	api.Use(echojwt.WithConfig(
 		echojwt.Config{

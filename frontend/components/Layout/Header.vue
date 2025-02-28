@@ -33,7 +33,7 @@
             </ElMenuItem>
 
             <ElMenuItem
-                v-if="getUserInfo.id"
+                v-if="isLogged"
                 class="!hidden sm:!inline-flex"
                 @click="exit"
             >
@@ -72,7 +72,7 @@
                 </div>
 
                 <ElButton
-                    v-if="getUserInfo.id"
+                    v-if="isLogged"
                     @click="exit"
                 >
                     {{ $t('common.header.logout') }}
@@ -91,7 +91,7 @@
 const route = useRoute()
 
 const authStore = useAuthStore()
-const { getUserInfo } = toRefs(authStore)
+const { getUserInfo, isLogged } = toRefs(authStore)
 
 const isMenuOpen = ref(false)
 
