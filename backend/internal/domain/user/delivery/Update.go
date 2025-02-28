@@ -78,6 +78,7 @@ func (h *UserHandler) Update(c echo.Context) error {
 		Surname:  request.Surname,
 		Email:    request.Email,
 		Password: user.Password,
+		Meta:     user.Meta,
 	})
 	if err != nil {
 		return &echo.HTTPError{
