@@ -1,7 +1,9 @@
 package entity
 
 type UserMeta struct {
-	Avatar string `json:"avatar" example:"avatar.png"`
+	Avatar     string `json:"avatar" example:"avatar.png"`
+	Provider   string `json:"provider" example:"google"`
+	ProviderID string `json:"provider_id" example:"google_id"`
 }
 
 type User struct {

@@ -45,10 +45,14 @@ type (
 	}
 
 	Auth struct {
-		AccessTTL     int    `env-required:"true" yaml:"access_ttl"`
-		RefreshTTL    int    `env-required:"true" yaml:"refresh_ttl"`
-		AccessSecret  string `env-required:"true" env:"AUTH_ACCESS_SECRET"`
-		RefreshSecret string `env-required:"true" env:"AUTH_REFRESH_SECRET"`
+		AccessTTL          int    `env-required:"true" yaml:"access_ttl"`
+		RefreshTTL         int    `env-required:"true" yaml:"refresh_ttl"`
+		AccessSecret       string `env-required:"true" env:"AUTH_ACCESS_SECRET"`
+		RefreshSecret      string `env-required:"true" env:"AUTH_REFRESH_SECRET"`
+		GoogleAuthProvider struct {
+			ClientID     string `env-required:"false" env:"AUTH_GOOGLE_CLIENT_ID"`
+			ClientSecret string `env-required:"false" env:"AUTH_GOOGLE_CLIENT_SECRET"`
+		} `env-required:"false"`
 	}
 )
 

@@ -401,6 +401,12 @@ definitions:
       avatar:
         example: avatar.png
         type: string
+      provider:
+        example: google
+        type: string
+      provider_id:
+        example: google_id
+        type: string
     type: object
 host: localhost:8083
 info:
@@ -411,6 +417,147 @@ info:
   title: Task tracker server
   version: "1.0"
 paths:
+  /auth/google/callback:
+    get:
+      consumes:
+      - application/json
+      description: Google user auth callback and redirect with access and refresh
+        tokens
+      operationId: user-google-login-callback
+      produces:
+      - application/json
+      responses:
+        "307":
+          description: Temporary Redirect
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+      summary: Google user auth callback
+      tags:
+      - user
+  /auth/google/login:
+    get:
+      consumes:
+      - application/json
+      description: Google user auth login
+      operationId: user-google-login
+      produces:
+      - application/json
+      responses:
+        "307":
+          description: Temporary Redirect
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+      summary: Google user auth
+      tags:
+      - user
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Login user
+      operationId: user-login
+      parameters:
+      - description: Login request body
+        in: body
+        name: requestLogin
+        required: true
+        schema:
+          $ref: '#/definitions/internal_domain_user_delivery.requestLogin'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/projectly-server_internal_domain_user_entity.Tokens'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+      summary: Login user
+      tags:
+      - auth
+  /auth/refresh:
+    post:
+      consumes:
+      - application/json
+      description: Refresh user token and return new access and refresh tokens
+      operationId: user-refresh
+      parameters:
+      - description: Refresh token value
+        in: body
+        name: refreshToken
+        required: true
+        schema:
+          $ref: '#/definitions/internal_domain_user_delivery.requestRefresh'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/projectly-server_internal_domain_user_entity.Tokens'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+      summary: Refresh user token
+      tags:
+      - auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      operationId: user-register
+      parameters:
+      - description: register user details
+        in: body
+        name: requestRegister
+        required: true
+        schema:
+          $ref: '#/definitions/internal_domain_user_delivery.requestRegister'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created user
+          schema:
+            $ref: '#/definitions/projectly-server_internal_domain_user_entity.User'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+      summary: Register user
+      tags:
+      - auth
   /board/{id}:
     delete:
       consumes:
@@ -1656,101 +1803,6 @@ paths:
           schema:
             $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Change user password
-      tags:
-      - user
-  /user/login:
-    post:
-      consumes:
-      - application/json
-      description: Login user
-      operationId: user-login
-      parameters:
-      - description: Login request body
-        in: body
-        name: requestLogin
-        required: true
-        schema:
-          $ref: '#/definitions/internal_domain_user_delivery.requestLogin'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/projectly-server_internal_domain_user_entity.Tokens'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
-      summary: Login user
-      tags:
-      - user
-  /user/refresh:
-    post:
-      consumes:
-      - application/json
-      description: Refresh user token and return new access and refresh tokens
-      parameters:
-      - description: Refresh token value
-        in: body
-        name: refreshToken
-        required: true
-        schema:
-          $ref: '#/definitions/internal_domain_user_delivery.requestRefresh'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/projectly-server_internal_domain_user_entity.Tokens'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
-      summary: Refresh user token
-      tags:
-      - user
-  /user/register:
-    post:
-      consumes:
-      - application/json
-      operationId: user-register
-      parameters:
-      - description: register user details
-        in: body
-        name: requestRegister
-        required: true
-        schema:
-          $ref: '#/definitions/internal_domain_user_delivery.requestRegister'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created user
-          schema:
-            $ref: '#/definitions/projectly-server_internal_domain_user_entity.User'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
-      summary: Register user
       tags:
       - user
   /user/remove-avatar:

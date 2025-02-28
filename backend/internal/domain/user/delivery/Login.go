@@ -17,14 +17,14 @@ type requestLogin struct {
 // @Summary		Login user
 // @Description	Login user
 // @ID				user-login
-// @Tags			user
+// @Tags			auth
 // @Accept			application/json
 // @Produce			application/json
 // @Param			requestLogin	body		requestLogin	true	"Login request body"
 // @Success		200				{object}	entity.Tokens
 // @Failure		400				{object}	echo.HTTPError
 // @Failure		500				{object}	echo.HTTPError
-// @Router			/user/login [post]
+// @Router			/auth/login [post]
 func (h *UserHandler) Login(c echo.Context) error {
 	var request requestLogin
 	if err := c.Bind(&request); err != nil {

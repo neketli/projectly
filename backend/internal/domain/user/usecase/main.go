@@ -19,6 +19,9 @@ type UserUseCase interface {
 	CreateAccess(user *entity.User) (string, error)
 	CreateRefresh(user *entity.User) (string, error)
 	GetUserByRefreshToken(ctx context.Context, requestToken string) (entity.User, error)
+
+	GoogleLogin(ctx context.Context, redirectURL string) string
+	GoogleCallback(ctx context.Context, code string) (*entity.User, error)
 }
 
 type userUseCase struct {

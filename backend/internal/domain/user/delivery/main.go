@@ -18,6 +18,9 @@ type UserUseCase interface {
 	GetUserByRefreshToken(ctx context.Context, requestToken string) (entity.User, error)
 	UploadAvatar(ctx context.Context, user entity.User, file *multipart.FileHeader) error
 	RemoveAvatar(ctx context.Context, user entity.User) error
+
+	GoogleLogin(ctx context.Context, redirectURL string) string
+	GoogleCallback(ctx context.Context, code string) (*entity.User, error)
 }
 
 type UserHandler struct {
@@ -30,6 +33,9 @@ func New(authRouter *echo.Group, router *echo.Group, usecase UserUseCase) {
 	authRouter.POST("/register", handler.Register)
 	authRouter.POST("/login", handler.Login)
 	authRouter.POST("/refresh", handler.Refresh)
+
+	authRouter.GET("/google/login", handler.GoogleLogin)
+	authRouter.GET("/google/callback", handler.GoogleCallback)
 
 	u := router.Group("/user")
 	{
