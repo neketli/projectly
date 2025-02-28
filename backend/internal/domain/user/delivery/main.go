@@ -19,8 +19,7 @@ type UserUseCase interface {
 	UploadAvatar(ctx context.Context, user entity.User, file *multipart.FileHeader) error
 	RemoveAvatar(ctx context.Context, user entity.User) error
 
-	GoogleLogin(ctx context.Context, redirectURL string) string
-	GoogleCallback(ctx context.Context, code string) (*entity.User, error)
+	CompleteUserAuth(ctx context.Context, user *entity.User) error
 }
 
 type UserHandler struct {
@@ -34,8 +33,8 @@ func New(authRouter *echo.Group, router *echo.Group, usecase UserUseCase) {
 	authRouter.POST("/login", handler.Login)
 	authRouter.POST("/refresh", handler.Refresh)
 
-	authRouter.GET("/google-login", handler.GoogleLogin)
-	authRouter.GET("/google-callback", handler.GoogleCallback)
+	authRouter.GET("/:provider", handler.OauthLogin)
+	authRouter.GET("/:provider/callback", handler.OauthCallback)
 
 	u := router.Group("/user")
 	{
