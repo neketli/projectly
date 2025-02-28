@@ -55,7 +55,6 @@ func (h *UserHandler) OauthCallback(c echo.Context) error {
 		Name:    gothUser.FirstName,
 		Surname: gothUser.LastName,
 		Meta: &entity.UserMeta{
-			Avatar:     gothUser.AvatarURL,
 			Provider:   gothUser.Provider,
 			ProviderID: gothUser.UserID,
 		},

@@ -7,7 +7,6 @@ useHead({
 definePageMeta({
     isPublic: true,
     layout: 'empty',
-    pageTransition: { name: 'slide' },
 })
 
 const route = useRoute()
@@ -16,7 +15,7 @@ const authStore = useAuthStore()
 onMounted(() => {
     const { access, refresh } = route.query
 
-    if (typeof access === 'string' && refresh === 'string') {
+    if (typeof access === 'string' && typeof refresh === 'string') {
         window.history.replaceState({}, document.title, '/')
         authStore.authSuccess({ access, refresh })
         navigateTo('/', { external: true })
@@ -26,3 +25,10 @@ onMounted(() => {
     }
 })
 </script>
+
+<template>
+    <div>
+        {{ authStore.isLogged }}
+        {{ authStore }}
+    </div>
+</template>

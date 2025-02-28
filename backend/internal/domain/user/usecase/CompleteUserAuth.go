@@ -29,6 +29,7 @@ func (u *userUseCase) CompleteUserAuth(ctx context.Context, user *entity.User) e
 	}
 
 	existingUser.Meta = &entity.UserMeta{
+		Avatar:     user.Meta.Avatar,
 		Provider:   user.Meta.Provider,
 		ProviderID: user.Meta.ProviderID,
 	}
