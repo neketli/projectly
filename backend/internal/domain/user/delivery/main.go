@@ -34,8 +34,8 @@ func New(authRouter *echo.Group, router *echo.Group, usecase UserUseCase) {
 	authRouter.POST("/login", handler.Login)
 	authRouter.POST("/refresh", handler.Refresh)
 
-	authRouter.GET("/google/login", handler.GoogleLogin)
-	authRouter.GET("/google/callback", handler.GoogleCallback)
+	authRouter.GET("/google-login", handler.GoogleLogin)
+	authRouter.GET("/google-callback", handler.GoogleCallback)
 
 	u := router.Group("/user")
 	{

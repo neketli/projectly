@@ -50,8 +50,8 @@ type (
 		AccessSecret       string `env-required:"true" env:"AUTH_ACCESS_SECRET"`
 		RefreshSecret      string `env-required:"true" env:"AUTH_REFRESH_SECRET"`
 		GoogleAuthProvider struct {
-			ClientID     string `env-required:"false" env:"AUTH_GOOGLE_CLIENT_ID"`
-			ClientSecret string `env-required:"false" env:"AUTH_GOOGLE_CLIENT_SECRET"`
+			ClientID     string `env-default:"" env:"AUTH_GOOGLE_CLIENT_ID"`
+			ClientSecret string `env-default:"" env:"AUTH_GOOGLE_CLIENT_SECRET"`
 		} `env-required:"false"`
 	}
 )

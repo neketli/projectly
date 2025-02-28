@@ -134,7 +134,7 @@ const rules = reactive<FormRules<{ email: string, password: string }>>({
     ],
 })
 
-const googleAuthUrl = computed(() => `${config.public.API_HOST}/api/v1/auth/google/login`)
+const googleAuthUrl = computed(() => `${config.public.API_HOST}/api/v1/auth/google-login`)
 
 const auth = async () => {
     state.isLoading = true
