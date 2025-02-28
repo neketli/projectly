@@ -444,7 +444,7 @@ onMounted(async () => {
         files.value = taskAttachments
 
         updateComments()
-        commentsIntervalId = window.setInterval(updateComments, 15000)
+        commentsIntervalId = window.setInterval(updateComments, 30000)
     }
     catch (err) {
         const error = err as Error

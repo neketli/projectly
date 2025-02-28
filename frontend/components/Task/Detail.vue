@@ -1,14 +1,17 @@
 <template>
     <div class="task-detail">
         <ElDescriptions
-            :column="2"
+            :column="isMobile ? 1 : 2"
             border
         >
             <ElDescriptionsItem>
                 <template #label>
-                    <div class="cell-item">
+                    <div class="flex gap-2 items-center">
                         <Icon name="mdi:account" />
-                        {{ t('task.form.created_user') }}
+
+                        <span>
+                            {{ t('task.form.created_user') }}
+                        </span>
                     </div>
                 </template>
 
@@ -20,10 +23,10 @@
                         v-if="task.created_user?.avatar"
                         :size="32"
                         :file-name="task.created_user.avatar"
-                        class="sm:ml-2"
+                        class="ml-2"
                     />
 
-                    <span class="hidden sm:inline">
+                    <span class="inline">
                         {{ task.created_user.name }}
                         {{ task.created_user.surname }}
                         ({{ task.created_user.email }})
@@ -33,8 +36,8 @@
 
             <ElDescriptionsItem>
                 <template #label>
-                    <div class="cell-item">
-                        <Icon name="mdi:account" />
+                    <div class="flex gap-2 items-center">
+                        <Icon name="mdi:account-check" />
                         {{ t('task.form.assigned_user') }}
                     </div>
                 </template>
@@ -47,10 +50,10 @@
                         v-if="task.assigned_user.avatar"
                         :size="32"
                         :file-name="task.assigned_user.avatar"
-                        class="sm:ml-2"
+                        class="ml-2"
                     />
 
-                    <span class="hidden sm:inline">
+                    <span class="inline">
                         {{ task.assigned_user.name }}
                         {{ task.assigned_user.surname }}
                         ({{ task.assigned_user.email }})
@@ -66,13 +69,13 @@
         </ElDescriptions>
 
         <ElDescriptions
-            :column="3"
+            :column="isMobile ? 1 : 3"
             border
         >
             <ElDescriptionsItem>
                 <template #label>
-                    <div class="cell-item">
-                        <Icon name="mdi:account" />
+                    <div class="flex gap-2 items-center">
+                        <Icon name="mdi:list-status" />
                         {{ t('task.form.status') }}
                     </div>
                 </template>
@@ -108,8 +111,8 @@
 
             <ElDescriptionsItem>
                 <template #label>
-                    <div class="cell-item">
-                        <Icon name="mdi:account" />
+                    <div class="flex gap-2 items-center">
+                        <Icon name="mdi:timer" />
                         {{ t('task.form.story_point') }}
                     </div>
                 </template>
@@ -121,8 +124,8 @@
 
             <ElDescriptionsItem>
                 <template #label>
-                    <div class="cell-item">
-                        <Icon name="mdi:account" />
+                    <div class="flex gap-2 items-center">
+                        <Icon name="mdi:timelapse" />
                         {{ t('task.form.tracked_time') }}
                     </div>
                 </template>
@@ -134,13 +137,13 @@
         </ElDescriptions>
 
         <ElDescriptions
-            :column="2"
+            :column="isMobile ? 1 : 2"
             border
         >
             <ElDescriptionsItem>
                 <template #label>
-                    <div class="cell-item">
-                        <Icon name="mdi:account" />
+                    <div class="flex gap-2 items-center">
+                        <Icon name="mdi:calendar-clock" />
                         {{ t('task.form.deadline') }}
                     </div>
                 </template>
@@ -154,8 +157,8 @@
 
             <ElDescriptionsItem>
                 <template #label>
-                    <div class="cell-item">
-                        <Icon name="mdi:account" />
+                    <div class="flex gap-2 items-center">
+                        <Icon name="mdi:label-variant" />
                         {{ t('task.form.priority') }}
                     </div>
                 </template>
@@ -167,13 +170,13 @@
         </ElDescriptions>
 
         <ElDescriptions
-            :column="3"
+            :column="isMobile ? 1 : 3"
             border
         >
             <ElDescriptionsItem>
                 <template #label>
-                    <div class="cell-item">
-                        <Icon name="mdi:account" />
+                    <div class="flex gap-2 items-center">
+                        <Icon name="mdi:calendar" />
                         {{ t('task.form.created_at') }}
                     </div>
                 </template>
@@ -187,8 +190,8 @@
 
             <ElDescriptionsItem>
                 <template #label>
-                    <div class="cell-item">
-                        <Icon name="mdi:account" />
+                    <div class="flex gap-2 items-center">
+                        <Icon name="mdi:calendar-edit" />
                         {{ t('task.form.updated_at') }}
                     </div>
                 </template>
@@ -202,8 +205,8 @@
 
             <ElDescriptionsItem>
                 <template #label>
-                    <div class="cell-item">
-                        <Icon name="mdi:account" />
+                    <div class="flex gap-2 items-center">
+                        <Icon name="mdi:calendar-check" />
                         {{ t('task.form.finished_at') }}
                     </div>
                 </template>
@@ -230,8 +233,13 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+const { width } = useWindowSize()
 
 const boardStore = useBoardStore()
+
+const isMobile = computed(() => {
+    return width.value < 768
+})
 
 const priorityOptions = computed(() => {
     return [
