@@ -417,7 +417,7 @@ info:
   title: Task tracker server
   version: "1.0"
 paths:
-  /auth/google/callback:
+  /auth/google-callback:
     get:
       consumes:
       - application/json
@@ -440,7 +440,7 @@ paths:
       summary: Google user auth callback
       tags:
       - user
-  /auth/google/login:
+  /auth/google-login:
     get:
       consumes:
       - application/json

@@ -16,9 +16,9 @@ import (
 // @Success		307
 // @Failure		400				{object}	echo.HTTPError
 // @Failure		500				{object}	echo.HTTPError
-// @Router			/auth/google/login [get]
+// @Router			/auth/google-login [get]
 func (h *UserHandler) GoogleLogin(c echo.Context) error {
-	redirectURL := h.UserUseCase.GoogleLogin(c.Request().Context(), "/api/v1/auth/google/callback")
+	redirectURL := h.UserUseCase.GoogleLogin(c.Request().Context(), "/api/v1/auth/google-callback")
 	return c.Redirect(http.StatusTemporaryRedirect, redirectURL)
 }
 
@@ -31,7 +31,7 @@ func (h *UserHandler) GoogleLogin(c echo.Context) error {
 // @Success		307
 // @Failure		400				{object}	echo.HTTPError
 // @Failure		500				{object}	echo.HTTPError
-// @Router			/auth/google/callback [get]
+// @Router			/auth/google-callback [get]
 func (h *UserHandler) GoogleCallback(c echo.Context) error {
 	code := c.QueryParam("code")
 	user, err := h.UserUseCase.GoogleCallback(c.Request().Context(), code)

@@ -20,7 +20,6 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
 )
 
 func Run(cfg *config.Config) {
@@ -49,12 +48,6 @@ func Run(cfg *config.Config) {
 
 	api := e.Group("/api/v1")
 	auth := api.Group("/auth")
-
-	api.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"http://localhost:3001"},
-		AllowMethods: []string{echo.GET, echo.POST},
-		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
-	}))
 
 	api.Use(echojwt.WithConfig(
 		echojwt.Config{
