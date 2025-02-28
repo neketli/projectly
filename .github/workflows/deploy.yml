@@ -24,13 +24,13 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.23'
+          go-version: '1.23.0'
           cache: false
       - name: Lint code
         uses: golangci/golangci-lint-action@v6
         with:
           working-directory: backend
-          version: v1.54
+          version: v1.64
 
   lint_frontend:
     runs-on: ubuntu-latest
