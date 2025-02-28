@@ -10,10 +10,11 @@ export default defineNuxtConfig({
         '@nuxtjs/sitemap',
         '@nuxtjs/robots',
         '@nuxtjs/color-mode',
-        '@element-plus/nuxt',
         '@nuxtjs/tailwindcss',
-        '@formkit/auto-animate',
         '@nuxtjs/i18n',
+        '@element-plus/nuxt',
+        '@formkit/auto-animate',
+        '@vueuse/nuxt',
         'nuxt-svgo',
     ],
     ssr: false,
@@ -31,7 +32,7 @@ export default defineNuxtConfig({
     site: { indexable: false },
 
     colorMode: {
-        preference: 'system',
+        preference: 'light',
         fallback: 'light',
         classSuffix: '',
     },
