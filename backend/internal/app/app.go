@@ -55,8 +55,7 @@ func Run(cfg *config.Config) {
 		google.New(
 			cfg.Auth.GoogleAuthProvider.ClientID,
 			cfg.Auth.GoogleAuthProvider.ClientSecret,
-			// TODO: Заменить на конфиг
-			"https://projectly.ru/auth/google/callback",
+			cfg.Auth.GoogleAuthProvider.CallbackUrl,
 			"email", "profile",
 		),
 	)
