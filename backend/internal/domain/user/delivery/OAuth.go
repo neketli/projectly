@@ -60,6 +60,13 @@ func (h *UserHandler) OauthCallback(c echo.Context) error {
 		},
 	}
 
+	if user.Name == "" {
+		user.Name = gothUser.NickName
+	}
+	if user.Surname == "" {
+		user.Surname = gothUser.NickName
+	}
+
 	err = h.UserUseCase.CompleteUserAuth(c.Request().Context(), user)
 	if err != nil {
 		return &echo.HTTPError{

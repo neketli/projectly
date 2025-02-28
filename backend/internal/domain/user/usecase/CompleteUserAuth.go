@@ -24,15 +24,17 @@ func (u *userUseCase) CompleteUserAuth(ctx context.Context, user *entity.User) e
 		return nil
 	}
 
+	user = &existingUser
+	user.Meta = &entity.UserMeta{
+		Avatar:     existingUser.Meta.Avatar,
+		Provider:   user.Meta.Provider,
+		ProviderID: user.Meta.ProviderID,
+	}
+
 	if existingUser.Meta.Provider == user.Meta.Provider {
 		return nil
 	}
 
-	existingUser.Meta = &entity.UserMeta{
-		Avatar:     user.Meta.Avatar,
-		Provider:   user.Meta.Provider,
-		ProviderID: user.Meta.ProviderID,
-	}
 	err = u.UpdateUser(ctx, &existingUser)
 	if err != nil {
 		return fmt.Errorf("failed to update user info: %v", err)
