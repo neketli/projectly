@@ -54,6 +54,8 @@ auth:
       password: "Password"
       login: "Login"
       register: "Registration"
+      or: "or"
+      with_google: "Login with Google"
 
 profile:
   title: "Profile"

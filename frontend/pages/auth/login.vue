@@ -73,6 +73,27 @@
                     />
                 </ElButton>
             </div>
+
+            <ElDivider
+                class="form-divider my-4"
+                content-position="center"
+            >
+                <span class="p-2 bg-white dark:bg-slate-800">
+                    {{ $t('auth.login.form.or') }}
+                </span>
+            </ElDivider>
+
+            <ElButton
+                class="w-full"
+                tag="a"
+                :href="googleAuthUrl"
+            >
+                <Icon
+                    class="mr-2"
+                    name="mdi:google"
+                />
+                {{ $t('auth.login.form.with_google') }}
+            </ElButton>
         </ElForm>
     </section>
 </template>
@@ -81,6 +102,7 @@
 import type { FormRules, FormInstance } from 'element-plus'
 
 const { t } = useI18n()
+const config = useRuntimeConfig()
 
 useHead({
     title: t('auth.login.title'),
@@ -92,7 +114,6 @@ definePageMeta({
 })
 
 const authStore = useAuthStore()
-
 const validators = useValidator()
 
 const state = reactive({
@@ -112,6 +133,8 @@ const rules = reactive<FormRules<{ email: string, password: string }>>({
         validators.required,
     ],
 })
+
+const googleAuthUrl = computed(() => `${config.public.API_HOST}/api/v1/auth/google/login`)
 
 const auth = async () => {
     state.isLoading = true
@@ -142,3 +165,9 @@ const check = async () => {
     })
 }
 </script>
+
+<style>
+.form-divider .el-divider__text {
+    background-color: transparent !important;
+}
+</style>

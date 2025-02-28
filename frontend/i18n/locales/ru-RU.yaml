@@ -54,6 +54,8 @@ auth:
       password: "Пароль"
       login: "Войти"
       register: "Регистрация"
+      or: "или"
+      with_google: "Войти с Google"
 
 
 profile:

@@ -52,6 +52,20 @@ export const useAuthStore = defineStore('projectly-auth', {
             }
         },
 
+        async authWithGoogle() {
+            this.status = 'loading'
+
+            const { $api } = useNuxtApp()
+            try {
+                const { data } = await $api.get<Tokens>('/auth/google/login')
+                this.authSuccess(data)
+            }
+            catch (e) {
+                const error = e as AxiosError<{ message: string }>
+                throw new Error(error.response?.data?.message || error.message)
+            }
+        },
+
         async register(user: {
             name: string
             surname: string
