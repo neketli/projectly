@@ -46,7 +46,7 @@ func (h *UserHandler) OauthCallback(c echo.Context) error {
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("Authentication failed: %s", err.Error()),
+			Message: fmt.Sprintf("authentication failed: %s", err.Error()),
 		}
 	}
 
@@ -84,7 +84,7 @@ func (h *UserHandler) OauthCallback(c echo.Context) error {
 		}
 	}
 
-	redirectUrl := fmt.Sprintf("/auth/login?access=%s&refresh=%s", accessToken, refreshToken)
+	redirectUrl := fmt.Sprintf("/auth?access=%s&refresh=%s", accessToken, refreshToken)
 
 	return c.Redirect(http.StatusTemporaryRedirect, redirectUrl)
 }

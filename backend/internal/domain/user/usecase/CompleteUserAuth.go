@@ -4,16 +4,17 @@ import (
 	"context"
 	"crypto/rand"
 	"encoding/base64"
+	"errors"
 	"fmt"
 	"projectly-server/internal/domain/user/entity"
 )
 
 func (u *userUseCase) CompleteUserAuth(ctx context.Context, user *entity.User) error {
 	existingUser, err := u.GetUserByEmail(ctx, user.Email)
-	if err != nil && err != entity.ErrNoUserFound {
+	if err != nil && !errors.Is(err, entity.ErrNoUserFound) {
 		return fmt.Errorf("failed to check existing user info: %v", err)
 	}
-	if err == entity.ErrNoUserFound {
+	if errors.Is(err, entity.ErrNoUserFound) {
 		user.Password = generatePassword(16)
 
 		err = u.CreateUser(ctx, user)
