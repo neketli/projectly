@@ -35,6 +35,7 @@ error:
 
 auth:
   title: "User authentication"
+  terms: 'By clicking the "{type}" button, you agree to the <a class="auth-link" href="{terms}" target="_blank">service usage terms</a> and <a class="auth-link" href="{privacy}" target="_blank">privacy policy</a>'
   register:
     title: "Registration"
     form:

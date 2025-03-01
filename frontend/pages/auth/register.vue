@@ -118,6 +118,20 @@
                     />
                 </ElButton>
             </div>
+
+            <ElAlert
+                type="info"
+                show-icon
+                :closable="false"
+                class="!mt-4 text-blue"
+            >
+                <div
+                    v-html="$t('auth.terms', {
+                        type: $t('auth.register.form.register'),
+                        ...termsLinks,
+                    })"
+                />
+            </ElAlert>
         </ElForm>
     </section>
 </template>
@@ -125,7 +139,8 @@
 <script setup lang="ts">
 import type { FormRules, FormInstance } from 'element-plus'
 
-const { t } = useI18n()
+const config = useRuntimeConfig()
+const { t, locale } = useI18n()
 
 useHead({
     title: t('auth.register.title'),
@@ -188,6 +203,16 @@ const rules = reactive<FormRules<typeof authForm.value>>({
     ],
 })
 
+const termsLinks = computed(() => {
+    const baseUrl = `${config.public.S3_HOST}/media/documents`
+    const shortLocale = locale.value.split('-')[0]
+
+    return {
+        terms: `${baseUrl}/terms_of_service(${shortLocale}).pdf`,
+        privacy: `${baseUrl}/privacy_policy(${shortLocale}).pdf`,
+    }
+})
+
 const register = async () => {
     state.isLoading = true
     try {
@@ -219,3 +244,5 @@ const check = async () => {
     })
 }
 </script>
+
+

@@ -94,6 +94,20 @@
                 />
                 {{ $t('auth.login.form.with_google') }}
             </ElButton>
+
+            <ElAlert
+                type="info"
+                show-icon
+                :closable="false"
+                class="!mt-4 text-blue"
+            >
+                <div
+                    v-html="$t('auth.terms', {
+                        type: $t('auth.login.form.login'),
+                        ...termsLinks,
+                    })"
+                />
+            </ElAlert>
         </ElForm>
     </section>
 </template>
@@ -101,7 +115,7 @@
 <script setup lang="ts">
 import type { FormRules, FormInstance } from 'element-plus'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const config = useRuntimeConfig()
 
 useHead({
@@ -135,6 +149,15 @@ const rules = reactive<FormRules<{ email: string, password: string }>>({
 })
 
 const googleAuthUrl = computed(() => `${config.public.API_HOST}/api/v1/auth/google`)
+const termsLinks = computed(() => {
+    const baseUrl = `${config.public.S3_HOST}/media/documents`
+    const shortLocale = locale.value.split('-')[0]
+
+    return {
+        terms: `${baseUrl}/terms_of_service(${shortLocale}).pdf`,
+        privacy: `${baseUrl}/privacy_policy(${shortLocale}).pdf`,
+    }
+})
 
 const auth = async () => {
     state.isLoading = true
@@ -169,5 +192,12 @@ const check = async () => {
 <style>
 .form-divider .el-divider__text {
     background-color: transparent !important;
+}
+.auth-link {
+    color: #2563eb;
+    text-decoration: none;
+}
+.auth-link::after {
+    content: '➚';
 }
 </style>
