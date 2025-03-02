@@ -108,7 +108,7 @@ jobs:
           tags: latest
 
   deploy:
-    needs: [build_frontend, build_backend]
+    needs: [build_frontend, build_backend, build_landing]
     runs-on: ubuntu-latest
     steps:
       - name: Deploy on VPS
