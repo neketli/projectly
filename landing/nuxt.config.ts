@@ -7,6 +7,7 @@ export default defineNuxtConfig({
         '@nuxtjs/sitemap',
         '@nuxt/icon',
         '@nuxt/eslint',
+        'yandex-metrika-module-nuxt3',
     ],
     devtools: { enabled: false },
 
