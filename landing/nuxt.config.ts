@@ -80,7 +80,7 @@ export default defineNuxtConfig({
     },
 
     yandexMetrika: {
-        id: process.env.NUXT_YM_ID,
+        id: 100137750,
         debug: process.env.NODE_ENV !== 'production',
         clickmap: true,
         trackLinks: true,

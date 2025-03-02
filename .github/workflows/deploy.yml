@@ -78,8 +78,6 @@ jobs:
 
       - name: Build and Publish to Github Container Registry
         uses: elgohr/Publish-Docker-Github-Action@master
-        env:
-          NUXT_YM_ID: 100137750
         with:
           name: neketli/projectly-landing
           registry: ghcr.io
@@ -88,7 +86,6 @@ jobs:
           dockerfile: ./landing/Dockerfile
           context: ./landing
           tags: latest
-          buildargs: NUXT_YM_ID
 
   build_backend:
     needs: [lint_backend]
