@@ -5,7 +5,7 @@ WORKDIR /app
 COPY . .
 
 RUN npm ci
-RUN npm run generate
+RUN NUXT_APP_BASE_URL=/my/ npm run generate
 
 FROM nginx:alpine
 

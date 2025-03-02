@@ -6,7 +6,7 @@ useHead({
         { name: 'keywords', content: 'управление проектами, Kanban, таск-трекер, трекер задач, проектный менеджмент' },
         { property: 'og:title', content: 'Projectly — Удобное управление проектами' },
         { property: 'og:description', content: 'Projectly помогает командам эффективно планировать, отслеживать и завершать проекты с помощью Kanban-досок.' },
-        { property: 'og:image', content: 'https://projectly.ru/og-image.jpg' },
+        { property: 'og:image', content: 'https://projectly.ru/media/og-image.jpg' },
         { property: 'og:url', content: 'https://projectly.ru' },
     ],
     link: [
