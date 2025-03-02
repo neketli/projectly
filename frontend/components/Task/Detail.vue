@@ -150,7 +150,9 @@
 
                 <div class="flex gap-2 items-center">
                     <ElTag type="warning">
-                        {{ task.deadline || t('task.form.placeholder.deadline') }}
+                        {{ task.deadline
+                            ? dayjs.unix(task.deadline).format('DD.MM.YYYY HH:mm')
+                            : t('task.form.placeholder.time') }}
                     </ElTag>
                 </div>
             </ElDescriptionsItem>
@@ -183,7 +185,7 @@
 
                 <div class="flex gap-2 items-center">
                     <ElTag type="info">
-                        {{ dayjs.unix(task.created_at).format('DD.MM.YYYY HH:mm') || t('task.form.placeholder.time') }}
+                        {{ dayjs.unix(task.created_at).format('DD.MM.YYYY HH:mm') }}
                     </ElTag>
                 </div>
             </ElDescriptionsItem>
