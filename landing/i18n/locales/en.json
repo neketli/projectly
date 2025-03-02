@@ -1,0 +1,182 @@
+{
+  "hero": {
+    "title": "Your <span class=\"text-primary-600\">Perfect</span> Project Management Tool",
+    "subtitle": "Projectly helps teams collaborate, track tasks, and complete projects efficiently",
+    "button": "Get Started Now"
+  },
+  "features": {
+    "section": "Features",
+    "title": "Everything You Need to Manage Your Projects",
+    "subtitle": "Projectly provides powerful tools to help you plan, track, and deliver your projects successfully",
+    "list": {
+      "kanban": {
+        "title": "Kanban Board",
+        "description": "Visualize your workflow with customizable Kanban boards to help teams of any size track progress at a glance."
+      },
+      "tasks": {
+        "title": "Task Management",
+        "description": "Create, assign, and track tasks with detailed descriptions, deadlines, and priority levels."
+      },
+      "deadline": {
+        "title": "Faster Deadlines",
+        "description": "Manage deadlines with flexible tools to complete projects on time and minimize delays."
+      },
+      "workflows": {
+        "title": "Customizable Workflows",
+        "description": "Build custom workflows tailored to your team’s unique processes and requirements."
+      },
+      "team": {
+        "title": "Team Collaboration",
+        "description": "Work together seamlessly with real-time updates, task discussions in comments, and file-sharing capabilities."
+      },
+      "analytics": {
+        "title": "Analytics and Reporting",
+        "description": "Gain deeper insights into your project’s status with detailed analytical reports and charts."
+      }
+    }
+  },
+  "how_it_works": {
+    "section": "How It Works",
+    "title": "Simple Steps for a Quick Start",
+    "subtitle": "Set up Projectly in just a few clicks and start working on your projects today",
+    "steps": {
+      "1": {
+        "title": "Create a Team",
+        "description": "Set up your team and invite members with appropriate permissions, or join an existing one."
+      },
+      "2": {
+        "title": "Initialize a Project",
+        "description": "Start a project and configure boards to visualize your team’s workflows."
+      },
+      "3": {
+        "title": "Add Tasks",
+        "description": "Add tasks, assign owners, set priorities, and deadlines to track your project’s progress."
+      }
+    }
+  },
+  "demo": {
+    "title": "Demo",
+    "subtitle": "Empower Your Teams with Project Management",
+    "features": {
+      "board": {
+        "title": "Manage Tasks with Ease!",
+        "description": "Organize projects on an intuitive Kanban board. Plan, track, and complete projects faster with a flexible interface for teams of any size."
+      },
+      "detail": {
+        "title": "Control Every Detail",
+        "description": "Full control over tasks: add and edit descriptions in Markdown, attach files, and discuss tasks with your team in comments. Assign owners, track status, and prioritize to ensure nothing is missed."
+      },
+      "analytics": {
+        "title": "Overview of Projects in One Place",
+        "description": "Monitor project and team progress on an interactive Dashboard. Analyze statistics, manage members, and configure task boards with convenient tables and charts."
+      }
+    }
+  },
+  "pricing": {
+    "section": "Pricing",
+    "title": "Choose the Right Plan",
+    "subtitle": "Select the perfect plan for your team and start working on your projects today",
+    "free": "Free",
+    "plans": {
+      "cloud": {
+        "title": "Cloud Solution",
+        "description": "Perfect for small teams",
+        "cta": "Get Started Now",
+        "features": {
+          "members": "Unlimited team members",
+          "projects": "Unlimited projects",
+          "storage": "Up to 1GB of storage",
+          "support": "Email and Telegram support"
+        }
+      },
+      "self-hosted": {
+        "title": "Self-Hosted",
+        "description": "For teams preferring full control",
+        "cta": "Learn More",
+        "features": {
+          "members": "Unlimited team members",
+          "projects": "Unlimited projects",
+          "storage": "Unlimited storage",
+          "support": "Email and Telegram support",
+          "infrastructure": "Your infrastructure, all data stays with you"
+        }
+      },
+      "enterprise": {
+        "title": "Enterprise",
+        "description": "For complex organizational needs",
+        "price": "Custom pricing",
+        "cta": "Contact Us",
+        "features": {
+          "members": "Unlimited team members",
+          "projects": "Unlimited projects",
+          "storage": "Unlimited storage",
+          "support": "Dedicated email and Telegram support",
+          "infrastructure": "Dedicated infrastructure with backups exclusively for you",
+          "develop": "Custom add-ons and integrations as needed"
+        }
+      }
+    }
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "questions": {
+      "projectly": {
+        "question": "What is Projectly.ru and what is it for?",
+        "answer": "Projectly.ru is a powerful project management app with Kanban boards, task tracking, and analytics. It helps teams plan, monitor progress, and successfully complete projects."
+      },
+      "free": {
+        "question": "Is there a free version of Projectly?",
+        "answer": "Yes, we offer a free plan that includes basic features like task management and Kanban boards."
+      },
+      "how_to_start": {
+        "question": "How do I start using Projectly?",
+        "answer": "Sign up on our website and create your first Kanban board. You can start for free and set up your project in just a few minutes."
+      },
+      "integration": {
+        "question": "Can Projectly be integrated with other tools?",
+        "answer": "Yes, our Self-Hosted and Enterprise plans offer API access for integration with other systems like Slack, Trello, or Jira upon request."
+      },
+      "security": {
+        "question": "How secure are our project data?",
+        "answer": "We use modern encryption methods and strict privacy policies. Your data is protected, and access is restricted to authorized users only."
+      },
+      "customization": {
+        "question": "Can I customize workflows?",
+        "answer": "Yes, Projectly allows you to create custom workflows tailored to your team’s unique processes."
+      },
+      "updates": {
+        "question": "How often is the platform updated?",
+        "answer": "We regularly update Projectly, adding new features, improving performance, and fixing bugs based on user feedback. Follow our Telegram channel for the latest news."
+      }
+    }
+  },
+  "contact": {
+    "title": "Have Questions?",
+    "subtitle": "Contact us, and we’ll get back to you shortly",
+    "email": "Your email address",
+    "message": "Your message",
+    "button": "Send Message",
+    "success": "Thank you for reaching out! We’ll get back to you shortly."
+  },
+  "header": {
+    "ru": "Ru",
+    "en": "En",
+    "login": "Login",
+    "register": "Register",
+    "nav": {
+      "home": "Home",
+      "features": "Features",
+      "how_it_works": "How It Works",
+      "demo": "Demo",
+      "pricing": "Pricing",
+      "faq": "FAQ"
+    }
+  },
+  "footer": {
+    "copyright": "© 2025 Projectly. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms_of_service": "Terms of Service",
+    "terms_of_use": "Terms of Use",
+    "disclaimer": "Disclaimer"
+  }
+}

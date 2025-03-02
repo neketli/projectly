@@ -1,0 +1,34 @@
+{
+  "name": "projectly",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --fix"
+  },
+  "dependencies": {
+    "@headlessui/vue": "^1.7.19",
+    "@iconify-json/line-md": "^1.2.5",
+    "@iconify-json/mdi": "^1.2.3",
+    "@nuxt/icon": "^1.10.3",
+    "@nuxtjs/i18n": "^9.2.1",
+    "@nuxtjs/robots": "^5.2.4",
+    "@nuxtjs/sitemap": "^7.2.6",
+    "@nuxtjs/tailwindcss": "^6.11.4",
+    "@splidejs/vue-splide": "^0.6.12",
+    "nuxt": "^3.13.0",
+    "yandex-metrika-module-nuxt3": "^1.5.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.21.0",
+    "@nuxt/eslint": "^1.1.0",
+    "@nuxt/eslint-config": "^1.1.0",
+    "@stylistic/eslint-plugin": "^4.1.0",
+    "eslint": "^9.21.0",
+    "eslint-plugin-vue": "^9.32.0"
+  }
+}

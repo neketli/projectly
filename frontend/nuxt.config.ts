@@ -7,8 +7,6 @@ export default defineNuxtConfig({
         '@nuxt/eslint',
         '@pinia/nuxt',
         '@pinia-plugin-persistedstate/nuxt',
-        '@nuxtjs/sitemap',
-        '@nuxtjs/robots',
         '@nuxtjs/color-mode',
         '@nuxtjs/tailwindcss',
         '@nuxtjs/i18n',
@@ -54,6 +52,7 @@ export default defineNuxtConfig({
             },
         },
     },
+    baseUrl: process.env.NUXT_APP_BASE_URL,
 
     elementPlus: {
         importStyle: 'css',

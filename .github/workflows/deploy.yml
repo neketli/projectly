@@ -60,6 +60,7 @@ jobs:
           NUXT_PUBLIC_API_HOST: https://projectly.ru
           NUXT_PUBLIC_S3_HOST: https://projectly.ru
           NUXT_PUBLIC_SITE_URL: projectly.ru
+          NUXT_APP_BASE_URL: "/my/"
         with:
           name: neketli/projectly-frontend
           registry: ghcr.io
@@ -69,6 +70,25 @@ jobs:
           context: ./frontend
           tags: latest
           buildargs: NUXT_PUBLIC_API_HOST,NUXT_PUBLIC_S3_HOST,NUXT_PUBLIC_SITE_URL
+
+  build_landing:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build and Publish to Github Container Registry
+        uses: elgohr/Publish-Docker-Github-Action@master
+        env:
+          NUXT_YM_ID: 100137750
+        with:
+          name: neketli/projectly-frontend
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          dockerfile: ./landing/Dockerfile
+          context: ./landing
+          tags: latest
+          buildargs: NUXT_YM_ID
 
   build_backend:
     needs: [lint_backend]
