@@ -53,7 +53,6 @@ func (r taskRepo) GetTasks(ctx context.Context, params *entity.TaskDetailedParam
 		Join("status s ON s.id = t.status_id").
 		Join("board b ON b.id = s.board_id").
 		Join("project p ON p.id = b.project_id").
-		Join("team_user tu ON tu.team_id = p.team_id").
 		LeftJoin("users cu ON cu.id = t.created_user_id").
 		LeftJoin("users au ON au.id = t.assigned_user_id")
 
