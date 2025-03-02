@@ -63,8 +63,8 @@ services:
     image: ghcr.io/neketli/projectly-frontend:latest
     container_name: projectly_frontend
     hostname: projectly_frontend
-    expose:
-      - "80"
+    ports:
+      - "3000:3000"
     restart: always
     depends_on:
       - backend
