@@ -81,7 +81,7 @@ jobs:
         env:
           NUXT_YM_ID: 100137750
         with:
-          name: neketli/projectly-frontend
+          name: neketli/projectly-landing
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
