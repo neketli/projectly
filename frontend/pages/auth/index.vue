@@ -18,17 +18,16 @@ onMounted(() => {
     if (typeof access === 'string' && typeof refresh === 'string') {
         window.history.replaceState({}, document.title, '/')
         authStore.authSuccess({ access, refresh })
-        navigateTo('/', { external: true })
+        navigateTo('/')
     }
     else {
-        navigateTo('/auth/login', { external: true })
+        navigateTo('/auth/login')
     }
 })
 </script>
 
 <template>
     <div>
-        {{ authStore.isLogged }}
-        {{ authStore }}
+        {{ t('auth.title') }}
     </div>
 </template>

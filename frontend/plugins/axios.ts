@@ -50,7 +50,8 @@ export default defineNuxtPlugin(({ $config }) => {
             if (userStore.accessToken && error.response.status === 401) {
                 error.config.headers.Authorization = ''
                 userStore.logout()
-                navigateTo('/auth/login', { external: true })
+
+                navigateTo(`${$config.app.baseURL}auth/login`, { external: true })
             }
 
             return Promise.reject(error)

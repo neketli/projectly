@@ -222,7 +222,7 @@ const register = async () => {
             email: authForm.value.email,
             password: authForm.value.password,
         })
-        navigateTo('/', { external: true })
+        navigateTo('/')
     }
     catch (err) {
         const error = err as Error
