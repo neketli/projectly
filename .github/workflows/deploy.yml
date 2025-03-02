@@ -69,7 +69,7 @@ jobs:
           dockerfile: ./frontend/Dockerfile
           context: ./frontend
           tags: latest
-          buildargs: NUXT_PUBLIC_API_HOST,NUXT_PUBLIC_S3_HOST,NUXT_PUBLIC_SITE_URL
+          buildargs: NUXT_PUBLIC_API_HOST,NUXT_PUBLIC_S3_HOST,NUXT_PUBLIC_SITE_URL,NUXT_APP_BASE_URL
 
   build_landing:
     runs-on: ubuntu-latest

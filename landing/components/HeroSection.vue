@@ -24,7 +24,7 @@
                         <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                             <div class="rounded-md shadow">
                                 <a
-                                    href="https://app.projectly.ru/auth/register"
+                                    href="https://projectly.ru/my/auth/register"
                                     class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 md:py-4 md:text-lg md:px-10"
                                 >
                                     {{ $t('hero.button') }}

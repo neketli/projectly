@@ -12,5 +12,5 @@ FROM nginx:alpine
 COPY frontend.nginx.conf /etc/nginx/nginx.conf
 COPY --from=build /app/.output/public /usr/share/nginx/html
 
-EXPOSE 81
+EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

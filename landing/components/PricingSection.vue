@@ -70,7 +70,7 @@ const { t } = useI18n()
 const tiers = computed(() => [
     {
         name: t('pricing.plans.cloud.title'),
-        href: 'https://app.projectly.ru/auth/register',
+        href: 'https://projectly.ru/my/auth/register',
         description: t('pricing.plans.cloud.description'),
         price: t('pricing.free'),
         features: [

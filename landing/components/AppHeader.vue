@@ -55,13 +55,13 @@
                 </div>
                 <div class="ml-4 space-x-4">
                     <a
-                        href="https://app.projectly.ru/auth/login"
+                        href="https://projectly.ru/my/auth/login"
                         class="inline-block bg-white py-2 px-4 border border-transparent rounded-md text-base font-medium text-primary-600 hover:bg-gray-50"
                     >
                         {{ $t('header.login') }}
                     </a>
                     <a
-                        href="https://app.projectly.ru/auth/register"
+                        href="https://projectly.ru/my/auth/register"
 
                         class="inline-block bg-primary-600 py-2 px-4 border border-transparent rounded-md text-base font-medium text-white hover:bg-primary-700"
                     >
