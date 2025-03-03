@@ -74,6 +74,8 @@
                 @cancel="handleCancel"
             />
         </ElCard>
+
+        <UserTerms class="mt-4 mx-auto max-w-xl" />
     </div>
 </template>
 

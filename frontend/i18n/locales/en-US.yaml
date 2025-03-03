@@ -32,6 +32,12 @@ error:
     not_found: "Page not found"
     back: "Return to the main page"
 
+footer:
+  copyright: "© {year} Projectly. All rights reserved."
+  privacy: "Privacy Policy"
+  terms_of_service: "Terms of Service"
+  terms_of_use: "Terms of Use"
+  disclaimer: "Disclaimer"
 
 auth:
   title: "User authentication"

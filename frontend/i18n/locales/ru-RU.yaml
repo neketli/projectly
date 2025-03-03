@@ -32,6 +32,13 @@ error:
     not_found: "Страница не найдена"
     back: "Вернуться на главную страницу"
 
+footer:
+  copyright: "© {year} Projectly. Все права защищены."
+  privacy: "Политика конфиденциальности"
+  terms_of_service: "Пользовательское соглашение"
+  terms_of_use: "Правила пользования"
+  disclaimer: "Отказ от ответственности"
+
 auth:
   title: "Аутентификация пользователя"
   terms: 'Нажимая кнопку "{type}", вы соглашаетесь с <a class="auth-link" href="{terms}" target="_blank">условиями использования сервисом</a> и <a class="auth-link" href="{privacy}" target="_blank">политикой конфиденциальности</a>'

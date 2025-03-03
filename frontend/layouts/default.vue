@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen">
+    <div class="min-h-screen flex flex-col">
         <LayoutHeader />
 
         <div class="h-full text-grey-400 ">
@@ -14,5 +14,6 @@
                 </ElScrollbar>
             </div>
         </div>
+        <LayoutFooter />
     </div>
 </template>
