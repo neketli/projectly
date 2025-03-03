@@ -21,6 +21,7 @@ import (
 	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
 	"github.com/markbates/goth"
+	"github.com/markbates/goth/providers/github"
 	"github.com/markbates/goth/providers/google"
 )
 
@@ -56,6 +57,12 @@ func Run(cfg *config.Config) {
 			cfg.Auth.GoogleAuthProvider.ClientID,
 			cfg.Auth.GoogleAuthProvider.ClientSecret,
 			cfg.Auth.GoogleAuthProvider.CallbackUrl,
+			"email", "profile",
+		),
+		github.New(
+			cfg.Auth.GithubAuthProvider.ClientID,
+			cfg.Auth.GithubAuthProvider.ClientSecret,
+			cfg.Auth.GithubAuthProvider.CallbackUrl,
 			"email", "profile",
 		),
 	)

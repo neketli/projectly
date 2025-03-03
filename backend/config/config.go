@@ -54,6 +54,11 @@ type (
 			ClientSecret string `env-default:"" env:"AUTH_GOOGLE_CLIENT_SECRET"`
 			CallbackUrl  string `env-default:"" env:"AUTH_GOOGLE_CALLBACK_URL"`
 		} `env-required:"false"`
+		GithubAuthProvider struct {
+			ClientID     string `env-default:"" env:"AUTH_GITHUB_CLIENT_ID"`
+			ClientSecret string `env-default:"" env:"AUTH_GITHUB_CLIENT_SECRET"`
+			CallbackUrl  string `env-default:"" env:"AUTH_GITHUB_CALLBACK_URL"`
+		} `env-required:"false"`
 	}
 )
 
