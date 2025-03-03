@@ -38,7 +38,8 @@
     "vue": "^3.5.12",
     "vue-echarts": "^7.0.3",
     "vue-router": "^4.4.5",
-    "vuedraggable": "^4.1.0"
+    "vuedraggable": "^4.1.0",
+    "yandex-metrika-module-nuxt3": "^1.5.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",

@@ -120,4 +120,13 @@ export default defineNuxtConfig({
         storage: 'localStorage',
     },
 
+    yandexMetrika: {
+        id: 100137750,
+        debug: process.env.NODE_ENV !== 'production',
+        clickmap: true,
+        trackLinks: true,
+        accurateTrackBounce: true,
+        webvisor: true,
+        consoleLog: false,
+    },
 })
