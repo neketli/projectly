@@ -173,7 +173,7 @@
     }
   },
   "footer": {
-    "copyright": "© 2025 Projectly. All rights reserved.",
+    "copyright": "© {year} Projectly. All rights reserved.",
     "privacy": "Privacy Policy",
     "terms_of_service": "Terms of Service",
     "terms_of_use": "Terms of Use",

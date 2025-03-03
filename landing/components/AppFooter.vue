@@ -17,7 +17,7 @@
                 </a>
             </div>
             <p class="mt-4 text-center text-base text-gray-400">
-                {{ $t('footer.copyright') }}
+                {{ $t('footer.copyright', { year: new Date().getFullYear() }) }}
             </p>
 
             <div class="mt-6 flex gap-4 flex-wrap justify-center items-center">
