@@ -19,14 +19,11 @@
 
         <div class="h-full text-grey-400 ">
             <div class="h-full w-full flex gap-4">
-                <ElScrollbar
-                    max-height="92vh"
-                    class="w-full"
-                >
-                    <slot />
-                </ElScrollbar>
+                <slot />
             </div>
         </div>
+
+        <LayoutFooter />
     </div>
 </template>
 

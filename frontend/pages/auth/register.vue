@@ -1,6 +1,6 @@
 <template>
     <section
-        class="w-full min-h-[92vh] flex flex-col gap-8 justify-center items-center bg-sky-50 dark:bg-slate-900 px-4"
+        class="w-full min-h-[88vh] flex flex-col gap-8 justify-center items-center bg-sky-50 dark:bg-slate-900 px-4"
     >
         <ElForm
             ref="formElement"
