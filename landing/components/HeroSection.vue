@@ -15,17 +15,17 @@
                 <div class="pt-10 mx-auto max-w-7xl px-4 sm:pt-12 sm:px-6 md:pt-16 lg:pt-20 lg:px-8 xl:pt-28">
                     <div class="sm:text-center lg:text-left">
                         <h1
-                            class="text-4xl tracking-tight font-extrabold text-gray-900 md:text-5xl"
+                            class="text-4xl tracking-tight font-extrabold text-gray-900 md:text-5xl drop-shadow"
                             v-html=" $t('hero.title')"
                         />
                         <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
                             {{ $t('hero.subtitle') }}
                         </p>
                         <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-                            <div class="rounded-md shadow">
+                            <div class="rounded-md shadow-md">
                                 <a
                                     href="https://projectly.ru/my/auth/register"
-                                    class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 md:py-4 md:text-lg md:px-10"
+                                    class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 md:py-4 md:text-lg md:px-10 transition-all"
                                 >
                                     {{ $t('hero.button') }}
                                 </a>
@@ -43,7 +43,6 @@
                     muted
                     playsinline
                 >
-
                     <img
                         class="h-96 w-full lg:w-full lg:h-full"
                         src="@/assets/hero.jpg"

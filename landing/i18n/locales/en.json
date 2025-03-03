@@ -32,6 +32,10 @@
       "analytics": {
         "title": "Analytics and Reporting",
         "description": "Gain deeper insights into your project’s status with detailed analytical reports and charts."
+      },
+      "local": {
+        "title": "Locally Developed",
+        "description": "We protect your data and minimize external risks by being technologically independent, thanks to our local development in Russia."
       }
     }
   },

@@ -16,10 +16,10 @@
                         v-slot="{ open }"
                         :default-open="index === 0"
                         as="dt"
-                        class="py-4 border-b border-gray-200"
+                        class="border-b rounded border-gray-200 "
                     >
                         <DisclosureButton
-                            class="text-left w-full flex justify-between items-start text-gray-400"
+                            class="p-4 text-left w-full flex justify-between items-start text-gray-400 transition-all hover:bg-gray-100 rounded"
                         >
                             <span class="font-medium text-gray-900">{{ faq.question }}</span>
                             <span class="ml-6 h-7 flex items-center">
@@ -34,7 +34,7 @@
                             :show="open"
                             :unmount="false"
                             as="dd"
-                            class="mt-2 pr-12"
+                            class="p-4 pt-2 pr-12"
                             enter="transition ease-in-out duration-200 transform opacity-0"
                             enter-from="-translate-y-[10px] opacity-0"
                             enter-to="translate-y-0 opacity-100"

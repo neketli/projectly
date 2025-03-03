@@ -20,6 +20,8 @@
                 <span class="text-white text-lg">{{ $t('contact.email') }}</span>
                 <input
                     v-model="email"
+                    required
+                    placeholder="example@domain.org"
                     class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
                     type="email"
                 >
@@ -33,7 +35,7 @@
             </label>
             <div class="w-full flex flex-col justify-center items-center">
                 <button
-                    class="bg-white px-4 py-2 mx-auto rounded-md shadow-sm text-primary-600 text-lg font-medium focus:outline-none focus:ring-2 focus:ring-white"
+                    class="bg-white px-4 py-2 mx-auto rounded-md shadow-sm text-primary-600 text-lg font-medium focus:outline-none focus:ring-2 focus:ring-white hover:shadow-lg transition-all"
                     type="submit"
                 >
                     {{ $t('contact.button') }}

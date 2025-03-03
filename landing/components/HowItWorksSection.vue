@@ -5,38 +5,93 @@
     >
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center">
-                <h2 class="text-base font-semibold text-primary-600 tracking-wide uppercase">
-                    {{ $t('how_it_works.section') }}
+                <h2
+                    class="text-base font-semibold text-primary-600 tracking-wide uppercase"
+                >
+                    {{ $t("how_it_works.section") }}
                 </h2>
-                <h3 class="mt-1 text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight">
-                    {{ $t('how_it_works.title') }}
+                <h3
+                    class="mt-1 text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight"
+                >
+                    {{ $t("how_it_works.title") }}
                 </h3>
                 <p class="max-w-xl mt-5 mx-auto text-xl text-gray-500">
-                    {{ $t('how_it_works.subtitle') }}
+                    {{ $t("how_it_works.subtitle") }}
                 </p>
             </div>
 
             <div class="mt-16">
-                <div class="space-y-12 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-x-8">
-                    <div
-                        v-for="(_, index) in 3"
-                        :key="index"
-                        class="relative"
+                <div
+                    ref="steps"
+                    class="space-y-12 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-x-8 "
+                >
+                    <TransitionGroup
+                        enter-active-class="transition ease-out duration-500"
+                        enter-from-class="transform opacity-0 scale-95 translate-y-20"
+                        enter-to-class="transform opacity-100 scale-100 translate-y-0"
                     >
-                        <div class="relative pb-12 lg:pb-0">
-                            <div class="relative flex items-center justify-center h-12 w-12 rounded-md bg-primary-500 text-white mx-auto">
-                                {{ index + 1 }}
+                        <div
+                            v-for="(_, index) in 3"
+                            :key="index + stepBlocks[index]"
+                            class="relative"
+                        >
+                            <div
+                                v-show="stepBlocks[index]"
+                                class="relative "
+                            >
+                                <div
+                                    class="relative flex items-center justify-center h-12 w-12 rounded-md bg-primary-500 text-white mx-auto shadow-md"
+                                >
+                                    {{ index + 1 }}
+                                </div>
+                                <h4 class="mt-6 text-lg font-medium text-gray-900 text-center">
+                                    {{ $t(`how_it_works.steps.${index + 1}.title`) }}
+                                </h4>
+                                <p class="mt-2 text-base text-gray-500 text-center">
+                                    {{ $t(`how_it_works.steps.${index + 1}.description`) }}
+                                </p>
                             </div>
-                            <h4 class="mt-6 text-lg font-medium text-gray-900 text-center">
-                                {{ $t(`how_it_works.steps.${index+1}.title`) }}
-                            </h4>
-                            <p class="mt-2 text-base text-gray-500 text-center">
-                                {{ $t(`how_it_works.steps.${index+1}.description`) }}
-                            </p>
                         </div>
-                    </div>
+                    </TransitionGroup>
                 </div>
             </div>
         </div>
     </section>
 </template>
+
+<script setup>
+import { onMounted, ref } from 'vue'
+
+const steps = ref(null)
+const stepBlocks = ref([false, false, false])
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+const animationCallback = async () => {
+    stepBlocks.value[0] = true
+    await sleep(300)
+    stepBlocks.value[1] = true
+    await sleep(300)
+    stepBlocks.value[2] = true
+}
+
+onMounted(() => {
+    const observer = new IntersectionObserver(
+        (entries, observer) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    animationCallback()
+                    observer.unobserve(entry.target)
+                }
+            })
+        },
+        {
+            threshold: 0.2,
+        },
+    )
+
+    observer.observe(steps.value)
+})
+</script>

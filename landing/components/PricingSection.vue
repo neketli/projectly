@@ -35,7 +35,7 @@
 
                         <a
                             :href="tier.href"
-                            class="mt-6 block w-full bg-primary-600 border border-transparent rounded-md py-2 text-sm font-semibold text-white text-center hover:bg-primary-700"
+                            class="mt-6 block w-full bg-primary-600 border border-transparent rounded-md py-2 text-sm font-semibold text-white text-center hover:bg-primary-700 transition-all"
                         >
                             {{ tier.cta }}
                         </a>
