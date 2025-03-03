@@ -1,6 +1,6 @@
 <template>
     <section
-        class="w-full min-h-[92vh] flex flex-col gap-8 justify-center bg-sky-50 dark:bg-slate-900 items-center px-4"
+        class="w-full min-h-[88vh] flex flex-col gap-8 justify-center bg-sky-50 dark:bg-slate-900 items-center px-4"
     >
         <ElForm
             ref="formElement"
@@ -86,13 +86,25 @@
             <ElButton
                 class="w-full"
                 tag="a"
-                :href="googleAuthUrl"
+                :href="authLinks.google"
             >
                 <Icon
                     class="mr-2"
                     name="mdi:google"
                 />
                 {{ $t('auth.login.form.with_google') }}
+            </ElButton>
+
+            <ElButton
+                class="w-full !ml-0 mt-4"
+                tag="a"
+                :href="authLinks.github"
+            >
+                <Icon
+                    class="mr-2"
+                    name="mdi:github"
+                />
+                {{ $t('auth.login.form.with_github') }}
             </ElButton>
 
             <ElAlert
@@ -148,7 +160,14 @@ const rules = reactive<FormRules<{ email: string, password: string }>>({
     ],
 })
 
-const googleAuthUrl = computed(() => `${config.public.API_HOST}/api/v1/auth/google`)
+const authLinks = computed(() => {
+    const BASE_URL = `${config.public.API_HOST}/api/v1/auth`
+
+    return {
+        google: `${BASE_URL}/google`,
+        github: `${BASE_URL}/github`,
+    }
+})
 const termsLinks = computed(() => {
     const baseUrl = `${config.public.S3_HOST}/media/documents`
     const shortLocale = locale.value.split('-')[0]

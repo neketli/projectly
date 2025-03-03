@@ -64,6 +64,7 @@ auth:
       register: "Registration"
       or: "or"
       with_google: "Login with Google"
+      with_github: "Login with Github"
 
 profile:
   title: "Profile"

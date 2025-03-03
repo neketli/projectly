@@ -19,25 +19,27 @@
 
 <script lang="ts" setup>
 const { t, locale } = useI18n()
+const config = useRuntimeConfig()
 
-const BASE_URL = `https://projectly.ru/media/documents`
+const baseUrl = `${config.public.S3_HOST}/media/documents`
+
 const shortLocale = computed(() => locale.value.split('-')[0])
 const documents = computed(() => [
     {
         name: t('footer.privacy'),
-        href: `${BASE_URL}/privacy_policy(${shortLocale.value}).pdf`,
+        href: `${baseUrl}/privacy_policy(${shortLocale.value}).pdf`,
     },
     {
         name: t('footer.terms_of_service'),
-        href: `${BASE_URL}/terms_of_service(${shortLocale.value}).pdf`,
+        href: `${baseUrl}/terms_of_service(${shortLocale.value}).pdf`,
     },
     {
         name: t('footer.terms_of_use'),
-        href: `${BASE_URL}/terms_of_use(${shortLocale.value}).pdf`,
+        href: `${baseUrl}/terms_of_use(${shortLocale.value}).pdf`,
     },
     {
         name: t('footer.disclaimer'),
-        href: `${BASE_URL}/disclaimer(${shortLocale.value}).pdf`,
+        href: `${baseUrl}/disclaimer(${shortLocale.value}).pdf`,
     },
 ])
 </script>
