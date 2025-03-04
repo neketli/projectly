@@ -63,6 +63,7 @@ func Run(cfg *config.Config) {
 			cfg.Auth.GithubAuthProvider.ClientID,
 			cfg.Auth.GithubAuthProvider.ClientSecret,
 			cfg.Auth.GithubAuthProvider.CallbackUrl,
+			"user", "user:email",
 		),
 	)
 
