@@ -8,6 +8,7 @@ useHead({
         { property: 'og:description', content: 'Projectly помогает командам эффективно планировать, отслеживать и завершать проекты с помощью Kanban-досок.' },
         { property: 'og:image', content: 'https://projectly.ru/media/og-image.jpg' },
         { property: 'og:url', content: 'https://projectly.ru' },
+        { name: 'yandex-verification', content: '27f59918e45e4cc0' },
     ],
     link: [
         { rel: 'canonical', href: 'https://projectly.ru' },
