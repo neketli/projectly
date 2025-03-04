@@ -113,6 +113,7 @@
             :title="$t('team.update.title')"
             align-center
             destroy-on-close
+            class="max-md:!w-2/3"
         >
             <TeamForm
                 :team="team"

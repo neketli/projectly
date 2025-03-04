@@ -60,17 +60,12 @@
             :description="$t('project.empty')"
         />
 
-        <!-- <BoardList
-            v-if="project.id"
-            :project-id="project.id"
-            class="mt-8 max-w-lg mx-auto"
-        /> -->
-
         <ElDialog
             v-model="dialog.project"
             :title="$t('project.update.title')"
             align-center
             destroy-on-close
+            class="max-md:!w-3/4"
         >
             <ProjectForm
                 :project="project"

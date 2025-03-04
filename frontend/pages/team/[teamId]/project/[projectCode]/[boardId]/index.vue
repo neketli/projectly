@@ -69,6 +69,7 @@
             :title="$t('board.update.title')"
             align-center
             destroy-on-close
+            class="max-md:!w-2/3"
         >
             <BoardForm
                 :board="board"

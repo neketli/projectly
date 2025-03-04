@@ -156,7 +156,7 @@
             :title="$t('status.delete.confirm')"
             align-center
             destroy-on-close
-            class="!w-1/2 md:!w-1/3"
+            class="max-md:!w-3/4"
         >
             <ElButton
                 @click="dialog.delete = false"
@@ -176,6 +176,7 @@
             :title="$t('task.create.title')"
             align-center
             destroy-on-close
+            class="max-md:!w-full max-md:!m-4 max-md:!h-full"
         >
             <TaskForm
                 :status-id="status.id"

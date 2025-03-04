@@ -55,6 +55,7 @@
             :title="$t('project.create.title')"
             align-center
             destroy-on-close
+            class="max-md:!w-3/4"
         >
             <ProjectForm
                 :team-id="teamId"

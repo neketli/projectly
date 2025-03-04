@@ -216,6 +216,7 @@
             :title="$t('task.update.title')"
             align-center
             destroy-on-close
+            class="max-md:!w-full max-md:!m-4 max-md:!h-full"
         >
             <TaskForm
                 :task="task"

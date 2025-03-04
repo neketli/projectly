@@ -41,6 +41,7 @@
             :title="$t('user.teams.dialog.title')"
             align-center
             destroy-on-close
+            class="max-md:!w-2/3"
         >
             <TeamForm
                 @success="handleTeamCreated"

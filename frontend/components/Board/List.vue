@@ -91,6 +91,7 @@
             :title="$t('board.create.title')"
             align-center
             destroy-on-close
+            class="max-md:!w-4/5"
         >
             <BoardForm
                 :project-id="projectId"
