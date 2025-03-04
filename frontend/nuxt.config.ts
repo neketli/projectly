@@ -14,6 +14,7 @@ export default defineNuxtConfig({
         '@formkit/auto-animate',
         '@vueuse/nuxt',
         'nuxt-svgo',
+        'yandex-metrika-module-nuxt3',
     ],
     ssr: false,
 
