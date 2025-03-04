@@ -24,7 +24,7 @@
                         <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                             <div class="rounded-md shadow-md">
                                 <a
-                                    href="https://projectly.ru/my/auth/register"
+                                    href="#pricing"
                                     class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 md:py-4 md:text-lg md:px-10 transition-all"
                                 >
                                     {{ $t('hero.button') }}
@@ -35,21 +35,28 @@
                 </div>
             </div>
             <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-                <video
-                    class="h-96 w-full lg:w-full lg:h-full"
-                    src="@/assets/hero.webm"
-                    autoplay
-                    loop
-                    muted
-                    playsinline
+                <img
+                    class="h-96 mx-auto object-cover lg:h-full animate-fly"
+                    src="@/assets/hero.jpg"
+                    alt="Projectly banner"
                 >
-                    <img
-                        class="h-96 w-full lg:w-full lg:h-full"
-                        src="@/assets/hero.jpg"
-                        alt="Projectly"
-                    >
-                </video>
             </div>
         </div>
     </section>
 </template>
+
+<style>
+@keyframes fly {
+    0%, 100% {
+        transform: translateY(-3%);
+        animation-timing-function: cubic-bezier(0.8,0,1,1);
+    }
+    50% {
+        transform: none;
+        animation-timing-function: cubic-bezier(0,0,0.2,1);
+    }
+}
+.animate-fly {
+    animation: fly 5s infinite;
+}
+</style>

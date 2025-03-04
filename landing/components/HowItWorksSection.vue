@@ -23,17 +23,16 @@
             <div class="mt-16">
                 <div
                     ref="steps"
-                    class="space-y-12 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-x-8 "
+                    class="grid grid-cols-1 gap-12 lg:grid-cols-3 lg:gap-8 min-h-[180px]"
                 >
                     <TransitionGroup
                         enter-active-class="transition ease-out duration-500"
                         enter-from-class="transform opacity-0 scale-95 translate-y-20"
                         enter-to-class="transform opacity-100 scale-100 translate-y-0"
                     >
-                        <div
+                        <template
                             v-for="(_, index) in 3"
                             :key="index + stepBlocks[index]"
-                            class="relative"
                         >
                             <div
                                 v-show="stepBlocks[index]"
@@ -51,7 +50,7 @@
                                     {{ $t(`how_it_works.steps.${index + 1}.description`) }}
                                 </p>
                             </div>
-                        </div>
+                        </template>
                     </TransitionGroup>
                 </div>
             </div>
