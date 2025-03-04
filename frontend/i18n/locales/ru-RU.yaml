@@ -65,7 +65,7 @@ auth:
       register: "Регистрация"
       or: "или"
       with_google: "Войти с Google"
-      with_github: "Войти с Github"
+      with_yandex: "Продолжить с Яндекс"
 
 
 profile:

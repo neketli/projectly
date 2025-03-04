@@ -90,7 +90,7 @@
             >
                 <Icon
                     class="mr-2"
-                    name="mdi:google"
+                    name="fa-brands:google"
                 />
                 {{ $t('auth.login.form.with_google') }}
             </ElButton>
@@ -98,13 +98,13 @@
             <ElButton
                 class="w-full !ml-0 mt-4"
                 tag="a"
-                :href="authLinks.github"
+                :href="authLinks.yandex"
             >
                 <Icon
                     class="mr-2"
-                    name="mdi:github"
+                    name="fa-brands:yandex"
                 />
-                {{ $t('auth.login.form.with_github') }}
+                {{ $t('auth.login.form.with_yandex') }}
             </ElButton>
 
             <ElAlert
@@ -165,7 +165,7 @@ const authLinks = computed(() => {
 
     return {
         google: `${BASE_URL}/google`,
-        github: `${BASE_URL}/github`,
+        yandex: `${BASE_URL}/yandex`,
     }
 })
 const termsLinks = computed(() => {

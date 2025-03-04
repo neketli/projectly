@@ -90,7 +90,7 @@ func (h *UserHandler) OauthCallback(c echo.Context) error {
 		}
 	}
 
-	redirectUrl := fmt.Sprintf("/auth?access=%s&refresh=%s", accessToken, refreshToken)
+	redirectUrl := fmt.Sprintf("/my/auth?access=%s&refresh=%s", accessToken, refreshToken)
 
 	return c.Redirect(http.StatusTemporaryRedirect, redirectUrl)
 }
