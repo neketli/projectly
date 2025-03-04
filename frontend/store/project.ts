@@ -1,10 +1,12 @@
 import { defineStore } from 'pinia'
+import type { Board } from '~/types/board'
 import type { Project } from '~/types/project'
 import { UserRole } from '~/types/user'
 
 export const useProjectStore = defineStore('projectly-project', {
     state: () => ({
         project: {} as Project,
+        boardList: [] as Board[],
     }),
     getters: {
         isDeleteAvailable(): boolean {

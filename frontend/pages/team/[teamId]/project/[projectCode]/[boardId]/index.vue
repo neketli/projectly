@@ -9,7 +9,7 @@
 
             <template #title>
                 <h3>
-                    {{ $t('project.title') }}
+                    {{ $t('project.overview') }}
                 </h3>
             </template>
 
@@ -91,7 +91,7 @@ useHead({
 })
 
 definePageMeta({
-    layout: 'team',
+    layout: 'project',
 })
 
 const projectStore = useProjectStore()
@@ -110,6 +110,7 @@ const isLoading = ref(false)
 
 const handleBoardUpdated = (updated: Board) => {
     board.value = updated
+    projectStore.boardList = projectStore.boardList.map(item => item.id === Number(boardId) ? updated : item)
     dialog.board = false
 }
 

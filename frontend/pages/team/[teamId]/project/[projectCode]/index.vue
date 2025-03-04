@@ -3,7 +3,7 @@
         <ElPageHeader @back="navigateTo(`/team/${teamId}`)">
             <template #content>
                 <h1 class="text-2xl">
-                    {{ $t('project.title') }}
+                    {{ $t('project.overview') }}
                 </h1>
             </template>
 
@@ -55,11 +55,16 @@
             {{ project.description }}
         </p>
 
-        <BoardList
+        <ElEmpty
+            class="w-full"
+            :description="$t('project.empty')"
+        />
+
+        <!-- <BoardList
             v-if="project.id"
             :project-id="project.id"
             class="mt-8 max-w-lg mx-auto"
-        />
+        /> -->
 
         <ElDialog
             v-model="dialog.project"
@@ -88,7 +93,7 @@ useHead({
 })
 
 definePageMeta({
-    layout: 'team',
+    layout: 'project',
 })
 
 const projectStore = useProjectStore()

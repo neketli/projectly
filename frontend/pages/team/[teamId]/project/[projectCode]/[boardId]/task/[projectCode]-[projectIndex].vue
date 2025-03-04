@@ -244,7 +244,7 @@ useHead({
 })
 
 definePageMeta({
-    layout: 'team',
+    layout: 'project',
 })
 
 const teamStore = useTeamStore()
