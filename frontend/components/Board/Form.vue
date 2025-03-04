@@ -13,15 +13,27 @@
             :key="item.value"
             :label="item.label"
             :prop="item.value"
-
             class="w-full"
         >
+            <template #label>
+                {{ item.label }}
+                <ElTooltip v-if="item.tooltip">
+                    <template #content>
+                        {{ item.tooltip }}
+                    </template>
+                    <Icon name="mdi:help-circle-outline" />
+                </ElTooltip>
+            </template>
             <ElInput
                 v-model="form[item.value]"
                 :disabled="item.isDisabled"
             >
                 <template #prefix>
                     <Icon :name="item.icon" />
+                </template>
+
+                <template #suffix>
+                    <UiEmojiPicker @select="handleSelectEmoji" />
                 </template>
             </ElInput>
         </ElFormItem>
@@ -90,14 +102,20 @@ const items: ComputedRef<{
     label: string
     value: keyof typeof form.value
     icon: string
+    tooltip: string
     isDisabled?: boolean
 }[]> = computed(() => [
     {
         label: t('board.form.title'),
         value: 'title',
         icon: 'mdi:label',
+        tooltip: t('board.form.tooltip'),
     },
 ])
+
+const handleSelectEmoji = (emoji: string) => {
+    form.value.title += emoji
+}
 
 const handleSaveBoard = async () => {
     if (!formElement.value) {

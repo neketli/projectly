@@ -4,7 +4,7 @@
 
         <div class="h-full text-grey-400 ">
             <div class="h-full w-full flex gap-4">
-                <aside class="hidden md:block">
+                <aside class="hidden lg:block">
                     <BoardMenu
                         v-if="projectStore.project.id"
                         :project-id="projectStore.project.id"
@@ -59,7 +59,7 @@
                             </ElBreadcrumb>
 
                             <ElButton
-                                class="md:!hidden"
+                                class="lg:!hidden"
                                 @click="handleToggleMenu"
                             >
                                 {{ $t('board.table.title') }}

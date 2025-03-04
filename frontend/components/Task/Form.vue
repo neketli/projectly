@@ -58,30 +58,34 @@
                     </ElTooltip>
                 </div>
             </template>
-            <ElMention
-                v-model="form.description"
-                :options="usersOptions"
-                type="textarea"
-                maxlength="4096"
-                resize="none"
-                prefix=":"
-                show-word-limit
-                :autosize="{
-                    minRows: 3,
-                    maxRows: 6,
-                }"
-                class="!w-full"
-            >
-                <template #label="{ item }">
-                    <div style="display: flex; align-items: center">
-                        <UserAvatar
-                            :size="24"
-                            :file-name="item.avatar"
-                        />
-                        <span style="margin-left: 6px">{{ item.label }}</span>
-                    </div>
-                </template>
-            </ElMention>
+            <div class="flex w-full gap-2">
+                <ElMention
+                    v-model="form.description"
+                    :options="usersOptions"
+                    type="textarea"
+                    maxlength="4096"
+                    resize="none"
+                    prefix=":"
+                    show-word-limit
+                    :autosize="{
+                        minRows: 3,
+                        maxRows: 6,
+                    }"
+                    class="!w-full"
+                >
+                    <template #label="{ item }">
+                        <div style="display: flex; align-items: center">
+                            <UserAvatar
+                                :size="24"
+                                :file-name="item.avatar"
+                            />
+                            <span style="margin-left: 6px">{{ item.label }}</span>
+                        </div>
+                    </template>
+                </ElMention>
+
+                <UiEmojiPicker @select="handleSelectEmoji" />
+            </div>
         </ElFormItem>
 
         <div class="w-full flex flex-wrap gap-8">
@@ -228,6 +232,10 @@ const priorityOptions = computed(() => {
         '⚡⚡⚡',
     ]
 })
+
+const handleSelectEmoji = (emoji: string) => {
+    form.value.description += emoji
+}
 
 const handleSaveProject = async () => {
     if (!formElement.value) {

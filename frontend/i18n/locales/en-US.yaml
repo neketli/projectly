@@ -178,6 +178,7 @@ board:
   form:
     title: "Title"
     setup: "Add default statuses to the board"
+    tooltip: "The icon in the board list is taken from the first character of the board which can be an emoji 😉"
   create:
     title: "Create Board"
   update:

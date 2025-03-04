@@ -3,7 +3,7 @@
         <ElMenu
             :collapse="isMenuCollapsed"
             :default-active="`${route.params.boardId}`"
-            class="!h-full max-md:!border-r-0 "
+            class="!h-full max-lg:!border-r-0 "
         >
             <div
                 v-if="!isMenuCollapsed"
@@ -64,7 +64,7 @@
             />
 
             <ElButton
-                class="w-full !hidden md:!block"
+                class="w-full !hidden lg:!block"
                 text
                 @click="handleCollapse"
             >
