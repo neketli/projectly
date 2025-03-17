@@ -1,0 +1,35 @@
+name: Renew SSL let's encrypt certificate on production server for projectly.ru
+
+permissions:
+  contents: read
+  checks: write
+  packages: write
+
+on:
+  schedule:
+    - cron: '0 0 1 * *'
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+
+jobs:
+  renew_certificate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy on VPS
+        uses: appleboy/ssh-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          host: ${{ secrets.HOST_NAME }}
+          username: ${{ secrets.HOST_USER }}
+          password: ${{ secrets.HOST_PASSWORD }}
+          key: ${{ secrets.HOST_KEY }}
+          envs: GITHUB_TOKEN
+          script: |
+            cd /opt/projectly
+            git pull origin main
+            docker compose run --rm certbot renew
