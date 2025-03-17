@@ -19,7 +19,7 @@ jobs:
   renew_certificate:
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy on VPS
+      - name: Renew certificate on VPS
         uses: appleboy/ssh-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
