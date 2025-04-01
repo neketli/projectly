@@ -3,7 +3,7 @@
         id="contact"
         class="bg-primary-700 py-16"
     >
-        <div class="max-w-2xl mx-auto text-center px-4 ">
+        <div class="max-w-2xl mx-auto text-center px-4">
             <h3 class="text-3xl font-extrabold text-white sm:text-4xl">
                 {{ $t('contact.title') }}
             </h3>
@@ -13,7 +13,7 @@
         </div>
 
         <form
-            class=" max-w-2xl mx-auto p-4 space-y-8"
+            class="max-w-2xl mx-auto p-4 space-y-8"
             @submit.prevent="handleFormSubmit"
         >
             <label class="block">
@@ -69,7 +69,7 @@ const handleFormSubmit = async () => {
     error.value = null
     success.value = false
     try {
-        const response = await fetch('https://formspree.io/f/xeoeylld', {
+        const response = await fetch('https://api.projectly.ru/webhook/contact-form', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
