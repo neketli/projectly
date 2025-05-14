@@ -123,7 +123,6 @@ export default defineNuxtConfig({
 
     yandexMetrika: {
         id: 100137750,
-        debug: process.env.NODE_ENV !== 'production',
         clickmap: true,
         trackLinks: true,
         accurateTrackBounce: true,

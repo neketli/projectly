@@ -1,5 +1,5 @@
 <template>
-    <div class="flex justify-center gap-4">
+    <div :key="$i18n.locale" class="flex justify-center gap-4">
         <button
             :class="{
                 'text-gray-600 cursor-default': $i18n.locale === 'ru',
@@ -23,6 +23,3 @@
         </button>
     </div>
 </template>
-
-<script setup>
-</script>
