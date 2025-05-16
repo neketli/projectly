@@ -62,11 +62,7 @@ export default defineNuxtConfig({
             strictMessage: false,
         },
 
-        detectBrowserLanguage: {
-            useCookie: true,
-            cookieKey: 'i18n_redirected',
-            redirectOn: 'root',
-        },
+        detectBrowserLanguage: false,
     },
 
     robots: {
