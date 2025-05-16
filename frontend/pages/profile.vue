@@ -181,7 +181,7 @@ const handleSave = async () => {
     isLoading.value = true
     try {
         await authStore.refresh()
-    authStore.user = await getUserByEmail(getUserInfo.value.email)
+        authStore.user = await getUserByEmail(getUserInfo.value.email)
 
         handleCancel()
     }

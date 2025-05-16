@@ -18,6 +18,7 @@
         <ElTable
             :data="users"
             :loading="isLoading"
+            @row-click="handleUserProfile"
         >
             <ElTableColumn
                 prop="name"
@@ -120,7 +121,7 @@
 </template>
 
 <script lang="ts" setup>
-import { RoleLabels, type Role, type UserRole } from '~/types/user'
+import { RoleLabels, type Role, type UserRole, type User } from '~/types/user'
 
 const props = defineProps<{ teamId: number }>()
 const { t } = useI18n()
@@ -197,6 +198,8 @@ const handleUpdateRole = async (userId: number, newRoleId: number) => {
         isLoading.value = false
     }
 }
+
+const handleUserProfile = ({ email }: User) => navigateTo(`/user/${email}`)
 
 onMounted(async () => {
     isLoading.value = true

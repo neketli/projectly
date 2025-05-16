@@ -15,9 +15,10 @@
                     </div>
                 </template>
 
-                <div
+                <a
                     v-if="task.created_user"
-                    class="flex gap-2 items-center"
+                    class="flex gap-2 items-center cursor-pointer hover:text-blue-500 transition-all"
+                    @click="handleUserProfile(task.assigned_user.email)"
                 >
                     <UserAvatar
                         v-if="task.created_user?.avatar"
@@ -31,7 +32,7 @@
                         {{ task.created_user.surname }}
                         ({{ task.created_user.email }})
                     </span>
-                </div>
+                </a>
             </ElDescriptionsItem>
 
             <ElDescriptionsItem>
@@ -42,9 +43,10 @@
                     </div>
                 </template>
 
-                <div
+                <a
                     v-if="task.assigned_user?.email"
-                    class="flex gap-2 items-center"
+                    class="flex gap-2 items-center cursor-pointer hover:text-blue-500 transition-all"
+                    @click="handleUserProfile(task.assigned_user.email)"
                 >
                     <UserAvatar
                         v-if="task.assigned_user.avatar"
@@ -58,7 +60,7 @@
                         {{ task.assigned_user.surname }}
                         ({{ task.assigned_user.email }})
                     </span>
-                </div>
+                </a>
                 <ElTag
                     v-else
                     type="info"
@@ -255,4 +257,6 @@ const priorityOptions = computed(() => {
 const handleStatusChange = ([taskId]: number[]) => {
     emit('update-status', taskId)
 }
+
+const handleUserProfile = (email: string) => navigateTo(`/user/${email}`)
 </script>

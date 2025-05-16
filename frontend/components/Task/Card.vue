@@ -44,12 +44,13 @@
 
         <div
             v-if="task.assigned_user?.avatar"
-            class="absolute bottom-2 right-2"
+            class="absolute bottom-2 right-2 cursor-pointer"
         >
             <UserAvatar
                 :size="20"
                 :file-name="task.assigned_user?.avatar"
                 :title="task.assigned_user?.email"
+                @click="handleUserProfile(task.assigned_user?.email)"
             />
         </div>
 
@@ -119,4 +120,6 @@ const handleUpdateTask = (task: DetailedTask) => {
 const handleTaskClick = () => {
     navigateTo(`${route.path}/task/${project.value.code}-${props.task.project_index}`)
 }
+
+const handleUserProfile = (email: string) => navigateTo(`/user/${email}`)
 </script>
