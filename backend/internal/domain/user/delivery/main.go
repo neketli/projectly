@@ -42,5 +42,6 @@ func New(authRouter *echo.Group, router *echo.Group, usecase UserUseCase) {
 		u.PATCH("/change-password", handler.ChangePassword)
 		u.POST("/upload-avatar", handler.UploadAvatar)
 		u.DELETE("/remove-avatar", handler.RemoveAvatar)
+		u.GET("/:email", handler.UserInfo)
 	}
 }

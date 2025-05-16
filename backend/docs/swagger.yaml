@@ -1767,6 +1767,40 @@ paths:
       summary: Get user teams
       tags:
       - team
+  /user/{email}:
+    get:
+      consumes:
+      - application/json
+      description: Get user info by email
+      operationId: user-info-by-email
+      parameters:
+      - description: User email
+        in: path
+        name: email
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User info
+          schema:
+            $ref: '#/definitions/projectly-server_internal_domain_user_entity.User'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+        "404":
+          description: User not found
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+      summary: Get user info by email
+      tags:
+      - user
   /user/change-password:
     post:
       consumes:
