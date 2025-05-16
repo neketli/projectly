@@ -1,16 +1,34 @@
 import type { AxiosError } from 'axios'
 import { SHA256 } from 'crypto-js'
+import type { User } from '~/types/user'
 
 export const useUserActions = () => {
-    const { $api } = useNuxtApp()
+    const { $api, $i18n } = useNuxtApp()
+
+    const getUserByEmail = async (email: string): Promise<User> => {
+        try {
+            const { data: user } = await $api.get<User>(`/user/${email}`)
+            return user
+        }
+        catch (e) {
+            const error = e as AxiosError<{ message: string }>
+            throw new Error(error.response?.data?.message || error.message)
+        }
+    }
 
     const updateUserInfo = async (user: {
         name: string
         surname: string
         email: string
+        birthday: string
+        location: string
+        about: string
     }) => {
         try {
-            await $api.patch('/user/update', user)
+            await $api.patch('/user/update', {
+                ...user,
+                language: $i18n.locale.value,
+            })
         }
         catch (e) {
             const error = e as AxiosError<{ message: string }>
@@ -59,6 +77,7 @@ export const useUserActions = () => {
     }
 
     return {
+        getUserByEmail,
         updateUserInfo,
         changePassword,
         uploadAvatar,

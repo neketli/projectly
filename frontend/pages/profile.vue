@@ -1,10 +1,13 @@
 <template>
-    <div class="container">
+    <div class="container mx-auto">
         <h1 class="text-4xl pb-4 mx-auto max-w-xl">
             {{ $t('profile.title') }}
         </h1>
 
-        <ElCard class="relative mx-auto max-w-xl">
+        <ElCard
+            v-loading="isLoading"
+            class="relative mx-auto max-w-xl"
+        >
             <div class="absolute top-4 right-4">
                 <ElButton
                     v-if="!isEdit"
@@ -59,6 +62,56 @@
                         {{ $t('profile.form.remove_avatar') }}
                     </ElButton>
                 </div>
+
+                <ElDivider />
+
+                <ElDescriptions
+                    :column="1"
+                    border
+                >
+                    <ElDescriptionsItem>
+                        <template #label>
+                            <div class="flex gap-2 items-center">
+                                <Icon name="mdi:calendar" />
+                                {{ t('profile.form.birthday') }}
+                            </div>
+                        </template>
+
+                        <div class="whitespace-pre-wrap">
+                            {{
+                                getUserInfo.meta?.birthday
+                                    ? dayjs.unix(getUserInfo.meta?.birthday).format('DD MMM, YYYY')
+                                    : t('profile.form.placeholder')
+                            }}
+                        </div>
+                    </ElDescriptionsItem>
+
+                    <ElDescriptionsItem>
+                        <template #label>
+                            <div class="flex gap-2 items-center">
+                                <Icon name="mdi:map-marker" />
+                                {{ t('profile.form.location') }}
+                            </div>
+                        </template>
+
+                        <div class="whitespace-pre-wrap">
+                            {{ getUserInfo.meta?.location || t('profile.form.placeholder') }}
+                        </div>
+                    </ElDescriptionsItem>
+
+                    <ElDescriptionsItem>
+                        <template #label>
+                            <div class="flex gap-2 items-center">
+                                <Icon name="mdi:information" />
+                                {{ t('profile.form.about') }}
+                            </div>
+                        </template>
+
+                        <div class="whitespace-pre-wrap">
+                            {{ getUserInfo.meta?.about || t('profile.form.placeholder') }}
+                        </div>
+                    </ElDescriptionsItem>
+                </ElDescriptions>
             </div>
 
             <UserEditForm
@@ -80,6 +133,8 @@
 </template>
 
 <script setup lang="ts">
+import dayjs from 'dayjs'
+
 const { t } = useI18n()
 
 useHead({
@@ -87,10 +142,9 @@ useHead({
 })
 
 const authStore = useAuthStore()
-
 const { getUserInfo } = toRefs(authStore)
 
-const { removeAvatar } = useUserActions()
+const { getUserByEmail, removeAvatar } = useUserActions()
 
 const isEdit = ref(false)
 const isChangePassword = ref(false)
@@ -127,6 +181,8 @@ const handleSave = async () => {
     isLoading.value = true
     try {
         await authStore.refresh()
+    authStore.user = await getUserByEmail(getUserInfo.value.email)
+
         handleCancel()
     }
     catch (err) {
@@ -137,4 +193,10 @@ const handleSave = async () => {
         isLoading.value = false
     }
 }
+
+onMounted(async () => {
+    isLoading.value = true
+    authStore.user = await getUserByEmail(getUserInfo.value.email)
+    isLoading.value = false
+})
 </script>

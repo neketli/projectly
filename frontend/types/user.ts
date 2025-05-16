@@ -5,6 +5,11 @@ export type User = {
     email: string
     meta?: {
         avatar?: string
+        provider?: string
+        language?: string
+        birthday?: string
+        location?: string
+        about?: string
     }
 }
 

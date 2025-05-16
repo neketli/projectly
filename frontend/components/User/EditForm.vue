@@ -98,11 +98,55 @@
                     </template>
                 </ElInput>
             </ElFormItem>
+
+            <ElFormItem
+                :label="$t('profile.form.birthday')"
+                prop="birthday"
+                class="w-full"
+            >
+                <ElDatePicker
+                    v-model="form.birthday"
+                    type="date"
+                    class="!w-full"
+                    format="DD MMM, YYYY"
+                    value-format="X"
+                />
+            </ElFormItem>
+
+            <ElFormItem
+                :label="$t('profile.form.location')"
+                prop="location"
+                class="w-full"
+            >
+                <ElInput
+                    v-model="form.location"
+                    placeholder="Moscow, Russia"
+                >
+                    <template #prefix>
+                        <Icon name="mdi:map-marker" />
+                    </template>
+                </ElInput>
+            </ElFormItem>
+
+            <ElFormItem
+                :label="$t('profile.form.about')"
+                prop="about"
+                class="w-full"
+            >
+                <ElInput
+                    v-model="form.about"
+                    type="textarea"
+                >
+                    <template #prefix>
+                        <Icon name="mdi:pencil" />
+                    </template>
+                </ElInput>
+            </ElFormItem>
         </ElForm>
     </div>
 </template>
 
-<script  setup lang="ts">
+<script setup lang="ts">
 import type { FormInstance, FormRules, UploadProps, UploadUserFile } from 'element-plus'
 
 const emit = defineEmits<{
@@ -125,6 +169,9 @@ const form = ref({
     name: getUserInfo.value.name,
     surname: getUserInfo.value.surname,
     email: getUserInfo.value.email,
+    birthday: getUserInfo.value.meta?.birthday,
+    location: getUserInfo.value.meta?.location,
+    about: getUserInfo.value.meta?.about,
 })
 const rules = reactive<FormRules<typeof form.value>>({
     name: [
@@ -139,6 +186,13 @@ const rules = reactive<FormRules<typeof form.value>>({
         validators.required,
         validators.email,
         validators.len(),
+    ],
+    birthday: [],
+    location: [
+        validators.len(0, 128),
+    ],
+    about: [
+        validators.len(0, 512),
     ],
 })
 
