@@ -11,9 +11,13 @@ import (
 )
 
 type requestUpdate struct {
-	Name    string `json:"name"`
-	Surname string `json:"surname"`
-	Email   string `json:"email"`
+	Name     string  `json:"name"`
+	Surname  string  `json:"surname"`
+	Email    string  `json:"email"`
+	Language *string `json:"language"`
+	Birthday *string `json:"birthday"`
+	Location *string `json:"location"`
+	About    *string `json:"about"`
 }
 
 // @Summary		Update user
@@ -21,7 +25,7 @@ type requestUpdate struct {
 // @ID				user-update
 // @Tags			user
 // @Accept			application/json
-// @Produce		application/json
+// @Produce			application/json
 // @Param			requestUpdate	body		requestUpdate	true	"Update user details"
 // @Success		200				{object}	entity.User		"Updated user"
 // @Failure		400				{object}	echo.HTTPError	"Bad request"
@@ -72,13 +76,27 @@ func (h *UserHandler) Update(c echo.Context) error {
 		}
 	}
 
+	meta := user.Meta
+	if request.Language != nil {
+		meta.Language = *request.Language
+	}
+	if request.Birthday != nil {
+		meta.Birthday = *request.Birthday
+	}
+	if request.Location != nil {
+		meta.Location = *request.Location
+	}
+	if request.About != nil {
+		meta.About = *request.About
+	}
+
 	err = h.UserUseCase.UpdateUser(c.Request().Context(), &entity.User{
 		ID:       user.ID,
 		Name:     request.Name,
 		Surname:  request.Surname,
 		Email:    request.Email,
 		Password: user.Password,
-		Meta:     user.Meta,
+		Meta:     meta,
 	})
 	if err != nil {
 		return &echo.HTTPError{
