@@ -9,9 +9,17 @@
         >
             <ElMenuItem
                 index="/"
-                class="!mr-auto"
+                :class="{ '!mr-auto': !timerStore.settings.headerWidget }"
             >
                 <LayoutIcon />
+            </ElMenuItem>
+
+            <ElMenuItem
+                v-if="timerStore.settings.headerWidget"
+                index="/#timer"
+                class="!mr-auto"
+            >
+                <LayoutWidgetsTimer />
             </ElMenuItem>
 
             <div class="hidden sm:flex gap-2 mr-2">
@@ -90,6 +98,7 @@
 <script setup lang="ts">
 const route = useRoute()
 
+const timerStore = useTimerStore()
 const authStore = useAuthStore()
 const { getUserInfo, isLogged } = toRefs(authStore)
 

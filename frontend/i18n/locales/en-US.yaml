@@ -101,6 +101,36 @@ user:
     table:
       name: "Name"
       empty: "Teams not found"
+  timer:
+    title: "Pomodoro Timer"
+    type:
+      work: "Work"
+      short_break: "Short Break"
+      long_break: "Long Break"
+    start: "Start"
+    pause: "Pause"
+    reset: "Reset"
+    skip: "Skip"
+    settings:
+      title: "Settings"
+      work_duration: "Focus Session (min)"
+      short_break: "Short Break (min)"
+      long_break: "Long Break (min)"
+      sessions: "Sessions until long break"
+      auto_break: "Automatically start break"
+      sound: "Sound notifications"
+      widget: "Display widget in app header"
+    statistics:
+      title: "Statistics"
+      today: "Pomodoros today"
+      total: "Time focused today"
+    notifications:
+      session_completed: 
+        title: "Session completed!"
+        message: "Time for a break 🎉"
+      break_completed: 
+        title: "Break over"
+        message: "Time to work 💪"
 
 team:
   title: "Team"

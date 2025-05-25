@@ -4,6 +4,9 @@ import type { Team } from '~/types/team'
 import type { Project } from '~/types/project'
 
 export const useTeamStore = defineStore('projectly-team', {
+    persist: {
+        storage: persistedState.localStorage,
+    },
     state: () => ({
         team: {} as Team,
         users: [] as UserWithRoles[],

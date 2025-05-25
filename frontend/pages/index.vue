@@ -7,10 +7,14 @@
         <div class="flex flex-wrap gap-4">
             <UserTeams class="h-fit w-full max-w-md" />
 
-            <ElCalendar
-                v-model="date"
-                class="max-w-2xl"
-            />
+            <UserTimer class="h-fit max-w-md" />
+
+            <ElCard class="h-fit">
+                <ElCalendar
+                    v-model="date"
+                    class="max-w-xl"
+                />
+            </ElCard>
         </div>
     </div>
 </template>
