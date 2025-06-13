@@ -58,7 +58,7 @@ jobs:
         uses: elgohr/Publish-Docker-Github-Action@master
         env:
           NUXT_PUBLIC_API_HOST: https://projectly.ru
-          NUXT_PUBLIC_S3_HOST: https://projectly.ru
+          NUXT_PUBLIC_S3_HOST: https://projectly.ru/storage
           NUXT_PUBLIC_SITE_URL: projectly.ru
           NUXT_APP_BASE_URL: "/my/"
         with:
