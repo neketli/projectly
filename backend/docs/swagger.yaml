@@ -147,7 +147,15 @@ definitions:
     type: object
   internal_domain_user_delivery.requestUpdate:
     properties:
+      about:
+        type: string
+      birthday:
+        type: string
       email:
+        type: string
+      language:
+        type: string
+      location:
         type: string
       name:
         type: string
@@ -398,8 +406,20 @@ definitions:
     type: object
   projectly-server_internal_domain_user_entity.UserMeta:
     properties:
+      about:
+        example: Something about
+        type: string
       avatar:
         example: avatar.png
+        type: string
+      birthday:
+        example: 01.01.2000
+        type: string
+      language:
+        example: en
+        type: string
+      location:
+        example: Moscow, Russia
         type: string
       provider:
         example: google
@@ -726,6 +746,33 @@ paths:
       summary: Get users boards list
       tags:
       - board
+  /media/{filepath}:
+    get:
+      operationId: media-get
+      parameters:
+      - description: Filepath
+        in: path
+        name: filepath
+        required: true
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: File content" Headers(ETag=string,Content-Type=string,Content-Disposition=string)
+          schema:
+            type: file
+        "400":
+          description: Invalid filepath
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+      summary: Get media
+      tags:
+      - media
   /project:
     get:
       consumes:

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"projectly-server/config"
 	"projectly-server/internal/domain/board"
+	"projectly-server/internal/domain/media"
 	"projectly-server/internal/domain/project"
 	"projectly-server/internal/domain/status"
 	"projectly-server/internal/domain/task"
@@ -115,6 +116,12 @@ func Run(cfg *config.Config) {
 		Postgres: pg,
 		S3:       m,
 		Router:   api,
+	})
+
+	media.New(media.Dependency{
+		Logger: l,
+		S3:     m,
+		Router: api,
 	})
 
 	server := server.New(e, l)

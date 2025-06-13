@@ -1,20 +1,20 @@
 app:
-  name: 'projectly-server'
-  version: '1.0.0'
+  name: "projectly-server"
+  version: "1.0.0"
 
 http:
-  port: '8080'
+  port: "8080"
 
 logger:
-  level: 'debug'
+  level: "debug"
 
 s3:
   secure: false
-  bucket: 'media'
+  bucket: "media"
 
 pg:
   pool_max: 2
 
-auth: 
+auth:
   access_ttl: 2
   refresh_ttl: 168
