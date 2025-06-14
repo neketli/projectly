@@ -102,18 +102,19 @@ const state = reactive({
 
 const updateStore = async () => {
     if (route.params.teamId) {
-        if (!teamStore.users.length) {
+        if (!teamStore.team?.id || teamStore.team.id !== Number(route.params.teamId)) {
             try {
-                teamStore.users = await getTeamUsers(Number(route.params.teamId))
+                teamStore.team = await getTeam(Number(route.params.teamId))
             }
             catch (err) {
                 const error = err as Error
                 ElMessage.error(error.message)
+                navigateTo('/404')
             }
         }
-        if (!teamStore.team?.id) {
+        if (!teamStore.users.length) {
             try {
-                teamStore.team = await getTeam(Number(route.params.teamId))
+                teamStore.users = await getTeamUsers(Number(route.params.teamId))
             }
             catch (err) {
                 const error = err as Error
@@ -124,6 +125,7 @@ const updateStore = async () => {
     }
     else {
         teamStore.$reset()
+        return
     }
 
     if (route.params.projectCode) {
@@ -148,7 +150,7 @@ const handleToggleMenu = () => {
 
 watch(() => route.params, updateStore)
 
-onMounted(updateStore)
+onMounted(() => updateStore())
 </script>
 
 <style>

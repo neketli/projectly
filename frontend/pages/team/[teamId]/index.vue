@@ -142,7 +142,7 @@ definePageMeta({
 const { getUserInfo } = useAuthStore()
 const teamStore = useTeamStore()
 
-const { getTeam, deleteTeam, removeTeamUser } = useTeam()
+const { getTeam, deleteTeam, leaveTeam } = useTeam()
 const { getProjectsList } = useProjects()
 
 const { team } = toRefs(teamStore)
@@ -169,7 +169,7 @@ const handleDeleteTeam = async () => {
 
 const handleLeaveTeam = async () => {
     try {
-        await removeTeamUser(team.value.id, getUserInfo.id)
+        await leaveTeam(team.value.id)
         navigateTo('/')
     }
     catch (err) {

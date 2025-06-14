@@ -90,6 +90,16 @@ export const useTeam = () => {
         }
     }
 
+    const leaveTeam = async (teamId: number) => {
+        try {
+            await $api.delete(`/team/${teamId}/leave`)
+        }
+        catch (error) {
+            const axiosError = error as AxiosError<{ message: string }>
+            throw new Error(axiosError.response?.data?.message || 'Failed to leave team')
+        }
+    }
+
     const getRoles = async () => {
         try {
             const { data: roles } = await $api.get<Role[]>('/team/roles')
@@ -135,6 +145,7 @@ export const useTeam = () => {
         getTeamUsers,
         addTeamUser,
         removeTeamUser,
+        leaveTeam,
         getRoles,
         setRole,
         getProjectsStatistic,
