@@ -1,7 +1,7 @@
 <template>
     <ElAvatar
         :size="size"
-        :src="avatarUrl"
+        :src="blobUrl"
     >
         <Icon
             name="mdi:account"
@@ -11,8 +11,6 @@
 </template>
 
 <script setup>
-const config = useRuntimeConfig()
-
 const props = defineProps({
     fileName: {
         type: String,
@@ -24,5 +22,27 @@ const props = defineProps({
     },
 })
 
-const avatarUrl = computed(() => props.fileName ? `${config.public.S3_HOST}/media/${props.fileName}` : '')
+const { getMedia } = useMedia()
+
+const blobUrl = ref(null)
+
+const updateBlobUrl = async () => {
+    if (!props.fileName) return
+
+    if (blobUrl.value) {
+        URL.revokeObjectURL(blobUrl.value)
+        blobUrl.value = null
+    }
+
+    const blob = await getMedia(props.fileName)
+    blobUrl.value = URL.createObjectURL(blob)
+}
+
+watch(() => props.fileName, updateBlobUrl, { immediate: true })
+
+onUnmounted(() => {
+    if (blobUrl.value) {
+        URL.revokeObjectURL(blobUrl.value)
+    }
+})
 </script>

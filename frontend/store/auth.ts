@@ -78,6 +78,7 @@ export const useAuthStore = defineStore('projectly-auth', {
 
         logout() {
             this.$reset()
+            useTimerStore().$reset()
         },
 
         async refresh() {

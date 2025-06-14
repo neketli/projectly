@@ -90,65 +90,12 @@
                 ref="attachmentsParent"
                 class="flex flex-wrap gap-4"
             >
-                <ElPopover
-                    v-for="(attachment, index) in attachments"
+                <TaskAttachment
+                    v-for="(attachment) in files"
                     :key="attachment"
-                >
-                    <template #reference>
-                        <ElImage
-                            v-if="isImageFile(attachment)"
-                            :src="attachment"
-                            :title="attachment"
-                            :preview-src-list="[attachment]"
-                            :initial-index="0"
-                            hide-on-click-modal
-                            class="w-24 h-24 !flex items-center justify-center  border border-gray-100 dark:border-gray-800 p-1 rounded"
-                            fit="cover"
-                        >
-                            <template #error>
-                                <Icon
-                                    size="32"
-                                    name="mdi:file-image"
-                                />
-                            </template>
-                        </ElImage>
-                        <a
-                            v-else
-                            :href="attachment"
-                            class="w-24 h-24 flex items-center justify-center rounded bg-gray-100 dark:bg-gray-800"
-                            :title="attachment"
-                        >
-                            <Icon
-                                size="32"
-                                :name="extMdiMap[getFileExtension(attachment)] || 'mdi:file-outline'"
-                            />
-                        </a>
-                    </template>
-
-                    <div class="flex justify-center">
-                        <ElButton
-                            :href="attachment"
-                            :title="attachment"
-                            circle
-                            tag="a"
-                        >
-                            <Icon
-                                name="mdi:download"
-                            />
-                        </ElButton>
-
-                        <ElButton
-                            class="cursor-pointer"
-                            circle
-                            type="danger"
-                            @click.stop="handleDeleteAttachment(files[index])"
-                        >
-                            <Icon
-                                name="mdi:delete"
-                            />
-                        </ElButton>
-                    </div>
-                </ElPopover>
+                    :file-name="attachment"
+                    @delete="handleDeleteAttachment"
+                />
             </div>
 
             <ElDivider content-position="left">
@@ -234,7 +181,6 @@ import type { UploadProps } from 'element-plus'
 import dayjs from 'dayjs'
 import type { DetailedTask, TaskComment } from '~/types/task'
 
-const config = useRuntimeConfig()
 const { teamId, projectCode, boardId, projectIndex } = useRoute().params
 const { t } = useI18n()
 const [attachmentsParent, commentsParent] = useAutoAnimate()
@@ -271,37 +217,6 @@ const dialog = reactive({
 
 const comment = ref('')
 
-const extMdiMap: Record<string, string> = {
-    'doc': 'mdi:file-document-outline',
-    'docx': 'mdi:file-document-outline',
-    'txt': 'mdi:file-document-outline',
-    'json': 'mdi:file-document-outline',
-    'pdf': 'mdi:file-pdf-outline',
-    'xls': 'mdi:file-excel-outline',
-    'xlsx': 'mdi:file-excel-outline',
-    'ppt': 'mdi:file-powerpoint-outline',
-    'pptx': 'mdi:file-powerpoint-outline',
-    'zip': 'mdi:folder-zip-outline',
-    'rar': 'mdi:folder-zip-outline',
-    'mp3': 'mdi:file-music-outline',
-    'mp4': 'mdi:file-video-outline',
-    'avi': 'mdi:file-video-outline',
-    'mov': 'mdi:file-video-outline',
-    'wmv': 'mdi:file-video-outline',
-    '': 'mdi:file-outline',
-}
-
-const getFileExtension = (fileName: string) => {
-    const ext = fileName.split('.').pop()
-    return ext ? ext.toLowerCase() : ''
-}
-
-const isImageFile = (fileName: string) => {
-    const imageExtensions = ['png', 'jpg', 'jpeg', 'gif', 'svg']
-    const ext = getFileExtension(fileName)
-    return imageExtensions.includes(ext)
-}
-
 const task = ref({} as DetailedTask)
 const files = ref([] as string[])
 const comments = ref([] as TaskComment[])
@@ -310,8 +225,6 @@ const isCommentsLoading = ref(false)
 let commentsIntervalId = 0
 
 const taskDescriptionMd = computed(() => task.value.description ? md.render(task.value.description) : t('task.form.placeholder.description'))
-
-const attachments = computed(() => files.value.map(item => `${config.public.S3_HOST}/media/${item}`))
 
 const usersOptions = computed(() => {
     return teamStore.users.map(user => ({
@@ -440,9 +353,7 @@ onMounted(async () => {
         task.value = await getTaskDetail(`${projectCode}`, Number(projectIndex))
         const statuses = await getStatusList(Number(boardId))
         boardStore.setStatusList(statuses)
-
-        const taskAttachments = await getAttachments(task.value.id)
-        files.value = taskAttachments
+        files.value = await getAttachments(task.value.id)
 
         updateComments()
         commentsIntervalId = window.setInterval(updateComments, 30000)
