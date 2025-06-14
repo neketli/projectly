@@ -1573,10 +1573,31 @@ paths:
       summary: Add user to team
       tags:
       - team
+  /team/{id}/leave:
+    delete:
+      operationId: team-leave
+      parameters:
+      - description: Team id to remove user from
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+      summary: Remove user from team
+      tags:
+      - team
   /team/{id}/remove-user/{user_id}:
     delete:
-      consumes:
-      - application/json
       operationId: team-remove-user
       parameters:
       - description: Team id to remove user from
@@ -1589,11 +1610,9 @@ paths:
         name: user_id
         required: true
         type: integer
-      produces:
-      - application/json
       responses:
-        "200":
-          description: OK
+        "204":
+          description: No Content
         "400":
           description: Bad request
           schema:
@@ -1666,6 +1685,45 @@ paths:
           schema:
             $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Get team projects statistic
+      tags:
+      - team
+  /team/{id}/update:
+    put:
+      consumes:
+      - application/json
+      operationId: update-team
+      parameters:
+      - description: Team details to update
+        in: body
+        name: team
+        required: true
+        schema:
+          $ref: '#/definitions/projectly-server_internal_domain_team_entity.Team'
+      - description: Team ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Updated team details
+          schema:
+            $ref: '#/definitions/projectly-server_internal_domain_team_entity.Team'
+        "400":
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+        "404":
+          description: Team not found
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
+      summary: Update an existing team
       tags:
       - team
   /team/{id}/users:
@@ -1752,40 +1810,6 @@ paths:
           schema:
             $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
       summary: Get team roles
-      tags:
-      - team
-  /team/update:
-    put:
-      consumes:
-      - application/json
-      operationId: update-team
-      parameters:
-      - description: Team details to update
-        in: body
-        name: team
-        required: true
-        schema:
-          $ref: '#/definitions/projectly-server_internal_domain_team_entity.Team'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Updated team details
-          schema:
-            $ref: '#/definitions/projectly-server_internal_domain_team_entity.Team'
-        "400":
-          description: Invalid input
-          schema:
-            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
-        "404":
-          description: Team not found
-          schema:
-            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_labstack_echo_v4.HTTPError'
-      summary: Update an existing team
       tags:
       - team
   /team/user:

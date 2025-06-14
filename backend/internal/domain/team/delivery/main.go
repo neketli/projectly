@@ -33,6 +33,7 @@ func New(router *echo.Group, tu usecase.TeamUseCase, u userUseCase.UserUseCase) 
 		team.GET("/:id/users", handler.Users, middleware.Membership())
 		team.POST("/:id/add-user", handler.AddUser, middleware.Membership())
 		team.DELETE("/:id/remove-user/:user_id", handler.RemoveUser, middleware.Membership(), middleware.RequireTeamRole(*entity.RoleEditor))
+		team.DELETE("/:id/leave", handler.LeaveTeam, middleware.Membership())
 
 		team.POST("/:id/role", handler.SetRole, middleware.Membership(), middleware.RequireTeamRole(*entity.RoleOwner))
 	}
