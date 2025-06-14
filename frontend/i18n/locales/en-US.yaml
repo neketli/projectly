@@ -295,6 +295,9 @@ task:
     update: "Task has been successfully updated!"
     delete: "Task has been successfully deleted!"
     comment_delete: "Comment has been successfully deleted!"
+  search:
+    placeholder: "Search tasks"
+    empty: "No tasks found"
   error:
     status_undefined: "Before adding a task, you need to save a status"
     file_size: "File size must not exceed {x} MB"

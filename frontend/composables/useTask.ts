@@ -125,6 +125,25 @@ export const useTask = () => {
         }
     }
 
+    const searchTask = async (query:
+    { search: string, board_id?: number, project_code?: string, team_id?: number },
+    ): Promise<DetailedTask[]> => {
+        try {
+            const { data: tasks } = await $api.get<DetailedTask[]>(`/task/`, {
+                params: {
+                    ...query,
+                    limit: 5,
+                },
+            })
+
+            return tasks
+        }
+        catch (error) {
+            const axiosError = error as AxiosError<{ message: string }>
+            throw new Error(axiosError.response?.data?.message || 'Failed to get task')
+        }
+    }
+
     const getAttachments = async (task_id: number): Promise<string[]> => {
         try {
             const { data: attachments } = await $api.get<{ id: number, name: string }[]>(`/task/${task_id}/attachments`)
@@ -212,6 +231,7 @@ export const useTask = () => {
 
     return {
         getTask,
+        searchTask,
         getUserTasks,
         getTasksList,
         createTask,

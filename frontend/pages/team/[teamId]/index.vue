@@ -68,13 +68,19 @@
             </template>
         </ElPageHeader>
 
-        <h3 class="text-4xl mt-2">
-            {{ team.name }}
-        </h3>
+        <div class="flex sm:flex-row flex-col justify-between sm:items-center gap-4">
+            <div>
+                <h3 class="text-4xl mt-2">
+                    {{ team.name }}
+                </h3>
 
-        <p class="mt-2">
-            {{ team.description }}
-        </p>
+                <p class="mt-2">
+                    {{ team.description }}
+                </p>
+            </div>
+
+            <TaskSearch :team-id="team.id" />
+        </div>
 
         <div
             v-if="team.id"
@@ -139,7 +145,6 @@ definePageMeta({
     layout: 'team',
 })
 
-const { getUserInfo } = useAuthStore()
 const teamStore = useTeamStore()
 
 const { getTeam, deleteTeam, leaveTeam } = useTeam()

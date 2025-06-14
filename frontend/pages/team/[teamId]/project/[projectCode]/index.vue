@@ -60,6 +60,14 @@
             :description="$t('project.empty')"
         />
 
+        <div class="w-full flex justify-center">
+            <TaskSearch
+                :team-id="Number(teamId)"
+                :project-code="String(projectCode)"
+                class="mx-auto"
+            />
+        </div>
+
         <ElDialog
             v-model="dialog.project"
             :title="$t('project.update.title')"
