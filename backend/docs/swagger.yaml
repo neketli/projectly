@@ -1089,9 +1089,13 @@ paths:
         in: query
         name: user_id
         type: integer
-      - description: User id
+      - description: Task id
         in: query
         name: task_id
+        type: integer
+      - description: Team id
+        in: query
+        name: team_id
         type: integer
       - description: Board id
         in: query
@@ -1105,6 +1109,10 @@ paths:
         in: query
         name: project_index
         type: integer
+      - description: Search text in tasks
+        in: query
+        name: search
+        type: string
       produces:
       - application/json
       responses:

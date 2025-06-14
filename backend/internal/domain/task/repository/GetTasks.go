@@ -67,8 +67,23 @@ func (r taskRepo) GetTasks(ctx context.Context, params *entity.TaskDetailedParam
 			query = query.Where(sq.Eq{"b.id": *params.BoardID})
 		}
 
-		if params.ProjectIndex != nil && *params.ProjectIndex > 0 && params.ProjectCode != nil && *params.ProjectCode != "" {
-			query = query.Where(sq.Eq{"p.code": *params.ProjectCode, "t.project_index": *params.ProjectIndex})
+		if params.ProjectCode != nil && *params.ProjectCode != "" {
+			query = query.Where(sq.Eq{"p.code": *params.ProjectCode})
+		}
+
+		if params.ProjectIndex != nil && *params.ProjectIndex > 0 {
+			query = query.Where(sq.Eq{"t.project_index": *params.ProjectIndex})
+		}
+
+		if params.TeamID != nil && *params.TeamID > 0 {
+			query = query.Where(sq.Eq{"p.team_id": *params.TeamID})
+		}
+
+		if params.Search != nil && *params.Search != "" {
+			query = query.Where(sq.Or{
+				sq.ILike{"t.title": fmt.Sprintf("%%%s%%", *params.Search)},
+				sq.ILike{"t.description": fmt.Sprintf("%%%s%%", *params.Search)},
+			})
 		}
 
 		if params.Limit != nil && *params.Limit > 0 {

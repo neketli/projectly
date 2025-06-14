@@ -19,11 +19,13 @@ type Task struct {
 
 type TaskDetailedParams struct {
 	TaskID       *int    `json:"task_id" query:"task_id"`
+	TeamID       *int    `json:"team_id" query:"team_id"`
 	UserID       *int    `json:"user_id" query:"user_id"`
 	BoardID      *int    `json:"board_id" query:"board_id"`
 	ProjectCode  *string `json:"project_code" query:"project_code"`
 	ProjectIndex *int    `json:"project_index" query:"project_index"`
 	Limit        *uint64 `json:"limit" query:"limit"`
+	Search       *string `json:"search" query:"search"`
 }
 
 type TaskDetailed struct {

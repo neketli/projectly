@@ -9,17 +9,19 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary	Get detailed tasks list
+// @Summary		Get detailed tasks list
 // @ID			task-get-detailed
 // @Tags		task
 // @Accept		application/json
 // @Produce		application/json
-// @Param			limit	query		int	false	"Task limits"
-// @Param			user_id	query		int	false	"User id"
-// @Param			task_id	query		int	false	"User id"
-// @Param			board_id	query		int	false	"Board id"
-// @Param			project_code	query		int	false	"Project code"
-// @Param			project_index	query		int	false	"Task index in project"
+// @Param			limit			query		int		false	"Task limits"
+// @Param			user_id			query		int		false	"User id"
+// @Param			task_id			query		int		false	"Task id"
+// @Param			team_id			query		int		false	"Team id"
+// @Param			board_id		query		int		false	"Board id"
+// @Param			project_code	query		int		false	"Project code"
+// @Param			project_index	query		int		false	"Task index in project"
+// @Param			search			query		string	false	"Search text in tasks"
 // @Success	200		{array}		entityTask.TaskDetailed
 // @Failure	400		{object}	echo.HTTPError
 // @Failure	500		{object}	echo.HTTPError
