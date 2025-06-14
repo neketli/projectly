@@ -18,7 +18,7 @@
                 <a
                     v-if="task.created_user"
                     class="flex gap-2 items-center cursor-pointer hover:text-blue-500 transition-all"
-                    @click="handleUserProfile(task.assigned_user.email)"
+                    @click="handleUserProfile(task.created_user.email)"
                 >
                     <UserAvatar
                         v-if="task.created_user?.avatar"
