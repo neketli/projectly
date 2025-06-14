@@ -118,6 +118,7 @@ const updateStore = async () => {
             catch (err) {
                 const error = err as Error
                 ElMessage.error(error.message)
+                navigateTo('/404')
             }
         }
     }

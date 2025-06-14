@@ -29,7 +29,7 @@ export const useTeam = () => {
 
     const updateTeam = async (data: { id: number, name?: string, description?: string }) => {
         try {
-            const { data: team } = await $api.put<Team>(`/team/update`, data)
+            const { data: team } = await $api.put<Team>(`/team/${data.id}/update`, data)
             return team
         }
         catch (error) {

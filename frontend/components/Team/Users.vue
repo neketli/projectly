@@ -38,12 +38,15 @@
             <ElTableColumn
                 prop="role"
                 :label="$t('team.users.table.role')"
+                @click.stop
             >
                 <template #default="{ row }">
                     <ElSelect
                         v-if="teamStore.isUsersActionsAvailable"
                         v-model="row.role.id"
+                        :disabled="checkIsOwner(row.role.role_name)"
                         @change="(newRoleId) => handleUpdateRole(row.id, newRoleId)"
+                        @click.stop
                     >
                         <ElOption
                             v-for="option in roleNames"
@@ -65,17 +68,19 @@
             >
                 <template #default="{ row }">
                     <ElPopconfirm
+                        v-if="!checkIsOwner(row.role.role_name)"
                         width="250"
                         :title="$t('team.users.table.confirm_delete')"
                         :confirm-button-text="$t('common.button.confirm')"
                         confirm-button-type="danger"
                         :cancel-button-text="$t('common.button.cancel')"
-                        @confirm="handleConfirmRemoveUser(row.id)"
+                        @confirm.stop="handleConfirmRemoveUser(row.id)"
                     >
                         <template #reference>
                             <ElButton
                                 circle
                                 type="danger"
+                                @click.stop
                             >
                                 <Icon name="mdi:close" />
                             </ElButton>
@@ -121,7 +126,7 @@
 </template>
 
 <script lang="ts" setup>
-import { RoleLabels, type Role, type UserRole, type User } from '~/types/user'
+import { RoleLabels, UserRole, type Role, type User } from '~/types/user'
 
 const props = defineProps<{ teamId: number }>()
 const { t } = useI18n()
@@ -145,6 +150,10 @@ const roleNames = computed(() => {
         label: t(RoleLabels[r.role_name as UserRole]),
     }))
 })
+
+const checkIsOwner = (role: UserRole) => {
+    return role === UserRole.OWNER
+}
 
 const handleConfirmRemoveUser = async (id: number) => {
     isLoading.value = true
