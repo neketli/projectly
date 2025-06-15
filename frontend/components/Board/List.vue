@@ -4,7 +4,7 @@
             <template #header>
                 <div class="flex justify-between">
                     <h3 class="text-xl">
-                        {{ $t('board.table.title') }}
+                        {{ $t('board.list.title') }}
                     </h3>
 
                     <div class="flex items-center gap-4">

@@ -94,6 +94,7 @@ dashboard:
   title: "Dashboard"
 
 user:
+  not_found: "User not found"
   teams:
     title: "Your teams"
     dialog:
@@ -207,8 +208,10 @@ project:
 board:
   title: "Board"
   empty: "No current statuses"
-  table:
+  list:
     title: "Board List"
+  table:
+    columns: "Available fields"
   form:
     title: "Title"
     setup: "Add default statuses to the board"
@@ -279,6 +282,14 @@ task:
       user: "No user assigned"
       priority: "Priority not set"
       time: "Not set"
+  table:
+    deadline: "Deadline"
+    story_point: "Planned time (h.)"
+    tracked_time: "Tracked time (h.)"
+    priority: "Priority"
+    assigned_user: "Assigned user"
+    created_user: "Created user"
+    created_at: "Creation date"
   comments:
     title: "Comments"
     empty: "No comments"

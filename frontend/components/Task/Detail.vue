@@ -15,24 +15,7 @@
                     </div>
                 </template>
 
-                <a
-                    v-if="task.created_user"
-                    class="flex gap-2 items-center cursor-pointer hover:text-blue-500 transition-all"
-                    @click="handleUserProfile(task.created_user.email)"
-                >
-                    <UserAvatar
-                        v-if="task.created_user?.avatar"
-                        :size="32"
-                        :file-name="task.created_user.avatar"
-                        class="ml-2"
-                    />
-
-                    <span class="inline">
-                        {{ task.created_user.name }}
-                        {{ task.created_user.surname }}
-                        ({{ task.created_user.email }})
-                    </span>
-                </a>
+                <UserLink :user="task.created_user" />
             </ElDescriptionsItem>
 
             <ElDescriptionsItem>
@@ -43,30 +26,7 @@
                     </div>
                 </template>
 
-                <a
-                    v-if="task.assigned_user?.email"
-                    class="flex gap-2 items-center cursor-pointer hover:text-blue-500 transition-all"
-                    @click="handleUserProfile(task.assigned_user.email)"
-                >
-                    <UserAvatar
-                        v-if="task.assigned_user.avatar"
-                        :size="32"
-                        :file-name="task.assigned_user.avatar"
-                        class="ml-2"
-                    />
-
-                    <span class="inline">
-                        {{ task.assigned_user.name }}
-                        {{ task.assigned_user.surname }}
-                        ({{ task.assigned_user.email }})
-                    </span>
-                </a>
-                <ElTag
-                    v-else
-                    type="info"
-                >
-                    {{ t('task.form.placeholder.user') }}
-                </ElTag>
+                <UserLink :user="task.assigned_user" />
             </ElDescriptionsItem>
         </ElDescriptions>
 
@@ -257,6 +217,4 @@ const priorityOptions = computed(() => {
 const handleStatusChange = ([taskId]: number[]) => {
     emit('update-status', taskId)
 }
-
-const handleUserProfile = (email: string) => navigateTo(`/user/${email}`)
 </script>

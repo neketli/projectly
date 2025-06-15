@@ -62,7 +62,24 @@
             {{ board.title }}
         </h3>
 
-        <BoardMain v-loading="isLoading" />
+        <ElTabs
+            v-model="activeTab"
+            v-loading="isLoading"
+        >
+            <ElTabPane
+                :label="$t('board.tab.board')"
+                name="board"
+            >
+                <BoardMain />
+            </ElTabPane>
+
+            <ElTabPane
+                :label="$t('board.tab.table')"
+                name="table"
+            >
+                <BoardTable />
+            </ElTabPane>
+        </ElTabs>
 
         <ElDialog
             v-model="dialog.board"
@@ -107,6 +124,7 @@ const dialog = reactive({
     board: false,
 })
 
+const activeTab = ref('board')
 const isLoading = ref(false)
 
 const handleBoardUpdated = (updated: Board) => {

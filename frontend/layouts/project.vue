@@ -62,7 +62,7 @@
                                 class="lg:!hidden"
                                 @click="handleToggleMenu"
                             >
-                                {{ $t('board.table.title') }}
+                                {{ $t('board.list.title') }}
                             </ElButton>
                         </div>
 

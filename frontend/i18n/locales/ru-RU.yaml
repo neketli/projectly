@@ -95,6 +95,7 @@ dashboard:
   title: "Панель управления"
 
 user:
+  not_found: "Пользователь не найден"
   teams:
     title: "Ваши команды"
     dialog:
@@ -208,8 +209,13 @@ project:
 board:
   title: "Доска"
   empty: "Нет текущих статусов для отображения"
-  table:
+  list:
     title: "Список досок"
+  table:
+    columns: "Доступные поля"
+  tab:
+    board: "Канбан-доска"
+    table: "Таблица"
   form:
     title: "Название"
     setup: "Добавить стандартные статусы на доску"
@@ -279,6 +285,14 @@ task:
       user: "Пользователь не назначен"
       priority: "Приоритет не задан"
       time: "Отсутствует"
+  table:
+    deadline: "Срок сдачи"
+    story_point: "Запланировано (ч.)"
+    tracked_time: "Затрачено (ч.)"
+    priority: "Приоритет"
+    assigned_user: "Исполнитель"
+    created_user: "Создатель"
+    created_at: "Дата создания"
   comments:
     title: "Комментарии"
     empty: "Нет комментариев"

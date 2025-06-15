@@ -1,12 +1,17 @@
 import { defineStore } from 'pinia'
+import type { Columns } from 'element-plus'
 import type { Board, Status } from '~/types/board'
 import type { DetailedTask } from '~/types/task'
 
 export const useBoardStore = defineStore('projectly-board', {
+    persist: {
+        storage: persistedState.localStorage,
+    },
     state: () => ({
         board: {} as Board,
         statusList: [] as Status[],
         tasks: [] as { [status_id: number]: DetailedTask[] },
+        columns: [] as Columns<string>,
     }),
 
     getters: {
@@ -53,6 +58,9 @@ export const useBoardStore = defineStore('projectly-board', {
             this.statusList.splice(this.statusList.indexOf(status), 1)
             this.statusList = this.statusList.map(s => (s.order > status.order ? { ...s, order: s.order - 1 } : s))
             this.updateTasksStatusMap()
+        },
+        setBoardTableColumns(columns: Columns<string>) {
+            this.columns = [...columns]
         },
     },
 })

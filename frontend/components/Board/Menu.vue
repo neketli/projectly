@@ -11,7 +11,7 @@
             >
                 <div class="flex justify-between mb-2">
                     <h3 class="text-xl">
-                        {{ $t('board.table.title') }}
+                        {{ $t('board.list.title') }}
                     </h3>
 
                     <ElButton
