@@ -221,11 +221,6 @@ watch(() => store.settings, () => {
 }, { deep: true })
 
 onMounted(() => {
-    if (!store.timer) {
-        store.timer = setInterval(() => {
-            store.tick()
-        }, 1000)
-    }
     store.synchronizeTime()
 
     const lastStart = dayjs(store.lastStartTimestamp)

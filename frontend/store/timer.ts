@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 
 export const useTimerStore = defineStore('projectly-timer', {
     persist: {
-        storage: persistedState.sessionStorage,
+        storage: persistedState.localStorage,
     },
     state: () => ({
         timeLeft: 25 * 60, // seconds
@@ -25,7 +25,7 @@ export const useTimerStore = defineStore('projectly-timer', {
             headerWidget: true,
         },
 
-        timer: null as ReturnType<typeof setInterval> | null,
+        timer: undefined as ReturnType<typeof setInterval> | undefined,
     }),
 
     getters: {
@@ -170,6 +170,13 @@ export const useTimerStore = defineStore('projectly-timer', {
         },
 
         synchronizeTime() {
+            if (this.timer) {
+                clearInterval(this.timer)
+            }
+            this.timer = setInterval(() => {
+                this.tick()
+            }, 1000)
+
             if (this.isRunning && this.endTimestamp) {
                 const now = dayjs()
                 const remainingTime = Math.max(0, dayjs(this.endTimestamp).diff(now, 'seconds'))

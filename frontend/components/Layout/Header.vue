@@ -9,7 +9,8 @@
         >
             <ElMenuItem
                 index="/"
-                :class="{ '!mr-auto': !timerStore.settings.headerWidget }"
+                :class="{ 'md:!mr-auto': !timerStore.settings.headerWidget }"
+                class="max-md:!mr-auto"
             >
                 <LayoutIcon />
             </ElMenuItem>
@@ -17,18 +18,18 @@
             <ElMenuItem
                 v-if="timerStore.settings.headerWidget"
                 index="/#timer"
-                class="!mr-auto"
+                class="!mr-auto !hidden md:!flex"
             >
                 <LayoutWidgetsTimer />
             </ElMenuItem>
 
-            <div class="hidden sm:flex gap-2 mr-2">
+            <div class="hidden md:flex gap-2 mr-2">
                 <LayoutLangSwitcher />
                 <LayoutThemeSwitcher />
             </div>
 
             <ElMenuItem index="/profile">
-                <span class="hidden sm:inline">
+                <span class="hidden md:inline">
                     {{ getUserInfo.name }}
                     {{ getUserInfo.surname }}
                 </span>
@@ -36,13 +37,13 @@
                 <UserAvatar
                     :size="32"
                     :file-name="getUserInfo.meta?.avatar"
-                    class="sm:ml-2"
+                    class="md:ml-2"
                 />
             </ElMenuItem>
 
             <ElMenuItem
                 v-if="isLogged"
-                class="!hidden sm:!inline-flex"
+                class="!hidden md:!inline-flex"
                 @click="exit"
             >
                 {{ $t('common.header.logout') }}
@@ -54,7 +55,7 @@
             </ElMenuItem>
 
             <ElButton
-                class="inline-flex sm:!hidden mx-2"
+                class="inline-flex md:!hidden mx-2"
                 circle
                 @click="isMenuOpen = !isMenuOpen"
             >
@@ -78,6 +79,8 @@
                         <LayoutThemeSwitcher />
                     </div>
                 </div>
+
+                <LayoutWidgetsTimer />
 
                 <ElButton
                     v-if="isLogged"

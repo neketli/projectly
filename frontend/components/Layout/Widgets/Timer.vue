@@ -41,11 +41,6 @@ const toggleTimer = () => {
 }
 
 onMounted(() => {
-    if (!store.timer) {
-        store.timer = setInterval(() => {
-            store.tick()
-        }, 1000)
-    }
     store.synchronizeTime()
 })
 </script>
