@@ -66,18 +66,17 @@
         <ElDrawer
             v-model="isMenuOpen"
             direction="btt"
+            size="50%"
         >
             <div class="flex flex-col gap-8">
-                <div class="flex justify-center gap-8">
-                    <div class="flex gap-2">
-                        <span>{{ $t('common.header.lang') }}</span>
-                        <LayoutLangSwitcher />
-                    </div>
+                <div class="flex items-center gap-2">
+                    <span>{{ $t('common.header.lang') }}</span>
+                    <LayoutLangSwitcher />
+                </div>
 
-                    <div class="flex gap-2">
-                        <span>{{ $t('common.header.theme') }}</span>
-                        <LayoutThemeSwitcher />
-                    </div>
+                <div class="flex items-center gap-2">
+                    <span>{{ $t('common.header.theme') }}</span>
+                    <LayoutThemeSwitcher />
                 </div>
 
                 <LayoutWidgetsTimer />
