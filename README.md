@@ -32,7 +32,7 @@
 
 ## 💡 How to use
 
-Install and prepare the project [by following this guide](#🚀-quick-start-and-development), then you can use [docker-compose](./docker-compose.yml) to easily set up projectly on your host.
+Install and prepare the project [by following this guide](#-quick-start-and-development), then you can use [docker-compose](./docker-compose.yml) to easily set up projectly on your host.
 
 Use latest version of projectly:
 
