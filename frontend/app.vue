@@ -29,4 +29,11 @@ useHead({
     opacity: 0;
     transform: translate(-50px, 0);
 }
+
+@media only screen and (max-width: 500px) {
+    .el-page-header__header {
+        flex-direction: column;
+        gap: 4px;
+    }
+}
 </style>
