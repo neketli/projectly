@@ -86,7 +86,7 @@
             :title="$t('board.update.title')"
             align-center
             destroy-on-close
-            class="max-md:!w-2/3"
+            class="max-md:!w-4/5"
         >
             <BoardForm
                 :board="board"
@@ -146,6 +146,7 @@ const handleDeleteBoard = async () => {
 }
 
 const handleAddStatus = () => {
+    activeTab.value = 'board'
     statusList.value.push({
         id: 0,
         title: t('status.create.default'),

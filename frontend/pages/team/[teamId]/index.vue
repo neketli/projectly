@@ -1,6 +1,9 @@
 <template>
     <div class="team">
-        <ElPageHeader @back="navigateTo('/')">
+        <ElPageHeader
+            class="team-header"
+            @back="navigateTo('/')"
+        >
             <template #content>
                 <h1 class="text-2xl">
                     {{ $t('team.title') }}
@@ -119,7 +122,7 @@
             :title="$t('team.update.title')"
             align-center
             destroy-on-close
-            class="max-md:!w-2/3"
+            class="max-md:!w-4/5"
         >
             <TeamForm
                 :team="team"

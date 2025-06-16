@@ -95,7 +95,7 @@
             :title="$t('team.users.dialog.title')"
             align-center
             destroy-on-close
-            class="max-md:!w-2/3"
+            class="max-md:!w-4/5"
         >
             <span>{{ $t('team.users.dialog.email') }}</span>
             <ElInput

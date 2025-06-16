@@ -41,9 +41,12 @@
         <ElCheckbox
             v-if="!board?.id"
             v-model="isSetup"
-            :label="$t('board.form.setup')"
             class="mb-4"
-        />
+        >
+            <span class="text-wrap">
+                {{ $t('board.form.setup') }}
+            </span>
+        </ElCheckbox>
 
         <div>
             <ElButton
