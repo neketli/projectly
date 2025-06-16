@@ -1,75 +1,57 @@
-# Nuxt Minimal Starter
+# Projectly frontend
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+## 🛠️ Tools
 
-## Setup
+- [Vue.js](https://vuejs.org/)
+- [Nuxt.js](https://nuxt.com/)
+- [Element plus UI](https://element-plus.org/en-US/)
+- [TailwindCSS](https://tailwindcss.com/)
+- [Typescript](https://www.typescriptlang.org/)
+- [ESLint](https://eslint.org/)
+- [Pinia](https://pinia.vuejs.org/)
+- [Day.js](https://day.js.org/)
+- [Echarts](https://echarts.apache.org/)
 
-Make sure to install dependencies:
-
-```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+## ⚙️ Commands
 
 ```bash
-# npm
+# Development mode
 npm run dev
 
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
+# Build for production
 npm run build
 
-# pnpm
-pnpm build
+# Generate static files
+npm run generate
 
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
+# Preview production build
 npm run preview
 
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
+# Lint code with fixing
+npm run lint
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## 📁 Project Structure
+
+```bash
+projectly
+└─ frontend          # Vue 3 (Nuxt.js) Frontend
+  ├─ app.vue        # Entry point
+  ├─ assets         # App static assets
+  ├─ components     # Reusable domain / UI components
+  ├─ composables    # Reusable logic / APIs
+  ├─ error.vue      # Fallback error page
+  ├─ i18n           # Locales
+  ├─ layouts        # Page base layouts
+  ├─ middleware     # Frontend middlewares
+  ├─ nuxt.config.ts # Nuxt config
+  ├─ pages          # App pages
+  ├─ plugins        # App plugins
+  ├─ public         # Public files
+  ├─ store          # Pinia stores
+  └─ types          # App TS types
+```
+
+## 📍Any questions?
+
+- 📧 Contact the [author](https://github.com/neketli) or look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more about nuxt architecture.
