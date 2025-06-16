@@ -73,7 +73,7 @@
         </div>
 
         <ElDrawer
-            v-model="state.boardsDrawer"
+            v-model="projectStore.boardsDrawer"
             size="80%"
             direction="btt"
         >
@@ -81,7 +81,7 @@
                 v-if="projectStore.project.id"
                 :project-id="projectStore.project.id"
                 class="h-full"
-                @board-clicked="state.boardsDrawer = false"
+                @board-clicked="projectStore.boardsDrawer = false"
             />
         </ElDrawer>
     </div>
@@ -95,10 +95,6 @@ const projectStore = useProjectStore()
 
 const { getTeamUsers, getTeam } = useTeam()
 const { getTeamProject } = useProjects()
-
-const state = reactive({
-    boardsDrawer: false,
-})
 
 const updateStore = async () => {
     if (route.params.teamId) {
@@ -145,7 +141,7 @@ const updateStore = async () => {
 }
 
 const handleToggleMenu = () => {
-    state.boardsDrawer = !state.boardsDrawer
+    projectStore.boardsDrawer = !projectStore.boardsDrawer
 }
 
 watch(() => route.params, updateStore)

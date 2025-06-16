@@ -7,6 +7,8 @@ export const useProjectStore = defineStore('projectly-project', {
     state: () => ({
         project: {} as Project,
         boardList: [] as Board[],
+
+        boardsDrawer: false,
     }),
     getters: {
         isDeleteAvailable(): boolean {

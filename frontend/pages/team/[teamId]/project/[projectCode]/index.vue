@@ -60,12 +60,19 @@
             :description="$t('project.empty')"
         />
 
-        <div class="w-full flex justify-center">
+        <div class="w-full flex flex-col justify-center gap-4">
             <TaskSearch
                 :team-id="Number(teamId)"
                 :project-code="String(projectCode)"
                 class="mx-auto"
             />
+
+            <ElButton
+                class="lg:!hidden w-32 mx-auto"
+                @click="projectStore.boardsDrawer = true"
+            >
+                {{ $t('board.list.title') }}
+            </ElButton>
         </div>
 
         <ElDialog
@@ -73,7 +80,7 @@
             :title="$t('project.update.title')"
             align-center
             destroy-on-close
-            class="max-md:!w-3/4"
+            class="max-md:!w-4/5"
         >
             <ProjectForm
                 :project="project"
