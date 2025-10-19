@@ -32,4 +32,5 @@ jobs:
           script: |
             cd /opt/projectly
             git pull origin main
-            docker compose run --rm certbot renew
+            docker compose run --rm certbot renew --force-renew
+            docker compose restart
