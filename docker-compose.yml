@@ -33,26 +33,17 @@ services:
     container_name: projectly_nginx
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./certbot/www/:/var/www/certbot/:ro
-      - ./certbot/conf/:/etc/nginx/ssl/:ro
     ports:
-      - "80:80"
-      - "443:443"
+      - "4242:4242"
     restart: always
-
-  certbot:
-    image: certbot/certbot:latest
-    volumes:
-      - ./certbot/www/:/var/www/certbot/:rw
-      - ./certbot/conf/:/etc/letsencrypt/:rw
 
   backend:
     image: ghcr.io/neketli/projectly-backend:latest
     container_name: projectly_backend
     hostname: projectly_backend
     env_file: .env.backend
-    ports:
-      - "8080:8080"
+    expose:
+      - "8080"
     restart: always
     depends_on:
       - postgres
@@ -63,21 +54,11 @@ services:
     image: ghcr.io/neketli/projectly-frontend:latest
     container_name: projectly_frontend
     hostname: projectly_frontend
-    ports:
-      - "3000:3000"
+    expose:
+      - "3000"
     restart: always
     depends_on:
       - backend
-      - nginx
-
-  landing:
-    image: ghcr.io/neketli/projectly-landing:latest
-    container_name: projectly_landing
-    hostname: projectly_landing
-    expose:
-      - "80"
-    restart: always
-    depends_on:
       - nginx
 
 volumes:

@@ -99,8 +99,8 @@ Ensure you have the following installed:
    Also you need to set `.env` in `./frontend`
 
    ```env
-    VITE_API_URL=http://localhost:8080 # or your API URL
-    NUXT_PUBLIC_S3_HOST=https://projectly.ru
+    NUXT_PUBLIC_API_HOST=http://localhost:8080 # or your API URL
+    NUXT_PUBLIC_S3_HOST=http://localhost:8080
     NUXT_PUBLIC_SITE_URL=projectly.ru
     NUXT_APP_BASE_URL=/
    ```
