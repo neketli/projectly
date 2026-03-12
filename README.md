@@ -265,15 +265,7 @@ projectly
 │  ├─ plugins        # App plugins
 │  ├─ public         # Public files
 │  ├─ store          # Pinia stores
-│  └─ types          # App TS types
-└─ landing # Projectly.ru landing page
-   ├─ app.vue        # Entry point
-   ├─ assets         # Landing page static assets
-   ├─ components     # Landing sections/UI components
-   ├─ i18n           # Locales
-   ├─ nuxt.config.ts # Nuxt config
-   ├─ pages          # Landing pages
-   └─ public         # Public files
+└─  └─ types          # App TS types
 ```
 
 ## 📞 Support
