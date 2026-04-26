@@ -265,7 +265,7 @@ projectly
 │  ├─ plugins        # App plugins
 │  ├─ public         # Public files
 │  ├─ store          # Pinia stores
-└─  └─ types          # App TS types
+└─ └─ types          # App TS types
 ```
 
 ## 📞 Support
