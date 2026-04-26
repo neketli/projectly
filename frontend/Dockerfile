@@ -10,6 +10,6 @@ RUN NUXT_APP_BASE_URL=/my/ npm run generate
 FROM nginx:alpine
 
 COPY frontend.nginx.conf /etc/nginx/nginx.conf
-COPY --from=build /app/.output/public /usr/share/nginx/html
+COPY --from=build /app/.output/public /usr/share/nginx/html/my
 
 CMD ["nginx", "-g", "daemon off;"]
