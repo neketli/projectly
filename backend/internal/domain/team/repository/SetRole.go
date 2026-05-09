@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func (r teamRepo) SetRole(ctx context.Context, teamID, userID, roleID int) error {
+func (r *teamRepository) SetRole(ctx context.Context, teamID, userID, roleID int) error {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()
 

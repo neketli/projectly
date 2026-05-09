@@ -9,7 +9,7 @@ import (
 	sq "github.com/Masterminds/squirrel"
 )
 
-func (r teamRepo) UpdateTeam(ctx context.Context, team *entity.Team) error {
+func (r *teamRepository) UpdateTeam(ctx context.Context, team *entity.Team) error {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()
 

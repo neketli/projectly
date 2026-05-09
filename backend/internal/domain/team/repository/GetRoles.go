@@ -9,7 +9,7 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-func (r teamRepo) GetRoles(ctx context.Context) ([]entity.Role, error) {
+func (r *teamRepository) GetRoles(ctx context.Context) ([]entity.Role, error) {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()
 

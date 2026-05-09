@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func (r teamRepo) AddUserToTeam(ctx context.Context, teamID, userID int) error {
+func (r *teamRepository) AddUserToTeam(ctx context.Context, teamID, userID int) error {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()
 

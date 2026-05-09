@@ -21,6 +21,10 @@ type TeamUseCase interface {
 	GetStatisticData(ctx context.Context, teamID int) ([]entity.StatisticData, error)
 	CheckUserInTeam(ctx context.Context, teamID, userID int) (bool, error)
 	GetUserRole(ctx context.Context, teamID, userID int) (*entity.Role, error)
+	GetProjectTeamID(ctx context.Context, projectID int) (int, error)
+	GetBoardTeamID(ctx context.Context, boardID int) (int, error)
+	GetStatusTeamID(ctx context.Context, statusID int) (int, error)
+	GetTaskTeamID(ctx context.Context, taskID int) (int, error)
 }
 
 type teamUseCase struct {

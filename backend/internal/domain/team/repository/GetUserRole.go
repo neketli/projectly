@@ -7,7 +7,7 @@ import (
 	sq "github.com/Masterminds/squirrel"
 )
 
-func (r teamRepo) GetUserRole(ctx context.Context, teamID, userID int) (int, error) {
+func (r *teamRepository) GetUserRole(ctx context.Context, teamID, userID int) (int, error) {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()
 

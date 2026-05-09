@@ -11,7 +11,7 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-func (r teamRepo) GetTeam(ctx context.Context, teamID int) (entity.Team, error) {
+func (r *teamRepository) GetTeam(ctx context.Context, teamID int) (entity.Team, error) {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()
 

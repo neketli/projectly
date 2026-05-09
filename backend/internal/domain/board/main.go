@@ -3,7 +3,8 @@ package board
 import (
 	"projectly-server/internal/domain/board/delivery"
 	"projectly-server/internal/domain/board/repository"
-	"projectly-server/internal/domain/board/usecase"
+	boardUseCase "projectly-server/internal/domain/board/usecase"
+	teamUseCase "projectly-server/internal/domain/team/usecase"
 	"projectly-server/pkg/logger"
 	"projectly-server/pkg/postgres"
 
@@ -11,17 +12,18 @@ import (
 )
 
 type Dependency struct {
-	Logger   *logger.Logger
-	Postgres *postgres.Postgres
-	Router   *echo.Group
+	Logger      *logger.Logger
+	Postgres    *postgres.Postgres
+	Router      *echo.Group
+	TeamUseCase teamUseCase.TeamUseCase
 }
 
-func New(dependency Dependency) usecase.BoardUseCase {
+func New(dependency Dependency) boardUseCase.BoardUseCase {
 	repo := repository.New(dependency.Postgres)
 
-	boardUseCase := usecase.New(repo, dependency.Logger)
+	boardUseCase := boardUseCase.New(repo, dependency.Logger)
 
-	delivery.New(dependency.Router, boardUseCase)
+	delivery.New(dependency.Router, boardUseCase, dependency.TeamUseCase)
 
 	return boardUseCase
 }

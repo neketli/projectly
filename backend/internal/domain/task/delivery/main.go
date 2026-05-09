@@ -1,35 +1,39 @@
 package delivery
 
 import (
-	"projectly-server/internal/domain/task/usecase"
+	"projectly-server/internal/domain/task/delivery/middlewares"
+	taskUseCase "projectly-server/internal/domain/task/usecase"
+	"projectly-server/internal/domain/team/entity"
+	teamUseCase "projectly-server/internal/domain/team/usecase"
 
 	"github.com/labstack/echo/v4"
 )
 
 type TaskHandler struct {
-	taskUseCase usecase.TaskUseCase
+	taskUseCase taskUseCase.TaskUseCase
 }
 
-func New(router *echo.Group, b usecase.TaskUseCase) {
+func New(router *echo.Group, b taskUseCase.TaskUseCase, tu teamUseCase.TeamUseCase) {
 	handler := &TaskHandler{taskUseCase: b}
+	middleware := middlewares.New(tu)
 
 	task := router.Group("/task")
 	{
-		task.POST("/create", handler.CreateTask)
-		task.PUT("/:id", handler.UpdateTask)
-		task.DELETE("/:id", handler.DeleteTask)
-		task.GET("/:id", handler.GetTask)
-		task.PATCH("/:id/change-status", handler.UpdateTaskStatus)
+		task.POST("/create", handler.CreateTask, middleware.TeamMembership(), middleware.RequireTeamRole(*entity.RoleDeveloper))
+		task.PUT("/:id", handler.UpdateTask, middleware.TeamMembership(), middleware.RequireTeamRole(*entity.RoleDeveloper))
+		task.DELETE("/:id", handler.DeleteTask, middleware.TeamMembership(), middleware.RequireTeamRole(*entity.RoleDeveloper))
+		task.GET("/:id", handler.GetTask, middleware.TeamMembership())
+		task.PATCH("/:id/change-status", handler.UpdateTaskStatus, middleware.TeamMembership(), middleware.RequireTeamRole(*entity.RoleDeveloper))
 
-		task.GET("/list", handler.GetTaskList)
-		task.GET("/", handler.GetTasks)
+		task.GET("/list", handler.GetTaskList, middleware.TeamMembership())
+		task.GET("/", handler.GetTasks, middleware.TeamMembership())
 
-		task.GET("/:id/attachments", handler.GetAttachments)
-		task.POST("/:id/create-attachments", handler.CreateAttachment)
-		task.DELETE("/delete-attachment", handler.DeleteAttachment)
+		task.GET("/:id/attachments", handler.GetAttachments, middleware.TeamMembership())
+		task.POST("/:id/create-attachments", handler.CreateAttachment, middleware.TeamMembership(), middleware.RequireTeamRole(*entity.RoleDeveloper))
+		task.DELETE("/delete-attachment", handler.DeleteAttachment, middleware.TeamMembership(), middleware.RequireTeamRole(*entity.RoleDeveloper))
 
-		task.GET("/:id/comments", handler.GetComments)
-		task.POST("/:id/create-comment", handler.CreateComment)
-		task.DELETE("/:id/delete-comment", handler.DeleteComment)
+		task.GET("/:id/comments", handler.GetComments, middleware.TeamMembership())
+		task.POST("/:id/create-comment", handler.CreateComment, middleware.TeamMembership(), middleware.RequireTeamRole(*entity.RoleDeveloper))
+		task.DELETE("/:id/delete-comment", handler.DeleteComment, middleware.TeamMembership(), middleware.RequireTeamRole(*entity.RoleDeveloper))
 	}
 }

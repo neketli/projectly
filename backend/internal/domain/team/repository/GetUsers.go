@@ -9,7 +9,7 @@ import (
 	sq "github.com/Masterminds/squirrel"
 )
 
-func (r teamRepo) GetUsers(ctx context.Context, teamID int) ([]entity.TeamUser, error) {
+func (r *teamRepository) GetUsers(ctx context.Context, teamID int) ([]entity.TeamUser, error) {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()
 

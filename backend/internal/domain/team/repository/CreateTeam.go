@@ -7,7 +7,7 @@ import (
 	"projectly-server/internal/domain/team/entity"
 )
 
-func (r teamRepo) CreateTeam(ctx context.Context, team *entity.Team) error {
+func (r *teamRepository) CreateTeam(ctx context.Context, team *entity.Team) error {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()
 

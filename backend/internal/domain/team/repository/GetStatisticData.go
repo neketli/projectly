@@ -8,7 +8,7 @@ import (
 	sq "github.com/Masterminds/squirrel"
 )
 
-func (r teamRepo) GetStatisticData(ctx context.Context, teamID int) ([]entity.StatisticData, error) {
+func (r *teamRepository) GetStatisticData(ctx context.Context, teamID int) ([]entity.StatisticData, error) {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()
 

@@ -86,7 +86,7 @@ func Run(cfg *config.Config) {
 		AuthRouter: auth,
 	})
 
-	team.New(team.Dependency{
+	teamUseCase := team.New(team.Dependency{
 		Logger:      l,
 		Postgres:    pg,
 		Router:      api,
@@ -94,28 +94,32 @@ func Run(cfg *config.Config) {
 	})
 
 	project.New(project.Dependency{
-		Logger:   l,
-		Postgres: pg,
-		Router:   api,
+		Logger:      l,
+		Postgres:    pg,
+		Router:      api,
+		TeamUseCase: teamUseCase,
 	})
 
 	board.New(board.Dependency{
-		Logger:   l,
-		Postgres: pg,
-		Router:   api,
+		Logger:      l,
+		Postgres:    pg,
+		Router:      api,
+		TeamUseCase: teamUseCase,
 	})
 
 	status.New(status.Dependency{
-		Logger:   l,
-		Postgres: pg,
-		Router:   api,
+		Logger:      l,
+		Postgres:    pg,
+		Router:      api,
+		TeamUseCase: teamUseCase,
 	})
 
 	task.New(task.Dependency{
-		Logger:   l,
-		Postgres: pg,
-		S3:       m,
-		Router:   api,
+		Logger:      l,
+		Postgres:    pg,
+		Router:      api,
+		S3:          m,
+		TeamUseCase: teamUseCase,
 	})
 
 	media.New(media.Dependency{

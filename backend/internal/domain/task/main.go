@@ -3,7 +3,8 @@ package task
 import (
 	"projectly-server/internal/domain/task/delivery"
 	"projectly-server/internal/domain/task/repository"
-	"projectly-server/internal/domain/task/usecase"
+	taskUseCase "projectly-server/internal/domain/task/usecase"
+	teamUseCase "projectly-server/internal/domain/team/usecase"
 	"projectly-server/pkg/logger"
 	"projectly-server/pkg/minio"
 	"projectly-server/pkg/postgres"
@@ -12,18 +13,19 @@ import (
 )
 
 type Dependency struct {
-	Logger   *logger.Logger
-	Postgres *postgres.Postgres
-	S3       *minio.Minio
-	Router   *echo.Group
+	Logger      *logger.Logger
+	Postgres    *postgres.Postgres
+	S3          *minio.Minio
+	Router      *echo.Group
+	TeamUseCase teamUseCase.TeamUseCase
 }
 
-func New(dependency Dependency) usecase.TaskUseCase {
+func New(dependency Dependency) taskUseCase.TaskUseCase {
 	repo := repository.New(dependency.Postgres, dependency.S3)
 
-	taskUseCase := usecase.New(repo, dependency.Logger)
+	taskUseCase := taskUseCase.New(repo, dependency.Logger)
 
-	delivery.New(dependency.Router, taskUseCase)
+	delivery.New(dependency.Router, taskUseCase, dependency.TeamUseCase)
 
 	return taskUseCase
 }
