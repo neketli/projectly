@@ -3,6 +3,7 @@ package usecase
 import (
 	"context"
 	"fmt"
+	"log"
 	"mime/multipart"
 	"path/filepath"
 	"projectly-server/internal/domain/user/entity"
@@ -17,7 +18,11 @@ func (u *userUseCase) UploadAvatar(ctx context.Context, user entity.User, file *
 		return err
 	}
 
-	defer src.Close()
+	defer func() {
+		if err := src.Close(); err != nil {
+			u.logger.Error("user - usecase - UploadAvatar - file.Open: %s", err.Error())
+		}
+	}()
 
 	if user.Meta != nil && user.Meta.Avatar != "" {
 		err = u.repo.RemoveAvatar(ctx, user.ID, user.Meta.Avatar)
