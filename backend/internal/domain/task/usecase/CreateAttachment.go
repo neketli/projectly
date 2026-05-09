@@ -14,7 +14,11 @@ func (u *taskUseCase) CreateAttachment(ctx context.Context, taskId int, file *mu
 		return "", err
 	}
 
-	defer src.Close()
+	defer func() {
+		if err := src.Close(); err != nil {
+			u.logger.Error("task - usecase - CreateAttachment - file.Open: %s", err.Error())
+		}
+	}()
 
 	filename := fmt.Sprintf("projectly-%d-%s", time.Now().Unix(), file.Filename)
 
