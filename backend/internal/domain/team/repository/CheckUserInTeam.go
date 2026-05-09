@@ -7,8 +7,7 @@ import (
 	sq "github.com/Masterminds/squirrel"
 )
 
-// CheckUserInTeam checks if a user is a member of a team in the database.
-func (r teamRepo) CheckUserInTeam(ctx context.Context, teamID, userID int) (bool, error) {
+func (r *teamRepository) CheckUserInTeam(ctx context.Context, teamID, userID int) (bool, error) {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()
 

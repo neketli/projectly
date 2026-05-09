@@ -18,7 +18,6 @@ type StatusHandler struct {
 func New(router *echo.Group, uc statusUseCase.StatusUseCase, tu teamUseCase.TeamUseCase) {
 	handler := &StatusHandler{statusUseCase: uc}
 	middleware := middlewares.New(tu)
-
 	status := router.Group("/status")
 	status.POST("/create", handler.CreateStatus, middleware.TeamMembership(), middleware.RequireTeamRole(*entity.RoleEditor))
 	status.PATCH("/:id", handler.UpdateStatus, middleware.TeamMembership(), middleware.RequireTeamRole(*entity.RoleEditor))

@@ -7,8 +7,7 @@ import (
 	sq "github.com/Masterminds/squirrel"
 )
 
-// DeleteTeam deletes a team from the database.
-func (r teamRepo) DeleteTeam(ctx context.Context, teamID int) error {
+func (r *teamRepository) DeleteTeam(ctx context.Context, teamID int) error {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()
 

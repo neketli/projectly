@@ -14,8 +14,7 @@ type BoardHandler struct {
 	boardUseCase boardUseCase.BoardUseCase
 }
 
-// New initializes the board handler with routes.
-func New(router *echo.Group, b usecase.BoardUseCase) {
+func New(router *echo.Group, b boardUseCase.BoardUseCase, tu teamUseCase.TeamUseCase) {
 	handler := &BoardHandler{boardUseCase: b}
 	middleware := middlewares.New(tu)
 
