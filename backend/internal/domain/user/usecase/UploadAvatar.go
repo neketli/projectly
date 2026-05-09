@@ -3,7 +3,6 @@ package usecase
 import (
 	"context"
 	"fmt"
-	"log"
 	"mime/multipart"
 	"path/filepath"
 	"projectly-server/internal/domain/user/entity"
