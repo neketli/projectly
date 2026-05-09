@@ -1,7 +1,7 @@
 # Projectly
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
-[![Go Version](https://img.shields.io/badge/Go-1.23+-00ADD8?logo=go)](https://golang.org/)
+[![Go Version](https://img.shields.io/badge/Go-1.25+-00ADD8?logo=go)](https://golang.org/)
 [![Vue.js](https://img.shields.io/badge/Vue.js-3.5+-4FC08D?logo=vue.js)](https://vuejs.org/)
 
 ![preview](https://github.com/user-attachments/assets/c19fb3a0-86e8-449f-9a13-190676e22817)
@@ -68,7 +68,7 @@ Thank you for considering contributing to Projectly! Here are some steps to get 
 
 Ensure you have the following installed:
 
-- [Go 1.23+](https://golang.org/dl/)
+- [Go 1.25+](https://golang.org/dl/)
 - [Node.js 20+](https://nodejs.org/)
 - [Docker](https://www.docker.com/get-started)
 - [Docker Compose](https://docs.docker.com/compose/install/)
