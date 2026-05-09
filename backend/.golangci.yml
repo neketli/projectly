@@ -1,0 +1,71 @@
+
+version: "2"
+run:
+  timeout: 5m
+  tests: true
+
+linters:
+  enable:
+    # base набор
+    - govet        # официальный анализатор Go
+    - errcheck     # проверка необработанных ошибок
+    - staticcheck  # мощный статический анализ (включает SA, S, ST классы)
+    - unused       # неиспользуемый код
+    - ineffassign  # бесполезные присваивания
+    # standard набор
+    - revive         # замена golint, настраиваемые правила
+    - gocritic       # дополнительные проверки стиля и логики
+    - misspell       # опечатки в комментариях
+    - noctx          # http-запросы без context
+    - bodyclose      # незакрытые response.Body
+    - durationcheck  # неверное умножение time.Duration
+    - godot          # точка в конце комментариях
+    - gosec          # базовые проверки безопасности
+  settings:
+    govet:
+      enable-all: true
+      disable:
+        - fieldalignment  # часто шумный, включай явно если нужен
+
+    errcheck:
+      check-type-assertions: true
+      check-blank: true
+
+    staticcheck:
+      checks: ["all", "-SA1019", "-QF1008", "-ST1000"]
+
+    revive:
+      rules:
+        - name: exported
+          severity: warning
+        - name: var-naming
+        - name: error-return
+        - name: error-naming
+        - name: error-strings
+        - name: if-return
+        - name: increment-decrement
+        - name: var-declaration
+
+    gocritic:
+      enabled-tags:
+        - diagnostic
+        - style
+        - performance
+      disabled-checks:
+        - hugeParam      # субъективно
+        - rangeValCopy   # субъективно
+
+    misspell:
+      locale: US
+
+    gosec:
+      excludes:
+        - G104  # Errors unhandled — дублирует errcheck
+        - G304  # File path provided as taint input — много ложных срабатываний
+  exclusions:
+    generated: lax
+
+issues:
+  # Показывать все проблемы, не останавливаться на первой 1000
+  max-issues-per-linter: 0
+  max-same-issues: 0
