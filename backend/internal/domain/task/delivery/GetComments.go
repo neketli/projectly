@@ -9,7 +9,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary		Get task comments
+// GetComments handles retrieval of task comments.
+// @Summary Get task comments
 // @Description	Get task comments
 // @ID				task-get-comments
 // @Tags			task
@@ -20,7 +21,7 @@ import (
 // @Success		200 {object}	[]entity.Comment 	"Array of task comments"
 // @Failure		400	{object}	echo.HTTPError	"Bad request"
 // @Failure		500	{object}	echo.HTTPError	"Internal server error"
-// @Router			/task/{id}/comments [get]
+// @Router			/task/{id}/comments [get].
 func (h *TaskHandler) GetComments(c echo.Context) error {
 	taskID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

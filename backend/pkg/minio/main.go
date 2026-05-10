@@ -8,21 +8,23 @@ import (
 	"github.com/minio/minio-go/v7/pkg/credentials"
 )
 
+// Minio provides S3-compatible object storage client.
 type Minio struct {
 	Client *minio.Client
 	Bucket string
 }
 
-func New(config config.S3) (*Minio, error) {
+// New creates a new Minio client.
+func New(cfg config.S3) (*Minio, error) {
 	minioClient, err := minio.New(
-		config.Host,
+		cfg.Host,
 		&minio.Options{
 			Creds: credentials.NewStaticV4(
-				config.AccessKey,
-				config.SecretKey,
+				cfg.AccessKey,
+				cfg.SecretKey,
 				"",
 			),
-			Secure: config.Secure,
+			Secure: cfg.Secure,
 		},
 	)
 	if err != nil {
@@ -32,6 +34,6 @@ func New(config config.S3) (*Minio, error) {
 
 	return &Minio{
 		Client: minioClient,
-		Bucket: config.Bucket,
+		Bucket: cfg.Bucket,
 	}, nil
 }

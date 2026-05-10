@@ -1,5 +1,6 @@
 package entity
 
+// Task represents a task entity.
 type Task struct {
 	ID             int    `json:"id"`
 	ProjectIndex   int    `json:"project_index"`
@@ -17,6 +18,7 @@ type Task struct {
 	AssignedUserID int    `json:"assigned_user_id,omitempty"`
 }
 
+// TaskDetailedParams contains parameters for querying detailed tasks.
 type TaskDetailedParams struct {
 	TaskID       *int    `json:"task_id" query:"task_id"`
 	TeamID       *int    `json:"team_id" query:"team_id"`
@@ -28,6 +30,7 @@ type TaskDetailedParams struct {
 	Search       *string `json:"search" query:"search"`
 }
 
+// TaskDetailed represents a task with full details.
 type TaskDetailed struct {
 	ID             int    `json:"id"`
 	ProjectCode    string `json:"project_code"`

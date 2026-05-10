@@ -7,6 +7,7 @@ import (
 	sq "github.com/Masterminds/squirrel"
 )
 
+// DeleteStatus deletes a status from the database.
 func (r statusRepo) DeleteStatus(ctx context.Context, statusID, order int) error {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()
@@ -16,11 +17,11 @@ func (r statusRepo) DeleteStatus(ctx context.Context, statusID, order int) error
 		return fmt.Errorf("status - repository - DeleteStatus - r.Pool.Begin: %w", err)
 	}
 	defer func() {
-		_ = tx.Rollback(ctx)
+		_ = tx.Rollback(ctx) //nolint:errcheck //rollback result intentionally ignored
 	}()
 
 	// Delete status
-	sql, args, err := r.Builder.
+	query, args, err := r.Builder.
 		Delete("status").
 		Where(sq.Eq{"id": statusID}).
 		ToSql()
@@ -28,7 +29,7 @@ func (r statusRepo) DeleteStatus(ctx context.Context, statusID, order int) error
 		return fmt.Errorf("status - repository - DeleteStatus - r.Builder: %w", err)
 	}
 
-	result, err := tx.Exec(ctx, sql, args...)
+	result, err := tx.Exec(ctx, query, args...)
 	if err != nil {
 		return fmt.Errorf("status - repository - DeleteStatus - tx.Exec: %w", err)
 	}
@@ -38,7 +39,7 @@ func (r statusRepo) DeleteStatus(ctx context.Context, statusID, order int) error
 	}
 
 	// Update orders in board
-	sql, args, err = r.Builder.
+	query, args, err = r.Builder.
 		Update("status").
 		Set("status_order", sq.Expr("status_order - 1")).
 		Where(sq.Gt{"status_order": order}).
@@ -47,7 +48,7 @@ func (r statusRepo) DeleteStatus(ctx context.Context, statusID, order int) error
 		return fmt.Errorf("status - repository - DeleteStatus - r.Builder: %w", err)
 	}
 
-	_, err = tx.Exec(ctx, sql, args...)
+	_, err = tx.Exec(ctx, query, args...)
 	if err != nil {
 		return fmt.Errorf("status - repository - DeleteStatus - tx.Exec: %w", err)
 	}

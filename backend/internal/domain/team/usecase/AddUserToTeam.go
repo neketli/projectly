@@ -4,6 +4,7 @@ import (
 	"context"
 )
 
+// AddUserToTeam adds a user to a team.
 func (u *teamUseCase) AddUserToTeam(ctx context.Context, teamID, userID int) error {
 	err := u.repo.AddUserToTeam(ctx, teamID, userID)
 	if err != nil {

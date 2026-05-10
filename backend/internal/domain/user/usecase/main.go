@@ -9,6 +9,7 @@ import (
 	"projectly-server/pkg/logger"
 )
 
+// UserUseCase defines the interface for user business logic.
 type UserUseCase interface {
 	CreateUser(ctx context.Context, user *entity.User) error
 	UpdateUser(ctx context.Context, user *entity.User) error
@@ -29,6 +30,7 @@ type userUseCase struct {
 	config config.Auth
 }
 
+// New creates a new UserUseCase instance.
 func New(r repository.UserRepository, l *logger.Logger, c *config.Config) UserUseCase {
 	return &userUseCase{
 		repo:   r,

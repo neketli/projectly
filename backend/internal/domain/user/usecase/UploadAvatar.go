@@ -10,6 +10,7 @@ import (
 	"github.com/google/uuid"
 )
 
+// UploadAvatar uploads a new avatar for a user.
 func (u *userUseCase) UploadAvatar(ctx context.Context, user entity.User, file *multipart.FileHeader) error {
 	src, err := file.Open()
 	if err != nil {
@@ -18,8 +19,8 @@ func (u *userUseCase) UploadAvatar(ctx context.Context, user entity.User, file *
 	}
 
 	defer func() {
-		if err := src.Close(); err != nil {
-			u.logger.Error("user - usecase - UploadAvatar - file.Open: %s", err.Error())
+		if closeErr := src.Close(); closeErr != nil {
+			u.logger.Error("user - usecase - UploadAvatar - file.Open: %s", closeErr.Error())
 		}
 	}()
 

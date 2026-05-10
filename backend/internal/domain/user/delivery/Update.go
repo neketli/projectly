@@ -20,7 +20,8 @@ type requestUpdate struct {
 	About    *string `json:"about"`
 }
 
-// @Summary		Update user
+// Update handles user profile updates.
+// @Summary Update user
 // @Description	Update user
 // @ID				user-update
 // @Tags			user
@@ -30,7 +31,7 @@ type requestUpdate struct {
 // @Success		200				{object}	entity.User		"Updated user"
 // @Failure		400				{object}	echo.HTTPError	"Bad request"
 // @Failure		500				{object}	echo.HTTPError	"Internal server error"
-// @Router			/user/update [post]
+// @Router			/user/update [post].
 func (h *UserHandler) Update(c echo.Context) error {
 	var request requestUpdate
 	if err := c.Bind(&request); err != nil {

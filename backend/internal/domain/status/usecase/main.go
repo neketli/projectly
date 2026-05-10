@@ -7,6 +7,7 @@ import (
 	"projectly-server/pkg/logger"
 )
 
+// StatusUseCase defines the interface for status business logic.
 type StatusUseCase interface {
 	CreateStatus(ctx context.Context, status *entity.Status) error
 	UpdateStatus(ctx context.Context, status *entity.Status, oldOrder *int) error
@@ -19,6 +20,7 @@ type statusUseCase struct {
 	logger *logger.Logger
 }
 
+// New creates a new StatusUseCase instance.
 func New(r repository.StatusRepository, l *logger.Logger) StatusUseCase {
 	return &statusUseCase{
 		repo:   r,

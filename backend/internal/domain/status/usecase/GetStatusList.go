@@ -5,6 +5,7 @@ import (
 	"projectly-server/internal/domain/status/entity"
 )
 
+// GetStatusList retrieves all statuses for a board.
 func (u *statusUseCase) GetStatusList(ctx context.Context, boardID int) ([]entity.Status, error) {
 	statuses, err := u.repo.GetStatusList(ctx, boardID)
 	if err != nil {

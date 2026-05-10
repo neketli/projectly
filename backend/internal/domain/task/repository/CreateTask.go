@@ -10,13 +10,14 @@ import (
 	"projectly-server/internal/domain/task/repository/model"
 )
 
+// CreateTask creates a new task in the database.
 func (r taskRepo) CreateTask(ctx context.Context, task entity.Task) (entity.Task, error) {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()
 
-	projectID, err := r.getProjectIdByStatus(ctx, task.StatusID)
+	projectID, err := r.getProjectIDByStatus(ctx, task.StatusID)
 	if err != nil {
-		return entity.Task{}, fmt.Errorf("task - repository - CreateTask - r.getProjectIdByStatus: %w", err)
+		return entity.Task{}, fmt.Errorf("task - repository - CreateTask - r.getProjectIDByStatus: %w", err)
 	}
 
 	projectTaskIndex, err := r.getProjectTaskIndex(ctx, projectID)

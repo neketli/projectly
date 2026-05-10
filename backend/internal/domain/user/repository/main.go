@@ -9,6 +9,7 @@ import (
 	"time"
 )
 
+// UserRepository defines the interface for user data operations.
 type UserRepository interface {
 	CreateUser(ctx context.Context, user *entity.User) error
 	UpdateUser(ctx context.Context, user *entity.User) error
@@ -26,6 +27,7 @@ type userRepo struct {
 	*minio.Minio
 }
 
+// New creates a new UserRepository instance.
 func New(pg *postgres.Postgres, s3 *minio.Minio) UserRepository {
 	return userRepo{pg, s3}
 }

@@ -5,6 +5,7 @@ import (
 	"projectly-server/internal/domain/task/entity"
 )
 
+// CreateTask creates a new task and returns its detailed representation.
 func (u *taskUseCase) CreateTask(ctx context.Context, task entity.Task) (entity.TaskDetailed, error) {
 	task, err := u.repo.CreateTask(ctx, task)
 	if err != nil {

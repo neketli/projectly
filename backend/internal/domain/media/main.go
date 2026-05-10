@@ -10,12 +10,14 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// Dependency contains dependencies for media domain initialization.
 type Dependency struct {
 	Logger *logger.Logger
 	S3     *minio.Minio
 	Router *echo.Group
 }
 
+// New initializes the media domain with its dependencies and returns a MediaUseCase.
 func New(dependency Dependency) usecase.MediaUseCase {
 	repo := repository.New(dependency.S3)
 

@@ -15,7 +15,8 @@ type createStatusRequest struct {
 	HexColor string `json:"hex_color"`
 }
 
-// @Summary	Create a new status
+// CreateStatus handles the creation of a new status.
+// @Summary Create a new status
 // @ID			status-create
 // @Tags		status
 // @Accept		application/json
@@ -24,7 +25,7 @@ type createStatusRequest struct {
 // @Success	201		{object}	entity.Status		"Created status"
 // @Failure	400		{object}	echo.HTTPError		"Bad request"
 // @Failure	500		{object}	echo.HTTPError		"Internal server error"
-// @Router		/status/create [post]
+// @Router		/status/create [post].
 func (h *StatusHandler) CreateStatus(c echo.Context) error {
 	var request createStatusRequest
 	if err := c.Bind(&request); err != nil {

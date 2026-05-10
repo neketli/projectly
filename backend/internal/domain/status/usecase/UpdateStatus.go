@@ -5,6 +5,7 @@ import (
 	"projectly-server/internal/domain/status/entity"
 )
 
+// UpdateStatus updates an existing status and reorders if needed.
 func (u *statusUseCase) UpdateStatus(ctx context.Context, status *entity.Status, oldOrder *int) error {
 	if oldOrder != nil && *oldOrder != status.Order {
 		err := u.repo.UpdateOrders(ctx, status.BoardID, *oldOrder, status.Order)

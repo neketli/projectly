@@ -1,5 +1,6 @@
 package entity
 
+// StatisticData represents team statistics data.
 type StatisticData struct {
 	ID                  int     `json:"id" example:"1"`
 	Code                string  `json:"code" example:"proj1"`

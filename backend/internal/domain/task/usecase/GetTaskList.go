@@ -5,6 +5,7 @@ import (
 	"projectly-server/internal/domain/task/entity"
 )
 
+// GetTaskList retrieves tasks grouped by status for a board.
 func (u *taskUseCase) GetTaskList(ctx context.Context, boardID int) (map[int][]entity.Task, error) {
 	tasks, err := u.repo.GetTaskList(ctx, boardID)
 	if err != nil {

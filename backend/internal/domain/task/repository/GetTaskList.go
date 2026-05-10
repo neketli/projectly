@@ -10,6 +10,7 @@ import (
 	sq "github.com/Masterminds/squirrel"
 )
 
+// GetTaskList retrieves all tasks for a board from the database.
 func (r taskRepo) GetTaskList(ctx context.Context, boardID int) ([]entity.Task, error) {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()

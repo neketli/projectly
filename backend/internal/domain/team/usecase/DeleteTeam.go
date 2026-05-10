@@ -4,6 +4,7 @@ import (
 	"context"
 )
 
+// DeleteTeam deletes a team by ID.
 func (u *teamUseCase) DeleteTeam(ctx context.Context, teamID int) error {
 	err := u.repo.DeleteTeam(ctx, teamID)
 	if err != nil {

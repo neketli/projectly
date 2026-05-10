@@ -9,7 +9,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary		Get detailed tasks list
+// GetTasks handles retrieval of detailed tasks.
+// @Summary Get detailed tasks list
 // @ID			task-get-detailed
 // @Tags		task
 // @Accept		application/json
@@ -25,7 +26,7 @@ import (
 // @Success	200		{array}		entityTask.TaskDetailed
 // @Failure	400		{object}	echo.HTTPError
 // @Failure	500		{object}	echo.HTTPError
-// @Router		/task/ [get]
+// @Router		/task/ [get].
 func (h *TaskHandler) GetTasks(c echo.Context) error {
 	var params entityTask.TaskDetailedParams
 	err := c.Bind(&params)

@@ -10,7 +10,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary	Get users boards list
+// GetUserBoardList handles retrieval of user boards.
+// @Summary Get users boards list
 // @ID			board-user-get-list
 // @Tags		board
 // @Accept		application/json
@@ -19,7 +20,7 @@ import (
 // @Success	200		{array}		entity.BoardTeam
 // @Failure	400		{object}	echo.HTTPError
 // @Failure	500		{object}	echo.HTTPError
-// @Router		/board/list-user [get]
+// @Router		/board/list-user [get].
 func (h *BoardHandler) GetUserBoardList(c echo.Context) error {
 	userID, err := strconv.Atoi(c.QueryParam("user_id"))
 	if err != nil {

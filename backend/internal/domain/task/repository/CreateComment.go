@@ -7,11 +7,12 @@ import (
 	"time"
 )
 
+// CreateComment creates a new comment in the database.
 func (r taskRepo) CreateComment(ctx context.Context, taskID, userID int, text string) error {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()
 
-	sql, args, err := r.Builder.
+	query, args, err := r.Builder.
 		Insert("comment").
 		Columns(
 			"text",
@@ -33,7 +34,7 @@ func (r taskRepo) CreateComment(ctx context.Context, taskID, userID int, text st
 		return fmt.Errorf("task - repository - CreateComment - r.Builder: %w", err)
 	}
 
-	rows, err := r.Pool.Query(ctx, sql, args...)
+	rows, err := r.Pool.Query(ctx, query, args...)
 	if err != nil {
 		return fmt.Errorf("task - repository - CreateComment - r.Pool.Query: %w", err)
 	}

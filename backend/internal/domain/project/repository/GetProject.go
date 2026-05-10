@@ -11,6 +11,7 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
+// GetProject retrieves a project by ID from the database.
 func (r projectRepo) GetProject(ctx context.Context, projectID int) (entity.Project, error) {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()

@@ -9,6 +9,7 @@ import (
 	"projectly-server/internal/domain/user/entity"
 )
 
+// CompleteUserAuth completes OAuth authentication by creating or updating user.
 func (u *userUseCase) CompleteUserAuth(ctx context.Context, user *entity.User) error {
 	existingUser, err := u.GetUserByEmail(ctx, user.Email)
 	if err != nil && !errors.Is(err, entity.ErrNoUserFound) {
@@ -46,6 +47,7 @@ func (u *userUseCase) CompleteUserAuth(ctx context.Context, user *entity.User) e
 
 }
 
+// generatePassword generates a random password of given length.
 func generatePassword(length int) string {
 	bytes := make([]byte, length)
 	_, err := rand.Read(bytes)

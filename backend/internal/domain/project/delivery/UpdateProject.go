@@ -3,8 +3,8 @@ package delivery
 import (
 	"fmt"
 	"net/http"
-	"strconv"
 	"projectly-server/internal/domain/project/entity"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -14,7 +14,8 @@ type updateProjectRequest struct {
 	Description string `json:"description"`
 }
 
-// @Summary	Update an existing project
+// UpdateProject handles updating an existing project.
+// @Summary Update an existing project
 // @ID			project-update
 // @Tags		project
 // @Accept		application/json
@@ -23,7 +24,7 @@ type updateProjectRequest struct {
 // @Success	200
 // @Failure	400	{object}	echo.HTTPError	"Invalid input"
 // @Failure	500	{object}	echo.HTTPError	"Internal server error"
-// @Router		/project/{id} [patch]
+// @Router		/project/{id} [patch].
 func (ph *ProjectHandler) UpdateProject(c echo.Context) error {
 	projectID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -34,10 +35,10 @@ func (ph *ProjectHandler) UpdateProject(c echo.Context) error {
 	}
 
 	var request updateProjectRequest
-	if err := c.Bind(&request); err != nil {
+	if bindErr := c.Bind(&request); bindErr != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("validation error: %s", err.Error()),
+			Message: fmt.Sprintf("validation error: %s", bindErr.Error()),
 		}
 	}
 

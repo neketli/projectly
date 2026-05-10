@@ -8,6 +8,7 @@ import (
 	"github.com/minio/minio-go/v7"
 )
 
+// DeleteAttachment removes an attachment from storage and database.
 func (r taskRepo) DeleteAttachment(ctx context.Context, objectName string) error {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()

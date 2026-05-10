@@ -7,6 +7,7 @@ import (
 	"projectly-server/internal/domain/user/entity"
 )
 
+// CreateUser creates a new user in the database.
 func (r userRepo) CreateUser(ctx context.Context, user *entity.User) error {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()

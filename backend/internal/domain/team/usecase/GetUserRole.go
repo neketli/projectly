@@ -5,6 +5,7 @@ import (
 	"projectly-server/internal/domain/team/entity"
 )
 
+// GetUserRole retrieves a user's role in a team.
 func (u *teamUseCase) GetUserRole(ctx context.Context, teamID, userID int) (*entity.Role, error) {
 	roleID, err := u.repo.GetUserRole(ctx, teamID, userID)
 	if err != nil {

@@ -10,7 +10,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary	Get team
+// GetTeam handles retrieval of a team.
+// @Summary Get team
 // @ID			team-get
 // @Tags		team
 // @Accept		application/json
@@ -19,8 +20,8 @@ import (
 // @Success	200	{object}	entity.Team
 // @Failure	400	{object}	echo.HTTPError
 // @Failure	500	{object}	echo.HTTPError
-// @Router		/team/{id} [get]
-func (th *TeamHandler) GetTeam(c echo.Context) error {
+// @Router		/team/{id} [get].
+func (h *TeamHandler) GetTeam(c echo.Context) error {
 	teamID, err := strconv.Atoi(c.Param("id"))
 	if err != nil || teamID <= 0 {
 		return &echo.HTTPError{
@@ -36,7 +37,7 @@ func (th *TeamHandler) GetTeam(c echo.Context) error {
 			Message: fmt.Sprintf("can't extract user from token: %s", err.Error()),
 		}
 	}
-	isUserInTeam, err := th.teamUseCase.CheckUserInTeam(c.Request().Context(), teamID, claims.ID)
+	isUserInTeam, err := h.teamUseCase.CheckUserInTeam(c.Request().Context(), teamID, claims.ID)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusInternalServerError,
@@ -51,7 +52,7 @@ func (th *TeamHandler) GetTeam(c echo.Context) error {
 	}
 
 	var team entity.Team
-	team, err = th.teamUseCase.GetTeam(c.Request().Context(), teamID)
+	team, err = h.teamUseCase.GetTeam(c.Request().Context(), teamID)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusInternalServerError,

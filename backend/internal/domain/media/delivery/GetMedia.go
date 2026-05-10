@@ -7,7 +7,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary		Get media
+// GetMedia handles retrieval of media files.
+// @Summary Get media
 // @ID			media-get
 // @Tags		media
 // @Produce 	application/octet-stream
@@ -16,7 +17,7 @@ import (
 // @Success 200 {file} file "File content" Headers(ETag=string,Content-Type=string,Content-Disposition=string)
 // @Failure	400	{object}	echo.HTTPError	"Invalid filepath"
 // @Failure	500	{object}	echo.HTTPError	"Internal server error"
-// @Router		/media/{filepath} [get]
+// @Router		/media/{filepath} [get].
 func (h *MediaHandler) GetMedia(c echo.Context) error {
 	filepath := c.Param("*")
 	if filepath == "" {

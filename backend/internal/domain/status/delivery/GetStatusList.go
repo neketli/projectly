@@ -3,13 +3,14 @@ package delivery
 import (
 	"fmt"
 	"net/http"
-	"strconv"
 	"projectly-server/internal/domain/status/entity"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary		Get status list
+// GetStatusList handles retrieval of status list.
+// @Summary Get status list
 // @Description	Get status list of project board
 // @ID				status-list
 // @Tags			status
@@ -19,7 +20,7 @@ import (
 // @Success		200			{array}		entity.Status
 // @Failure		400			{object}	echo.HTTPError
 // @Failure		500			{object}	echo.HTTPError
-// @Router			/status/list [get]
+// @Router			/status/list [get].
 func (h *StatusHandler) GetStatusList(c echo.Context) error {
 	boardID, err := strconv.Atoi(c.QueryParam("board_id"))
 	if err != nil {

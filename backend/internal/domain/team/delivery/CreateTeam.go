@@ -14,7 +14,8 @@ type createTeamRequest struct {
 	Description string `json:"description"`
 }
 
-// @Summary	Create a new team
+// CreateTeam handles the creation of a new team.
+// @Summary Create a new team
 // @ID			create-team
 // @Tags		team
 // @Accept		application/json
@@ -23,8 +24,8 @@ type createTeamRequest struct {
 // @Success	201		{object}	entity.Team			"Created team"
 // @Failure	400		{object}	echo.HTTPError		"Bad request"
 // @Failure	500		{object}	echo.HTTPError		"Internal server error"
-// @Router		/team/create [post]
-func (th *TeamHandler) CreateTeam(c echo.Context) error {
+// @Router		/team/create [post].
+func (h *TeamHandler) CreateTeam(c echo.Context) error {
 	var request createTeamRequest
 	if err := c.Bind(&request); err != nil {
 		return &echo.HTTPError{
@@ -39,7 +40,7 @@ func (th *TeamHandler) CreateTeam(c echo.Context) error {
 		Description: request.Description,
 	}
 
-	err := th.teamUseCase.CreateTeam(c.Request().Context(), team)
+	err := h.teamUseCase.CreateTeam(c.Request().Context(), team)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusBadRequest,
@@ -55,7 +56,7 @@ func (th *TeamHandler) CreateTeam(c echo.Context) error {
 		}
 	}
 
-	err = th.teamUseCase.AddUserToTeam(c.Request().Context(), team.ID, claims.ID)
+	err = h.teamUseCase.AddUserToTeam(c.Request().Context(), team.ID, claims.ID)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusBadRequest,
@@ -63,7 +64,7 @@ func (th *TeamHandler) CreateTeam(c echo.Context) error {
 		}
 	}
 
-	err = th.teamUseCase.SetRole(c.Request().Context(), team.ID, claims.ID, entity.RoleOwner.ID)
+	err = h.teamUseCase.SetRole(c.Request().Context(), team.ID, claims.ID, entity.RoleOwner.ID)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusInternalServerError,

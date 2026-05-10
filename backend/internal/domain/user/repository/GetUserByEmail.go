@@ -9,6 +9,7 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
+// GetUserByEmail retrieves a user by email from the database.
 func (r userRepo) GetUserByEmail(ctx context.Context, email string) (entity.User, error) {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()

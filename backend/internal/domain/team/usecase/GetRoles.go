@@ -5,6 +5,7 @@ import (
 	"projectly-server/internal/domain/team/entity"
 )
 
+// GetRoles retrieves all available team roles.
 func (u *teamUseCase) GetRoles(ctx context.Context) ([]entity.Role, error) {
 	roles, err := u.repo.GetRoles(ctx)
 	if err != nil {

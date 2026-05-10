@@ -9,6 +9,7 @@ import (
 	sq "github.com/Masterminds/squirrel"
 )
 
+// UpdateProject updates an existing project in the database.
 func (r projectRepo) UpdateProject(ctx context.Context, project *entity.Project) error {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()

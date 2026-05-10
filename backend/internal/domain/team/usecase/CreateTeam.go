@@ -5,6 +5,7 @@ import (
 	"projectly-server/internal/domain/team/entity"
 )
 
+// CreateTeam creates a new team.
 func (u *teamUseCase) CreateTeam(ctx context.Context, team *entity.Team) error {
 	err := u.repo.CreateTeam(ctx, team)
 	if err != nil {

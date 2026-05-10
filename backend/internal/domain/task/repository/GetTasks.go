@@ -12,6 +12,7 @@ import (
 	sq "github.com/Masterminds/squirrel"
 )
 
+// GetTasks retrieves tasks based on filter parameters from the database.
 func (r taskRepo) GetTasks(ctx context.Context, params *entity.TaskDetailedParams) ([]entity.TaskDetailed, error) {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()

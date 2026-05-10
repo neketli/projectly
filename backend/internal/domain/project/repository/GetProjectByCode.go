@@ -11,6 +11,7 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
+// GetProjectByCode retrieves a project by team ID and code from the database.
 func (r projectRepo) GetProjectByCode(ctx context.Context, teamID int, code string) (entity.Project, error) {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()

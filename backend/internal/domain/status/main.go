@@ -11,6 +11,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// Dependency contains dependencies for status domain initialization.
 type Dependency struct {
 	Logger      *logger.Logger
 	Postgres    *postgres.Postgres
@@ -18,7 +19,8 @@ type Dependency struct {
 	TeamUseCase teamUseCase.TeamUseCase
 }
 
-func New(dependency Dependency) statusUseCase.StatusUseCase {
+// New initializes the status domain with its dependencies and returns a StatusUseCase.
+func New(dependency Dependency) usecase.StatusUseCase {
 	repo := repository.New(dependency.Postgres)
 
 	statusUseCase := statusUseCase.New(repo, dependency.Logger)

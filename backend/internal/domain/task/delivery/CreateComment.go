@@ -13,7 +13,8 @@ type createCommentRequest struct {
 	Text string `json:"text"`
 }
 
-// @Summary		Create comment in task
+// CreateComment handles creating a comment in a task.
+// @Summary Create comment in task
 // @Description	Creates comment in task
 // @ID				task-create-comment
 // @Tags			task
@@ -22,7 +23,7 @@ type createCommentRequest struct {
 // @Success		201
 // @Failure		400	{object}	echo.HTTPError	"Bad request"
 // @Failure		500	{object}	echo.HTTPError	"Internal server error"
-// @Router			/task/{id}/create-comment [post]
+// @Router			/task/{id}/create-comment [post].
 func (h *TaskHandler) CreateComment(c echo.Context) error {
 	taskID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -33,10 +34,10 @@ func (h *TaskHandler) CreateComment(c echo.Context) error {
 	}
 
 	var request createCommentRequest
-	if err := c.Bind(&request); err != nil {
+	if bindErr := c.Bind(&request); bindErr != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("validation error: %s", err.Error()),
+			Message: fmt.Sprintf("validation error: %s", bindErr.Error()),
 		}
 	}
 

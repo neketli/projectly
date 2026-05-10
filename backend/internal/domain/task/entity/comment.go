@@ -1,5 +1,6 @@
 package entity
 
+// Comment represents a task comment entity.
 type Comment struct {
 	ID        int    `json:"id"`
 	Text      string `json:"text"`

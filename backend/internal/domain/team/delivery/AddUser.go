@@ -13,7 +13,8 @@ type addUserRequest struct {
 	UserEmail string `json:"email"`
 }
 
-// @Summary	Add user to team
+// AddUser handles adding a user to a team.
+// @Summary Add user to team
 // @ID			team-add-user
 // @Tags		team
 // @Accept		application/json
@@ -23,8 +24,8 @@ type addUserRequest struct {
 // @Success	201
 // @Failure	400	{object}	echo.HTTPError	"Bad request"
 // @Failure	500	{object}	echo.HTTPError	"Internal server error"
-// @Router		/team/{id}/add-user [post]
-func (th *TeamHandler) AddUser(c echo.Context) error {
+// @Router		/team/{id}/add-user [post].
+func (h *TeamHandler) AddUser(c echo.Context) error {
 	var request addUserRequest
 	if err := c.Bind(&request); err != nil {
 		return &echo.HTTPError{
@@ -41,7 +42,7 @@ func (th *TeamHandler) AddUser(c echo.Context) error {
 		}
 	}
 
-	user, err := th.userUseCase.GetUserByEmail(c.Request().Context(), request.UserEmail)
+	user, err := h.userUseCase.GetUserByEmail(c.Request().Context(), request.UserEmail)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusBadRequest,
@@ -49,7 +50,7 @@ func (th *TeamHandler) AddUser(c echo.Context) error {
 		}
 	}
 
-	err = th.teamUseCase.AddUserToTeam(c.Request().Context(), teamID, user.ID)
+	err = h.teamUseCase.AddUserToTeam(c.Request().Context(), teamID, user.ID)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusBadRequest,
@@ -57,7 +58,7 @@ func (th *TeamHandler) AddUser(c echo.Context) error {
 		}
 	}
 
-	err = th.teamUseCase.SetRole(c.Request().Context(), teamID, user.ID, entity.RoleUser.ID)
+	err = h.teamUseCase.SetRole(c.Request().Context(), teamID, user.ID, entity.RoleUser.ID)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusBadRequest,

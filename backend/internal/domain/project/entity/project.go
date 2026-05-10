@@ -1,5 +1,6 @@
 package entity
 
+// Project represents a project entity.
 type Project struct {
 	ID          int    `json:"id"`
 	TeamID      int    `json:"team_id"`

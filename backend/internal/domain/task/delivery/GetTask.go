@@ -9,7 +9,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary	Get task
+// GetTask handles retrieval of a task.
+// @Summary Get task
 // @ID			task-get
 // @Tags		task
 // @Accept		application/json
@@ -18,7 +19,7 @@ import (
 // @Success	200	{object}	entityTask.TaskDetailed
 // @Failure	400	{object}	echo.HTTPError
 // @Failure	500	{object}	echo.HTTPError
-// @Router		/task/{id} [get]
+// @Router		/task/{id} [get].
 func (h *TaskHandler) GetTask(c echo.Context) error {
 	taskID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

@@ -9,7 +9,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary	Update an existing task
+// UpdateTask handles updating an existing task.
+// @Summary Update an existing task
 // @ID			task-update
 // @Tags		task
 // @Accept		application/json
@@ -18,7 +19,7 @@ import (
 // @Success	200	{object}	entity.Task
 // @Failure	400	{object}	echo.HTTPError	"Invalid input"
 // @Failure	500	{object}	echo.HTTPError	"Internal server error"
-// @Router		/task/{id} [put]
+// @Router		/task/{id} [put].
 func (h *TaskHandler) UpdateTask(c echo.Context) error {
 	taskID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -29,10 +30,10 @@ func (h *TaskHandler) UpdateTask(c echo.Context) error {
 	}
 
 	var request entity.Task
-	if err := c.Bind(&request); err != nil {
+	if bindErr := c.Bind(&request); bindErr != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("validation error: %s", err.Error()),
+			Message: fmt.Sprintf("validation error: %s", bindErr.Error()),
 		}
 	}
 

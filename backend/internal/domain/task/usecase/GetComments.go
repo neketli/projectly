@@ -5,8 +5,9 @@ import (
 	"projectly-server/internal/domain/task/entity"
 )
 
-func (u *taskUseCase) GetComments(ctx context.Context, taskId, lastCommentID int) ([]entity.Comment, error) {
-	comments, err := u.repo.GetComments(ctx, taskId, lastCommentID)
+// GetComments retrieves comments for a task.
+func (u *taskUseCase) GetComments(ctx context.Context, taskID, lastCommentID int) ([]entity.Comment, error) {
+	comments, err := u.repo.GetComments(ctx, taskID, lastCommentID)
 	if err != nil {
 		u.logger.Error("task - usecase - GetComments - u.repo.GetComments: %s", err.Error())
 		return nil, err

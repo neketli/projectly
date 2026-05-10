@@ -7,6 +7,7 @@ import (
 	"projectly-server/pkg/logger"
 )
 
+// TeamUseCase defines the interface for team business logic.
 type TeamUseCase interface {
 	CreateTeam(ctx context.Context, team *entity.Team) error
 	UpdateTeam(ctx context.Context, team *entity.Team) error
@@ -32,6 +33,7 @@ type teamUseCase struct {
 	logger *logger.Logger
 }
 
+// New creates a new TeamUseCase instance.
 func New(r repository.TeamRepository, l *logger.Logger) TeamUseCase {
 	return &teamUseCase{
 		repo:   r,

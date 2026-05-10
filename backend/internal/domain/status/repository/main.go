@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+// StatusRepository defines the interface for status data operations.
 type StatusRepository interface {
 	CreateStatus(ctx context.Context, status *entity.Status) error
 	UpdateStatus(ctx context.Context, status *entity.Status) error
@@ -23,6 +24,7 @@ type statusRepo struct {
 	*postgres.Postgres
 }
 
+// New creates a new StatusRepository instance.
 func New(pg *postgres.Postgres) StatusRepository {
 	return statusRepo{pg}
 }

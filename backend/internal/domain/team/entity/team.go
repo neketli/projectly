@@ -1,5 +1,6 @@
 package entity
 
+// Team represents a team entity.
 type Team struct {
 	ID          int    `json:"id" example:"1"`
 	Name        string `json:"name" example:"example team"`

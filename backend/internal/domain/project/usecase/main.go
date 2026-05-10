@@ -7,6 +7,7 @@ import (
 	"projectly-server/pkg/logger"
 )
 
+// ProjectUseCase defines the interface for project business logic.
 type ProjectUseCase interface {
 	CreateProject(ctx context.Context, project *entity.Project) error
 	UpdateProject(ctx context.Context, project *entity.Project) error
@@ -22,6 +23,7 @@ type projectUseCase struct {
 	logger *logger.Logger
 }
 
+// New creates a new ProjectUseCase instance.
 func New(r repository.ProjectRepository, l *logger.Logger) ProjectUseCase {
 	return &projectUseCase{
 		repo:   r,

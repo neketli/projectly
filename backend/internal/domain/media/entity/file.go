@@ -6,6 +6,7 @@ import (
 	"github.com/minio/minio-go/v7"
 )
 
+// FileInfo contains metadata about a file.
 type FileInfo struct {
 	Name         string
 	Size         int64
@@ -14,6 +15,7 @@ type FileInfo struct {
 	ETag         string
 }
 
+// File represents a file with its content reader.
 type File struct {
 	FileInfo FileInfo
 	Reader   *minio.Object

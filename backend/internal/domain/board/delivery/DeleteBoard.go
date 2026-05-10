@@ -8,7 +8,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary	Delete board
+// DeleteBoard handles the deletion of a board.
+// @Summary Delete board
 // @ID			board-delete
 // @Tags		board
 // @Accept		application/json
@@ -17,7 +18,7 @@ import (
 // @Success	200
 // @Failure	400	{object}	echo.HTTPError
 // @Failure	500	{object}	echo.HTTPError
-// @Router		/board/{id} [delete]
+// @Router		/board/{id} [delete].
 func (h *BoardHandler) DeleteBoard(c echo.Context) error {
 	boardID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

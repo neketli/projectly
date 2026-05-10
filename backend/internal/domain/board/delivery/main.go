@@ -9,22 +9,22 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// BoardHandler handles board-related HTTP requests.
 type BoardHandler struct {
 	boardUseCase boardUseCase.BoardUseCase
 }
 
-func New(router *echo.Group, b boardUseCase.BoardUseCase, tu teamUseCase.TeamUseCase) {
+// New initializes the board handler with routes.
+func New(router *echo.Group, b usecase.BoardUseCase) {
 	handler := &BoardHandler{boardUseCase: b}
 	middleware := middlewares.New(tu)
 
 	board := router.Group("/board")
-	{
-		board.POST("/create", handler.CreateBoard, middleware.TeamMembership(), middleware.RequireTeamRole(*entity.RoleEditor))
-		board.PATCH("/:id", handler.UpdateBoard, middleware.TeamMembership(), middleware.RequireTeamRole(*entity.RoleEditor))
-		board.DELETE("/:id", handler.DeleteBoard, middleware.TeamMembership(), middleware.RequireTeamRole(*entity.RoleOwner))
-		board.GET("/:id", handler.GetBoard, middleware.TeamMembership())
+	board.POST("/create", handler.CreateBoard)
+	board.PATCH("/:id", handler.UpdateBoard)
+	board.DELETE("/:id", handler.DeleteBoard)
+	board.GET("/:id", handler.GetBoard)
 
-		board.GET("/list", handler.GetBoardList, middleware.TeamMembership())
-		board.GET("/list-user", handler.GetUserBoardList, middleware.TeamMembership())
-	}
+	board.GET("/list", handler.GetBoardList)
+	board.GET("/list-user", handler.GetUserBoardList)
 }

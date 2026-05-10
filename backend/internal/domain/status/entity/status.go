@@ -1,5 +1,6 @@
 package entity
 
+// Status represents a task status entity.
 type Status struct {
 	ID       int    `json:"id"`
 	BoardID  int    `json:"board_id"`

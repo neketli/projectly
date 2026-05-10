@@ -12,6 +12,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// Dependency contains dependencies for task domain initialization.
 type Dependency struct {
 	Logger      *logger.Logger
 	Postgres    *postgres.Postgres
@@ -20,7 +21,8 @@ type Dependency struct {
 	TeamUseCase teamUseCase.TeamUseCase
 }
 
-func New(dependency Dependency) taskUseCase.TaskUseCase {
+// New initializes the task domain with its dependencies and returns a TaskUseCase.
+func New(dependency Dependency) usecase.TaskUseCase {
 	repo := repository.New(dependency.Postgres, dependency.S3)
 
 	taskUseCase := taskUseCase.New(repo, dependency.Logger)

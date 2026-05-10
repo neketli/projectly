@@ -5,6 +5,7 @@ import (
 	"projectly-server/internal/domain/project/entity"
 )
 
+// UpdateProject updates an existing project.
 func (u *projectUseCase) UpdateProject(ctx context.Context, project *entity.Project) error {
 	err := u.repo.UpdateProject(ctx, project)
 	if err != nil {

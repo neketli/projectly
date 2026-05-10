@@ -7,6 +7,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// ChangePassword changes a user's password.
 func (u *userUseCase) ChangePassword(ctx context.Context, user *entity.User) error {
 	encryptedPassword, err := bcrypt.GenerateFromPassword(
 		[]byte(user.Password),

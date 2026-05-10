@@ -8,7 +8,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary		Upload task attachments
+// CreateAttachment handles uploading task attachments.
+// @Summary Upload task attachments
 // @Description	Upload task files and save it in object storage
 // @ID				task-create-attachment
 // @Tags			task
@@ -18,7 +19,7 @@ import (
 // @Success		200 {object}	[]string 		"File names"
 // @Failure		400	{object}	echo.HTTPError	"Bad request"
 // @Failure		500	{object}	echo.HTTPError	"Internal server error"
-// @Router			/task/{id}/create-attachments [post]
+// @Router			/task/{id}/create-attachments [post].
 func (h *TaskHandler) CreateAttachment(c echo.Context) error {
 	form, err := c.MultipartForm()
 	if err != nil {

@@ -8,7 +8,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary		Get task attachments
+// GetAttachments handles retrieval of task attachments.
+// @Summary Get task attachments
 // @Description	Get task attachments
 // @ID				task-get-attachments
 // @Tags			task
@@ -18,7 +19,7 @@ import (
 // @Success		200 {object}	[]string 		"File names"
 // @Failure		400	{object}	echo.HTTPError	"Bad request"
 // @Failure		500	{object}	echo.HTTPError	"Internal server error"
-// @Router			/task/{id}/attachments [get]
+// @Router			/task/{id}/attachments [get].
 func (h *TaskHandler) GetAttachments(c echo.Context) error {
 	taskID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

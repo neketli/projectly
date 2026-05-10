@@ -5,6 +5,7 @@ import (
 	"projectly-server/internal/domain/project/entity"
 )
 
+// GetProjectList retrieves all projects for a team.
 func (u *projectUseCase) GetProjectList(ctx context.Context, teamID int) ([]entity.Project, error) {
 	projects, err := u.repo.GetProjectList(ctx, teamID)
 	if err != nil {

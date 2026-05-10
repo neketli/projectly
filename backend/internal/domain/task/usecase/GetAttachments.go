@@ -5,8 +5,9 @@ import (
 	"projectly-server/internal/domain/task/entity"
 )
 
-func (u *taskUseCase) GetAttachments(ctx context.Context, taskId int) ([]entity.Attachment, error) {
-	attachments, err := u.repo.GetAttachments(ctx, taskId)
+// GetAttachments retrieves all attachments for a task.
+func (u *taskUseCase) GetAttachments(ctx context.Context, taskID int) ([]entity.Attachment, error) {
+	attachments, err := u.repo.GetAttachments(ctx, taskID)
 	if err != nil {
 		u.logger.Error("task - usecase - GetAttachments - u.repo.CreateAttachment: %s", err.Error())
 		return nil, err

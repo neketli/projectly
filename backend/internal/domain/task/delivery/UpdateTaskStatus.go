@@ -14,7 +14,8 @@ type requestUpdateTaskStatus struct {
 	FinishedAt *int64 `json:"finished_at"`
 }
 
-// @Summary	Update an existing task status
+// UpdateTaskStatus handles updating a task status.
+// @Summary Update an existing task status
 // @ID			task-update-status
 // @Tags		task
 // @Accept		application/json
@@ -23,7 +24,7 @@ type requestUpdateTaskStatus struct {
 // @Success	200
 // @Failure	400	{object}	echo.HTTPError	"Invalid input"
 // @Failure	500	{object}	echo.HTTPError	"Internal server error"
-// @Router		/task/{id}/change-status [patch]
+// @Router		/task/{id}/change-status [patch].
 func (h *TaskHandler) UpdateTaskStatus(c echo.Context) error {
 	taskID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -34,10 +35,10 @@ func (h *TaskHandler) UpdateTaskStatus(c echo.Context) error {
 	}
 
 	var request requestUpdateTaskStatus
-	if err := c.Bind(&request); err != nil {
+	if bindErr := c.Bind(&request); bindErr != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("validation error: %s", err.Error()),
+			Message: fmt.Sprintf("validation error: %s", bindErr.Error()),
 		}
 	}
 

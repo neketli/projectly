@@ -4,6 +4,7 @@ import (
 	"context"
 )
 
+// SetRole sets a user's role in a team.
 func (u *teamUseCase) SetRole(ctx context.Context, teamID, userID, roleID int) error {
 	err := u.repo.SetRole(ctx, teamID, userID, roleID)
 	if err != nil {

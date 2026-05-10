@@ -9,7 +9,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary		Get user info by email
+// UserInfo handles retrieval of user info by email.
+// @Summary Get user info by email
 // @Description	Get user info by email
 // @ID				user-info-by-email
 // @Tags			user
@@ -20,7 +21,7 @@ import (
 // @Failure		400		{object}	echo.HTTPError	"Bad request"
 // @Failure		404		{object}	echo.HTTPError	"User not found"
 // @Failure		500		{object}	echo.HTTPError	"Internal server error"
-// @Router			/user/{email} [get]
+// @Router			/user/{email} [get].
 func (h *UserHandler) UserInfo(c echo.Context) error {
 	email := c.Param("email")
 	if email == "" {

@@ -8,6 +8,7 @@ import (
 	"projectly-server/pkg/logger"
 )
 
+// TaskUseCase defines the interface for task business logic.
 type TaskUseCase interface {
 	CreateTask(ctx context.Context, task entity.Task) (entity.TaskDetailed, error)
 	UpdateTask(ctx context.Context, task *entity.Task) (entity.TaskDetailed, error)
@@ -30,6 +31,7 @@ type taskUseCase struct {
 	logger *logger.Logger
 }
 
+// New creates a new TaskUseCase instance.
 func New(r repository.TaskRepository, l *logger.Logger) TaskUseCase {
 	return &taskUseCase{
 		repo:   r,

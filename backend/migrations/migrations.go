@@ -1,6 +1,7 @@
 package migrations
 
 import (
+	"context"
 	"database/sql"
 	"embed"
 	"log"
@@ -25,7 +26,7 @@ func setup(databaseDsn string) {
 		log.Fatal(err.Error())
 	}
 
-	if err := database.Ping(); err != nil {
+	if err := database.PingContext(context.Background()); err != nil {
 		log.Fatal(err.Error())
 	}
 
@@ -36,6 +37,7 @@ func setup(databaseDsn string) {
 	}
 }
 
+// Up runs database migrations up.
 func Up(databaseDsn string) {
 	if database == nil {
 		setup(databaseDsn)
@@ -46,6 +48,7 @@ func Up(databaseDsn string) {
 	}
 }
 
+// Down runs database migrations down.
 func Down(databaseDsn string) {
 	if database == nil {
 		setup(databaseDsn)

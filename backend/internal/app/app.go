@@ -26,6 +26,7 @@ import (
 	"github.com/markbates/goth/providers/yandex"
 )
 
+// Run initializes and starts the application.
 func Run(cfg *config.Config) {
 	l := logger.New(cfg.Log.Level)
 
@@ -57,13 +58,13 @@ func Run(cfg *config.Config) {
 		google.New(
 			cfg.Auth.GoogleAuthProvider.ClientID,
 			cfg.Auth.GoogleAuthProvider.ClientSecret,
-			cfg.Auth.GoogleAuthProvider.CallbackUrl,
+			cfg.Auth.GoogleAuthProvider.CallbackURL,
 			"email", "profile",
 		),
 		yandex.New(
 			cfg.Auth.YandexAuthProvider.ClientID,
 			cfg.Auth.YandexAuthProvider.ClientSecret,
-			cfg.Auth.YandexAuthProvider.CallbackUrl,
+			cfg.Auth.YandexAuthProvider.CallbackURL,
 		),
 	)
 
@@ -128,6 +129,6 @@ func Run(cfg *config.Config) {
 		Router: api,
 	})
 
-	server := server.New(e, l)
-	server.Start(cfg.HTTP.Port)
+	httpServer := server.New(e, l)
+	httpServer.Start(cfg.HTTP.Port)
 }

@@ -5,6 +5,7 @@ import (
 	"projectly-server/internal/domain/team/entity"
 )
 
+// GetUsers retrieves all users in a team.
 func (u *teamUseCase) GetUsers(ctx context.Context, teamID int) ([]entity.TeamUser, error) {
 	users, err := u.repo.GetUsers(ctx, teamID)
 	if err != nil {

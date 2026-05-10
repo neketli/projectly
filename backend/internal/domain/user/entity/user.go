@@ -1,5 +1,6 @@
 package entity
 
+// UserMeta contains additional user information.
 type UserMeta struct {
 	Avatar     string `json:"avatar" example:"avatar.png"`
 	Provider   string `json:"provider" example:"google"`
@@ -10,6 +11,7 @@ type UserMeta struct {
 	About      string `json:"about,omitempty" example:"Something about"`
 }
 
+// User represents a user entity.
 type User struct {
 	ID       int       `json:"id" example:"1"`
 	Name     string    `json:"name" example:"John"`

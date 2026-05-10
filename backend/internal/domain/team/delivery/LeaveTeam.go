@@ -9,15 +9,16 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary		Remove user from team
+// LeaveTeam handles a user leaving a team.
+// @Summary Remove user from team
 // @ID			team-leave
 // @Tags		team
 // @Param		id		path	int	true	"Team id to remove user from"
 // @Success	204
 // @Failure	400	{object}	echo.HTTPError	"Bad request"
 // @Failure	500	{object}	echo.HTTPError	"Internal server error"
-// @Router		/team/{id}/leave [delete]
-func (th *TeamHandler) LeaveTeam(c echo.Context) error {
+// @Router		/team/{id}/leave [delete].
+func (h *TeamHandler) LeaveTeam(c echo.Context) error {
 	teamID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		return &echo.HTTPError{
@@ -34,7 +35,7 @@ func (th *TeamHandler) LeaveTeam(c echo.Context) error {
 		}
 	}
 
-	err = th.teamUseCase.RemoveUserFromTeam(c.Request().Context(), teamID, claims.ID)
+	err = h.teamUseCase.RemoveUserFromTeam(c.Request().Context(), teamID, claims.ID)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusBadRequest,

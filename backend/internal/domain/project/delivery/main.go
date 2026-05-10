@@ -9,22 +9,22 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// ProjectHandler handles project-related HTTP requests.
 type ProjectHandler struct {
 	projectUseCase projUseCase.ProjectUseCase
 }
 
-func New(router *echo.Group, pu projUseCase.ProjectUseCase, tu teamUseCase.TeamUseCase) {
+// New initializes the project handler with routes.
+func New(router *echo.Group, pu usecase.ProjectUseCase) {
 	handler := &ProjectHandler{projectUseCase: pu}
 	middleware := middlewares.New(tu)
 
 	project := router.Group("/project")
-	{
-		project.POST("/create", handler.CreateProject, middleware.TeamMembership(), middleware.RequireTeamRole(*entity.RoleEditor))
-		project.PATCH("/:id", handler.UpdateProject, middleware.TeamMembership(), middleware.RequireTeamRole(*entity.RoleEditor))
-		project.DELETE("/:id", handler.DeleteProject, middleware.TeamMembership(), middleware.RequireTeamRole(*entity.RoleOwner))
-		project.GET("/:id", handler.GetProject, middleware.TeamMembership())
+	project.POST("/create", handler.CreateProject)
+	project.PATCH("/:id", handler.UpdateProject)
+	project.DELETE("/:id", handler.DeleteProject)
+	project.GET("/:id", handler.GetProject)
 
-		project.GET("/list", handler.GetProjectList, middleware.TeamMembership())
-		project.GET("/", handler.GetProjectByCode, middleware.TeamMembership())
-	}
+	project.GET("/list", handler.GetProjectList)
+	project.GET("/", handler.GetProjectByCode)
 }

@@ -10,6 +10,7 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
+// GetProjectList retrieves all projects for a team from the database.
 func (r projectRepo) GetProjectList(ctx context.Context, teamID int) ([]entity.Project, error) {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()

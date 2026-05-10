@@ -4,6 +4,7 @@ import (
 	"context"
 )
 
+// DeleteProject deletes a project by ID.
 func (u *projectUseCase) DeleteProject(ctx context.Context, projectID int) error {
 	err := u.repo.DeleteProject(ctx, projectID)
 	if err != nil {

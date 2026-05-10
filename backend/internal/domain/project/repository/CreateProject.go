@@ -7,6 +7,7 @@ import (
 	"projectly-server/internal/domain/project/entity"
 )
 
+// CreateProject creates a new project in the database.
 func (r projectRepo) CreateProject(ctx context.Context, project *entity.Project) error {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()

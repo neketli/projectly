@@ -3,8 +3,8 @@ package delivery
 import (
 	"fmt"
 	"net/http"
-	"strconv"
 	"projectly-server/internal/domain/status/entity"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -17,7 +17,8 @@ type updateStatusRequest struct {
 	BoardID  int    `json:"board_id"`
 }
 
-// @Summary	Update an existing status
+// UpdateStatus handles updating an existing status.
+// @Summary Update an existing status
 // @ID			status-update
 // @Tags		status
 // @Accept		application/json
@@ -26,7 +27,7 @@ type updateStatusRequest struct {
 // @Success	200
 // @Failure	400	{object}	echo.HTTPError	"Invalid input"
 // @Failure	500	{object}	echo.HTTPError	"Internal server error"
-// @Router		/status/{id} [patch]
+// @Router		/status/{id} [patch].
 func (h *StatusHandler) UpdateStatus(c echo.Context) error {
 	statusID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -37,10 +38,10 @@ func (h *StatusHandler) UpdateStatus(c echo.Context) error {
 	}
 
 	var request updateStatusRequest
-	if err := c.Bind(&request); err != nil {
+	if bindErr := c.Bind(&request); bindErr != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("validation error: %s", err.Error()),
+			Message: fmt.Sprintf("validation error: %s", bindErr.Error()),
 		}
 	}
 

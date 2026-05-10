@@ -10,7 +10,8 @@ import (
 	sq "github.com/Masterminds/squirrel"
 )
 
-func (r taskRepo) GetComments(ctx context.Context, taskId, lastCommentID int) ([]entity.Comment, error) {
+// GetComments retrieves comments for a task from the database.
+func (r taskRepo) GetComments(ctx context.Context, taskID, lastCommentID int) ([]entity.Comment, error) {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()
 
@@ -29,7 +30,7 @@ func (r taskRepo) GetComments(ctx context.Context, taskId, lastCommentID int) ([
 		).
 		From("comment c").
 		Join("users u ON c.user_id = u.id").
-		Where(sq.Eq{"c.task_id": taskId})
+		Where(sq.Eq{"c.task_id": taskID})
 
 	if lastCommentID > 0 {
 		query = query.Where(sq.Gt{"c.id": lastCommentID})

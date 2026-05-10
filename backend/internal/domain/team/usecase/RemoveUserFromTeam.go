@@ -4,6 +4,7 @@ import (
 	"context"
 )
 
+// RemoveUserFromTeam removes a user from a team.
 func (u *teamUseCase) RemoveUserFromTeam(ctx context.Context, teamID, userID int) error {
 	err := u.repo.RemoveUserFromTeam(ctx, teamID, userID)
 	if err != nil {

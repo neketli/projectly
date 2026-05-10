@@ -10,7 +10,8 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-func (r *teamRepository) GetTeamByUser(ctx context.Context, userID int) ([]entity.Team, error) {
+// GetTeamByUser retrieves all teams a user belongs to from the database.
+func (r teamRepo) GetTeamByUser(ctx context.Context, userID int) ([]entity.Team, error) {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()
 

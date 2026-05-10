@@ -7,6 +7,7 @@ import (
 	sq "github.com/Masterminds/squirrel"
 )
 
+// DeleteProject deletes a project from the database.
 func (r projectRepo) DeleteProject(ctx context.Context, projectID int) error {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()

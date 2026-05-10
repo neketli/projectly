@@ -12,6 +12,7 @@ import (
 	sq "github.com/Masterminds/squirrel"
 )
 
+// UpdateTask updates a task in the database.
 func (r taskRepo) UpdateTask(ctx context.Context, task *entity.Task) error {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()

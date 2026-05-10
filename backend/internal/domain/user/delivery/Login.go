@@ -14,7 +14,8 @@ type requestLogin struct {
 	Password string `json:"password" validate:"required"`
 }
 
-// @Summary		Login user
+// Login handles user authentication.
+// @Summary Login user
 // @Description	Login user
 // @ID				user-login
 // @Tags			auth
@@ -24,7 +25,7 @@ type requestLogin struct {
 // @Success		200				{object}	entity.Tokens
 // @Failure		400				{object}	echo.HTTPError
 // @Failure		500				{object}	echo.HTTPError
-// @Router			/auth/login [post]
+// @Router			/auth/login [post].
 func (h *UserHandler) Login(c echo.Context) error {
 	var request requestLogin
 	if err := c.Bind(&request); err != nil {

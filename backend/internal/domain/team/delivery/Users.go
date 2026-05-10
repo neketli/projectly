@@ -9,7 +9,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary	Get team users
+// Users handles retrieval of team users.
+// @Summary Get team users
 // @ID			team-users
 // @Tags		team
 // @Accept		application/json
@@ -18,8 +19,8 @@ import (
 // @Success	200	{array}		entity.TeamUser
 // @Failure	400	{object}	echo.HTTPError
 // @Failure	500	{object}	echo.HTTPError
-// @Router		/team/{id}/users [get]
-func (th *TeamHandler) Users(c echo.Context) error {
+// @Router		/team/{id}/users [get].
+func (h *TeamHandler) Users(c echo.Context) error {
 	teamID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		return &echo.HTTPError{
@@ -30,7 +31,7 @@ func (th *TeamHandler) Users(c echo.Context) error {
 
 	var users []entity.TeamUser
 
-	users, err = th.teamUseCase.GetUsers(c.Request().Context(), teamID)
+	users, err = h.teamUseCase.GetUsers(c.Request().Context(), teamID)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusInternalServerError,
