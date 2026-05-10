@@ -8,7 +8,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary	Delete task
+// DeleteComment handles deletion of a comment.
+// @Summary Delete task
 // @ID			task-delete-comment
 // @Tags		task
 // @Accept		application/json
@@ -18,7 +19,7 @@ import (
 // @Success	200
 // @Failure	400	{object}	echo.HTTPError
 // @Failure	500	{object}	echo.HTTPError
-// @Router		/task/{id}/delete-comment [delete]
+// @Router		/task/{id}/delete-comment [delete].
 func (h *TaskHandler) DeleteComment(c echo.Context) error {
 	taskID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

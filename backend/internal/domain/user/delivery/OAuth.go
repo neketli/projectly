@@ -9,7 +9,8 @@ import (
 	"github.com/markbates/goth/gothic"
 )
 
-// @Summary		Oauth user auth
+// OauthLogin handles OAuth login initiation.
+// @Summary Oauth user auth
 // @Description	Oauth user auth login
 // @ID				user-oauth-login
 // @Tags			user
@@ -17,7 +18,7 @@ import (
 // @Produce			application/json
 // @Success		307
 // @Failure		500				{object}	echo.HTTPError
-// @Router			/auth/{provider} [get]
+// @Router			/auth/{provider} [get].
 func (h *UserHandler) OauthLogin(c echo.Context) error {
 	provider := c.Param("provider")
 	if provider == "" {
@@ -31,8 +32,8 @@ func (h *UserHandler) OauthLogin(c echo.Context) error {
 	return nil
 }
 
-// @Summary		Oauth user auth callback
-// @Description	Oauth user auth callback and redirect with access and refresh tokens
+// OauthCallback handles OAuth callback.
+// @Description Oauth user auth callback and redirect with access and refresh tokens
 // @ID				user-oauth-callback
 // @Tags			user
 // @Accept			application/json
@@ -40,7 +41,7 @@ func (h *UserHandler) OauthLogin(c echo.Context) error {
 // @Success		307
 // @Failure		400				{object}	echo.HTTPError
 // @Failure		500				{object}	echo.HTTPError
-// @Router			/auth/{provider}/callback [get]
+// @Router			/auth/{provider}/callback [get].
 func (h *UserHandler) OauthCallback(c echo.Context) error {
 	gothUser, err := gothic.CompleteUserAuth(c.Response(), c.Request())
 	if err != nil {
@@ -90,7 +91,7 @@ func (h *UserHandler) OauthCallback(c echo.Context) error {
 		}
 	}
 
-	redirectUrl := fmt.Sprintf("/my/auth?access=%s&refresh=%s", accessToken, refreshToken)
+	redirectURL := fmt.Sprintf("/my/auth?access=%s&refresh=%s", accessToken, refreshToken)
 
-	return c.Redirect(http.StatusTemporaryRedirect, redirectUrl)
+	return c.Redirect(http.StatusTemporaryRedirect, redirectURL)
 }

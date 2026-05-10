@@ -9,6 +9,7 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
+// GetRoles retrieves all available roles from the database.
 func (r teamRepo) GetRoles(ctx context.Context) ([]entity.Role, error) {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()

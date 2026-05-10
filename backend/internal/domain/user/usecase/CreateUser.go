@@ -7,6 +7,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// CreateUser creates a new user with encrypted password.
 func (u *userUseCase) CreateUser(ctx context.Context, user *entity.User) error {
 	encryptedPassword, err := bcrypt.GenerateFromPassword(
 		[]byte(user.Password),

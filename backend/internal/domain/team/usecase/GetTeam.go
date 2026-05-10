@@ -5,6 +5,7 @@ import (
 	"projectly-server/internal/domain/team/entity"
 )
 
+// GetTeam retrieves a team by ID.
 func (u *teamUseCase) GetTeam(ctx context.Context, teamID int) (entity.Team, error) {
 	team, err := u.repo.GetTeam(ctx, teamID)
 	if err != nil {

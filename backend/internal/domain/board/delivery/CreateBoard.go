@@ -13,7 +13,8 @@ type createBoardRequest struct {
 	ProjectID int    `json:"project_id"`
 }
 
-// @Summary	Create a new board
+// CreateBoard handles the creation of a new board.
+// @Summary Create a new board
 // @ID			board-create
 // @Tags		board
 // @Accept		application/json
@@ -22,7 +23,7 @@ type createBoardRequest struct {
 // @Success	201		{object}	entity.Board		"Created board"
 // @Failure	400		{object}	echo.HTTPError		"Bad request"
 // @Failure	500		{object}	echo.HTTPError		"Internal server error"
-// @Router		/board/create [post]
+// @Router		/board/create [post].
 func (h *BoardHandler) CreateBoard(c echo.Context) error {
 	var request createBoardRequest
 	if err := c.Bind(&request); err != nil {

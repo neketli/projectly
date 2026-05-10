@@ -15,7 +15,8 @@ type createProjectRequest struct {
 	TeamID      int    `json:"team_id"`
 }
 
-// @Summary	Create a new project
+// CreateProject handles the creation of a new project.
+// @Summary Create a new project
 // @ID			project-create
 // @Tags		project
 // @Accept		application/json
@@ -24,7 +25,7 @@ type createProjectRequest struct {
 // @Success	201		{object}	entity.Project			"Created project"
 // @Failure	400		{object}	echo.HTTPError			"Bad request"
 // @Failure	500		{object}	echo.HTTPError			"Internal server error"
-// @Router		/project/create [post]
+// @Router		/project/create [post].
 func (ph *ProjectHandler) CreateProject(c echo.Context) error {
 	var request createProjectRequest
 	if err := c.Bind(&request); err != nil {

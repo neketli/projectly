@@ -7,6 +7,7 @@ import (
 	"projectly-server/internal/domain/team/entity"
 )
 
+// CreateTeam creates a new team in the database.
 func (r teamRepo) CreateTeam(ctx context.Context, team *entity.Team) error {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()

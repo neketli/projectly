@@ -10,6 +10,7 @@ import (
 	"gonum.org/v1/gonum/stat"
 )
 
+// GetStatisticData retrieves and clusters project statistics for a team.
 func (u *teamUseCase) GetStatisticData(ctx context.Context, teamID int) ([]entity.StatisticData, error) {
 	projects, err := u.repo.GetStatisticData(ctx, teamID)
 	if err != nil {
@@ -143,8 +144,8 @@ func calculateSSE(data *mat.Dense, clusters []int, centroids *mat.Dense) float64
 	return sse
 }
 
-// Find the optimal k using the "elbow" method.
-func findOptimalK(data *mat.Dense, maxK int, maxIter int) int {
+// findOptimalK finds the optimal k using the "elbow" method.
+func findOptimalK(data *mat.Dense, maxK, maxIter int) int {
 	sseValues := make([]float64, maxK)
 	for k := 1; k <= maxK; k++ {
 		clusters, centroids := kMeans(data, k, maxIter)

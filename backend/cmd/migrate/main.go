@@ -26,11 +26,12 @@ func main() {
 
 	cfg := config.New()
 
-	if *up {
+	switch {
+	case *up:
 		migrations.Up(cfg.PG.DSN)
-	} else if *down {
+	case *down:
 		migrations.Down(cfg.PG.DSN)
-	} else {
+	default:
 		flag.PrintDefaults()
 		panic(errors.New("not a single flag has been applied"))
 	}

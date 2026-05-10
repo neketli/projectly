@@ -9,6 +9,7 @@ import (
 	sq "github.com/Masterminds/squirrel"
 )
 
+// UpdateUser updates an existing user in the database.
 func (r userRepo) UpdateUser(ctx context.Context, user *entity.User) error {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()

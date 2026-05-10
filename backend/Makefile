@@ -31,4 +31,12 @@ swagger:
 	go run github.com/swaggo/swag/cmd/swag@latest init --outputTypes yaml --parseDependency --parseInternal -g ./cmd/server/main.go 
 .PHONY: swagger
 
+lint:
+	docker run --rm \
+		-v $(PWD):/app \
+		-w /app \
+		golangci/golangci-lint:latest \
+		golangci-lint run --fix ./...
+.PHONY: lint
+
 .DEFAULT_GOAL = build

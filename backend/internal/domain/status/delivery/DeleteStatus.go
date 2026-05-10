@@ -8,7 +8,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary	Delete status
+// DeleteStatus handles the deletion of a status.
+// @Summary Delete status
 // @ID			status-delete
 // @Tags		status
 // @Accept		application/json
@@ -18,7 +19,7 @@ import (
 // @Success	204
 // @Failure	400	{object}	echo.HTTPError
 // @Failure	500	{object}	echo.HTTPError
-// @Router		/status/delete [delete]
+// @Router		/status/delete [delete].
 func (h *StatusHandler) DeleteStatus(c echo.Context) error {
 	statusID, err := strconv.Atoi(c.QueryParam("id"))
 	if err != nil {

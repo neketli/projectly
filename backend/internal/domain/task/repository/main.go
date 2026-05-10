@@ -9,6 +9,7 @@ import (
 	"time"
 )
 
+// TaskRepository defines the interface for task data operations.
 type TaskRepository interface {
 	CreateTask(ctx context.Context, task entity.Task) (entity.Task, error)
 	UpdateTask(ctx context.Context, task *entity.Task) error
@@ -36,6 +37,7 @@ type taskRepo struct {
 	*minio.Minio
 }
 
+// New creates a new TaskRepository instance.
 func New(pg *postgres.Postgres, s3 *minio.Minio) TaskRepository {
 	return taskRepo{pg, s3}
 }

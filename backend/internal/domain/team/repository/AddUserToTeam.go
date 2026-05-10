@@ -5,6 +5,7 @@ import (
 	"fmt"
 )
 
+// AddUserToTeam adds a user to a team in the database.
 func (r teamRepo) AddUserToTeam(ctx context.Context, teamID, userID int) error {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()

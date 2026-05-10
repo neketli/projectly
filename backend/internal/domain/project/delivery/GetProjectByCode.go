@@ -3,13 +3,14 @@ package delivery
 import (
 	"fmt"
 	"net/http"
-	"strconv"
 	projectEntity "projectly-server/internal/domain/project/entity"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary		Get project
+// GetProjectByCode handles retrieval of a project by code.
+// @Summary Get project
 // @ID			project-get-by-code
 // @Tags		project
 // @Accept		application/json
@@ -19,7 +20,7 @@ import (
 // @Success	200		{object}	projectEntity.Project
 // @Failure	400		{object}	echo.HTTPError
 // @Failure	500		{object}	echo.HTTPError
-// @Router		/project [get]
+// @Router		/project [get].
 func (ph *ProjectHandler) GetProjectByCode(c echo.Context) error {
 	teamID, err := strconv.Atoi(c.QueryParam("team_id"))
 	if err != nil {

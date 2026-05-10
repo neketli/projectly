@@ -14,12 +14,14 @@ import (
 	"golang.org/x/time/rate"
 )
 
+// Server provides HTTP server functionality.
 type Server struct {
 	echo   *echo.Echo
 	logger logger.Interface
 }
 
-func New(engine *echo.Echo, logger logger.Interface) *Server {
+// New creates a new Server instance.
+func New(engine *echo.Echo, log logger.Interface) *Server {
 	engine.Use(middleware.Logger())
 	engine.Use(middleware.Recover())
 	engine.Use(middleware.CORS())
@@ -32,10 +34,11 @@ func New(engine *echo.Echo, logger logger.Interface) *Server {
 
 	return &Server{
 		echo:   engine,
-		logger: logger,
+		logger: log,
 	}
 }
 
+// Start starts the HTTP server.
 func (s *Server) Start(port string) {
 	go func() {
 		if err := s.echo.Start(net.JoinHostPort("", port)); err != nil && err != http.ErrServerClosed {

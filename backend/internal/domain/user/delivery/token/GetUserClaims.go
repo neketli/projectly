@@ -8,6 +8,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// GetUserClaims extracts JWT claims from the context.
 func GetUserClaims(c echo.Context) (*entity.JWTClaims, error) {
 	user := c.Get("user")
 	token, ok := user.(*jwt.Token)

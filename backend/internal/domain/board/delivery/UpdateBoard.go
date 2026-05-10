@@ -3,8 +3,8 @@ package delivery
 import (
 	"fmt"
 	"net/http"
-	"strconv"
 	"projectly-server/internal/domain/board/entity"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -13,7 +13,8 @@ type updateBoardRequest struct {
 	Title string `json:"title"`
 }
 
-// @Summary	Update an existing board
+// UpdateBoard handles updating an existing board.
+// @Summary Update an existing board
 // @ID			board-update
 // @Tags		board
 // @Accept		application/json
@@ -22,7 +23,7 @@ type updateBoardRequest struct {
 // @Success	200
 // @Failure	400	{object}	echo.HTTPError	"Invalid input"
 // @Failure	500	{object}	echo.HTTPError	"Internal server error"
-// @Router		/board/{id} [patch]
+// @Router		/board/{id} [patch].
 func (h *BoardHandler) UpdateBoard(c echo.Context) error {
 	boardID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -33,10 +34,10 @@ func (h *BoardHandler) UpdateBoard(c echo.Context) error {
 	}
 
 	var request updateBoardRequest
-	if err := c.Bind(&request); err != nil {
+	if bindErr := c.Bind(&request); bindErr != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("validation error: %s", err.Error()),
+			Message: fmt.Sprintf("validation error: %s", bindErr.Error()),
 		}
 	}
 

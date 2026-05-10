@@ -7,6 +7,7 @@ import (
 	"projectly-server/pkg/logger"
 )
 
+// BoardUseCase defines the interface for board business logic.
 type BoardUseCase interface {
 	CreateBoard(ctx context.Context, board *entity.Board) error
 	UpdateBoard(ctx context.Context, board *entity.Board) error
@@ -21,6 +22,7 @@ type boardUseCase struct {
 	logger *logger.Logger
 }
 
+// New creates a new BoardUseCase instance.
 func New(r repository.BoardRepository, l *logger.Logger) BoardUseCase {
 	return &boardUseCase{
 		repo:   r,

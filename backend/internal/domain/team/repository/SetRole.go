@@ -5,6 +5,7 @@ import (
 	"fmt"
 )
 
+// SetRole sets or updates a user's role in a team.
 func (r teamRepo) SetRole(ctx context.Context, teamID, userID, roleID int) error {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()

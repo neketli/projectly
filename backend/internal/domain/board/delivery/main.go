@@ -6,21 +6,21 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// BoardHandler handles board-related HTTP requests.
 type BoardHandler struct {
 	boardUseCase usecase.BoardUseCase
 }
 
+// New initializes the board handler with routes.
 func New(router *echo.Group, b usecase.BoardUseCase) {
 	handler := &BoardHandler{boardUseCase: b}
 
 	board := router.Group("/board")
-	{
-		board.POST("/create", handler.CreateBoard)
-		board.PATCH("/:id", handler.UpdateBoard)
-		board.DELETE("/:id", handler.DeleteBoard)
-		board.GET("/:id", handler.GetBoard)
+	board.POST("/create", handler.CreateBoard)
+	board.PATCH("/:id", handler.UpdateBoard)
+	board.DELETE("/:id", handler.DeleteBoard)
+	board.GET("/:id", handler.GetBoard)
 
-		board.GET("/list", handler.GetBoardList)
-		board.GET("/list-user", handler.GetUserBoardList)
-	}
+	board.GET("/list", handler.GetBoardList)
+	board.GET("/list-user", handler.GetUserBoardList)
 }

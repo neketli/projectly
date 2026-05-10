@@ -17,7 +17,7 @@ import (
 //	@name						Authorization
 
 // @BasePath	/api/v1
-// @Host		localhost:8083
+// @Host		localhost:8083.
 func main() {
 	app.Run(config.New())
 }

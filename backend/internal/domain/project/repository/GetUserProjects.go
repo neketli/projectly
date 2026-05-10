@@ -10,6 +10,7 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
+// GetUserProjects retrieves all projects for a user from the database.
 func (r projectRepo) GetUserProjects(ctx context.Context, userID int) ([]entity.Project, error) {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()

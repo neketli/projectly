@@ -5,6 +5,7 @@ import (
 	"projectly-server/internal/domain/user/entity"
 )
 
+// UpdateUser updates an existing user.
 func (u *userUseCase) UpdateUser(ctx context.Context, user *entity.User) error {
 	err := u.repo.UpdateUser(ctx, user)
 	if err != nil {

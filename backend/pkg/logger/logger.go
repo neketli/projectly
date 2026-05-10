@@ -8,6 +8,7 @@ import (
 	"github.com/rs/zerolog"
 )
 
+// Interface defines the logging interface.
 type Interface interface {
 	Debug(message interface{}, args ...interface{})
 	Info(message string, args ...interface{})
@@ -16,12 +17,14 @@ type Interface interface {
 	Fatal(message interface{}, args ...interface{})
 }
 
+// Logger provides structured logging capabilities.
 type Logger struct {
 	logger *zerolog.Logger
 }
 
 var _ Interface = (*Logger)(nil)
 
+// New creates a new Logger with specified log level.
 func New(level string) *Logger {
 	var l zerolog.Level
 
@@ -46,18 +49,22 @@ func New(level string) *Logger {
 	}
 }
 
+// Debug logs a debug message.
 func (l *Logger) Debug(message interface{}, args ...interface{}) {
 	l.logger.Debug().Msgf(l.getMessage(message), args...)
 }
 
+// Info logs an info message.
 func (l *Logger) Info(message string, args ...interface{}) {
 	l.logger.Info().Msgf(message, args...)
 }
 
+// Warn logs a warning message.
 func (l *Logger) Warn(message string, args ...interface{}) {
 	l.logger.Warn().Msgf(message, args...)
 }
 
+// Error logs an error message.
 func (l *Logger) Error(message interface{}, args ...interface{}) {
 	if l.logger.GetLevel() == zerolog.DebugLevel {
 		l.Debug(message, args...)
@@ -66,6 +73,7 @@ func (l *Logger) Error(message interface{}, args ...interface{}) {
 	l.logger.Error().Stack().Msgf(l.getMessage(message), args...)
 }
 
+// Fatal logs a fatal message and exits.
 func (l *Logger) Fatal(message interface{}, args ...interface{}) {
 	l.logger.Fatal().Msgf(l.getMessage(message), args...)
 

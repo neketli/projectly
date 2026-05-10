@@ -8,6 +8,7 @@ import (
 	"github.com/minio/minio-go/v7"
 )
 
+// GetFile retrieves a file from S3 storage.
 func (r *mediaRepo) GetFile(ctx context.Context, filename string) (*entity.File, error) {
 	objInfo, err := r.Minio.Client.StatObject(ctx, r.Bucket, filename, minio.StatObjectOptions{})
 	if err != nil {

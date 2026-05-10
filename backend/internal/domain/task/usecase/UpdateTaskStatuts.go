@@ -5,6 +5,7 @@ import (
 	"projectly-server/internal/domain/task/entity"
 )
 
+// UpdateTaskStatus updates the status of a task.
 func (u *taskUseCase) UpdateTaskStatus(ctx context.Context, task *entity.Task) error {
 	err := u.repo.UpdateTaskStatus(ctx, task)
 	if err != nil {

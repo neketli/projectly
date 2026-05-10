@@ -14,7 +14,8 @@ type requestChangePassword struct {
 	Password string `json:"password"`
 }
 
-// @Summary		Change user password
+// ChangePassword handles password change requests.
+// @Summary Change user password
 // @Description	Change user password by old password
 // @ID				user-change-password
 // @Tags			user
@@ -25,7 +26,7 @@ type requestChangePassword struct {
 // @Failure		400	{object}	echo.HTTPError
 // @Failure		401	{object}	echo.HTTPError
 // @Failure		500	{object}	echo.HTTPError
-// @Router			/user/change-password [post]
+// @Router			/user/change-password [post].
 func (h *UserHandler) ChangePassword(c echo.Context) error {
 	var request requestChangePassword
 	if err := c.Bind(&request); err != nil {

@@ -8,6 +8,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// UserUseCase defines the interface for user business logic in delivery layer.
 type UserUseCase interface {
 	CreateUser(ctx context.Context, user *entity.User) error
 	UpdateUser(ctx context.Context, user *entity.User) error
@@ -22,11 +23,13 @@ type UserUseCase interface {
 	CompleteUserAuth(ctx context.Context, user *entity.User) error
 }
 
+// UserHandler handles user-related HTTP requests.
 type UserHandler struct {
 	UserUseCase UserUseCase
 }
 
-func New(authRouter *echo.Group, router *echo.Group, usecase UserUseCase) {
+// New initializes the user handler with routes.
+func New(authRouter, router *echo.Group, usecase UserUseCase) {
 	handler := &UserHandler{UserUseCase: usecase}
 
 	authRouter.POST("/register", handler.Register)
@@ -37,11 +40,9 @@ func New(authRouter *echo.Group, router *echo.Group, usecase UserUseCase) {
 	authRouter.GET("/:provider/callback", handler.OauthCallback)
 
 	u := router.Group("/user")
-	{
-		u.PATCH("/update", handler.Update)
-		u.PATCH("/change-password", handler.ChangePassword)
-		u.POST("/upload-avatar", handler.UploadAvatar)
-		u.DELETE("/remove-avatar", handler.RemoveAvatar)
-		u.GET("/:email", handler.UserInfo)
-	}
+	u.PATCH("/update", handler.Update)
+	u.PATCH("/change-password", handler.ChangePassword)
+	u.POST("/upload-avatar", handler.UploadAvatar)
+	u.DELETE("/remove-avatar", handler.RemoveAvatar)
+	u.GET("/:email", handler.UserInfo)
 }

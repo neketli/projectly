@@ -5,6 +5,7 @@ import (
 	"projectly-server/internal/domain/status/entity"
 )
 
+// CreateStatus creates a new status.
 func (u *statusUseCase) CreateStatus(ctx context.Context, status *entity.Status) error {
 	err := u.repo.CreateStatus(ctx, status)
 	if err != nil {

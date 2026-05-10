@@ -9,6 +9,7 @@ import (
 	"github.com/minio/minio-go/v7"
 )
 
+// RemoveAvatar removes an avatar from storage and updates user record.
 func (r userRepo) RemoveAvatar(ctx context.Context, userID int, objectName string) error {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()

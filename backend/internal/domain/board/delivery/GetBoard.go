@@ -3,13 +3,14 @@ package delivery
 import (
 	"fmt"
 	"net/http"
-	"strconv"
 	boardEntity "projectly-server/internal/domain/board/entity"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary	Get board
+// GetBoard handles retrieval of a board.
+// @Summary Get board
 // @ID			board-get
 // @Tags		board
 // @Accept		application/json
@@ -18,7 +19,7 @@ import (
 // @Success	200	{object}	boardEntity.Board
 // @Failure	400	{object}	echo.HTTPError
 // @Failure	500	{object}	echo.HTTPError
-// @Router		/board/{id} [get]
+// @Router		/board/{id} [get].
 func (h *BoardHandler) GetBoard(c echo.Context) error {
 	boardID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

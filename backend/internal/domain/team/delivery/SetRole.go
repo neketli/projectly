@@ -13,7 +13,8 @@ type setRoleRequest struct {
 	RoleID int `json:"role_id"`
 }
 
-// @Summary	Set user role in team
+// SetRole handles setting a user role in a team.
+// @Summary Set user role in team
 // @ID			team-set-role
 // @Tags		team
 // @Accept		application/json
@@ -23,8 +24,8 @@ type setRoleRequest struct {
 // @Success	200
 // @Failure	400	{object}	echo.HTTPError
 // @Failure	500	{object}	echo.HTTPError
-// @Router		/team/{id}/role [post]
-func (th *TeamHandler) SetRole(c echo.Context) error {
+// @Router		/team/{id}/role [post].
+func (h *TeamHandler) SetRole(c echo.Context) error {
 	teamID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		return &echo.HTTPError{
@@ -34,14 +35,14 @@ func (th *TeamHandler) SetRole(c echo.Context) error {
 	}
 
 	var request setRoleRequest
-	if err := c.Bind(&request); err != nil {
+	if bindErr := c.Bind(&request); bindErr != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("validation error: %s", err.Error()),
+			Message: fmt.Sprintf("validation error: %s", bindErr.Error()),
 		}
 	}
 
-	err = th.teamUseCase.SetRole(c.Request().Context(), teamID, request.UserID, request.RoleID)
+	err = h.teamUseCase.SetRole(c.Request().Context(), teamID, request.UserID, request.RoleID)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusInternalServerError,

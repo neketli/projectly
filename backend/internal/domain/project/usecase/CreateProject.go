@@ -5,6 +5,7 @@ import (
 	"projectly-server/internal/domain/project/entity"
 )
 
+// CreateProject creates a new project.
 func (u *projectUseCase) CreateProject(ctx context.Context, project *entity.Project) error {
 	err := u.repo.CreateProject(ctx, project)
 	if err != nil {

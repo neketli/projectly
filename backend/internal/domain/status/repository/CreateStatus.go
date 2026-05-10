@@ -9,6 +9,7 @@ import (
 	sq "github.com/Masterminds/squirrel"
 )
 
+// CreateStatus creates a new status in the database.
 func (r statusRepo) CreateStatus(ctx context.Context, status *entity.Status) error {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()

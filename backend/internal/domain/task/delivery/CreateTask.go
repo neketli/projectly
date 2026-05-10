@@ -21,7 +21,8 @@ type createTaskRequest struct {
 	AssignedUserID *int    `json:"assigned_user_id"`
 }
 
-// @Summary	Create a new task
+// CreateTask handles the creation of a new task.
+// @Summary Create a new task
 // @ID			task-create
 // @Tags		task
 // @Accept		application/json
@@ -30,7 +31,7 @@ type createTaskRequest struct {
 // @Success	201		{object}	entity.Task			"Created task"
 // @Failure	400		{object}	echo.HTTPError		"Bad request"
 // @Failure	500		{object}	echo.HTTPError		"Internal server error"
-// @Router		/task/create [post]
+// @Router		/task/create [post].
 func (h *TaskHandler) CreateTask(c echo.Context) error {
 	var request createTaskRequest
 	if err := c.Bind(&request); err != nil {

@@ -5,6 +5,7 @@ import (
 	"projectly-server/internal/domain/task/entity"
 )
 
+// GetTasks retrieves tasks based on filter parameters.
 func (u *taskUseCase) GetTasks(ctx context.Context, params *entity.TaskDetailedParams) ([]entity.TaskDetailed, error) {
 	tasks, err := u.repo.GetTasks(ctx, params)
 	if err != nil {

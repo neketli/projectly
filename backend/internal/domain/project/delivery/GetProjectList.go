@@ -3,13 +3,14 @@ package delivery
 import (
 	"fmt"
 	"net/http"
-	"strconv"
 	projectEntity "projectly-server/internal/domain/project/entity"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary		Get projects list
+// GetProjectList handles retrieval of project list.
+// @Summary Get projects list
 // @Description	Get projects list of team (with team_id) or user (with user_id)
 // @ID				project-get-list
 // @Tags			project
@@ -20,7 +21,7 @@ import (
 // @Success		200		{array}		projectEntity.Project
 // @Failure		400		{object}	echo.HTTPError
 // @Failure		500		{object}	echo.HTTPError
-// @Router			/project/list [get]
+// @Router			/project/list [get].
 func (ph *ProjectHandler) GetProjectList(c echo.Context) error {
 	param := c.QueryParam("team_id")
 	var (

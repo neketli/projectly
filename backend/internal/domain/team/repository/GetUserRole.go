@@ -7,6 +7,7 @@ import (
 	sq "github.com/Masterminds/squirrel"
 )
 
+// GetUserRole retrieves a user's role ID in a team from the database.
 func (r teamRepo) GetUserRole(ctx context.Context, teamID, userID int) (int, error) {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()

@@ -5,6 +5,7 @@ import (
 	"projectly-server/internal/domain/task/entity"
 )
 
+// UpdateTask updates a task and returns its detailed representation.
 func (u *taskUseCase) UpdateTask(ctx context.Context, task *entity.Task) (entity.TaskDetailed, error) {
 	err := u.repo.UpdateTask(ctx, task)
 	if err != nil {

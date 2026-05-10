@@ -7,6 +7,7 @@ import (
 	sq "github.com/Masterminds/squirrel"
 )
 
+// DeleteTask deletes a task from the database.
 func (r taskRepo) DeleteTask(ctx context.Context, taskID int) error {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()

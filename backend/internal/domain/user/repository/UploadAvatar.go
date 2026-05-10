@@ -10,6 +10,7 @@ import (
 	"github.com/minio/minio-go/v7"
 )
 
+// UploadAvatar uploads an avatar and updates user record.
 func (r userRepo) UploadAvatar(ctx context.Context, user entity.User, reader io.Reader, filename string) error {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()

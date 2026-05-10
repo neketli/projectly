@@ -5,7 +5,8 @@ import (
 	"projectly-server/internal/domain/project/entity"
 )
 
-// GetUserProjects implements usecase.ProjectUseCase
+// GetUserProjects retrieves projects for a user.
+// GetUserProjects implements usecase.ProjectUseCase.
 func (u *projectUseCase) GetUserProjects(ctx context.Context, userID int) ([]entity.Project, error) {
 	projects, err := u.repo.GetUserProjects(ctx, userID)
 	if err != nil {

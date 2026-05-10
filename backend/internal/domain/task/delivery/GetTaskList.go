@@ -9,7 +9,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary		Get tasks list
+// GetTaskList handles retrieval of task list.
+// @Summary Get tasks list
 // @Description	Get tasks list of board
 // @ID				task-get-list
 // @Tags			task
@@ -19,7 +20,7 @@ import (
 // @Success		200			{object}	map[int][]entity.Task
 // @Failure		400			{object}	echo.HTTPError
 // @Failure		500			{object}	echo.HTTPError
-// @Router			/task/list [get]
+// @Router			/task/list [get].
 func (h *TaskHandler) GetTaskList(c echo.Context) error {
 	boardID, err := strconv.Atoi(c.QueryParam("board_id"))
 	if err != nil {

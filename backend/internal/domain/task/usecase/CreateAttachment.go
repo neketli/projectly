@@ -7,7 +7,8 @@ import (
 	"time"
 )
 
-func (u *taskUseCase) CreateAttachment(ctx context.Context, taskId int, file *multipart.FileHeader) (string, error) {
+// CreateAttachment uploads an attachment for a task.
+func (u *taskUseCase) CreateAttachment(ctx context.Context, taskID int, file *multipart.FileHeader) (string, error) {
 	src, err := file.Open()
 	if err != nil {
 		u.logger.Error("user - usecase - UploadAvatar - file.Open: %s", err.Error())
@@ -15,14 +16,14 @@ func (u *taskUseCase) CreateAttachment(ctx context.Context, taskId int, file *mu
 	}
 
 	defer func() {
-		if err := src.Close(); err != nil {
-			u.logger.Error("task - usecase - CreateAttachment - file.Open: %s", err.Error())
+		if closeErr := src.Close(); closeErr != nil {
+			u.logger.Error("task - usecase - CreateAttachment - file.Open: %s", closeErr.Error())
 		}
 	}()
 
 	filename := fmt.Sprintf("projectly-%d-%s", time.Now().Unix(), file.Filename)
 
-	attachment, err := u.repo.CreateAttachment(ctx, src, filename, taskId)
+	attachment, err := u.repo.CreateAttachment(ctx, src, filename, taskID)
 	if err != nil {
 		u.logger.Error("task - usecase - CreateAttachment - u.repo.CreateAttachment: %s", err.Error())
 		return "", err

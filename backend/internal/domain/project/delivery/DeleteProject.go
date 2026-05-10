@@ -8,7 +8,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary		Delete project
+// DeleteProject handles the deletion of a project.
+// @Summary Delete project
 // @ID			project-delete
 // @Tags		project
 // @Accept		application/json
@@ -17,7 +18,7 @@ import (
 // @Success	200
 // @Failure	400	{object}	echo.HTTPError
 // @Failure	500	{object}	echo.HTTPError
-// @Router		/project/{id} [delete]
+// @Router		/project/{id} [delete].
 func (ph *ProjectHandler) DeleteProject(c echo.Context) error {
 	projectID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

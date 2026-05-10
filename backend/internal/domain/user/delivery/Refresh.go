@@ -12,7 +12,8 @@ type requestRefresh struct {
 	RefreshToken string `json:"refreshToken"`
 }
 
-// @Summary		Refresh user token
+// Refresh handles token refresh.
+// @Summary Refresh user token
 // @Description	Refresh user token and return new access and refresh tokens
 // @ID				user-refresh
 // @Tags			auth
@@ -23,7 +24,7 @@ type requestRefresh struct {
 // @Failure		400				{object}	echo.HTTPError
 // @Failure		401				{object}	echo.HTTPError
 // @Failure		500				{object}	echo.HTTPError
-// @Router			/auth/refresh [post]
+// @Router			/auth/refresh [post].
 func (h *UserHandler) Refresh(c echo.Context) error {
 	var request requestRefresh
 	if err := c.Bind(&request); err != nil {

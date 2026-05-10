@@ -16,6 +16,7 @@ const (
 	_defaultConnTimeout  = 30 * time.Second
 )
 
+// Postgres provides PostgreSQL database connection pool.
 type Postgres struct {
 	maxPoolSize  int
 	connAttempts int
@@ -25,6 +26,7 @@ type Postgres struct {
 	Pool    *pgxpool.Pool
 }
 
+// New creates a new Postgres connection pool.
 func New(url string, opts ...Option) (*Postgres, error) {
 	pg := &Postgres{
 		maxPoolSize:  _defaultMaxPoolSize,
@@ -43,7 +45,7 @@ func New(url string, opts ...Option) (*Postgres, error) {
 		return nil, fmt.Errorf("postgres - NewPostgres - pgxpool.ParseConfig: %w", err)
 	}
 
-	poolConfig.MaxConns = int32(pg.maxPoolSize)
+	poolConfig.MaxConns = int32(pg.maxPoolSize) //nolint:gosec //safe conversion for pool size
 
 	for pg.connAttempts > 0 {
 		pg.Pool, err = pgxpool.NewWithConfig(context.Background(), poolConfig)
@@ -65,6 +67,7 @@ func New(url string, opts ...Option) (*Postgres, error) {
 	return pg, nil
 }
 
+// Close closes the database connection pool.
 func (p *Postgres) Close() {
 	if p.Pool != nil {
 		p.Pool.Close()

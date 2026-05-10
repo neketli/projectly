@@ -8,11 +8,12 @@ import (
 	"github.com/minio/minio-go/v7"
 )
 
-func (r taskRepo) CreateAttachment(ctx context.Context, reader io.Reader, filename string, taskId int) (string, error) {
+// CreateAttachment uploads a file and creates an attachment record.
+func (r taskRepo) CreateAttachment(ctx context.Context, reader io.Reader, filename string, taskID int) (string, error) {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()
 
-	objectName := fmt.Sprintf("attachments/%d/%s", taskId, filename)
+	objectName := fmt.Sprintf("attachments/%d/%s", taskID, filename)
 
 	_, err := r.Minio.Client.PutObject(ctx, r.Minio.Bucket, objectName, reader, -1, minio.PutObjectOptions{ContentType: "application/octet-stream"})
 	if err != nil {
@@ -27,7 +28,7 @@ func (r taskRepo) CreateAttachment(ctx context.Context, reader io.Reader, filena
 		).
 		Values(
 			objectName,
-			taskId,
+			taskID,
 		).
 		ToSql()
 

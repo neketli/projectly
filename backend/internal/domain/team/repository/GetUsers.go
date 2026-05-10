@@ -9,6 +9,7 @@ import (
 	sq "github.com/Masterminds/squirrel"
 )
 
+// GetUsers retrieves all users in a team from the database.
 func (r teamRepo) GetUsers(ctx context.Context, teamID int) ([]entity.TeamUser, error) {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()

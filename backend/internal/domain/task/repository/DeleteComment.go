@@ -7,6 +7,7 @@ import (
 	sq "github.com/Masterminds/squirrel"
 )
 
+// DeleteComment deletes a comment from the database.
 func (r taskRepo) DeleteComment(ctx context.Context, taskID, commentID int) error {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()

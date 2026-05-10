@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+// ProjectRepository defines the interface for project data operations.
 type ProjectRepository interface {
 	CreateProject(ctx context.Context, project *entity.Project) error
 	UpdateProject(ctx context.Context, project *entity.Project) error
@@ -25,6 +26,7 @@ type projectRepo struct {
 	*postgres.Postgres
 }
 
+// New creates a new ProjectRepository instance.
 func New(pg *postgres.Postgres) ProjectRepository {
 	return projectRepo{pg}
 }

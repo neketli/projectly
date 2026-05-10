@@ -11,6 +11,7 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
+// GetTeam retrieves a team by ID from the database.
 func (r teamRepo) GetTeam(ctx context.Context, teamID int) (entity.Team, error) {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()

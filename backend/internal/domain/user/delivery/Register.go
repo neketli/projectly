@@ -16,7 +16,8 @@ type requestRegister struct {
 	Password string `json:"password" validate:"required"`
 }
 
-// @Summary		Register user
+// Register handles user registration.
+// @Summary Register user
 // @ID			user-register
 // @Tags		auth
 // @Accept		application/json
@@ -25,7 +26,7 @@ type requestRegister struct {
 // @Success	201				{object}	entity.User		"Created user"
 // @Failure	400				{object}	echo.HTTPError	"Bad request"
 // @Failure	500				{object}	echo.HTTPError	"Internal server error"
-// @Router		/auth/register [post]
+// @Router		/auth/register [post].
 func (h *UserHandler) Register(c echo.Context) error {
 	var request requestRegister
 	if err := c.Bind(&request); err != nil {

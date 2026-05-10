@@ -8,7 +8,8 @@ import (
 	sq "github.com/Masterminds/squirrel"
 )
 
-func (r taskRepo) GetAttachments(ctx context.Context, taskId int) ([]entity.Attachment, error) {
+// GetAttachments retrieves all attachments for a task from the database.
+func (r taskRepo) GetAttachments(ctx context.Context, taskID int) ([]entity.Attachment, error) {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()
 
@@ -19,7 +20,7 @@ func (r taskRepo) GetAttachments(ctx context.Context, taskId int) ([]entity.Atta
 			"task_id",
 		).
 		From("attachment").
-		Where(sq.Eq{"task_id": taskId}).
+		Where(sq.Eq{"task_id": taskID}).
 		ToSql()
 
 	if err != nil {

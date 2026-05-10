@@ -9,6 +9,7 @@ import (
 	sq "github.com/Masterminds/squirrel"
 )
 
+// UpdateStatus updates an existing status in the database.
 func (r statusRepo) UpdateStatus(ctx context.Context, status *entity.Status) error {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()

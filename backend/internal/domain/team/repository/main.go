@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+// TeamRepository defines the interface for team data operations.
 type TeamRepository interface {
 	CreateTeam(ctx context.Context, team *entity.Team) error
 	UpdateTeam(ctx context.Context, team *entity.Team) error
@@ -31,6 +32,7 @@ type teamRepo struct {
 	*postgres.Postgres
 }
 
+// New creates a new TeamRepository instance.
 func New(pg *postgres.Postgres) TeamRepository {
 	return teamRepo{pg}
 }

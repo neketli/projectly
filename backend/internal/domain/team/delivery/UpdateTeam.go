@@ -9,7 +9,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary		Update an existing team
+// UpdateTeam handles updating an existing team.
+// @Summary Update an existing team
 // @ID			update-team
 // @Tags		team
 // @Accept		application/json
@@ -20,8 +21,8 @@ import (
 // @Failure	400		{object}	echo.HTTPError	"Invalid input"
 // @Failure	404		{object}	echo.HTTPError	"Team not found"
 // @Failure	500		{object}	echo.HTTPError	"Internal server error"
-// @Router		/team/{id}/update [put]
-func (th *TeamHandler) UpdateTeam(c echo.Context) error {
+// @Router		/team/{id}/update [put].
+func (h *TeamHandler) UpdateTeam(c echo.Context) error {
 	var team entity.Team
 	err := c.Bind(&team)
 	if err != nil {
@@ -31,7 +32,7 @@ func (th *TeamHandler) UpdateTeam(c echo.Context) error {
 		}
 	}
 
-	err = th.teamUseCase.UpdateTeam(c.Request().Context(), &team)
+	err = h.teamUseCase.UpdateTeam(c.Request().Context(), &team)
 	if err != nil {
 		return &echo.HTTPError{
 			Code:    http.StatusInternalServerError,

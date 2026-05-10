@@ -10,12 +10,14 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// Dependency contains dependencies for board domain initialization.
 type Dependency struct {
 	Logger   *logger.Logger
 	Postgres *postgres.Postgres
 	Router   *echo.Group
 }
 
+// New initializes the board domain with its dependencies and returns a BoardUseCase.
 func New(dependency Dependency) usecase.BoardUseCase {
 	repo := repository.New(dependency.Postgres)
 

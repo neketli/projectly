@@ -5,7 +5,7 @@ import (
 	"projectly-server/internal/domain/board/entity"
 )
 
-// GetUserBoards implements usecase.BoardUseCase
+// GetUserBoards implements usecase.BoardUseCase.
 func (u *boardUseCase) GetUserBoards(ctx context.Context, userID int) ([]entity.BoardTeam, error) {
 	boards, err := u.repo.GetUserBoards(ctx, userID)
 	if err != nil {

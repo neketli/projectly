@@ -8,6 +8,7 @@ import (
 	sq "github.com/Masterminds/squirrel"
 )
 
+// GetStatisticData retrieves project statistics for a team from the database.
 func (r teamRepo) GetStatisticData(ctx context.Context, teamID int) ([]entity.StatisticData, error) {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()
@@ -40,15 +41,15 @@ func (r teamRepo) GetStatisticData(ctx context.Context, teamID int) ([]entity.St
 	data := make([]entity.StatisticData, 0)
 	for rows.Next() {
 		var row entity.StatisticData
-		if err := rows.Scan(
+		if scanErr := rows.Scan(
 			&row.ID,
 			&row.Code,
 			&row.TotalTasksCount,
 			&row.CompletedTasksCount,
 			&row.AvgTaskDuration,
 			&row.AvgTaskLifeDuration,
-		); err != nil {
-			return nil, fmt.Errorf("team - repository - GetStatisticData - rows.Scan: %w", err)
+		); scanErr != nil {
+			return nil, fmt.Errorf("team - repository - GetStatisticData - rows.Scan: %w", scanErr)
 		}
 		data = append(data, row)
 	}

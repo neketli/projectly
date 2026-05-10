@@ -5,6 +5,7 @@ import (
 	"projectly-server/internal/domain/project/entity"
 )
 
+// GetProject retrieves a project by ID.
 func (u *projectUseCase) GetProject(ctx context.Context, projectID int) (entity.Project, error) {
 	project, err := u.repo.GetProject(ctx, projectID)
 	if err != nil {

@@ -5,6 +5,7 @@ import (
 	"projectly-server/internal/domain/task/entity"
 )
 
+// TaskDetailed represents a detailed task database model.
 type TaskDetailed struct {
 	ID             int           `json:"id"`
 	ProjectCode    string        `json:"project_code"`
@@ -47,6 +48,7 @@ type TaskDetailed struct {
 	} `json:"meta"`
 }
 
+// ToEntity converts the database model to entity.
 func (t TaskDetailed) ToEntity() entity.TaskDetailed {
 	task := entity.TaskDetailed{
 		ID:             t.ID,

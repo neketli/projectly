@@ -9,6 +9,7 @@ import (
 	sq "github.com/Masterminds/squirrel"
 )
 
+// GetStatusList retrieves all statuses for a board from the database.
 func (r statusRepo) GetStatusList(ctx context.Context, boardID int) ([]entity.Status, error) {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()

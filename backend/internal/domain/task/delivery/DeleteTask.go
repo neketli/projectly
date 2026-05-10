@@ -8,7 +8,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary	Delete task
+// DeleteTask handles the deletion of a task.
+// @Summary Delete task
 // @ID			task-delete
 // @Tags		task
 // @Accept		application/json
@@ -17,7 +18,7 @@ import (
 // @Success	200
 // @Failure	400	{object}	echo.HTTPError
 // @Failure	500	{object}	echo.HTTPError
-// @Router		/task/{id} [delete]
+// @Router		/task/{id} [delete].
 func (h *TaskHandler) DeleteTask(c echo.Context) error {
 	taskID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

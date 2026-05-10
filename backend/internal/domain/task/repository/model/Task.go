@@ -5,6 +5,7 @@ import (
 	"projectly-server/internal/domain/task/entity"
 )
 
+// Task represents a task database model.
 type Task struct {
 	ID             int            `db:"id"`
 	ProjectIndex   int            `db:"project_index"`
@@ -22,6 +23,7 @@ type Task struct {
 	AssignedUserID sql.NullInt64  `db:"assigned_user_id"`
 }
 
+// ToEntity converts the database model to entity.
 func (t Task) ToEntity() entity.Task {
 	var finishedAt int64
 	if t.FinishedAt.Valid {

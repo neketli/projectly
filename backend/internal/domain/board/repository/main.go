@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+// BoardRepository defines the interface for board data operations.
 type BoardRepository interface {
 	CreateBoard(ctx context.Context, board *entity.Board) error
 	UpdateBoard(ctx context.Context, board *entity.Board) error
@@ -24,6 +25,7 @@ type boardRepo struct {
 	*postgres.Postgres
 }
 
+// New creates a new BoardRepository instance.
 func New(pg *postgres.Postgres) BoardRepository {
 	return boardRepo{pg}
 }

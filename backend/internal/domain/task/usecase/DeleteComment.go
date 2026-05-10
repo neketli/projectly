@@ -4,6 +4,7 @@ import (
 	"context"
 )
 
+// DeleteComment deletes a comment from a task.
 func (u *taskUseCase) DeleteComment(ctx context.Context, taskID, commentID int) error {
 	err := u.repo.DeleteComment(ctx, taskID, commentID)
 	if err != nil {
