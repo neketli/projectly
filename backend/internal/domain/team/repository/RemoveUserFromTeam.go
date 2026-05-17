@@ -7,7 +7,8 @@ import (
 	sq "github.com/Masterminds/squirrel"
 )
 
-func (r *teamRepository) RemoveUserFromTeam(ctx context.Context, teamID, userID int) error {
+// RemoveUserFromTeam removes a user from a team in the database.
+func (r teamRepo) RemoveUserFromTeam(ctx context.Context, teamID, userID int) error {
 	ctx, cancel := context.WithTimeout(ctx, _defaultConnTimeout)
 	defer cancel()
 

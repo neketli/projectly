@@ -19,7 +19,8 @@ type Dependency struct {
 	TeamUseCase teamUseCase.TeamUseCase
 }
 
-func New(dependency Dependency) boardUseCase.BoardUseCase {
+// New initializes the board domain with its dependencies and returns a BoardUseCase.
+func New(dependency Dependency) usecase.BoardUseCase {
 	repo := repository.New(dependency.Postgres)
 
 	boardUseCase := boardUseCase.New(repo, dependency.Logger)

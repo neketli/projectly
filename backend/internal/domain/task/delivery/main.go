@@ -36,4 +36,5 @@ func New(router *echo.Group, b taskUseCase.TaskUseCase, tu teamUseCase.TeamUseCa
 	task.GET("/:id/comments", handler.GetComments, middleware.TeamMembership())
 	task.POST("/:id/create-comment", handler.CreateComment, middleware.TeamMembership(), middleware.RequireTeamRole(*entity.RoleDeveloper))
 	task.DELETE("/:id/delete-comment", handler.DeleteComment, middleware.TeamMembership(), middleware.RequireTeamRole(*entity.RoleDeveloper))
+
 }

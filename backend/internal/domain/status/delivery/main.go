@@ -19,6 +19,7 @@ func New(router *echo.Group, uc statusUseCase.StatusUseCase, tu teamUseCase.Team
 	handler := &StatusHandler{statusUseCase: uc}
 	middleware := middlewares.New(tu)
 	status := router.Group("/status")
+	
 	status.POST("/create", handler.CreateStatus, middleware.TeamMembership(), middleware.RequireTeamRole(*entity.RoleEditor))
 	status.PATCH("/:id", handler.UpdateStatus, middleware.TeamMembership(), middleware.RequireTeamRole(*entity.RoleEditor))
 	status.DELETE("/delete", handler.DeleteStatus, middleware.TeamMembership(), middleware.RequireTeamRole(*entity.RoleOwner))

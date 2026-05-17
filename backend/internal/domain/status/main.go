@@ -19,7 +19,8 @@ type Dependency struct {
 	TeamUseCase teamUseCase.TeamUseCase
 }
 
-func New(dependency Dependency) statusUseCase.StatusUseCase {
+// New initializes the status domain with its dependencies and returns a StatusUseCase.
+func New(dependency Dependency) usecase.StatusUseCase {
 	repo := repository.New(dependency.Postgres)
 
 	statusUseCase := statusUseCase.New(repo, dependency.Logger)
