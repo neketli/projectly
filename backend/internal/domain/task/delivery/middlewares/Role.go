@@ -36,7 +36,7 @@ func (m *TaskMiddleware) RequireTeamRole(requiredRole entity.Role) echo.Middlewa
 				}
 			}
 
-			if userRole.ID > requiredRole.ID {
+			if userRole == nil || userRole.ID > requiredRole.ID {
 				return &echo.HTTPError{
 					Code:    http.StatusForbidden,
 					Message: "user doesn't have required role",

@@ -24,7 +24,7 @@ func (m *TeamMiddleware) RequireTeamRole(requiredRole entity.Role) echo.Middlewa
 			if !ok {
 				return &echo.HTTPError{
 					Code:    http.StatusBadRequest,
-					Message: "invalid user id",
+					Message: "invalid team id",
 				}
 			}
 
@@ -36,7 +36,7 @@ func (m *TeamMiddleware) RequireTeamRole(requiredRole entity.Role) echo.Middlewa
 				}
 			}
 
-			if userRole.ID > requiredRole.ID {
+			if userRole == nil || userRole.ID > requiredRole.ID {
 				return &echo.HTTPError{
 					Code:    http.StatusForbidden,
 					Message: "user doesn't have required role",
