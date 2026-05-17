@@ -22,12 +22,12 @@ type Dependency struct {
 }
 
 // New initializes the task domain with its dependencies and returns a TaskUseCase.
-func New(dependency Dependency) usecase.TaskUseCase {
+func New(dependency Dependency) taskUseCase.TaskUseCase {
 	repo := repository.New(dependency.Postgres, dependency.S3)
 
-	taskUseCase := taskUseCase.New(repo, dependency.Logger)
+	usecase := taskUseCase.New(repo, dependency.Logger)
 
-	delivery.New(dependency.Router, taskUseCase, dependency.TeamUseCase)
+	delivery.New(dependency.Router, usecase, dependency.TeamUseCase)
 
-	return taskUseCase
+	return usecase
 }

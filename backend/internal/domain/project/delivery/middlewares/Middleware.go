@@ -4,10 +4,12 @@ import (
 	teamUseCase "projectly-server/internal/domain/team/usecase"
 )
 
+// ProjectMiddleware provides middleware for project handlers.
 type ProjectMiddleware struct {
 	teamUseCase teamUseCase.TeamUseCase
 }
 
-func New(teamUseCase teamUseCase.TeamUseCase) *ProjectMiddleware {
-	return &ProjectMiddleware{teamUseCase: teamUseCase}
+// New creates a new ProjectMiddleware instance.
+func New(tu teamUseCase.TeamUseCase) *ProjectMiddleware {
+	return &ProjectMiddleware{teamUseCase: tu}
 }

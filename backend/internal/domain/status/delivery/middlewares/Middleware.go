@@ -4,10 +4,12 @@ import (
 	teamUseCase "projectly-server/internal/domain/team/usecase"
 )
 
+// StatusMiddleware provides middleware for status handlers.
 type StatusMiddleware struct {
 	teamUseCase teamUseCase.TeamUseCase
 }
 
-func New(teamUseCase teamUseCase.TeamUseCase) *StatusMiddleware {
-	return &StatusMiddleware{teamUseCase: teamUseCase}
+// New creates a new StatusMiddleware instance.
+func New(tu teamUseCase.TeamUseCase) *StatusMiddleware {
+	return &StatusMiddleware{teamUseCase: tu}
 }

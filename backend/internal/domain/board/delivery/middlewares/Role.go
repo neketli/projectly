@@ -8,6 +8,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// RequireTeamRole validates that the user has the required role in the team.
 func (m *BoardMiddleware) RequireTeamRole(requiredRole entity.Role) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {

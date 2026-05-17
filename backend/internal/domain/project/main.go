@@ -3,7 +3,7 @@ package project
 import (
 	"projectly-server/internal/domain/project/delivery"
 	"projectly-server/internal/domain/project/repository"
-	projUseCase "projectly-server/internal/domain/project/usecase"
+	projectUseCase "projectly-server/internal/domain/project/usecase"
 	teamUseCase "projectly-server/internal/domain/team/usecase"
 	"projectly-server/pkg/logger"
 	"projectly-server/pkg/postgres"
@@ -20,11 +20,11 @@ type Dependency struct {
 }
 
 // New initializes the project domain with its dependencies and returns a ProjectUseCase.
-func New(dependency Dependency) usecase.ProjectUseCase {
+func New(dependency Dependency) projectUseCase.ProjectUseCase {
 	repo := repository.New(dependency.Postgres)
 
-	projectUseCase := projUseCase.New(repo, dependency.Logger)
-	delivery.New(dependency.Router, projectUseCase, dependency.TeamUseCase)
+	usecase := projectUseCase.New(repo, dependency.Logger)
+	delivery.New(dependency.Router, usecase, dependency.TeamUseCase)
 
-	return projectUseCase
+	return usecase
 }
