@@ -7,7 +7,7 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-func (r *teamRepository) GetBoardTeamID(ctx context.Context, boardID int) (int, error) {
+func (r teamRepo) GetBoardTeamID(ctx context.Context, boardID int) (int, error) {
 	query := `SELECT p.team_id FROM board b
 		JOIN project p ON b.project_id = p.id
 		WHERE b.id = $1`

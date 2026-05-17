@@ -32,11 +32,11 @@ const (
 	_defaultConnTimeout = 5 * time.Second
 )
 
-type teamRepository struct {
+type teamRepo struct {
 	*postgres.Postgres
 }
 
 // New creates a new TeamRepository instance.
 func New(pg *postgres.Postgres) TeamRepository {
-	return &teamRepository{pg}
+	return &teamRepo{pg}
 }

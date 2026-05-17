@@ -7,7 +7,7 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-func (r *teamRepository) GetStatusTeamID(ctx context.Context, statusID int) (int, error) {
+func (r teamRepo) GetStatusTeamID(ctx context.Context, statusID int) (int, error) {
 	query := `SELECT p.team_id FROM status s
 		JOIN board b ON s.board_id = b.id
 		JOIN project p ON b.project_id = p.id

@@ -20,11 +20,11 @@ func New(router *echo.Group, b boardUseCase.BoardUseCase, tu teamUseCase.TeamUse
 	middleware := middlewares.New(tu)
 
 	board := router.Group("/board")
-	board.POST("/create", handler.CreateBoard)
-	board.PATCH("/:id", handler.UpdateBoard)
-	board.DELETE("/:id", handler.DeleteBoard)
-	board.GET("/:id", handler.GetBoard)
+	board.POST("/create", handler.CreateBoard, middleware.TeamMembership(), middleware.RequireTeamRole(*entity.RoleEditor))
+	board.PATCH("/:id", handler.UpdateBoard, middleware.TeamMembership(), middleware.RequireTeamRole(*entity.RoleEditor))
+	board.DELETE("/:id", handler.DeleteBoard, middleware.TeamMembership(), middleware.RequireTeamRole(*entity.RoleOwner))
+	board.GET("/:id", handler.GetBoard, middleware.TeamMembership())
 
-	board.GET("/list", handler.GetBoardList)
-	board.GET("/list-user", handler.GetUserBoardList)
+	board.GET("/list", handler.GetBoardList, middleware.TeamMembership())
+	board.GET("/list-user", handler.GetUserBoardList, middleware.TeamMembership())
 }

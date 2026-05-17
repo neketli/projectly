@@ -7,7 +7,7 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-func (r *teamRepository) GetProjectTeamID(ctx context.Context, projectID int) (int, error) {
+func (r teamRepo) GetProjectTeamID(ctx context.Context, projectID int) (int, error) {
 	query := `SELECT team_id FROM project WHERE id = $1`
 
 	var teamID int
