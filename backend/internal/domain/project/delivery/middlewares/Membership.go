@@ -24,8 +24,8 @@ func (m *ProjectMiddleware) TeamMembership() echo.MiddlewareFunc {
 			var teamID int
 
 			if projectIDStr := c.Param("id"); projectIDStr != "" {
-				projectID, err := strconv.Atoi(projectIDStr)
-				if err != nil || projectID <= 0 {
+				projectID, errAtoi := strconv.Atoi(projectIDStr)
+				if errAtoi != nil || projectID <= 0 {
 					return &echo.HTTPError{
 						Code:    http.StatusBadRequest,
 						Message: "invalid id",
