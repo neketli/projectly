@@ -22,17 +22,21 @@ type TeamRepository interface {
 	GetStatisticData(ctx context.Context, teamID int) ([]entity.StatisticData, error)
 	CheckUserInTeam(ctx context.Context, teamID, userID int) (bool, error)
 	GetUserRole(ctx context.Context, teamID, userID int) (int, error)
+	GetProjectTeamID(ctx context.Context, projectID int) (int, error)
+	GetBoardTeamID(ctx context.Context, boardID int) (int, error)
+	GetStatusTeamID(ctx context.Context, statusID int) (int, error)
+	GetTaskTeamID(ctx context.Context, taskID int) (int, error)
 }
 
 const (
 	_defaultConnTimeout = 5 * time.Second
 )
 
-type teamRepo struct {
+type teamRepository struct {
 	*postgres.Postgres
 }
 
 // New creates a new TeamRepository instance.
 func New(pg *postgres.Postgres) TeamRepository {
-	return teamRepo{pg}
+	return &teamRepository{pg}
 }
