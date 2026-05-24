@@ -1,9 +1,11 @@
 package delivery
 
 import (
-	"fmt"
+	"errors"
 	"net/http"
 	"projectly-server/internal/domain/team/entity"
+	userEntity "projectly-server/internal/domain/user/entity"
+	"projectly-server/pkg/apierror"
 	"strconv"
 
 	"github.com/labstack/echo/v4"
@@ -28,42 +30,30 @@ type addUserRequest struct {
 func (h *TeamHandler) AddUser(c echo.Context) error {
 	var request addUserRequest
 	if err := c.Bind(&request); err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("validation error: %s", err.Error()),
-		}
+		return apierror.Validation("Invalid request body")
 	}
 
 	teamID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("team id validation error: %s", err.Error()),
-		}
+		return apierror.Validation("Invalid team ID")
 	}
 
 	user, err := h.userUseCase.GetUserByEmail(c.Request().Context(), request.UserEmail)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("can't get user: %s", err.Error()),
+		if errors.Is(err, userEntity.ErrNoUserFound) {
+			return apierror.NotFound("User not found")
 		}
+		return apierror.Internal("Failed to find user")
 	}
 
 	err = h.teamUseCase.AddUserToTeam(c.Request().Context(), teamID, user.ID)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("can't add user: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to add user to team")
 	}
 
 	err = h.teamUseCase.SetRole(c.Request().Context(), teamID, user.ID, entity.RoleUser.ID)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("can't set user role: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to set user role")
 	}
 
 	return c.NoContent(http.StatusCreated)

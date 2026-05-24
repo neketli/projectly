@@ -1,8 +1,8 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
+	"projectly-server/pkg/apierror"
 	"projectly-server/internal/domain/board/entity"
 
 	"github.com/labstack/echo/v4"
@@ -27,10 +27,7 @@ type createBoardRequest struct {
 func (h *BoardHandler) CreateBoard(c echo.Context) error {
 	var request createBoardRequest
 	if err := c.Bind(&request); err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("validation error: %s", err.Error()),
-		}
+		return apierror.Validation("Invalid request body")
 	}
 
 	board := &entity.Board{
@@ -41,10 +38,7 @@ func (h *BoardHandler) CreateBoard(c echo.Context) error {
 
 	err := h.boardUseCase.CreateBoard(c.Request().Context(), board)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("can't create board: %s", err.Error()),
-		}
+		return apierror.Validation("Failed to create board")
 	}
 
 	return c.JSON(http.StatusCreated, board)

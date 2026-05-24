@@ -1,8 +1,8 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
+	"projectly-server/pkg/apierror"
 
 	"github.com/labstack/echo/v4"
 )
@@ -21,18 +21,12 @@ import (
 func (h *MediaHandler) GetMedia(c echo.Context) error {
 	filepath := c.Param("*")
 	if filepath == "" {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "invalid filepath",
-		}
+		return apierror.Validation("Invalid filepath")
 	}
 
 	file, err := h.mediaUseCase.GetFile(c.Request().Context(), filepath)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("can't get media: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to get media file")
 	}
 
 	c.Response().Header().Set("Content-Disposition", "attachment; filename="+file.FileInfo.Name)

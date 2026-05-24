@@ -2,8 +2,8 @@ package delivery
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
+	"projectly-server/pkg/apierror"
 	"projectly-server/internal/domain/user/delivery/token"
 	"projectly-server/internal/domain/user/entity"
 
@@ -30,32 +30,20 @@ type requestChangePassword struct {
 func (h *UserHandler) ChangePassword(c echo.Context) error {
 	var request requestChangePassword
 	if err := c.Bind(&request); err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("validation error: %s", err.Error()),
-		}
+		return apierror.Validation("Invalid request body")
 	}
 
 	claims, err := token.GetUserClaims(c)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("can't extract user from token: %s", err.Error()),
-		}
+		return apierror.Validation("Failed to authenticate user")
 	}
 
 	user, err := h.UserUseCase.GetUserByEmail(c.Request().Context(), claims.Email)
 	if err != nil && !errors.Is(err, entity.ErrNoUserFound) {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("can't get users: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to get users")
 	}
 	if user.ID == 0 {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "can't find user",
-		}
+		return apierror.NotFound("User not found")
 	}
 
 	err = h.UserUseCase.ChangePassword(c.Request().Context(), &entity.User{
@@ -66,10 +54,7 @@ func (h *UserHandler) ChangePassword(c echo.Context) error {
 		Password: request.Password,
 	})
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("change password error: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to change password")
 	}
 	return c.NoContent(http.StatusNoContent)
 }

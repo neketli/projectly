@@ -1,10 +1,10 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
+	"projectly-server/pkg/apierror"
 	"github.com/labstack/echo/v4"
 )
 
@@ -23,26 +23,17 @@ import (
 func (h *StatusHandler) DeleteStatus(c echo.Context) error {
 	statusID, err := strconv.Atoi(c.QueryParam("id"))
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "invalid status id",
-		}
+		return apierror.Validation("Invalid status ID")
 	}
 
 	order, err := strconv.Atoi(c.QueryParam("order"))
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "invalid status order",
-		}
+		return apierror.Validation("Invalid status order")
 	}
 
 	err = h.statusUseCase.DeleteStatus(c.Request().Context(), statusID, order)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("can't delete status: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to delete status")
 	}
 
 	return c.NoContent(http.StatusNoContent)

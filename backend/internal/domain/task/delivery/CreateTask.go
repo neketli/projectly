@@ -1,8 +1,8 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
+	"projectly-server/pkg/apierror"
 	"projectly-server/internal/domain/task/entity"
 	"projectly-server/internal/domain/user/delivery/token"
 
@@ -35,18 +35,12 @@ type createTaskRequest struct {
 func (h *TaskHandler) CreateTask(c echo.Context) error {
 	var request createTaskRequest
 	if err := c.Bind(&request); err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("validation error: %s", err.Error()),
-		}
+		return apierror.Validation("Invalid request body")
 	}
 
 	claims, err := token.GetUserClaims(c)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("can't extract user from token: %s", err.Error()),
-		}
+		return apierror.Validation("Failed to authenticate user")
 	}
 
 	newTask := entity.Task{
@@ -78,10 +72,7 @@ func (h *TaskHandler) CreateTask(c echo.Context) error {
 
 	task, err := h.taskUseCase.CreateTask(c.Request().Context(), newTask)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("can't create task: %s", err.Error()),
-		}
+		return apierror.Validation("Failed to create task")
 	}
 
 	return c.JSON(http.StatusCreated, task)

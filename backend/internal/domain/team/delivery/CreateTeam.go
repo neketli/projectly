@@ -1,10 +1,10 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
 	"projectly-server/internal/domain/team/entity"
 	"projectly-server/internal/domain/user/delivery/token"
+	"projectly-server/pkg/apierror"
 
 	"github.com/labstack/echo/v4"
 )
@@ -28,10 +28,7 @@ type createTeamRequest struct {
 func (h *TeamHandler) CreateTeam(c echo.Context) error {
 	var request createTeamRequest
 	if err := c.Bind(&request); err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("validation error: %s", err.Error()),
-		}
+		return apierror.Validation("Invalid request body")
 	}
 
 	team := &entity.Team{
@@ -42,34 +39,22 @@ func (h *TeamHandler) CreateTeam(c echo.Context) error {
 
 	err := h.teamUseCase.CreateTeam(c.Request().Context(), team)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("can't create team: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to create team")
 	}
 
 	claims, err := token.GetUserClaims(c)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("can't extract user from token: %s", err.Error()),
-		}
+		return apierror.Unauthorized("Failed to authenticate user")
 	}
 
 	err = h.teamUseCase.AddUserToTeam(c.Request().Context(), team.ID, claims.ID)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("can't add user %s to team: %s", claims.Email, err.Error()),
-		}
+		return apierror.Internal("Failed to add user to team")
 	}
 
 	err = h.teamUseCase.SetRole(c.Request().Context(), team.ID, claims.ID, entity.RoleOwner.ID)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("can't set owner role: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to set owner role")
 	}
 
 	return c.JSON(http.StatusCreated, team)

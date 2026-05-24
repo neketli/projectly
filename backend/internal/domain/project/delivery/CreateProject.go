@@ -1,8 +1,8 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
+	"projectly-server/pkg/apierror"
 	"projectly-server/internal/domain/project/entity"
 
 	"github.com/labstack/echo/v4"
@@ -29,10 +29,7 @@ type createProjectRequest struct {
 func (ph *ProjectHandler) CreateProject(c echo.Context) error {
 	var request createProjectRequest
 	if err := c.Bind(&request); err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("validation error: %s", err.Error()),
-		}
+		return apierror.Validation("Invalid request body")
 	}
 
 	project := &entity.Project{
@@ -45,10 +42,7 @@ func (ph *ProjectHandler) CreateProject(c echo.Context) error {
 
 	err := ph.projectUseCase.CreateProject(c.Request().Context(), project)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("can't create project: %s", err.Error()),
-		}
+		return apierror.Validation("Failed to create project")
 	}
 
 	return c.JSON(http.StatusCreated, project)

@@ -1,9 +1,9 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
 	"projectly-server/internal/domain/user/entity"
+	"projectly-server/pkg/apierror"
 
 	"github.com/labstack/echo/v4"
 )
@@ -28,33 +28,21 @@ type requestRefresh struct {
 func (h *UserHandler) Refresh(c echo.Context) error {
 	var request requestRefresh
 	if err := c.Bind(&request); err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("validation error: %s", err.Error()),
-		}
+		return apierror.Validation("Invalid request body")
 	}
 
 	user, err := h.UserUseCase.GetUserByRefreshToken(c.Request().Context(), request.RefreshToken)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusUnauthorized,
-			Message: fmt.Sprintf("can't find user with this refresh token: %s", err.Error()),
-		}
+		return apierror.Unauthorized("Invalid or expired refresh token")
 	}
 
 	accessToken, err := h.UserUseCase.CreateAccess(&user)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: "can't create access token",
-		}
+		return apierror.Internal("Failed to generate access token")
 	}
 	refreshToken, err := h.UserUseCase.CreateRefresh(&user)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: "can't create refresh token",
-		}
+		return apierror.Internal("Failed to generate refresh token")
 	}
 	return c.JSON(http.StatusOK, &entity.Tokens{
 		Access:  accessToken,

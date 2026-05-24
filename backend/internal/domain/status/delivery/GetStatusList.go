@@ -1,8 +1,8 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
+	"projectly-server/pkg/apierror"
 	"projectly-server/internal/domain/status/entity"
 	"strconv"
 
@@ -24,19 +24,13 @@ import (
 func (h *StatusHandler) GetStatusList(c echo.Context) error {
 	boardID, err := strconv.Atoi(c.QueryParam("board_id"))
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "invalid board id",
-		}
+		return apierror.Validation("Invalid board ID")
 	}
 
 	var statusList []entity.Status
 	statusList, err = h.statusUseCase.GetStatusList(c.Request().Context(), boardID)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("can't get status list: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to get status list")
 	}
 	return c.JSON(http.StatusOK, statusList)
 }

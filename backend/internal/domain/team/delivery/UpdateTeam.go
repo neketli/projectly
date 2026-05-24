@@ -1,9 +1,9 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
 
+	"projectly-server/pkg/apierror"
 	"projectly-server/internal/domain/team/entity"
 
 	"github.com/labstack/echo/v4"
@@ -26,18 +26,12 @@ func (h *TeamHandler) UpdateTeam(c echo.Context) error {
 	var team entity.Team
 	err := c.Bind(&team)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("validation error: %s", err.Error()),
-		}
+		return apierror.Validation("Invalid request body")
 	}
 
 	err = h.teamUseCase.UpdateTeam(c.Request().Context(), &team)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("can't update team: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to update team")
 	}
 
 	return c.JSON(http.StatusOK, team)

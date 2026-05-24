@@ -1,10 +1,10 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
+	"projectly-server/pkg/apierror"
 	"github.com/labstack/echo/v4"
 )
 
@@ -22,18 +22,12 @@ import (
 func (ph *ProjectHandler) DeleteProject(c echo.Context) error {
 	projectID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "invalid id",
-		}
+		return apierror.Validation("Invalid ID")
 	}
 
 	err = ph.projectUseCase.DeleteProject(c.Request().Context(), projectID)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("can't delete project: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to delete project")
 	}
 
 	return c.NoContent(http.StatusOK)

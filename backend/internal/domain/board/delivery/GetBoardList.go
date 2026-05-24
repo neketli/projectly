@@ -1,10 +1,11 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
-	boardEntity "projectly-server/internal/domain/board/entity"
 	"strconv"
+
+	"projectly-server/pkg/apierror"
+	boardEntity "projectly-server/internal/domain/board/entity"
 
 	"github.com/labstack/echo/v4"
 )
@@ -24,19 +25,13 @@ import (
 func (h *BoardHandler) GetBoardList(c echo.Context) error {
 	projectID, err := strconv.Atoi(c.QueryParam("project_id"))
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "invalid project id",
-		}
+		return apierror.Validation("Invalid project ID")
 	}
 
 	var boards []boardEntity.Board
 	boards, err = h.boardUseCase.GetBoardList(c.Request().Context(), projectID)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("can't get boards: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to get boards")
 	}
 	return c.JSON(http.StatusOK, boards)
 }

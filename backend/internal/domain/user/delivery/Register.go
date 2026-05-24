@@ -2,9 +2,9 @@ package delivery
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 	"projectly-server/internal/domain/user/entity"
+	"projectly-server/pkg/apierror"
 
 	"github.com/labstack/echo/v4"
 )
@@ -30,31 +30,19 @@ type requestRegister struct {
 func (h *UserHandler) Register(c echo.Context) error {
 	var request requestRegister
 	if err := c.Bind(&request); err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("validation error: %s", err.Error()),
-		}
+		return apierror.Validation("Invalid request body")
 	}
 
 	if err := c.Validate(request); err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("validation error: %s", err.Error()),
-		}
+		return err
 	}
 
 	user, err := h.UserUseCase.GetUserByEmail(c.Request().Context(), request.Email)
 	if err != nil && !errors.Is(err, entity.ErrNoUserFound) {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("can't get users: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to check user existence")
 	}
 	if user.ID != 0 {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "user already exists",
-		}
+		return apierror.Conflict("A user with this email already exists")
 	}
 
 	err = h.UserUseCase.CreateUser(c.Request().Context(), &entity.User{
@@ -65,10 +53,7 @@ func (h *UserHandler) Register(c echo.Context) error {
 		Password: request.Password,
 	})
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("registration error: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to register user")
 	}
 	return c.NoContent(http.StatusCreated)
 }

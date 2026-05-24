@@ -1,10 +1,10 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
+	"projectly-server/pkg/apierror"
 	"github.com/labstack/echo/v4"
 )
 
@@ -23,18 +23,12 @@ import (
 func (h *TaskHandler) GetAttachments(c echo.Context) error {
 	taskID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "invalid id",
-		}
+		return apierror.Validation("Invalid ID")
 	}
 
 	filenames, err := h.taskUseCase.GetAttachments(c.Request().Context(), taskID)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("can't get attachments: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to get attachments")
 	}
 
 	return c.JSON(http.StatusOK, filenames)

@@ -8,6 +8,9 @@ import (
 	"github.com/rs/zerolog"
 )
 
+// Fields defines structured key-value pairs for logging.
+type Fields map[string]interface{}
+
 // Interface defines the logging interface.
 type Interface interface {
 	Debug(message interface{}, args ...interface{})
@@ -15,6 +18,7 @@ type Interface interface {
 	Warn(message string, args ...interface{})
 	Error(message interface{}, args ...interface{})
 	Fatal(message interface{}, args ...interface{})
+	WithFields(fields Fields) Interface
 }
 
 // Logger provides structured logging capabilities.
@@ -78,6 +82,25 @@ func (l *Logger) Fatal(message interface{}, args ...interface{}) {
 	l.logger.Fatal().Msgf(l.getMessage(message), args...)
 
 	os.Exit(1)
+}
+
+// WithFields returns a new Logger with structured fields attached to every log entry.
+func (l *Logger) WithFields(fields Fields) Interface {
+	ctx := l.logger.With()
+	for k, v := range fields {
+		switch val := v.(type) {
+		case string:
+			ctx = ctx.Str(k, val)
+		case int:
+			ctx = ctx.Int(k, val)
+		case error:
+			ctx = ctx.Err(val)
+		default:
+			ctx = ctx.Interface(k, val)
+		}
+	}
+	child := ctx.Logger()
+	return &Logger{logger: &child}
 }
 
 func (l *Logger) getMessage(message interface{}) string {

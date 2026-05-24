@@ -1,8 +1,8 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
+	"projectly-server/pkg/apierror"
 	"projectly-server/internal/domain/user/delivery/token"
 	"strconv"
 
@@ -27,34 +27,22 @@ type createCommentRequest struct {
 func (h *TaskHandler) CreateComment(c echo.Context) error {
 	taskID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("invalid task id: %s", err.Error()),
-		}
+		return apierror.Validation("Invalid task ID")
 	}
 
 	var request createCommentRequest
 	if bindErr := c.Bind(&request); bindErr != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("validation error: %s", bindErr.Error()),
-		}
+		return apierror.Validation("Invalid request body")
 	}
 
 	claims, err := token.GetUserClaims(c)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("can't extract user from token: %s", err.Error()),
-		}
+		return apierror.Validation("Failed to authenticate user")
 	}
 
 	err = h.taskUseCase.CreateComment(c.Request().Context(), taskID, claims.ID, request.Text)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("can't create comment: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to create comment: %s")
 	}
 
 	return c.NoContent(http.StatusCreated)

@@ -1,8 +1,7 @@
 package middlewares
 
 import (
-	"fmt"
-	"net/http"
+	"projectly-server/pkg/apierror"
 	"projectly-server/internal/domain/user/delivery/token"
 	"strconv"
 
@@ -15,10 +14,7 @@ func (m *StatusMiddleware) TeamMembership() echo.MiddlewareFunc {
 		return func(c echo.Context) error {
 			claims, err := token.GetUserClaims(c)
 			if err != nil {
-				return &echo.HTTPError{
-					Code:    http.StatusBadRequest,
-					Message: fmt.Sprintf("can't extract user from token: %s", err.Error()),
-				}
+				return apierror.Validation("Failed to authenticate user")
 			}
 
 			var teamID int
@@ -26,42 +22,27 @@ func (m *StatusMiddleware) TeamMembership() echo.MiddlewareFunc {
 			if statusIDStr := c.Param("id"); statusIDStr != "" {
 				statusID, errAtoi := strconv.Atoi(statusIDStr)
 				if errAtoi != nil || statusID <= 0 {
-					return &echo.HTTPError{
-						Code:    http.StatusBadRequest,
-						Message: "invalid id",
-					}
+					return apierror.Validation("Invalid id")
 				}
 
 				teamID, err = m.teamUseCase.GetStatusTeamID(c.Request().Context(), statusID)
 				if err != nil {
-					return &echo.HTTPError{
-						Code:    http.StatusInternalServerError,
-						Message: fmt.Sprintf("can't get status team id: %s", err.Error()),
-					}
+					return apierror.Internal("Failed to get status team")
 				}
 
 				c.Set("status_id", statusID)
 			} else if teamIDStr := c.QueryParam("team_id"); teamIDStr != "" {
 				teamID, err = strconv.Atoi(teamIDStr)
 				if err != nil || teamID <= 0 {
-					return &echo.HTTPError{
-						Code:    http.StatusBadRequest,
-						Message: "invalid team_id",
-					}
+					return apierror.Validation("Invalid team_id")
 				}
 			} else {
 				teams, err := m.teamUseCase.GetTeamByUser(c.Request().Context(), claims.ID)
 				if err != nil {
-					return &echo.HTTPError{
-						Code:    http.StatusInternalServerError,
-						Message: fmt.Sprintf("can't get user teams: %s", err.Error()),
-					}
+					return apierror.Internal("Failed to get user teams")
 				}
 				if len(teams) == 0 {
-					return &echo.HTTPError{
-						Code:    http.StatusForbidden,
-						Message: "user is not in any team",
-					}
+					return apierror.Forbidden("User is not in any team")
 				}
 				teamID = teams[0].ID
 			}
@@ -69,16 +50,10 @@ func (m *StatusMiddleware) TeamMembership() echo.MiddlewareFunc {
 			if teamID > 0 {
 				isUserInTeam, err := m.teamUseCase.CheckUserInTeam(c.Request().Context(), teamID, claims.ID)
 				if err != nil {
-					return &echo.HTTPError{
-						Code:    http.StatusInternalServerError,
-						Message: fmt.Sprintf("can't check user in team: %s", err.Error()),
-					}
+					return apierror.Internal("Failed to verify team membership")
 				}
 				if !isUserInTeam {
-					return &echo.HTTPError{
-						Code:    http.StatusForbidden,
-						Message: "user is not in team",
-					}
+					return apierror.Forbidden("User is not in team")
 				}
 
 				c.Set("team_id", teamID)

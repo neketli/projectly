@@ -1,10 +1,11 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
-	projectEntity "projectly-server/internal/domain/project/entity"
 	"strconv"
+
+	"projectly-server/pkg/apierror"
+	projectEntity "projectly-server/internal/domain/project/entity"
 
 	"github.com/labstack/echo/v4"
 )
@@ -23,19 +24,13 @@ import (
 func (ph *ProjectHandler) GetProject(c echo.Context) error {
 	projectID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "invalid id",
-		}
+		return apierror.Validation("Invalid ID")
 	}
 
 	var project projectEntity.Project
 	project, err = ph.projectUseCase.GetProject(c.Request().Context(), projectID)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("can't get project: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to get project")
 	}
 
 	return c.JSON(http.StatusOK, project)

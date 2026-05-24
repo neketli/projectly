@@ -1,8 +1,8 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
+	"projectly-server/pkg/apierror"
 	"projectly-server/internal/domain/status/entity"
 	"strconv"
 
@@ -31,18 +31,12 @@ type updateStatusRequest struct {
 func (h *StatusHandler) UpdateStatus(c echo.Context) error {
 	statusID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "invalid id",
-		}
+		return apierror.Validation("Invalid ID")
 	}
 
 	var request updateStatusRequest
 	if bindErr := c.Bind(&request); bindErr != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("validation error: %s", bindErr.Error()),
-		}
+		return apierror.Validation("Invalid request body")
 	}
 
 	err = h.statusUseCase.UpdateStatus(c.Request().Context(), &entity.Status{
@@ -53,10 +47,7 @@ func (h *StatusHandler) UpdateStatus(c echo.Context) error {
 		BoardID:  request.BoardID,
 	}, request.OldOrder)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("can't update status: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to update status")
 	}
 
 	return c.NoContent(http.StatusOK)

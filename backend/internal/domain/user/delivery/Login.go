@@ -1,9 +1,9 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
 	"projectly-server/internal/domain/user/entity"
+	"projectly-server/pkg/apierror"
 
 	"github.com/labstack/echo/v4"
 	"golang.org/x/crypto/bcrypt"
@@ -29,47 +29,29 @@ type requestLogin struct {
 func (h *UserHandler) Login(c echo.Context) error {
 	var request requestLogin
 	if err := c.Bind(&request); err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("validation error: %s", err.Error()),
-		}
+		return apierror.Validation("Invalid request body")
 	}
 
 	if err := c.Validate(request); err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("validation error: %s", err.Error()),
-		}
+		return err
 	}
 
 	user, err := h.UserUseCase.GetUserByEmail(c.Request().Context(), request.Email)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: err.Error(),
-		}
+		return apierror.Unauthorized("Incorrect email or password")
 	}
 
 	if bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(request.Password)) != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusUnauthorized,
-			Message: "incorrect email or password",
-		}
+		return apierror.Unauthorized("Incorrect email or password")
 	}
 
 	accessToken, err := h.UserUseCase.CreateAccess(&user)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: "login error",
-		}
+		return apierror.Internal("Failed to generate access token")
 	}
 	refreshToken, err := h.UserUseCase.CreateRefresh(&user)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: "login error",
-		}
+		return apierror.Internal("Failed to generate refresh token")
 	}
 	return c.JSON(http.StatusOK, &entity.Tokens{
 		Access:  accessToken,

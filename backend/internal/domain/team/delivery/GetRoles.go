@@ -1,8 +1,8 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
+	"projectly-server/pkg/apierror"
 	"projectly-server/internal/domain/team/entity"
 
 	"github.com/labstack/echo/v4"
@@ -22,10 +22,7 @@ func (h *TeamHandler) GetRoles(c echo.Context) error {
 	var roles []entity.Role
 	roles, err := h.teamUseCase.GetRoles(c.Request().Context())
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("can't get roles: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to get roles")
 	}
 
 	return c.JSON(http.StatusOK, roles)

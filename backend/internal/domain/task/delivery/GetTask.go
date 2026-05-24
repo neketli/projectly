@@ -1,10 +1,11 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
-	entityTask "projectly-server/internal/domain/task/entity"
 	"strconv"
+
+	"projectly-server/pkg/apierror"
+	entityTask "projectly-server/internal/domain/task/entity"
 
 	"github.com/labstack/echo/v4"
 )
@@ -23,10 +24,7 @@ import (
 func (h *TaskHandler) GetTask(c echo.Context) error {
 	taskID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "invalid id",
-		}
+		return apierror.Validation("Invalid ID")
 	}
 
 	var tasks []entityTask.TaskDetailed
@@ -34,10 +32,7 @@ func (h *TaskHandler) GetTask(c echo.Context) error {
 		TaskID: &taskID,
 	})
 	if err != nil || tasks == nil || len(tasks) == 0 {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("can't get task: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to get task")
 	}
 
 	return c.JSON(http.StatusOK, tasks[0])

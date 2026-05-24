@@ -2,9 +2,9 @@ package delivery
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 	"path/filepath"
+	"projectly-server/pkg/apierror"
 	"projectly-server/internal/domain/user/delivery/token"
 	"projectly-server/internal/domain/user/entity"
 
@@ -26,18 +26,12 @@ import (
 func (h *UserHandler) UploadAvatar(c echo.Context) error {
 	form, err := c.MultipartForm()
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("avatar form validation error: %s", err.Error()),
-		}
+		return apierror.Validation("Invalid avatar form")
 	}
 	file := form.File["image"][0]
 
 	if file.Size > 2*1024*1024 {
-		return &echo.HTTPError{
-			Code:    http.StatusRequestEntityTooLarge,
-			Message: "file size exceeds 2MB",
-		}
+		return apierror.Validation("File size exceeds 2MB")
 	}
 
 	availableExtensions := map[string]bool{
@@ -48,40 +42,25 @@ func (h *UserHandler) UploadAvatar(c echo.Context) error {
 
 	_, foundExtension := availableExtensions[filepath.Ext(file.Filename)]
 	if !foundExtension {
-		return &echo.HTTPError{
-			Code:    http.StatusUnsupportedMediaType,
-			Message: "not available extension",
-		}
+		return apierror.Validation("File extension is not supported")
 	}
 
 	claims, err := token.GetUserClaims(c)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("can't extract user from token: %s", err.Error()),
-		}
+		return apierror.Validation("Failed to authenticate user")
 	}
 
 	user, err := h.UserUseCase.GetUserByEmail(c.Request().Context(), claims.Email)
 	if err != nil && !errors.Is(err, entity.ErrNoUserFound) {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("can't get users: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to get users")
 	}
 	if user.ID == 0 {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "can't find user",
-		}
+		return apierror.NotFound("User not found")
 	}
 
 	err = h.UserUseCase.UploadAvatar(c.Request().Context(), user, file)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("update user error: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to update user")
 	}
 	return c.NoContent(http.StatusNoContent)
 }

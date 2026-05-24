@@ -1,8 +1,8 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
+	"projectly-server/pkg/apierror"
 	"projectly-server/internal/domain/task/entity"
 	"strconv"
 
@@ -24,19 +24,13 @@ import (
 func (h *TaskHandler) GetTaskList(c echo.Context) error {
 	boardID, err := strconv.Atoi(c.QueryParam("board_id"))
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "invalid board id",
-		}
+		return apierror.Validation("Invalid board ID")
 	}
 
 	var tasks map[int][]entity.Task
 	tasks, err = h.taskUseCase.GetTaskList(c.Request().Context(), boardID)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("can't get tasks: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to get tasks")
 	}
 	return c.JSON(http.StatusOK, tasks)
 }

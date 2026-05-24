@@ -2,8 +2,8 @@ package delivery
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
+	"projectly-server/pkg/apierror"
 	"projectly-server/internal/domain/user/delivery/token"
 	"projectly-server/internal/domain/user/entity"
 
@@ -35,46 +35,28 @@ type requestUpdate struct {
 func (h *UserHandler) Update(c echo.Context) error {
 	var request requestUpdate
 	if err := c.Bind(&request); err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("validation error: %s", err.Error()),
-		}
+		return apierror.Validation("Invalid request body")
 	}
 
 	claims, err := token.GetUserClaims(c)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("can't extract user from token: %s", err.Error()),
-		}
+		return apierror.Validation("Failed to authenticate user")
 	}
 
 	user, err := h.UserUseCase.GetUserByEmail(c.Request().Context(), claims.Email)
 	if err != nil && !errors.Is(err, entity.ErrNoUserFound) {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("can't get users: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to get users")
 	}
 	if user.ID == 0 {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "can't find user",
-		}
+		return apierror.NotFound("User not found")
 	}
 
 	targetUser, err := h.UserUseCase.GetUserByEmail(c.Request().Context(), request.Email)
 	if err != nil && !errors.Is(err, entity.ErrNoUserFound) {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("can't get users: %s", err.Error()),
-		}
+		return apierror.Validation("Failed to get users")
 	}
 	if targetUser.ID != 0 && user.Email != request.Email {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "can't change emails: user with this email already exists",
-		}
+		return apierror.Conflict("A user with this email already exists")
 	}
 
 	meta := user.Meta
@@ -100,10 +82,7 @@ func (h *UserHandler) Update(c echo.Context) error {
 		Meta:     meta,
 	})
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("update user error: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to update user")
 	}
 	return c.NoContent(http.StatusNoContent)
 }

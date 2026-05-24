@@ -1,8 +1,8 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
+	"projectly-server/pkg/apierror"
 	"projectly-server/internal/domain/team/entity"
 	"strconv"
 
@@ -24,19 +24,13 @@ import (
 func (h *TeamHandler) GetStatistics(c echo.Context) error {
 	teamID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "invalid id",
-		}
+		return apierror.Validation("Invalid ID")
 	}
 
 	var statistic []entity.StatisticData
 	statistic, err = h.teamUseCase.GetStatisticData(c.Request().Context(), teamID)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("can't get statistic data: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to get statistic data")
 	}
 	return c.JSON(http.StatusOK, statistic)
 }

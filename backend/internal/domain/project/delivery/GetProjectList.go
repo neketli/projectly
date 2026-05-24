@@ -1,10 +1,11 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
-	projectEntity "projectly-server/internal/domain/project/entity"
 	"strconv"
+
+	"projectly-server/pkg/apierror"
+	projectEntity "projectly-server/internal/domain/project/entity"
 
 	"github.com/labstack/echo/v4"
 )
@@ -33,10 +34,7 @@ func (ph *ProjectHandler) GetProjectList(c echo.Context) error {
 	if param != "" {
 		teamID, err = strconv.Atoi(param)
 		if err != nil {
-			return &echo.HTTPError{
-				Code:    http.StatusBadRequest,
-				Message: "invalid team id",
-			}
+			return apierror.Validation("Invalid team id")
 		}
 	}
 
@@ -44,36 +42,24 @@ func (ph *ProjectHandler) GetProjectList(c echo.Context) error {
 	if param != "" {
 		userID, err = strconv.Atoi(param)
 		if err != nil {
-			return &echo.HTTPError{
-				Code:    http.StatusBadRequest,
-				Message: "invalid user id",
-			}
+			return apierror.Validation("Invalid user id")
 		}
 	}
 
 	if teamID == 0 && userID == 0 {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "team_id or user_id should be provided",
-		}
+		return apierror.Validation("team_id or user_id must be provided")
 	}
 
 	var projects []projectEntity.Project
 	if userID != 0 {
 		projects, err = ph.projectUseCase.GetUserProjects(c.Request().Context(), userID)
 		if err != nil {
-			return &echo.HTTPError{
-				Code:    http.StatusInternalServerError,
-				Message: fmt.Sprintf("can't get projects: %s", err.Error()),
-			}
+			return apierror.Internal("Failed to get projects")
 		}
 	} else if teamID != 0 {
 		projects, err = ph.projectUseCase.GetProjectList(c.Request().Context(), teamID)
 		if err != nil {
-			return &echo.HTTPError{
-				Code:    http.StatusInternalServerError,
-				Message: fmt.Sprintf("can't get projects: %s", err.Error()),
-			}
+			return apierror.Internal("Failed to get projects")
 		}
 	}
 	return c.JSON(http.StatusOK, projects)

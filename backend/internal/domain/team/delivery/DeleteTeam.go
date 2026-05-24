@@ -1,10 +1,10 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
+	"projectly-server/pkg/apierror"
 	"github.com/labstack/echo/v4"
 )
 
@@ -22,18 +22,12 @@ import (
 func (h *TeamHandler) DeleteTeam(c echo.Context) error {
 	teamID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "invalid id",
-		}
+		return apierror.Validation("Invalid ID")
 	}
 
 	err = h.teamUseCase.DeleteTeam(c.Request().Context(), teamID)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("can't delete team: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to delete team")
 	}
 
 	return c.NoContent(http.StatusOK)

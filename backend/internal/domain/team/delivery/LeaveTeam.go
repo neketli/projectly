@@ -1,8 +1,8 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
+	"projectly-server/pkg/apierror"
 	"projectly-server/internal/domain/user/delivery/token"
 	"strconv"
 
@@ -21,26 +21,17 @@ import (
 func (h *TeamHandler) LeaveTeam(c echo.Context) error {
 	teamID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "invalid team id",
-		}
+		return apierror.Validation("Invalid team ID")
 	}
 
 	claims, err := token.GetUserClaims(c)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("can't extract user from token: %s", err.Error()),
-		}
+		return apierror.Validation("Failed to authenticate user")
 	}
 
 	err = h.teamUseCase.RemoveUserFromTeam(c.Request().Context(), teamID, claims.ID)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("can't remove user: %s", err.Error()),
-		}
+		return apierror.Validation("Failed to remove user")
 	}
 
 	return c.NoContent(http.StatusNoContent)

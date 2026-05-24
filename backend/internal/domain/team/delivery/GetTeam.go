@@ -1,10 +1,10 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
 	"projectly-server/internal/domain/team/entity"
 	"projectly-server/internal/domain/user/delivery/token"
+	"projectly-server/pkg/apierror"
 	"strconv"
 
 	"github.com/labstack/echo/v4"
@@ -24,40 +24,26 @@ import (
 func (h *TeamHandler) GetTeam(c echo.Context) error {
 	teamID, err := strconv.Atoi(c.Param("id"))
 	if err != nil || teamID <= 0 {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "invalid id",
-		}
+		return apierror.Validation("Invalid team ID")
 	}
 
 	claims, err := token.GetUserClaims(c)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("can't extract user from token: %s", err.Error()),
-		}
+		return apierror.Unauthorized("Failed to authenticate user")
 	}
+
 	isUserInTeam, err := h.teamUseCase.CheckUserInTeam(c.Request().Context(), teamID, claims.ID)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("can't check user in team: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to verify team membership")
 	}
 	if !isUserInTeam {
-		return &echo.HTTPError{
-			Code:    http.StatusForbidden,
-			Message: "user is not in team",
-		}
+		return apierror.Forbidden("You are not a member of this team")
 	}
 
 	var team entity.Team
 	team, err = h.teamUseCase.GetTeam(c.Request().Context(), teamID)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("can't get users: %s", err.Error()),
-		}
+		return apierror.NotFound("Team not found")
 	}
 
 	return c.JSON(http.StatusOK, team)

@@ -3,6 +3,7 @@ package delivery
 import (
 	"fmt"
 	"net/http"
+	"projectly-server/pkg/apierror"
 	"projectly-server/internal/domain/user/entity"
 
 	"github.com/labstack/echo/v4"
@@ -45,10 +46,7 @@ func (h *UserHandler) OauthLogin(c echo.Context) error {
 func (h *UserHandler) OauthCallback(c echo.Context) error {
 	gothUser, err := gothic.CompleteUserAuth(c.Response(), c.Request())
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("authentication failed: %s", err.Error()),
-		}
+		return apierror.Validation("Authentication failed")
 	}
 
 	user := &entity.User{
@@ -70,25 +68,16 @@ func (h *UserHandler) OauthCallback(c echo.Context) error {
 
 	err = h.UserUseCase.CompleteUserAuth(c.Request().Context(), user)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("can't login: %s", err.Error()),
-		}
+		return apierror.Validation("Authentication failed")
 	}
 
 	accessToken, err := h.UserUseCase.CreateAccess(user)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: "login error",
-		}
+		return apierror.Internal("Failed to login")
 	}
 	refreshToken, err := h.UserUseCase.CreateRefresh(user)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: "login error",
-		}
+		return apierror.Internal("Failed to login")
 	}
 
 	redirectURL := fmt.Sprintf("/my/auth?access=%s&refresh=%s", accessToken, refreshToken)

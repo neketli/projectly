@@ -1,10 +1,10 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
+	"projectly-server/pkg/apierror"
 	"github.com/labstack/echo/v4"
 )
 
@@ -23,26 +23,17 @@ import (
 func (h *TaskHandler) DeleteComment(c echo.Context) error {
 	taskID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "invalid task id",
-		}
+		return apierror.Validation("Invalid task ID")
 	}
 
 	commentID, err := strconv.Atoi(c.QueryParam("comment_id"))
 	if commentID == 0 || err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "invalid comment_id",
-		}
+		return apierror.Validation("Invalid comment ID")
 	}
 
 	err = h.taskUseCase.DeleteComment(c.Request().Context(), taskID, commentID)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("can't delete task: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to delete task")
 	}
 
 	return c.NoContent(http.StatusOK)

@@ -1,8 +1,8 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
+	"projectly-server/pkg/apierror"
 	"projectly-server/internal/domain/board/entity"
 	"strconv"
 
@@ -27,18 +27,12 @@ type updateBoardRequest struct {
 func (h *BoardHandler) UpdateBoard(c echo.Context) error {
 	boardID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "invalid id",
-		}
+		return apierror.Validation("Invalid ID")
 	}
 
 	var request updateBoardRequest
 	if bindErr := c.Bind(&request); bindErr != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("validation error: %s", bindErr.Error()),
-		}
+		return apierror.Validation("Invalid request body")
 	}
 
 	err = h.boardUseCase.UpdateBoard(c.Request().Context(), &entity.Board{
@@ -46,10 +40,7 @@ func (h *BoardHandler) UpdateBoard(c echo.Context) error {
 		Title: request.Title,
 	})
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("can't update board: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to update board")
 	}
 
 	return c.NoContent(http.StatusOK)

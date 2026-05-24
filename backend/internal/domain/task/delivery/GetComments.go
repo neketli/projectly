@@ -1,8 +1,8 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
+	"projectly-server/pkg/apierror"
 	"projectly-server/internal/domain/task/entity"
 	"strconv"
 
@@ -25,27 +25,18 @@ import (
 func (h *TaskHandler) GetComments(c echo.Context) error {
 	taskID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "invalid id",
-		}
+		return apierror.Validation("Invalid ID")
 	}
 
 	lastCommentID, err := strconv.Atoi(c.QueryParam("last_comment_id"))
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "invalid comment id",
-		}
+		return apierror.Validation("Invalid comment ID")
 	}
 
 	var comments []entity.Comment
 	comments, err = h.taskUseCase.GetComments(c.Request().Context(), taskID, lastCommentID)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("can't get comments: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to get comments")
 	}
 
 	return c.JSON(http.StatusOK, comments)

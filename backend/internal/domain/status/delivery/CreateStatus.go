@@ -1,8 +1,8 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
+	"projectly-server/pkg/apierror"
 	"projectly-server/internal/domain/status/entity"
 
 	"github.com/labstack/echo/v4"
@@ -29,10 +29,7 @@ type createStatusRequest struct {
 func (h *StatusHandler) CreateStatus(c echo.Context) error {
 	var request createStatusRequest
 	if err := c.Bind(&request); err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("validation error: %s", err.Error()),
-		}
+		return apierror.Validation("Invalid request body")
 	}
 
 	status := &entity.Status{
@@ -45,10 +42,7 @@ func (h *StatusHandler) CreateStatus(c echo.Context) error {
 
 	err := h.statusUseCase.CreateStatus(c.Request().Context(), status)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("can't create status: %s", err.Error()),
-		}
+		return apierror.Validation("Failed to create status")
 	}
 
 	return c.JSON(http.StatusCreated, status)

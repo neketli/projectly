@@ -1,9 +1,9 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
 
+	"projectly-server/pkg/apierror"
 	"github.com/labstack/echo/v4"
 )
 
@@ -21,18 +21,12 @@ import (
 func (h *TaskHandler) DeleteAttachment(c echo.Context) error {
 	filename := c.QueryParam("filename")
 	if filename == "" {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "invalid filename",
-		}
+		return apierror.Validation("Invalid filename")
 	}
 
 	err := h.taskUseCase.DeleteAttachment(c.Request().Context(), filename)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("can't delete attachment: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to delete attachment")
 	}
 
 	return c.NoContent(http.StatusOK)

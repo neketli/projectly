@@ -1,10 +1,10 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
+	"projectly-server/pkg/apierror"
 	"github.com/labstack/echo/v4"
 )
 
@@ -28,26 +28,17 @@ type setRoleRequest struct {
 func (h *TeamHandler) SetRole(c echo.Context) error {
 	teamID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "invalid team id",
-		}
+		return apierror.Validation("Invalid team ID")
 	}
 
 	var request setRoleRequest
 	if bindErr := c.Bind(&request); bindErr != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("validation error: %s", bindErr.Error()),
-		}
+		return apierror.Validation("Invalid request body")
 	}
 
 	err = h.teamUseCase.SetRole(c.Request().Context(), teamID, request.UserID, request.RoleID)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("can't set role: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to set role")
 	}
 
 	return c.NoContent(http.StatusOK)

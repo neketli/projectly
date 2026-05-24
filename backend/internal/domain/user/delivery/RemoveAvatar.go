@@ -2,8 +2,8 @@ package delivery
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
+	"projectly-server/pkg/apierror"
 	"projectly-server/internal/domain/user/delivery/token"
 	"projectly-server/internal/domain/user/entity"
 
@@ -23,38 +23,23 @@ import (
 func (h *UserHandler) RemoveAvatar(c echo.Context) error {
 	claims, err := token.GetUserClaims(c)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("can't extract user from token: %s", err.Error()),
-		}
+		return apierror.Validation("Failed to authenticate user")
 	}
 
 	user, err := h.UserUseCase.GetUserByEmail(c.Request().Context(), claims.Email)
 	if err != nil && !errors.Is(err, entity.ErrNoUserFound) {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("can't get users: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to get users")
 	}
 	if user.ID == 0 {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "can't find user",
-		}
+		return apierror.NotFound("User not found")
 	}
 	if user.Meta == nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "user has no avatar",
-		}
+		return apierror.NotFound("User has no avatar")
 	}
 
 	err = h.UserUseCase.RemoveAvatar(c.Request().Context(), user)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("remove user error: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to remove avatar")
 	}
 
 	return c.NoContent(http.StatusOK)

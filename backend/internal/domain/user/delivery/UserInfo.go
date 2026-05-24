@@ -4,6 +4,7 @@ import (
 	"errors"
 	"net/http"
 
+	"projectly-server/pkg/apierror"
 	"projectly-server/internal/domain/user/entity"
 
 	"github.com/labstack/echo/v4"
@@ -25,25 +26,16 @@ import (
 func (h *UserHandler) UserInfo(c echo.Context) error {
 	email := c.Param("email")
 	if email == "" {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "email is required",
-		}
+		return apierror.Validation("Email is required")
 	}
 
 	user, err := h.UserUseCase.GetUserByEmail(c.Request().Context(), email)
 	if err != nil {
 		if errors.Is(err, entity.ErrNoUserFound) {
-			return &echo.HTTPError{
-				Code:    http.StatusNotFound,
-				Message: "user not found",
-			}
+			return apierror.NotFound("user not found")
 		}
 
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: err.Error(),
-		}
+	return apierror.Internal("Failed to get user")
 	}
 
 	return c.JSON(http.StatusOK, user)

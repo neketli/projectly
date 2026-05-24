@@ -1,8 +1,8 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
+	"projectly-server/pkg/apierror"
 	"projectly-server/internal/domain/team/entity"
 	"projectly-server/internal/domain/user/delivery/token"
 
@@ -23,20 +23,14 @@ import (
 func (h *TeamHandler) UserTeams(c echo.Context) error {
 	claims, err := token.GetUserClaims(c)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("can't extract user from token: %s", err.Error()),
-		}
+		return apierror.Validation("Failed to authenticate user")
 	}
 
 	var teams []entity.Team
 
 	teams, err = h.teamUseCase.GetTeamByUser(c.Request().Context(), claims.ID)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("can't get user teams: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to get user teams")
 	}
 
 	return c.JSON(http.StatusOK, teams)

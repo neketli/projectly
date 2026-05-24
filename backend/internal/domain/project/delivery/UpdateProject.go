@@ -1,8 +1,8 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
+	"projectly-server/pkg/apierror"
 	"projectly-server/internal/domain/project/entity"
 	"strconv"
 
@@ -28,18 +28,12 @@ type updateProjectRequest struct {
 func (ph *ProjectHandler) UpdateProject(c echo.Context) error {
 	projectID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "invalid id",
-		}
+		return apierror.Validation("Invalid ID")
 	}
 
 	var request updateProjectRequest
 	if bindErr := c.Bind(&request); bindErr != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("validation error: %s", bindErr.Error()),
-		}
+		return apierror.Validation("Invalid request body")
 	}
 
 	err = ph.projectUseCase.UpdateProject(c.Request().Context(), &entity.Project{
@@ -48,10 +42,7 @@ func (ph *ProjectHandler) UpdateProject(c echo.Context) error {
 		Description: request.Description,
 	})
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("can't update project: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to update project")
 	}
 
 	return c.NoContent(http.StatusOK)

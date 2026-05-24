@@ -1,8 +1,8 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
+	"projectly-server/pkg/apierror"
 	"projectly-server/internal/domain/task/entity"
 	"strconv"
 
@@ -23,18 +23,12 @@ import (
 func (h *TaskHandler) UpdateTask(c echo.Context) error {
 	taskID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "invalid id",
-		}
+		return apierror.Validation("Invalid ID")
 	}
 
 	var request entity.Task
 	if bindErr := c.Bind(&request); bindErr != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("validation error: %s", bindErr.Error()),
-		}
+		return apierror.Validation("Invalid request body")
 	}
 
 	task, err := h.taskUseCase.UpdateTask(c.Request().Context(), &entity.Task{
@@ -50,10 +44,7 @@ func (h *TaskHandler) UpdateTask(c echo.Context) error {
 		StatusID:       request.StatusID,
 	})
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("can't update task: %s", err.Error()),
-		}
+		return apierror.Internal("Failed to update task")
 	}
 
 	return c.JSON(http.StatusOK, task)

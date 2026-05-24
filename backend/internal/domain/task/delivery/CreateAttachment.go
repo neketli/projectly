@@ -1,10 +1,10 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
+	"projectly-server/pkg/apierror"
 	"github.com/labstack/echo/v4"
 )
 
@@ -23,35 +23,23 @@ import (
 func (h *TaskHandler) CreateAttachment(c echo.Context) error {
 	form, err := c.MultipartForm()
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("file form validation error: %s", err.Error()),
-		}
+		return apierror.Validation("Invalid file form")
 	}
 	taskID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "invalid task id",
-		}
+		return apierror.Validation("Invalid task ID")
 	}
 	files := form.File["files"]
 	filenames := make([]string, len(files))
 
 	for index, file := range files {
 		if file.Size > 30*1024*1024 {
-			return &echo.HTTPError{
-				Code:    http.StatusRequestEntityTooLarge,
-				Message: fmt.Sprintf("file %s size exceeds 30MB", file.Filename),
-			}
+			return apierror.Validation("File size exceeds 30MB")
 		}
 
 		filename, err := h.taskUseCase.CreateAttachment(c.Request().Context(), taskID, file)
 		if err != nil {
-			return &echo.HTTPError{
-				Code:    http.StatusInternalServerError,
-				Message: fmt.Sprintf("update task error: %s", err.Error()),
-			}
+			return apierror.Internal("Failed to update task")
 		}
 
 		filenames[index] = filename

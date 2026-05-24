@@ -1,10 +1,10 @@
 package delivery
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
+	"projectly-server/pkg/apierror"
 	"github.com/labstack/echo/v4"
 )
 
@@ -21,26 +21,17 @@ import (
 func (h *TeamHandler) RemoveUser(c echo.Context) error {
 	teamID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "invalid team id",
-		}
+		return apierror.Validation("Invalid team ID")
 	}
 
 	userID, err := strconv.Atoi(c.Param("user_id"))
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: "invalid user id",
-		}
+		return apierror.Validation("Invalid user ID")
 	}
 
 	err = h.teamUseCase.RemoveUserFromTeam(c.Request().Context(), teamID, userID)
 	if err != nil {
-		return &echo.HTTPError{
-			Code:    http.StatusBadRequest,
-			Message: fmt.Sprintf("can't remove user: %s", err.Error()),
-		}
+		return apierror.Validation("Failed to remove user")
 	}
 
 	return c.NoContent(http.StatusNoContent)
