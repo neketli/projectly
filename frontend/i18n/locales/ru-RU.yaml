@@ -296,7 +296,25 @@ task:
   comments:
     title: "Комментарии"
     empty: "Нет комментариев"
-    placeholder: "Доступно форматирование markdown и функция упоминания пользователей в виде `:(имя)`"
+    placeholder: "Доступно форматирование markdown и функция упоминания пользователей в виде `:(name)`"
+  activity:
+    title: "Активность"
+    empty: "Нет активности"
+    action:
+      task_created: "Создал(а) задачу"
+      task_updated: "Изменил(а) {field}"
+      status_changed: "Изменил(а) статус"
+      comment_added: "Добавил(а) комментарий"
+      comment_deleted: "Удалил(а) комментарий"
+      attachment_added: "Добавил(а) вложение"
+      attachment_deleted: "Удалил(а) вложение"
+    field:
+      title: "название"
+      description: "описание"
+      priority: "приоритет"
+      assigned_user_id: "исполнителя"
+      deadline: "срок"
+    user_none: "Никто"
   create:
     title: "Создание задачи"
   update:

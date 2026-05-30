@@ -297,6 +297,24 @@ task:
     title: "Comments"
     empty: "No comments"
     placeholder: "Markdown formatting is available and user mentions can be used in the form of `:(name)`"
+  activity:
+    title: "Activity"
+    empty: "No activity yet"
+    action:
+      task_created: "Created the task"
+      task_updated: "Updated {field}"
+      status_changed: "Changed status"
+      comment_added: "Added a comment"
+      comment_deleted: "Deleted a comment"
+      attachment_added: "Added an attachment"
+      attachment_deleted: "Deleted an attachment"
+    field:
+      title: "title"
+      description: "description"
+      priority: "priority"
+      assigned_user_id: "assignee"
+      deadline: "deadline"
+    user_none: "Nobody"
   create:
     title: "Create Task"
   update:

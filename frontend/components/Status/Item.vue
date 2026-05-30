@@ -243,21 +243,25 @@ const statusSortOptions = [
     },
 ]
 
-const taskList = computed(() => {
-    const arr = tasks.value[props.status.id]
-    if (!arr) return []
-    arr.sort((a: DetailedTask, b: DetailedTask) => {
-        if (a[statusSort.value] === undefined && b[statusSort.value] !== undefined) return 1
-        if (a[statusSort.value] !== undefined && b[statusSort.value] === undefined) return -1
+const taskList = computed({
+    get: () => {
+        const arr = tasks.value[props.status.id]
+        if (!arr) return []
+        return [...arr].sort((a: DetailedTask, b: DetailedTask) => {
+            if (a[statusSort.value] === undefined && b[statusSort.value] !== undefined) return 1
+            if (a[statusSort.value] !== undefined && b[statusSort.value] === undefined) return -1
 
-        if (sortDirection.value === 'asc') {
+            if (sortDirection.value === 'asc') {
+                // @ts-expect-error
+                return a[statusSort.value] > b[statusSort.value] ? 1 : -1
+            }
             // @ts-expect-error
-            return a[statusSort.value] > b[statusSort.value] ? 1 : -1
-        }
-        // @ts-expect-error
-        return a[statusSort.value] < b[statusSort.value] ? 1 : -1
-    })
-    return arr
+            return a[statusSort.value] < b[statusSort.value] ? 1 : -1
+        })
+    },
+    set: (val) => {
+        tasks.value[props.status.id] = val
+    },
 })
 
 const handleEditStatus = () => {
@@ -357,7 +361,6 @@ const handleChangeTaskStatus = async (params: {
         isLoading.value = true
         const finishedAt = finishStatus.value.id === toStatusId ? dayjs().unix() : null
         await updateTaskStatus(taskId, toStatusId, finishedAt)
-        boardStore.changeTaskStatus(fromStatusId, toStatusId, taskId, finishedAt)
 
         ElMessage.success(t('task.success.update'))
     }

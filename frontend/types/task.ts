@@ -41,3 +41,14 @@ export type TaskComment = {
     created_at: number
     updated_at: number
 }
+
+export type TaskActivity = {
+    id: number
+    task_id: number
+    user: PlainUser
+    action_type: 'task_created' | 'task_updated' | 'status_changed' | 'comment_added' | 'comment_deleted' | 'attachment_added' | 'attachment_deleted'
+    field_name: string
+    old_value: string
+    new_value: string
+    created_at: number
+}

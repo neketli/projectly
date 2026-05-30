@@ -1,5 +1,5 @@
 import type { AxiosError } from 'axios'
-import type { DetailedTask, Task, TaskComment } from '~/types/task'
+import type { DetailedTask, Task, TaskActivity, TaskComment } from '~/types/task'
 
 export const useTask = () => {
     const { $api } = useNuxtApp()
@@ -229,6 +229,17 @@ export const useTask = () => {
         }
     }
 
+    const getTaskActivities = async (task_id: number): Promise<TaskActivity[]> => {
+        try {
+            const { data } = await $api.get<TaskActivity[]>(`/task/${task_id}/activities`)
+            return data
+        }
+        catch (error) {
+            const axiosError = error as AxiosError<{ message: string }>
+            throw new Error(axiosError.response?.data?.message || 'Failed to get task activities')
+        }
+    }
+
     return {
         getTask,
         searchTask,
@@ -247,5 +258,7 @@ export const useTask = () => {
         getComments,
         createComment,
         deleteComment,
+
+        getTaskActivities,
     }
 }

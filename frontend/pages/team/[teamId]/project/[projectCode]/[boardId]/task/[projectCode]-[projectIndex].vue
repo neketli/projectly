@@ -100,6 +100,29 @@
 
             <ElDivider content-position="left">
                 <h4 class="text-xl">
+                    {{ t('task.activity.title') }}
+                </h4>
+            </ElDivider>
+
+            <div
+                v-loading="isActivitiesLoading"
+                class="flex flex-col gap-2 my-4"
+            >
+                <ElAlert
+                    v-if="activities.length === 0"
+                    :closable="false"
+                    :title="t('task.activity.empty')"
+                />
+
+                <TaskActivity
+                    v-for="item in activities"
+                    :key="item.id"
+                    :activity="item"
+                />
+            </div>
+
+            <ElDivider content-position="left">
+                <h4 class="text-xl">
                     {{ t('task.comments.title') }}
                 </h4>
             </ElDivider>
@@ -179,7 +202,7 @@
 import markdownit from 'markdown-it'
 import type { UploadProps } from 'element-plus'
 import dayjs from 'dayjs'
-import type { DetailedTask, TaskComment } from '~/types/task'
+import type { DetailedTask, TaskActivity, TaskComment } from '~/types/task'
 
 const { teamId, projectCode, boardId, projectIndex } = useRoute().params
 const { t } = useI18n()
@@ -208,6 +231,7 @@ const {
     getComments,
     createComment,
     deleteComment,
+    getTaskActivities,
 } = useTask()
 const { getStatusList } = useStatus()
 
@@ -220,8 +244,10 @@ const comment = ref('')
 const task = ref({} as DetailedTask)
 const files = ref([] as string[])
 const comments = ref([] as TaskComment[])
+const activities = ref([] as TaskActivity[])
 const isLoading = ref(false)
 const isCommentsLoading = ref(false)
+const isActivitiesLoading = ref(false)
 let commentsIntervalId = 0
 
 const taskDescriptionMd = computed(() => task.value.description ? md.render(task.value.description) : t('task.form.placeholder.description'))
@@ -354,6 +380,7 @@ onMounted(async () => {
         const statuses = await getStatusList(Number(boardId))
         boardStore.setStatusList(statuses)
         files.value = await getAttachments(task.value.id)
+        activities.value = await getTaskActivities(task.value.id)
 
         updateComments()
         commentsIntervalId = window.setInterval(updateComments, 30000)
