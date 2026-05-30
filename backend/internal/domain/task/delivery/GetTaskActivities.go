@@ -8,6 +8,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// GetTaskActivities retrieves all activities for a given task.
 func (h *TaskHandler) GetTaskActivities(c echo.Context) error {
 	taskID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

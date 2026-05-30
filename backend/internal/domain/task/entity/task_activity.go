@@ -1,5 +1,6 @@
 package entity
 
+// Task activity action types.
 const (
 	ActionTaskCreated       = "task_created"
 	ActionTaskUpdated       = "task_updated"
@@ -10,6 +11,7 @@ const (
 	ActionAttachmentDeleted = "attachment_deleted"
 )
 
+// TaskActivity represents a task activity log entry.
 type TaskActivity struct {
 	ID         int    `json:"id"`
 	TaskID     int    `json:"task_id"`
