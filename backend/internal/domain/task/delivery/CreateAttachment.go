@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"projectly-server/pkg/apierror"
+	"projectly-server/internal/domain/user/delivery/token"
 	"github.com/labstack/echo/v4"
 )
 
@@ -29,6 +30,12 @@ func (h *TaskHandler) CreateAttachment(c echo.Context) error {
 	if err != nil {
 		return apierror.Validation("Invalid task ID")
 	}
+
+	claims, err := token.GetUserClaims(c)
+	if err != nil {
+		return apierror.Validation("Failed to authenticate user")
+	}
+
 	files := form.File["files"]
 	filenames := make([]string, len(files))
 
@@ -37,7 +44,7 @@ func (h *TaskHandler) CreateAttachment(c echo.Context) error {
 			return apierror.Validation("File size exceeds 30MB")
 		}
 
-		filename, err := h.taskUseCase.CreateAttachment(c.Request().Context(), taskID, file)
+		filename, err := h.taskUseCase.CreateAttachment(c.Request().Context(), taskID, claims.ID, file)
 		if err != nil {
 			return apierror.Internal("Failed to update task")
 		}

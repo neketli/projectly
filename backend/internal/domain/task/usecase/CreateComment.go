@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"projectly-server/internal/domain/task/entity"
 )
 
 // CreateComment creates a comment for a task.
@@ -11,6 +12,8 @@ func (u *taskUseCase) CreateComment(ctx context.Context, taskID, userID int, tex
 		u.logger.Error("task - usecase - CreateComment - u.repo.CreateComment: %s", err.Error())
 		return err
 	}
+
+	u.logActivity(ctx, taskID, userID, entity.ActionCommentAdded, "comment", "", text)
 
 	return nil
 }

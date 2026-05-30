@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"projectly-server/pkg/apierror"
 	"projectly-server/internal/domain/task/entity"
+	"projectly-server/internal/domain/user/delivery/token"
 	"strconv"
 
 	"github.com/labstack/echo/v4"
@@ -45,7 +46,12 @@ func (h *TaskHandler) UpdateTaskStatus(c echo.Context) error {
 		task.FinishedAt = *request.FinishedAt
 	}
 
-	err = h.taskUseCase.UpdateTaskStatus(c.Request().Context(), &task)
+	claims, err := token.GetUserClaims(c)
+	if err != nil {
+		return apierror.Validation("Failed to authenticate user")
+	}
+
+	err = h.taskUseCase.UpdateTaskStatus(c.Request().Context(), claims.ID, &task)
 	if err != nil {
 		return apierror.Internal("Failed to update task")
 	}

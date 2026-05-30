@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"projectly-server/pkg/apierror"
+	"projectly-server/internal/domain/user/delivery/token"
 	"github.com/labstack/echo/v4"
 )
 
@@ -31,7 +32,12 @@ func (h *TaskHandler) DeleteComment(c echo.Context) error {
 		return apierror.Validation("Invalid comment ID")
 	}
 
-	err = h.taskUseCase.DeleteComment(c.Request().Context(), taskID, commentID)
+	claims, err := token.GetUserClaims(c)
+	if err != nil {
+		return apierror.Validation("Failed to authenticate user")
+	}
+
+	err = h.taskUseCase.DeleteComment(c.Request().Context(), taskID, commentID, claims.ID)
 	if err != nil {
 		return apierror.Internal("Failed to delete task")
 	}

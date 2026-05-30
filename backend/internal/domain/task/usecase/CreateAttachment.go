@@ -4,11 +4,12 @@ import (
 	"context"
 	"fmt"
 	"mime/multipart"
+	"projectly-server/internal/domain/task/entity"
 	"time"
 )
 
 // CreateAttachment uploads an attachment for a task.
-func (u *taskUseCase) CreateAttachment(ctx context.Context, taskID int, file *multipart.FileHeader) (string, error) {
+func (u *taskUseCase) CreateAttachment(ctx context.Context, taskID, userID int, file *multipart.FileHeader) (string, error) {
 	src, err := file.Open()
 	if err != nil {
 		u.logger.Error("user - usecase - UploadAvatar - file.Open: %s", err.Error())
@@ -28,6 +29,8 @@ func (u *taskUseCase) CreateAttachment(ctx context.Context, taskID int, file *mu
 		u.logger.Error("task - usecase - CreateAttachment - u.repo.CreateAttachment: %s", err.Error())
 		return "", err
 	}
+
+	u.logActivity(ctx, taskID, userID, entity.ActionAttachmentAdded, "attachment", "", file.Filename)
 
 	return attachment, nil
 }

@@ -13,6 +13,8 @@ func (u *taskUseCase) CreateTask(ctx context.Context, task entity.Task) (entity.
 		return entity.TaskDetailed{}, err
 	}
 
+	u.logActivity(ctx, task.ID, task.CreatedUserID, entity.ActionTaskCreated, "title", "", task.Title)
+
 	detailed, err := u.repo.GetTasks(ctx, &entity.TaskDetailedParams{
 		TaskID: &task.ID,
 	})

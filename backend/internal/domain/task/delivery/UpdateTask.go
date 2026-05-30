@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"projectly-server/pkg/apierror"
 	"projectly-server/internal/domain/task/entity"
+	"projectly-server/internal/domain/user/delivery/token"
 	"strconv"
 
 	"github.com/labstack/echo/v4"
@@ -31,7 +32,12 @@ func (h *TaskHandler) UpdateTask(c echo.Context) error {
 		return apierror.Validation("Invalid request body")
 	}
 
-	task, err := h.taskUseCase.UpdateTask(c.Request().Context(), &entity.Task{
+	claims, err := token.GetUserClaims(c)
+	if err != nil {
+		return apierror.Validation("Failed to authenticate user")
+	}
+
+	task, err := h.taskUseCase.UpdateTask(c.Request().Context(), claims.ID, &entity.Task{
 		ID:             taskID,
 		Title:          request.Title,
 		Description:    request.Description,

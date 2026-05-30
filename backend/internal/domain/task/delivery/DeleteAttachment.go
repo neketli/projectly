@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"projectly-server/pkg/apierror"
+	"projectly-server/internal/domain/user/delivery/token"
 	"github.com/labstack/echo/v4"
 )
 
@@ -24,7 +25,12 @@ func (h *TaskHandler) DeleteAttachment(c echo.Context) error {
 		return apierror.Validation("Invalid filename")
 	}
 
-	err := h.taskUseCase.DeleteAttachment(c.Request().Context(), filename)
+	claims, err := token.GetUserClaims(c)
+	if err != nil {
+		return apierror.Validation("Failed to authenticate user")
+	}
+
+	err = h.taskUseCase.DeleteAttachment(c.Request().Context(), claims.ID, filename)
 	if err != nil {
 		return apierror.Internal("Failed to delete attachment")
 	}

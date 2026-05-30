@@ -25,6 +25,10 @@ type TaskRepository interface {
 	CreateComment(ctx context.Context, taskID, userID int, text string) error
 	GetComments(ctx context.Context, taskID, lastCommentID int) ([]entity.Comment, error)
 	DeleteComment(ctx context.Context, taskID, commentID int) error
+
+	CreateTaskActivity(ctx context.Context, taskID, userID int, actionType, fieldName, oldValue, newValue string) error
+	GetTaskActivities(ctx context.Context, taskID int) ([]entity.TaskActivity, error)
+	GetCommentByID(ctx context.Context, commentID int) (entity.Comment, error)
 }
 
 const (
