@@ -100,29 +100,6 @@
 
             <ElDivider content-position="left">
                 <h4 class="text-xl">
-                    {{ t('task.activity.title') }}
-                </h4>
-            </ElDivider>
-
-            <div
-                v-loading="isActivitiesLoading"
-                class="flex flex-col gap-2 my-4"
-            >
-                <ElAlert
-                    v-if="activities.length === 0"
-                    :closable="false"
-                    :title="t('task.activity.empty')"
-                />
-
-                <TaskActivity
-                    v-for="item in activities"
-                    :key="item.id"
-                    :activity="item"
-                />
-            </div>
-
-            <ElDivider content-position="left">
-                <h4 class="text-xl">
                     {{ t('task.comments.title') }}
                 </h4>
             </ElDivider>
@@ -179,6 +156,33 @@
                     </ElButton>
                 </div>
             </div>
+
+            <ElCollapse
+                v-model="activeActivityNames"
+                class="my-4"
+            >
+                <ElCollapseItem
+                    :title="t('task.activity.title')"
+                    name="activity"
+                >
+                    <div
+                        v-loading="isActivitiesLoading"
+                        class="flex flex-col gap-2"
+                    >
+                        <ElAlert
+                            v-if="activities.length === 0"
+                            :closable="false"
+                            :title="t('task.activity.empty')"
+                        />
+
+                        <TaskActivity
+                            v-for="item in activities"
+                            :key="item.id"
+                            :activity="item"
+                        />
+                    </div>
+                </ElCollapseItem>
+            </ElCollapse>
         </div>
 
         <ElDialog
@@ -240,6 +244,7 @@ const dialog = reactive({
 })
 
 const comment = ref('')
+const activeActivityNames = ref<string[]>([])
 
 const task = ref({} as DetailedTask)
 const files = ref([] as string[])
