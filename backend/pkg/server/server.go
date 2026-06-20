@@ -25,6 +25,9 @@ type Server struct {
 
 // New creates a new Server instance.
 func New(engine *echo.Echo, log logger.Interface) *Server {
+	engine.Use(middleware.GzipWithConfig(middleware.GzipConfig{
+		Level: 5,
+	}))
 	engine.Use(middleware.Logger())
 	engine.Use(middleware.Recover())
 	engine.Use(middleware.CORS())

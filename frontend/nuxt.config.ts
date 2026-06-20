@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import compression from 'vite-plugin-compression'
+
 export default defineNuxtConfig({
     modules: [
         '@nuxt/devtools',
@@ -42,6 +44,7 @@ export default defineNuxtConfig({
             S3_HOST: process.env.NUXT_PUBLIC_S3_HOST,
         },
     },
+
     compatibilityDate: '2024-04-03',
 
     vite: {
@@ -51,6 +54,13 @@ export default defineNuxtConfig({
                     global: 'globalThis',
                 },
             },
+        },
+    },
+    hooks: {
+        'vite:extendConfig': (config) => {
+            config.plugins?.push(
+                compression({ algorithm: 'gzip', ext: '.gz', threshold: 1024 }),
+            )
         },
     },
     baseUrl: process.env.NUXT_APP_BASE_URL,
