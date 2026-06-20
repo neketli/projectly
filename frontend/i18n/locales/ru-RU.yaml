@@ -64,7 +64,6 @@ auth:
       login: "Войти"
       register: "Регистрация"
       or: "или"
-      with_google: "Войти с Google"
       with_yandex: "Продолжить с Яндекс"
 
 

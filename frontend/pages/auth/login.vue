@@ -84,18 +84,6 @@
             </ElDivider>
 
             <ElButton
-                class="w-full"
-                tag="a"
-                :href="authLinks.google"
-            >
-                <Icon
-                    class="mr-2"
-                    name="fa-brands:google"
-                />
-                {{ $t('auth.login.form.with_google') }}
-            </ElButton>
-
-            <ElButton
                 class="w-full !ml-0 mt-4"
                 tag="a"
                 :href="authLinks.yandex"
@@ -164,7 +152,6 @@ const authLinks = computed(() => {
     const BASE_URL = `${config.public.API_HOST}/api/v1/auth`
 
     return {
-        google: `${BASE_URL}/google`,
         yandex: `${BASE_URL}/yandex`,
     }
 })

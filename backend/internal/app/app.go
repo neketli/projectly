@@ -22,7 +22,6 @@ import (
 	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
 	"github.com/markbates/goth"
-	"github.com/markbates/goth/providers/google"
 	"github.com/markbates/goth/providers/yandex"
 )
 
@@ -55,12 +54,6 @@ func Run(cfg *config.Config) {
 	auth := api.Group("/auth")
 
 	goth.UseProviders(
-		google.New(
-			cfg.Auth.GoogleAuthProvider.ClientID,
-			cfg.Auth.GoogleAuthProvider.ClientSecret,
-			cfg.Auth.GoogleAuthProvider.CallbackURL,
-			"email", "profile",
-		),
 		yandex.New(
 			cfg.Auth.YandexAuthProvider.ClientID,
 			cfg.Auth.YandexAuthProvider.ClientSecret,

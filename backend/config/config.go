@@ -55,11 +55,6 @@ type Auth struct {
 	RefreshTTL         int    `env-required:"true" yaml:"refresh_ttl"`
 	AccessSecret       string `env-required:"true" env:"AUTH_ACCESS_SECRET"`
 	RefreshSecret      string `env-required:"true" env:"AUTH_REFRESH_SECRET"`
-	GoogleAuthProvider struct {
-		ClientID     string `env-default:"" env:"AUTH_GOOGLE_CLIENT_ID"`
-		ClientSecret string `env-default:"" env:"AUTH_GOOGLE_CLIENT_SECRET"`
-		CallbackURL  string `env-default:"" env:"AUTH_GOOGLE_CALLBACK_URL"`
-	} `env-required:"false"`
 	YandexAuthProvider struct {
 		ClientID     string `env-default:"" env:"AUTH_YANDEX_CLIENT_ID"`
 		ClientSecret string `env-default:"" env:"AUTH_YANDEX_CLIENT_SECRET"`

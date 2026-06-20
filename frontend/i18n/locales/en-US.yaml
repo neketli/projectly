@@ -63,7 +63,6 @@ auth:
       login: "Login"
       register: "Registration"
       or: "or"
-      with_google: "Login with Google"
       with_yandex: "Login with Yandex"
 
 profile:

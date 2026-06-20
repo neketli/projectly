@@ -119,20 +119,12 @@ Ensure you have the following installed:
     AUTH_ACCESS_SECRET=[jwt_secret_encoding_key]
     AUTH_REFRESH_SECRET=[jwt_secret_encoding_key]
     
-    # this will works only with domain (and not work locally btw)
-    # for setup check links below
-    AUTH_GOOGLE_CLIENT_ID=
-    AUTH_GOOGLE_CLIENT_SECRET=
-    AUTH_GOOGLE_CALLBACK_URL=http://localhost:8080/api/v1/auth/google/callback
-
     AUTH_YANDEX_CLIENT_ID=
     AUTH_YANDEX_CLIENT_SECRET=
     AUTH_YANDEX_CALLBACK_URL=http://localhost:8080/api/v1/auth/yandex/callback
 
     SESSION_SECRET=[any_token_for_setup_sessions]
    ```
-
-    [Setup google login](https://developers.google.com/identity/sign-in/web/sign-in)
 
    [Setup yandex login](https://yandex.ru/dev/id/doc/ru/register-client)
 

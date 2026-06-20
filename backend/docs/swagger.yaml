@@ -422,10 +422,10 @@ definitions:
         example: Moscow, Russia
         type: string
       provider:
-        example: google
+        example: yandex
         type: string
       provider_id:
-        example: google_id
+        example: yandex_id
         type: string
     type: object
 host: localhost:8083
