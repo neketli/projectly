@@ -62,6 +62,8 @@
             {{ board.title }}
         </h3>
 
+        <BoardFilters class="mt-4" />
+
         <ElTabs
             v-model="activeTab"
             v-loading="isLoading"

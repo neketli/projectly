@@ -208,6 +208,7 @@ const { t } = useI18n()
 const boardStore = useBoardStore()
 const { statusCount, finishStatus, tasks } = toRefs(boardStore)
 const { updateTaskStatus, deleteTask } = useTask()
+const { matchesFilters } = useBoardFilters()
 
 const isEdit = ref(false)
 const isLoading = ref(false)
@@ -247,20 +248,24 @@ const taskList = computed({
     get: () => {
         const arr = tasks.value[props.status.id]
         if (!arr) return []
-        return [...arr].sort((a: DetailedTask, b: DetailedTask) => {
-            if (a[statusSort.value] === undefined && b[statusSort.value] !== undefined) return 1
-            if (a[statusSort.value] !== undefined && b[statusSort.value] === undefined) return -1
+        return [...arr]
+            .filter(matchesFilters)
+            .sort((a: DetailedTask, b: DetailedTask) => {
+                if (a[statusSort.value] === undefined && b[statusSort.value] !== undefined) return 1
+                if (a[statusSort.value] !== undefined && b[statusSort.value] === undefined) return -1
 
-            if (sortDirection.value === 'asc') {
+                if (sortDirection.value === 'asc') {
+                    // @ts-expect-error
+                    return a[statusSort.value] > b[statusSort.value] ? 1 : -1
+                }
                 // @ts-expect-error
-                return a[statusSort.value] > b[statusSort.value] ? 1 : -1
-            }
-            // @ts-expect-error
-            return a[statusSort.value] < b[statusSort.value] ? 1 : -1
-        })
+                return a[statusSort.value] < b[statusSort.value] ? 1 : -1
+            })
     },
     set: (val) => {
-        tasks.value[props.status.id] = val
+        const allTasks = tasks.value[props.status.id] || []
+        const hiddenTasks = allTasks.filter(task => !matchesFilters(task))
+        tasks.value[props.status.id] = [...hiddenTasks, ...val]
     },
 })
 

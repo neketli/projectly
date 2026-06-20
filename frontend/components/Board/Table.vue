@@ -1,11 +1,5 @@
 <template>
     <div>
-        <ElInput
-            v-model.trim="search"
-            :placeholder="$t('common.search')"
-            class="md:!w-1/3"
-        />
-
         <ElTable
             :data="filteredTasks"
             stripe
@@ -111,9 +105,9 @@ const { t } = useI18n()
 const route = useRoute()
 
 const boardStore = useBoardStore()
+const { matchesFilters } = useBoardFilters()
 
 const isEditColumns = ref(false)
-const search = ref('')
 
 const formatters = {
     story_points: ({ story_points }: DetailedTask) =>
@@ -188,9 +182,7 @@ const tableTasks = computed(() => {
 })
 
 const filteredTasks = computed(() => {
-    return tableTasks.value.filter((task) => {
-        return task.title.toLowerCase().includes(search.value.toLowerCase())
-    })
+    return tableTasks.value.filter(matchesFilters)
 })
 
 const handleTaskDetail = (task: DetailedTask) => {

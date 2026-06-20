@@ -228,6 +228,24 @@ board:
     confirm: "Вы уверены, что хотите удалить эту доску и все связанные с нею задачи?"
   success:
     delete: "Доска успешно удалена!"
+  filters:
+    title: "Фильтры"
+    search: "Поиск задач"
+    assignee: "Исполнитель"
+    priority: "Приоритет"
+    deadline: "Срок"
+    deadline_from: "От"
+    deadline_to: "До"
+    created_at: "Дата создания"
+    created_at_from: "От"
+    created_at_to: "До"
+    story_points: "Story points"
+    min: "Мин"
+    max: "Макс"
+    preset:
+      my: "Мои задачи"
+      active: "Активные"
+      no_deadline: "Без срока"
 
 status:
   form:
