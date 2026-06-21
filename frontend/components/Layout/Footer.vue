@@ -34,10 +34,10 @@ const social = [
         href: 'https://t.me/projectlyru',
         icon: 'mdi:telegram',
     },
-    {
-        name: 'Telegram support',
-        href: 'https://t.me/projectly_support_bot',
-        icon: 'mdi:face-agent',
-    },
+    // {
+    //     name: 'Telegram support',
+    //     href: 'https://t.me/projectly_support_bot',
+    //     icon: 'mdi:face-agent',
+    // },
 ]
 </script>
