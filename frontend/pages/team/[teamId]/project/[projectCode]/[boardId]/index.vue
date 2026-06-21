@@ -81,6 +81,13 @@
             >
                 <BoardTable />
             </ElTabPane>
+
+            <ElTabPane
+                :label="$t('board.tab.gantt')"
+                name="gantt"
+            >
+                <BoardGanttECharts />
+            </ElTabPane>
         </ElTabs>
 
         <ElDialog

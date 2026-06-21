@@ -215,6 +215,12 @@ board:
   tab:
     board: "Канбан-доска"
     table: "Таблица"
+    gantt: "Диаграмма Ганта"
+  gantt:
+    unscheduled: "Без дат"
+    group_task: "По задачам"
+    group_person: "По людям"
+    unassigned: "Без исполнителя"
   form:
     title: "Название"
     setup: "Добавить стандартные статусы на доску"
