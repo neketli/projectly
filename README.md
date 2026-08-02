@@ -30,16 +30,74 @@
 - Commenting and mention system for communication
 - Detailed progress tracking
 
-## 💡 How to use
+## 🚀 One-command deployment
 
-Install and prepare the project [by following this guide](#-quick-start-and-development), then you can use [docker-compose](./docker-compose.yml) to easily set up projectly on your host.
+Deploy Projectly on any server with Docker:
 
-Use latest version of projectly:
+### Official installer (recommended)
 
 ```bash
-git clone https://github.com/neketli/projectly.git
-docker compose up -d
+curl -fsSL https://projectly.ru/install.sh | sh
 ```
+
+With a custom domain and HTTPS (Let's Encrypt):
+
+```bash
+curl -fsSL https://projectly.ru/install.sh | sh -s -- --domain app.example.com --email admin@example.com
+```
+
+Non-interactive / CI:
+
+```bash
+curl -fsSL https://projectly.ru/install.sh | sh -s -- --non-interactive --dir /opt/projectly --build-frontend
+```
+
+The installer will:
+
+- Check the OS, install Docker via `get.docker.com` if missing, and verify Docker Compose v2
+- Generate secure passwords and JWT secrets (`openssl rand`) into `.env` / `.env.backend` (mode `600`)
+- Write `docker-compose.yml` and `nginx.conf`, optionally configuring HTTPS via Let's Encrypt (certbot)
+- Pull images, run database migrations, create the MinIO bucket, and wait for health checks
+- Print the app URL, MinIO console, credentials path, and management commands
+
+| Flag | Description |
+| --- | --- |
+| `--dir <path>` | Install directory (default: `/opt/projectly` as root, `~/projectly` otherwise) |
+| `--version <tag>` | Deploy a specific version/tag (default: `latest`) |
+| `--domain <host>` | Public domain — enables HTTPS (Let's Encrypt) with `--email` |
+| `--email <addr>` | Admin e-mail for Let's Encrypt registration/renewals |
+| `--port <port>` | Host port for the web UI (default: `4242`) |
+| `--build-frontend` | Build the frontend locally with your domain/port baked in (recommended for self-hosted installs) |
+| `--no-tls` | Force plain HTTP even when `--domain` is given |
+| `--non-interactive` | Never prompt; missing values fall back to defaults (CI) |
+| `--force` | Overwrite existing credentials/configs without asking |
+| `--yes` / `-y` | Assume "yes" for all confirmations |
+| `--show-secrets` | Print generated credentials at the end |
+| `--verify <sha256>` | Verify the script checksum before running |
+| `--skip-docker-install` | Do not auto-install Docker |
+| `--update` | Update an existing install (fetch configs, pull, restart). Domain and HTTPS settings are restored from the install marker unless overridden |
+| `--uninstall` | Stop and remove containers (`--purge` also deletes data volumes) |
+| `--dry-run` | Print what would be done without executing |
+
+> **Integrity:** `docker-compose.yml` is verified against a published `sha256` checksum when fetched from GitHub; `nginx.conf` is always regenerated from the installer's local template. Run with `--verify <sha256>` to also check the script itself.
+
+> **Note:** If the GHCR images require authentication, run `docker login ghcr.io -u YOUR_GITHUB_USERNAME` with a [PAT](https://github.com/settings/tokens) that has `read:packages` scope first.
+
+### Requirements
+
+- Linux (Ubuntu/Debian/CentOS/RHEL) or macOS (dev) with `curl`
+- [Docker](https://docs.docker.com/engine/install/) + [Docker Compose](https://docs.docker.com/compose/install/) (v2) — installed automatically by the installer if missing
+- `openssl` (pre-installed on macOS / Linux)
+
+### Customization
+
+Edit `.env` and `.env.backend` after the first run to change settings like domain, Yandex OAuth, or database credentials.
+
+---
+
+## 💡 Development
+
+Follow these steps to set up a development environment.
 
 ## 🛠️ Tech Stack
 
